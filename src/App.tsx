@@ -1,11 +1,8 @@
 import React from 'react'
 import './App.css'
 
-function App() {
-    return (
-        <div className="App">
-        </div>
-    )
+function App(): React.ReactElement {
+    return <div className="App"></div>
 }
 
 export default App
