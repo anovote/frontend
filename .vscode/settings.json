@@ -2,4 +2,8 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
+    "editor.autoIndent": "none",
+    "files.eol": "\n",
+    "editor.comments.insertSpace": false,
+    "editor.detectIndentation": false
 }
