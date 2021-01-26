@@ -9,7 +9,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 When inside the frontend folder, perform this docker command:
 
-`docker-compose up -d --build`
+### `docker-compose up -d --build`
 
 ## Available Scripts
 
