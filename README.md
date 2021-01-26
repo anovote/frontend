@@ -5,6 +5,12 @@ Contains all code related to the web frontend
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# How to get started with docker
+
+When inside the frontend folder, perform this docker command:
+
+`docker-compose up -d --build`
+
 ## Available Scripts
 
 In the project directory, you can run:
