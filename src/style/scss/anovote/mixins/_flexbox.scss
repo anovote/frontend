@@ -1,0 +1,13 @@
+@mixin is-flex {
+    display: flex;
+}
+
+@mixin is-flex-column {
+    @include is-flex();
+    flex-direction: column;
+}
+
+@mixin is-flex-row {
+    @include is-flex;
+    flex-direction: row;
+}

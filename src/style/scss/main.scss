@@ -1,0 +1,17 @@
+// CORE
+@import './anovote/core/colors';
+@import './anovote/core/typography';
+
+// MIXINS
+@import './anovote/mixins/flexbox';
+@import './anovote/mixins/style';
+
+//--------- OVERWRITES ---------
+
+// ANTD
+@import './antd/card';
+
+body {
+    font-family: $primary-fontfamily;
+    background-color: $main-text-color;
+}

@@ -1,5 +1,6 @@
 import React from 'react'
-import './App.css'
+import 'antd/dist/antd.min.css'
+import './style/scss/main.scss'
 
 function App(): React.ReactElement {
     return <div className="App"></div>
