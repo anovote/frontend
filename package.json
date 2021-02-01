@@ -20,7 +20,7 @@
     "yarn": "^1.22.10"
   },
   "scripts": {
-    "start": "concurrently \"less-watch-compiler --config less-watcher.json\" \"react-scripts start\"",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -45,15 +45,14 @@
     ]
   },
   "devDependencies": {
+    "@types/gulp": "^4.0.8",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "@typescript-eslint/parser": "^4.14.0",
-    "concurrently": "^5.3.0",
     "eslint": "^7.18.0",
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
-    "less": "^4.1.0",
-    "less-watch-compiler": "^1.14.6",
+    "node-sass": "^4.0.0",
     "prettier": "^2.2.1"
   }
 }
