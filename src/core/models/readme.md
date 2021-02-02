@@ -1,0 +1,3 @@
+#Models
+
+Contains data models; Vote, Election, Ballot etc...
