@@ -15,7 +15,6 @@ COPY package.json ./
 COPY yarn.lock ./
 
 RUN yarn
-RUN yarn add node-sass@^4.0.0
 
 COPY . ./
 
