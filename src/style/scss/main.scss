@@ -6,12 +6,21 @@
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
 
+// HELPERS
+@import './anovote/layout/helpers';
+
+// VIEWS
+@import './anovote/view/login';
+
+
+
 //--------- OVERWRITES ---------
 
 // ANTD
+@import './antd/layout';
 @import './antd/card';
 
 body {
     font-family: $primary-fontfamily;
-    background-color: $main-text-color;
+    background-color: $main-color;
 }

@@ -1,0 +1,32 @@
+/** FLEX **/
+
+.is-flex {
+    @include is-flex;
+}
+
+.is-flex-column {
+    @include is-flex-column;
+}
+
+.is-flex-row {
+    @include is-flex-column;
+}
+
+.has-content-center-center {
+    @include has-content-center-center;
+}
+
+/** SIZE **/
+
+.is-fullscreen {
+    width: 100vw;
+    height: 100vh;
+}
+
+.is-full-height {
+    height: 100vh;
+}
+
+.is-full-width {
+    width: 100vw;
+}

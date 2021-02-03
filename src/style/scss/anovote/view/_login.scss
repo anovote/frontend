@@ -1,0 +1,12 @@
+.login-form {
+    min-width: 350px;
+    background: $element-color;
+    padding: 2rem 2rem 2rem;
+    @include is-rounded;
+    @include has-shadow;
+
+    .error-field {
+        min-height: 3rem;
+        margin: 0 0 1rem 0;
+    }
+}
