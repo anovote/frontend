@@ -11,7 +11,7 @@
         "@types/node": "^12.19.15",
         "@types/react": "^16.14.2",
         "@types/react-dom": "^16.9.10",
-        "antd": "^4.11.2",
+        "antd": "^4.12.1",
         "axios": "^0.21.1",
         "eslint-config-react-app": "^6.0.0",
         "react": "^17.0.1",
