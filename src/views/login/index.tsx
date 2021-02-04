@@ -27,19 +27,14 @@ export default function LoginView(): React.ReactElement {
             }
         }
     }
-    function AlertMessage({ show }: { show: boolean }) {
-        if (show) {
-            return <Alert message={errorMessage} type="warning" showIcon closable />
-        }
-        return <></>
-    }
+
     return (
         <Layout className="layout">
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>ANOVOTE</h1>
                 <div className="login-form">
                     <div className="error-field">
-                        <AlertMessage show={!!errorMessage}></AlertMessage>
+                        {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
                         <Form.Item
