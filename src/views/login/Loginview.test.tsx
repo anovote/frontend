@@ -3,7 +3,7 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
-import { mockMatchMedia } from '../../core/testMock/mockMatchMedia'
+import { mockMatchMedia } from '../../mocks/mockMatchMedia'
 
 import LoginView from './index'
 
