@@ -7,7 +7,7 @@ import LoginView from './views/login'
 function App(): React.ReactElement {
     return (
         <div className="App">
-            <LoginView></LoginView>
+            <LoginView />
         </div>
     )
 }
