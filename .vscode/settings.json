@@ -5,5 +5,8 @@
     "editor.autoIndent": "none",
     "files.eol": "\n",
     "editor.comments.insertSpace": false,
-    "editor.detectIndentation": false
+    "editor.detectIndentation": false,
+    "cSpell.words": [
+        "antd"
+    ]
 }
