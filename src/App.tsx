@@ -1,14 +1,17 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
 import 'antd/dist/antd.min.css'
 import './style/scss/main.scss'
 
-import LoginView from './views/login'
+import RegisterView from './views/register'
 
 function App(): React.ReactElement {
     return (
-        <div className="App">
-            <LoginView />
-        </div>
+        <Router>
+            <div className="App">
+                <RegisterView />
+            </div>
+        </Router>
     )
 }
 
