@@ -10,12 +10,14 @@ export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
 
     const [errorMessage, setErrorMessage] = React.useState('')
+    const [successMessage, setSuccessMessage] = React.useState('')
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
             setErrorMessage('')
             try {
                 await registrationService.registerOrganizer(form)
+                setSuccessMessage('Brukeren ble registrert!')
             } catch (error) {
                 if (error instanceof CredentialError) {
                     setErrorMessage('Feil i utfyldingen av skjemaet')
@@ -33,7 +35,8 @@ export default function RegisterView(): React.ReactElement {
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>ANOVOTE</h1>
                 <div className="register-form">
-                    <div className="error-field">
+                    <div className="alert-field">
+                        {!!successMessage && <Alert message={successMessage} type={'success'} showIcon closable />}
                         {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
