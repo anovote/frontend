@@ -58,7 +58,7 @@ export default function RegisterView(): React.ReactElement {
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="Password"
+                            label="Passord"
                             name="password"
                             rules={[{ required: true, message: 'Husk passord!' }]}
                         >
