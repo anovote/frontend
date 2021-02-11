@@ -3,4 +3,5 @@ export interface RegistrationDetails {
     lastName: string
     email: string
     password: string
+    reTypePassword: string
 }

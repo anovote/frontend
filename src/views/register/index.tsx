@@ -12,15 +12,19 @@ export default function RegisterView(): React.ReactElement {
     const [errorMessage, setErrorMessage] = React.useState('')
 
     const formValidated = async (form: RegistrationDetails) => {
-        setErrorMessage('')
-        try {
-            await registrationService.registerOrganizer(form)
-        } catch (error) {
-            if (error instanceof CredentialError) {
-                setErrorMessage('Feil i utfyldingen av skjemaet')
-            } else {
-                setErrorMessage('Noe gikk galt, prøv igjen senere')
+        if (form.password.trim() === form.reTypePassword.trim()) {
+            setErrorMessage('')
+            try {
+                await registrationService.registerOrganizer(form)
+            } catch (error) {
+                if (error instanceof CredentialError) {
+                    setErrorMessage('Feil i utfyldingen av skjemaet')
+                } else {
+                    setErrorMessage('Noe gikk galt, prøv igjen senere')
+                }
             }
+        } else {
+            setErrorMessage('Passordene er ikke like!')
         }
     }
 
