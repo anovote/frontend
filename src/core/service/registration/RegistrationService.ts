@@ -6,7 +6,7 @@ import { RegistrationResponse } from './RegistrationResponse'
 
 export class RegistrationService {
     private httpClient: AxiosInstance
-    private tokenkey = 'ACCESS_TOKEN'
+    private readonly tokenkey = 'ACCESS_TOKEN'
 
     constructor(httpClient: AxiosInstance) {
         this.httpClient = httpClient
