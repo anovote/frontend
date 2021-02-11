@@ -8,9 +8,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 ReactDOM.render(
     <React.StrictMode>
         <BrowserRouter>
-            <Switch>
-                <Route path="/" component={App} />
-            </Switch>
+            <Route path="/" component={App} />
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root'),
