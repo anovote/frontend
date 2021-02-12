@@ -1,13 +1,14 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from '../components/routeDefaults/NotFound'
+import ChangePassword from './changePassword/ChangePassword'
 import Home from './home'
 import LoginView from './login'
 
 /**
  * Router view
  * sets up routes for the application.
- * @returns router view for applicaiton
+ * @returns router view for application
  */
 export default function RouterView(): React.ReactElement {
     return (
@@ -17,6 +18,9 @@ export default function RouterView(): React.ReactElement {
             </Route>
             <Route path="/register">
                 <LoginView />
+            </Route>
+            <Route path="/changePassword">
+                <ChangePassword />
             </Route>
             <Route path="/login">
                 <LoginView />
