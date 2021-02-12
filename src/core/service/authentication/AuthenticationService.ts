@@ -1,5 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { apiRroute } from '../../routes/apiRoutes'
+import { StatusCodes } from 'http-status-codes'
+import { apiRoute } from '../../routes/apiRoutes'
 import { AuthenticationDetails } from './AuthenticationDetails'
 import { AuthenticationResponse } from './AuthenticationResponse'
 import { CredentialError } from './CredentialsError'
@@ -14,7 +15,7 @@ export class AuthenticationService {
 
     public async authenticateOrganizer({ identification, password }: AuthenticationDetails): Promise<void> {
         try {
-            const response = await this._httpClient.post<AuthenticationResponse>(apiRroute.authentication, {
+            const response = await this._httpClient.post<AuthenticationResponse>(apiRoute.authentication, {
                 identification,
                 password,
             })
@@ -25,7 +26,9 @@ export class AuthenticationService {
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
-                if (axiosError.response?.status == 400) throw new CredentialError('Credentials incorrect')
+                if (axiosError.response?.status === StatusCodes.BAD_REQUEST) {
+                    throw new CredentialError('Credentials incorrect')
+                }
             }
             throw error
         }
