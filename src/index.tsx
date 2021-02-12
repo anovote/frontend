@@ -5,11 +5,16 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
+// for localization
+import './i18n'
+
 ReactDOM.render(
     <React.StrictMode>
+      <React.Suspense fallback="loading...">
         <BrowserRouter>
             <Route path="/" component={App} />
         </BrowserRouter>
+      </React.Suspense>
     </React.StrictMode>,
     document.getElementById('root'),
 )
