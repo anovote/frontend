@@ -7,7 +7,7 @@ i18n.use(Backend)
 i18n.use(initReactI18next) // passes i18n down to react-i18next
 i18n.init({
     backend: {
-        // for all available options read the backend's repository readme file
+        // for all available options read the backend repository readme file
 
         // path to load namespaces from
         loadPath: '/locales/{{lng}}/{{ns}}.json',
