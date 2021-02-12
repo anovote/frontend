@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import * as serviceWorkerRegistration from './serviceWorkerRegistration'
@@ -9,9 +10,11 @@ import './i18n'
 
 ReactDOM.render(
     <React.StrictMode>
-        <React.Suspense fallback="loading...">
-            <App />
-        </React.Suspense>
+      <React.Suspense fallback="loading...">
+        <BrowserRouter>
+            <Route path="/" component={App} />
+        </BrowserRouter>
+      </React.Suspense>
     </React.StrictMode>,
     document.getElementById('root'),
 )
