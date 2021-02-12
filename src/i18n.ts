@@ -10,11 +10,11 @@ i18n.init({
         // for all available options read the backend's repository readme file
 
         // path to load namespaces from
-        loadPath: '/locales/{{lng}}/{{ns}}',
+        loadPath: '/locales/{{lng}}/{{ns}}.json',
 
         // path to post missing resources, or a function
         // does not work in development mode
-        addPath: '/locales/add/{{lng}}/{{ns}}',
+        addPath: '/locales/add/{{lng}}/{{ns}}.json',
     },
     // for debugging, easy to see keys not loaded in console
     debug: true,
