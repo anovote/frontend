@@ -1,6 +1,7 @@
 import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next'
 import { BackendAPI } from '../../core/api'
 import { AuthenticationDetails } from '../../core/service/authentication/AuthenticationDetails'
 import { AuthenticationService } from '../../core/service/authentication/AuthenticationService'
@@ -12,7 +13,7 @@ import { CredentialError } from '../../core/service/authentication/CredentialsEr
  */
 export default function LoginView(): React.ReactElement {
     const authService = new AuthenticationService(BackendAPI)
-
+    const [t] = useTranslation(['translation', 'common'])
     const [errorMessage, setErrorMessage] = React.useState('')
 
     const formValidated = async (form: AuthenticationDetails) => {
@@ -31,7 +32,7 @@ export default function LoginView(): React.ReactElement {
     return (
         <Layout className="layout">
             <Content className="is-fullscreen is-flex-column has-content-center-center">
-                <h1>ANOVOTE</h1>
+                <h1>{t('Welcome to Anovote')}</h1>
                 <div className="login-form">
                     <div className="error-field">
                         {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
@@ -53,7 +54,7 @@ export default function LoginView(): React.ReactElement {
                         </Form.Item>
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
-                                Logg inn
+                                {t('common:Log In')}
                             </Button>
                         </Form.Item>
                     </Form>

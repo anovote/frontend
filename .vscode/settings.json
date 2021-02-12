@@ -2,12 +2,13 @@
     "editor.codeActionsOnSave": {
         "source.fixAll.eslint": true
     },
-    "editor.autoIndent": "none",
     "files.eol": "\n",
     "editor.comments.insertSpace": false,
     "editor.detectIndentation": false,
-    "cSpell.words": [
-        "anovote",
-        "antd"
-    ]
+    "cSpell.words": ["anovote", "antd"],
+    "emmet.includeLanguages": {
+        "typescript": "typescriptreact",
+        "javascript": "javascriptreact"
+    },
+    "editor.autoIndent": "advanced"
 }
