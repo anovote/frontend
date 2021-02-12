@@ -1,6 +1,8 @@
 import { Form, Input, Button, Divider, Alert } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import React from 'react'
+import { BackendAPI } from '../../core/api'
+import { ElectionOrganizerService } from '../../core/service/electionOrganizer/ElectionOrganizerService '
 
 export default function ChangePassword(): React.ReactElement {
     const onabort = async () => {
@@ -8,19 +10,29 @@ export default function ChangePassword(): React.ReactElement {
         //throw new NotImplementedException()
     }
 
+    // todo change error to alert with configurations
     const [errorMessage, setErrorMessage] = React.useState('')
     const [errorDescription, setErrorDescription] = React.useState('')
     const mediumRegex = new RegExp(
         '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})', // todo add comment
     )
+    const service = new ElectionOrganizerService(BackendAPI)
 
-    // typescript-eslint: disable no-explicit-any
-    /* typescript-eslint-disable  no-explicit-any */
-    const validateForm = async (values: ChangePasswordInterface) => {
+    const validateForm = (values: ChangePasswordInterface) => {
         const { password1, password2 } = values
         if (password1 !== password2) {
             setErrorMessage('Passwords does not match')
             setErrorDescription('Please try again')
+            throw new Error('password does not match')
+        }
+    }
+
+    const submitForm = async (values: ChangePasswordInterface) => {
+        try {
+            validateForm(values)
+            await service.changePassword(values.password1)
+        } catch (error) {
+            console.log(error)
         }
     }
 
@@ -33,7 +45,7 @@ export default function ChangePassword(): React.ReactElement {
                         <Alert message={errorMessage} description={errorDescription} type={'error'} showIcon closable />
                     )}
                 </div>
-                <Form onAbort={onabort} onFinish={validateForm}>
+                <Form onAbort={onabort} onFinish={submitForm}>
                     <Form.Item
                         label="New password"
                         name="password1"
