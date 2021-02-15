@@ -9,7 +9,10 @@ export class ElectionOrganizerService {
         this._httpClient = httpClient
     }
 
-    async changePassword(newPassword: string) {
+    async changePassword(newPassword: string): Promise<void> {
+        if (newPassword.trim().length === 0) {
+            throw new Error('Password can not be empty')
+        }
         try {
             await this._httpClient.put(apiRoute.electionOrganizer, { newPassword })
         } catch (error) {
