@@ -29,4 +29,8 @@ test('Check password is empty or less than 8', async () => {
         password2 = ''
     passwords = { password1, password2 }
     await expect(es.validateAndChangePassword(passwords)).rejects.toThrowError(PasswordIsNotValidError)
+    password1 = '1Dest1'
+    password2 = password2
+    await expect(es.validateAndChangePassword(passwords)).rejects.toThrowError(PasswordIsNotValidError)
+    passwords = { password1, password2 }
 })
