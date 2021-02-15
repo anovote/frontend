@@ -34,7 +34,6 @@ export class ElectionOrganizerService {
                 }
                 throw error
             }
-            console.log(error)
         }
     }
 
