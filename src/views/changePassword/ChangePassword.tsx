@@ -2,10 +2,8 @@ import { Form, Input, Button, Divider, Alert, AlertProps } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import React from 'react'
 import { BackendAPI } from '../../core/api'
-import {
-    ElectionOrganizerService,
-    PasswordDoesNotMatchError,
-} from '../../core/service/electionOrganizer/ElectionOrganizerService '
+import { ElectionOrganizerService } from '../../core/service/electionOrganizer/ElectionOrganizerService'
+import { PasswordDoesNotMatchError } from '../../core/models/customErrors'
 
 export default function ChangePassword(): React.ReactElement {
     const onabort = async () => {

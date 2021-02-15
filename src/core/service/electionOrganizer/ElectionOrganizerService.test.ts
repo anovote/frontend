@@ -1,9 +1,6 @@
 import { BackendAPI } from '../../api'
-import {
-    ElectionOrganizerService,
-    PasswordDoesNotMatchError,
-    PasswordIsNotValidError,
-} from './ElectionOrganizerService '
+import { ElectionOrganizerService } from './ElectionOrganizerService'
+import { PasswordDoesNotMatchError, PasswordIsNotValidError } from '../../models/customErrors'
 import { ChangePasswordInterface } from '../../../views/changePassword/ChangePassword'
 
 let passwords: ChangePasswordInterface

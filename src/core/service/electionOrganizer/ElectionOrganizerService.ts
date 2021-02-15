@@ -2,6 +2,7 @@ import { AxiosError, AxiosInstance } from 'axios'
 import { apiRoute } from '../../routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
 import { ChangePasswordInterface } from '../../../views/changePassword/ChangePassword'
+import { PasswordIsNotValidError, PasswordDoesNotMatchError } from '../../models/customErrors'
 
 export class ElectionOrganizerService {
     private _httpClient: AxiosInstance
@@ -56,17 +57,5 @@ export class ElectionOrganizerService {
         if (password1 !== password2) {
             throw new PasswordDoesNotMatchError('Password does not match')
         }
-    }
-}
-
-export class PasswordDoesNotMatchError extends Error {
-    constructor(message?: string) {
-        super(message)
-    }
-}
-
-export class PasswordIsNotValidError extends Error {
-    constructor(message?: string) {
-        super(message)
     }
 }
