@@ -17,7 +17,7 @@ test('Check that password matches criteria', async () => {
 })
 
 test('Check that password is equal', async () => {
-    let password1 = 'notEqu1!s'
+    const password1 = 'notEqu1!s'
     let password2 = 'toTh!5sks'
     passwords = { password1, password2 }
     await expect(es.validateAndChangePassword(passwords)).rejects.toThrowError(PasswordDoesNotMatchError)
@@ -32,7 +32,7 @@ test('Check password is empty or less than 8', async () => {
     passwords = { password1, password2 }
     await expect(es.validateAndChangePassword(passwords)).rejects.toThrowError(PasswordIsNotValidError)
     password1 = '1Dest1'
-    password2 = password2
+    password2 = password1
     await expect(es.validateAndChangePassword(passwords)).rejects.toThrowError(PasswordIsNotValidError)
     passwords = { password1, password2 }
 })
