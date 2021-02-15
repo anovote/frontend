@@ -1,33 +1,24 @@
 import { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
-import { Form, Input, Row, Col, DatePicker, TimePicker, Table, Space, Button } from 'antd'
+import { Form, Input, Row, Col, DatePicker, TimePicker, Table, Space, Button, Dropdown } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
+import ImportMenu from './ImportMenu'
 
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
         {
-            title: 'First Name',
-            dataIndex: 'firstName',
-            key: 'firstName',
-        },
-        {
-            title: 'Last Name',
-            dataIndex: 'lastName',
-            key: 'lastName',
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
         },
     ]
 
     const electionAuthoritiesColumns = [
         {
-            title: 'First Name',
-            dataIndex: 'firstName',
-            key: 'firstName',
-        },
-        {
-            title: 'Last Name',
-            dataIndex: 'lastName',
-            key: 'lastName',
+            title: 'Name',
+            dataIndex: 'name',
+            key: 'name',
         },
         {
             title: 'Organization',
@@ -77,13 +68,15 @@ export default function CreateElectionView(): React.ReactElement {
                             <h2>Eligible voters</h2>
                         </Col>
                         <Col span={12}>
-                            <Button
-                                className="button"
-                                type="primary"
-                                shape="circle"
-                                icon={<PlusOutlined />}
-                                size="large"
-                            />
+                            <Dropdown overlay={<ImportMenu />} placement="bottomRight" arrow>
+                                <Button
+                                    className="button"
+                                    type="primary"
+                                    shape="circle"
+                                    icon={<PlusOutlined />}
+                                    size="large"
+                                />
+                            </Dropdown>
                         </Col>
                     </Row>
                     <Table columns={eligibleVotersColumns} dataSource={eligibleVotersDummyData}></Table>
@@ -92,13 +85,15 @@ export default function CreateElectionView(): React.ReactElement {
                             <h2>Election authorities</h2>
                         </Col>
                         <Col span={12}>
-                            <Button
-                                className="button"
-                                type="primary"
-                                shape="circle"
-                                icon={<PlusOutlined />}
-                                size="large"
-                            />
+                            <Dropdown overlay={<ImportMenu />} placement="bottomRight" arrow>
+                                <Button
+                                    className="button"
+                                    type="primary"
+                                    shape="circle"
+                                    icon={<PlusOutlined />}
+                                    size="large"
+                                />
+                            </Dropdown>
                         </Col>
                     </Row>
                     <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>

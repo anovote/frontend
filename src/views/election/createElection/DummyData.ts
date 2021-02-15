@@ -1,21 +1,18 @@
 export const eligibleVotersDummyData = [
     {
         key: '1',
-        firstName: 'Steffen',
-        lastName: 'Oldius',
+        name: 'Steffen',
     },
     {
         key: '2',
-        firstName: 'Sander',
-        lastName: 'Hufsa',
+        name: 'Sander',
     },
 ]
 
 export const electionAuthoritiesDummyData = [
     {
         key: '1',
-        firstName: 'Eltoni',
-        lastName: 'Pilkini',
+        name: 'Eltoni',
         organization: 'anovote.ru',
     },
 ]
