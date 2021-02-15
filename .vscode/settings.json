@@ -5,7 +5,11 @@
     "files.eol": "\n",
     "editor.comments.insertSpace": false,
     "editor.detectIndentation": false,
-    "cSpell.words": ["anovote", "antd"],
+    "cSpell.words": [
+        "anovote",
+        "antd",
+        "browserslist"
+    ],
     "emmet.includeLanguages": {
         "typescript": "typescriptreact",
         "javascript": "javascriptreact"
