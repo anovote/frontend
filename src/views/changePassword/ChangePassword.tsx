@@ -1,4 +1,4 @@
-import { Form, Input, Button, Divider, Alert } from 'antd'
+import { Form, Input, Button, Divider, Alert, AlertProps } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import React from 'react'
 import { BackendAPI } from '../../core/api'
@@ -14,22 +14,26 @@ export default function ChangePassword(): React.ReactElement {
     }
 
     // todo change error to alert with configurations
-    const [errorMessage, setErrorMessage] = React.useState('')
-    const [errorDescription, setErrorDescription] = React.useState('')
+    const [alertMessage, setAlertMessage] = React.useState('')
+    const [alertDescription, setAlertDescription] = React.useState('')
+    const [alertType, setAlertType] = React.useState<AlertProps['type']>(undefined)
     const service = new ElectionOrganizerService(BackendAPI)
-
-    const validateForm = async (values: ChangePasswordInterface) => {
-        await service.validateAndChangePassword(values)
-    }
 
     const submitForm = async (values: ChangePasswordInterface) => {
         try {
-            await validateForm(values)
+            await service.validateAndChangePassword(values)
+            setAlertMessage('Password changed')
+            setAlertDescription('Password was changed successfully')
+            setAlertType('success')
         } catch (error) {
             console.log(error)
+            setAlertType('error')
             if (error && error instanceof PasswordDoesNotMatchError) {
-                setErrorMessage('Passwords does not match')
-                setErrorDescription('Please try again')
+                setAlertMessage('Passwords does not match')
+                setAlertDescription('Please try again')
+            } else {
+                setAlertMessage('Something went wrong')
+                setAlertDescription('Please try again later')
             }
         }
     }
@@ -39,8 +43,14 @@ export default function ChangePassword(): React.ReactElement {
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>Change you password</h1>
                 <div className="error-field">
-                    {!!errorMessage && (
-                        <Alert message={errorMessage} description={errorDescription} type={'error'} showIcon closable />
+                    {!!alertMessage && (
+                        <Alert
+                            message={alertMessage}
+                            description={alertDescription}
+                            type={alertType}
+                            showIcon
+                            closable
+                        />
                     )}
                 </div>
                 <Form onAbort={onabort} onFinish={submitForm}>
