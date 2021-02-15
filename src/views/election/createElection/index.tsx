@@ -1,6 +1,7 @@
 import { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
-import { Form, Input, Row, Col, DatePicker, TimePicker, Table, Space } from 'antd'
+import { Form, Input, Row, Col, DatePicker, TimePicker, Table, Space, Button } from 'antd'
+import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
 
 export default function CreateElectionView(): React.ReactElement {
@@ -71,9 +72,35 @@ export default function CreateElectionView(): React.ReactElement {
                             </Col>
                         </Row>
                     </Form>
-                    <h2>Eligible voters</h2>
+                    <Row>
+                        <Col span={12}>
+                            <h2>Eligible voters</h2>
+                        </Col>
+                        <Col span={12}>
+                            <Button
+                                className="button"
+                                type="primary"
+                                shape="circle"
+                                icon={<PlusOutlined />}
+                                size="large"
+                            />
+                        </Col>
+                    </Row>
                     <Table columns={eligibleVotersColumns} dataSource={eligibleVotersDummyData}></Table>
-                    <h2>Election authorities</h2>
+                    <Row>
+                        <Col span={12}>
+                            <h2>Election authorities</h2>
+                        </Col>
+                        <Col span={12}>
+                            <Button
+                                className="button"
+                                type="primary"
+                                shape="circle"
+                                icon={<PlusOutlined />}
+                                size="large"
+                            />
+                        </Col>
+                    </Row>
                     <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>
                 </Col>
             </Row>
