@@ -24,7 +24,6 @@ export default function ChangePassword(): React.ReactElement {
             setAlertDescription('Password was changed successfully')
             setAlertType('success')
         } catch (error) {
-            console.log(error)
             setAlertType('error')
             if (error && error instanceof PasswordDoesNotMatchError) {
                 setAlertMessage('Passwords does not match')
