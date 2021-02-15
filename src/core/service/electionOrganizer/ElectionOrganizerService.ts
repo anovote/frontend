@@ -32,8 +32,8 @@ export class ElectionOrganizerService {
                 if (axiosError.response?.status === StatusCodes.BAD_REQUEST) {
                     throw new Error('Bad request')
                 }
-                throw error
             }
+            throw error
         }
     }
 
