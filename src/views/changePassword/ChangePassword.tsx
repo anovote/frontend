@@ -11,27 +11,31 @@ export default function ChangePassword(): React.ReactElement {
         //throw new NotImplementedException()
     }
 
-    // todo change error to alert with configurations
-    const [alertMessage, setAlertMessage] = React.useState('')
-    const [alertDescription, setAlertDescription] = React.useState('')
-    const [alertType, setAlertType] = React.useState<AlertProps['type']>(undefined)
+    const [alertProps, setAlertProps] = React.useState<AlertProps>()
     const service = new ElectionOrganizerService(BackendAPI)
 
     const submitForm = async (values: ChangePasswordInterface) => {
         try {
             await service.validateAndChangePassword(values)
-            setAlertMessage('Password changed')
-            setAlertDescription('Password was changed successfully')
-            setAlertType('success')
-        } catch (error) {
-            setAlertType('error')
-            if (error && error instanceof PasswordDoesNotMatchError) {
-                setAlertMessage('Passwords does not match')
-                setAlertDescription('Please try again')
-            } else {
-                setAlertMessage('Something went wrong')
-                setAlertDescription('Please try again later')
+            const newAlertProps: AlertProps = {
+                message: 'Password changed',
+                description: 'Password was changed successfully',
+                type: 'success',
             }
+            setAlertProps(newAlertProps)
+        } catch (error) {
+            const newAlertProps: AlertProps = {
+                message: '',
+                type: 'error',
+            }
+            if (error && error instanceof PasswordDoesNotMatchError) {
+                newAlertProps.message = 'Passwords does not match'
+                newAlertProps.description = 'Please try again'
+            } else {
+                newAlertProps.message = 'Something went wrong'
+                newAlertProps.description = 'Please try again later'
+            }
+            setAlertProps(newAlertProps)
         }
     }
 
@@ -40,11 +44,11 @@ export default function ChangePassword(): React.ReactElement {
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>Change you password</h1>
                 <div className="error-field">
-                    {!!alertMessage && (
+                    {!!alertProps && (
                         <Alert
-                            message={alertMessage}
-                            description={alertDescription}
-                            type={alertType}
+                            message={alertProps?.message}
+                            description={alertProps?.description}
+                            type={alertProps?.type}
                             showIcon
                             closable
                         />
@@ -54,7 +58,7 @@ export default function ChangePassword(): React.ReactElement {
                     <Form.Item
                         label="New password"
                         name="password1"
-                                                rules={[
+                        rules={[
                             { required: true, message: 'Please fill out' },
                             {
                                 min: 8,
