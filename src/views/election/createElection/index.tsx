@@ -70,7 +70,7 @@ export default function CreateElectionView(): React.ReactElement {
                         <Col span={12}>
                             <Dropdown overlay={<ImportMenu />} placement="bottomRight" arrow>
                                 <Button
-                                    className="button"
+                                    className="import-menu-button"
                                     type="primary"
                                     shape="circle"
                                     icon={<PlusOutlined />}
@@ -87,7 +87,7 @@ export default function CreateElectionView(): React.ReactElement {
                         <Col span={12}>
                             <Dropdown overlay={<ImportMenu />} placement="bottomRight" arrow>
                                 <Button
-                                    className="button"
+                                    className="import-menu-button"
                                     type="primary"
                                     shape="circle"
                                     icon={<PlusOutlined />}
@@ -97,6 +97,16 @@ export default function CreateElectionView(): React.ReactElement {
                         </Col>
                     </Row>
                     <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>
+                </Col>
+                <Col span={12}>
+                    <h1>Ballots</h1>
+                    <Button
+                        className="create-ballot-button"
+                        type="primary"
+                        shape="circle"
+                        icon={<PlusOutlined />}
+                        size="large"
+                    />
                 </Col>
             </Row>
         </Content>
