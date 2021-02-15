@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import NotFound from '../components/routeDefaults/NotFound'
 import Home from './home'
 import LoginView from './login'
+import CreateElectionView from './election/createElection'
 
 /**
  * Router view
@@ -20,6 +21,9 @@ export default function RouterView(): React.ReactElement {
             </Route>
             <Route path="/login">
                 <LoginView />
+            </Route>
+            <Route path="/election/createElection">
+                <CreateElectionView />
             </Route>
             <Route>
                 <NotFound />

@@ -18,6 +18,9 @@ function Header(): React.ReactElement {
                 <li>
                     <Link to="/register">Register</Link>
                 </li>
+                <li>
+                    <Link to="/election/createElection">Create Election</Link>
+                </li>
             </ul>
         </nav>
     )
