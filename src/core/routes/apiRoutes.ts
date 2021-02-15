@@ -1,4 +1,5 @@
 export const apiRoute = {
-    authentication: '/auth/login',
+    authentication: '/public/auth/login',
     electionOrganizer: '/admin/electionOrganizer',
+    registration: '/public/auth/register',
 }
