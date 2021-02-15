@@ -1,8 +1,40 @@
 import { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
-import { Form, Input, Row, Col } from 'antd'
+import { Form, Input, Row, Col, DatePicker, TimePicker, Table, Space } from 'antd'
+import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
 
 export default function CreateElectionView(): React.ReactElement {
+    const eligibleVotersColumns = [
+        {
+            title: 'First Name',
+            dataIndex: 'firstName',
+            key: 'firstName',
+        },
+        {
+            title: 'Last Name',
+            dataIndex: 'lastName',
+            key: 'lastName',
+        },
+    ]
+
+    const electionAuthoritiesColumns = [
+        {
+            title: 'First Name',
+            dataIndex: 'firstName',
+            key: 'firstName',
+        },
+        {
+            title: 'Last Name',
+            dataIndex: 'lastName',
+            key: 'lastName',
+        },
+        {
+            title: 'Organization',
+            dataIndex: 'organization',
+            key: 'organization',
+        },
+    ]
+
     return (
         <Content>
             <Row>
@@ -17,6 +49,32 @@ export default function CreateElectionView(): React.ReactElement {
                         </Form.Item>
                     </Form>
                     <h2>Schedule</h2>
+                    <Form className="is-flex-row" layout="horizontal" name="schedule-form">
+                        <Row>
+                            <Col span={12}>
+                                <h3>Open</h3>
+                                <Form.Item>
+                                    <Space>
+                                        <DatePicker />
+                                        <TimePicker />
+                                    </Space>
+                                </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                                <h3>Close</h3>
+                                <Form.Item>
+                                    <Space>
+                                        <DatePicker />
+                                        <TimePicker />
+                                    </Space>
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                    </Form>
+                    <h2>Eligible voters</h2>
+                    <Table columns={eligibleVotersColumns} dataSource={eligibleVotersDummyData}></Table>
+                    <h2>Election authorities</h2>
+                    <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>
                 </Col>
             </Row>
         </Content>
