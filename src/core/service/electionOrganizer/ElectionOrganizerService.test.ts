@@ -1,10 +1,12 @@
-import { BackendAPI } from '../../api'
 import { ElectionOrganizerService } from './ElectionOrganizerService'
 import { PasswordDoesNotMatchError, PasswordIsNotValidError } from '../../models/customErrors'
 import { ChangePasswordInterface } from '../../../views/changePassword/ChangePassword'
-
+import axios, { AxiosInstance } from 'axios'
+const axiosMock: jest.Mocked<AxiosInstance> = (axios as unknown) as jest.Mocked<AxiosInstance>
+jest.mock('axios')
 let passwords: ChangePasswordInterface
-const es = new ElectionOrganizerService(BackendAPI)
+
+const es = new ElectionOrganizerService(axiosMock)
 test('Check that password matches criteria', async () => {
     let password = '!Dest123'
     passwords = { password1: password, password2: password }
