@@ -1,9 +1,35 @@
 import { BackendAPI } from '../../api'
-import { ElectionOrganizerService } from './ElectionOrganizerService '
+import {
+    ElectionOrganizerService,
+    PasswordDoesNotMatchError,
+    PasswordIsNotValidError,
+} from './ElectionOrganizerService '
+import { ChangePasswordInterface } from '../../../views/changePassword/ChangePassword'
+
+let passwords: ChangePasswordInterface
+const es = new ElectionOrganizerService(BackendAPI)
 test('Check that password matches criteria', async () => {
-    const es = new ElectionOrganizerService(BackendAPI)
-    let password = 'test123'
-    await expect(es.changePassword(password)).resolves.toBe(undefined)
-    password = ''
-    await expect(es.changePassword(password)).rejects.toThrowError()
+    let password = '!Dest123'
+    passwords = { password1: password, password2: password }
+    await expect(es.validateAndChangePassword(passwords)).resolves.toBe(undefined)
+    password = '1Dest123'
+    passwords = { password1: password, password2: password }
+    await expect(es.validateAndChangePassword(passwords)).rejects.toThrowError(PasswordIsNotValidError)
+})
+
+test('Check that password is equal', async () => {
+    let password1 = 'notEqu1!s'
+    let password2 = 'toTh!5sks'
+    passwords = { password1, password2 }
+    await expect(es.validateAndChangePassword(passwords)).rejects.toThrowError(PasswordDoesNotMatchError)
+    password2 = password1
+    passwords = { password1, password2 }
+    await expect(es.validateAndChangePassword(passwords)).resolves.toBe(undefined)
+})
+
+test('Check password is empty or less than 8', async () => {
+    let password1 = '',
+        password2 = ''
+    passwords = { password1, password2 }
+    await expect(es.validateAndChangePassword(passwords)).rejects.toThrowError(PasswordIsNotValidError)
 })
