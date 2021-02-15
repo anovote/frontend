@@ -2,7 +2,10 @@ import { Form, Input, Button, Divider, Alert } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import React from 'react'
 import { BackendAPI } from '../../core/api'
-import { ElectionOrganizerService } from '../../core/service/electionOrganizer/ElectionOrganizerService '
+import {
+    ElectionOrganizerService,
+    PasswordDoesNotMatchError,
+} from '../../core/service/electionOrganizer/ElectionOrganizerService '
 
 export default function ChangePassword(): React.ReactElement {
     const onabort = async () => {
@@ -13,26 +16,21 @@ export default function ChangePassword(): React.ReactElement {
     // todo change error to alert with configurations
     const [errorMessage, setErrorMessage] = React.useState('')
     const [errorDescription, setErrorDescription] = React.useState('')
-    const mediumRegex = new RegExp(
-        '^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})', // todo add comment
-    )
     const service = new ElectionOrganizerService(BackendAPI)
 
-    const validateForm = (values: ChangePasswordInterface) => {
-        const { password1, password2 } = values
-        if (password1 !== password2) {
-            setErrorMessage('Passwords does not match')
-            setErrorDescription('Please try again')
-            throw new Error('password does not match')
-        }
+    const validateForm = async (values: ChangePasswordInterface) => {
+        await service.validateAndChangePassword(values)
     }
 
     const submitForm = async (values: ChangePasswordInterface) => {
         try {
-            validateForm(values)
-            await service.changePassword(values.password1)
+            await validateForm(values)
         } catch (error) {
             console.log(error)
+            if (error && error instanceof PasswordDoesNotMatchError) {
+                setErrorMessage('Passwords does not match')
+                setErrorDescription('Please try again')
+            }
         }
     }
 
@@ -75,7 +73,7 @@ export default function ChangePassword(): React.ReactElement {
     )
 }
 // todo if password1 is visible don't show password2
-interface ChangePasswordInterface {
+export interface ChangePasswordInterface {
     password1: string
     password2: string
 }
