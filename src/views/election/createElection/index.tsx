@@ -4,6 +4,7 @@ import { Form, Input, Row, Col, DatePicker, TimePicker, Table, Space, Button, Dr
 import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
 import ImportMenu from './ImportMenu'
+import AddBallotMenu from './AddBallotMenu'
 
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
@@ -97,16 +98,19 @@ export default function CreateElectionView(): React.ReactElement {
                         </Col>
                     </Row>
                     <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>
+                    <h2>Verificaiton</h2>
                 </Col>
                 <Col span={12}>
                     <h1>Ballots</h1>
-                    <Button
-                        className="create-ballot-button"
-                        type="primary"
-                        shape="circle"
-                        icon={<PlusOutlined />}
-                        size="large"
-                    />
+                    <Dropdown overlay={<AddBallotMenu />} placement="bottomCenter" arrow>
+                        <Button
+                            className="create-ballot-button"
+                            type="primary"
+                            shape="circle"
+                            icon={<PlusOutlined />}
+                            size="large"
+                        />
+                    </Dropdown>
                 </Col>
             </Row>
         </Content>
