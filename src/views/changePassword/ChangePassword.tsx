@@ -47,7 +47,7 @@ export default function ChangePassword(): React.ReactElement {
                     <Form.Item
                         label="New password"
                         name="password1"
-                        rules={[{ required: true, message: 'Please fill out', min: 8, pattern: mediumRegex }]}
+                        rules={[{ required: true, message: 'Please fill out', min: 8, pattern: service.strongRegex }]}
                     >
                         <Input.Password />
                     </Form.Item>
