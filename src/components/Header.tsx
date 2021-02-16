@@ -19,7 +19,7 @@ function Header(): React.ReactElement {
                     <Link to="/register">Register</Link>
                 </li>
                 <li>
-                    <Link to="/changePassword">Change password</Link>
+                    <Link to="/change-password">Change password</Link>
                 </li>
             </ul>
         </nav>
