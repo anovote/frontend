@@ -8,7 +8,8 @@
     "cSpell.words": [
         "anovote",
         "antd",
-        "browserslist"
+        "browserslist",
+        "randexp"
     ],
     "emmet.includeLanguages": {
         "typescript": "typescriptreact",
