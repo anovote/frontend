@@ -98,7 +98,23 @@ export default function CreateElectionView(): React.ReactElement {
                         </Col>
                     </Row>
                     <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>
-                    <h2>Verificaiton</h2>
+                    <h2>Verification</h2>
+                    <Row>
+                        <Col span={12}>
+                            <Button className="verification-button">Hello</Button>
+                        </Col>
+                        <Col span={12}>
+                            <Button className="verification-button">Hello</Button>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col span={12}>
+                            <Button className="verification-button">Hello</Button>
+                        </Col>
+                        <Col span={12}>
+                            <Button className="verification-button">Hello</Button>
+                        </Col>
+                    </Row>
                 </Col>
                 <Col span={12}>
                     <h1>Ballots</h1>
