@@ -19,7 +19,7 @@ export default function RouterView(): React.ReactElement {
             <Route path="/register">
                 <LoginView />
             </Route>
-            <Route path="/changePassword">
+            <Route path="/change-password">
                 <ChangePassword />
             </Route>
             <Route path="/login">
