@@ -8,7 +8,7 @@ export class ElectionOrganizerService {
     private _httpClient: AxiosInstance
 
     // Regex found athttps://www.thepolyglotdeveloper.com/2015/05/use-regex-to-test-password-strength-in-javascript/
-    strongRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})') // One upper case letter, one lower case letter, one number, one special char, min length 8
+    strongRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])^(?=.{8,225}$).*') // One upper case letter, one lower case letter, one number, one special char, min length 8
 
     constructor(httpClient: AxiosInstance) {
         this._httpClient = httpClient
