@@ -5,6 +5,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
 import ImportMenu from './ImportMenu'
 import AddBallotMenu from './AddBallotMenu'
+import VerificationCheckbox from './VerificationCheckbox'
 
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
@@ -101,18 +102,18 @@ export default function CreateElectionView(): React.ReactElement {
                     <h2>Verification</h2>
                     <Row>
                         <Col span={12}>
-                            <Button className="verification-button">Hello</Button>
+                            <VerificationCheckbox name="Feide" />
                         </Col>
                         <Col span={12}>
-                            <Button className="verification-button">Hello</Button>
+                            <VerificationCheckbox name="Anovote" />
                         </Col>
                     </Row>
                     <Row>
                         <Col span={12}>
-                            <Button className="verification-button">Hello</Button>
+                            <VerificationCheckbox name="Google" />
                         </Col>
                         <Col span={12}>
-                            <Button className="verification-button">Hello</Button>
+                            <VerificationCheckbox name="Facebook" />
                         </Col>
                     </Row>
                 </Col>
