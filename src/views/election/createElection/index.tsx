@@ -29,6 +29,18 @@ export default function CreateElectionView(): React.ReactElement {
         },
     ]
 
+    const [ballots, setBallots] = React.useState([
+        { title: 'Diktator 1' },
+        { title: 'Diktator 2' },
+        { title: 'Diktator 3' },
+    ])
+
+    const addBallot = () => {
+        const ballotList = [...ballots]
+        ballotList.push({ title: 'hello' })
+        setBallots(ballotList)
+    }
+
     return (
         <Content>
             <Row>
@@ -119,12 +131,18 @@ export default function CreateElectionView(): React.ReactElement {
                 </Col>
                 <Col span={12} className="ballot-section">
                     <h1>Ballots</h1>
+                    <div>
+                        {ballots.map((ballots) => (
+                            <BallotPreview key={ballots.title} title={ballots.title} />
+                        ))}
+                    </div>
                     <Button
                         className="create-ballot-button"
                         type="primary"
                         shape="circle"
                         icon={<PlusOutlined />}
                         size="large"
+                        onClick={addBallot}
                     />
                 </Col>
             </Row>
