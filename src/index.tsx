@@ -10,11 +10,11 @@ import './i18n'
 
 ReactDOM.render(
     <React.StrictMode>
-      <React.Suspense fallback="loading...">
-        <BrowserRouter>
-            <Route path="/" component={App} />
-        </BrowserRouter>
-      </React.Suspense>
+        <React.Suspense fallback="loading...">
+            <BrowserRouter>
+                <Route path="/" component={App} />
+            </BrowserRouter>
+        </React.Suspense>
     </React.StrictMode>,
     document.getElementById('root'),
 )
