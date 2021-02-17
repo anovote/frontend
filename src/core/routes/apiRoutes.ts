@@ -1,4 +1,4 @@
 export const apiRroute = {
-    authentication: '/auth/login',
+    authentication: '/public/auth/login',
     createElection: '/admin/elections',
 }

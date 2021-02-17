@@ -12,10 +12,10 @@ export class AuthenticationService {
         this._httpClient = httpClient
     }
 
-    public async authenticateOrganizer({ identification, password }: AuthenticationDetails): Promise<void> {
+    public async authenticateOrganizer({ email, password }: AuthenticationDetails): Promise<void> {
         try {
             const response = await this._httpClient.post<AuthenticationResponse>(apiRroute.authentication, {
-                identification,
+                email,
                 password,
             })
             const token = response.data.token
