@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { apiRroute } from '../../routes/apiRoutes'
+import { apiRoute } from '../../routes/apiRoutes'
 import { CredentialError } from '../authentication/CredentialsError'
 import { IElectionDetails } from './IElectionDetails'
 import { IElectionResponse } from './IElectionResponse'
@@ -23,7 +23,7 @@ export class ElectionService {
         isAutomatic,
     }: IElectionDetails): Promise<void> {
         try {
-            const response = await this.httpClient.post<IElectionResponse>(apiRroute.createElection, {
+            await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
                 title,
                 description,
                 electionOrganizer,
@@ -34,7 +34,7 @@ export class ElectionService {
                 isLocked,
                 isAutomatic,
             })
-            console.log(response)
+            // TODO handle to do with the response
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error

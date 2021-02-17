@@ -33,20 +33,16 @@ export default function CreateElectionView(): React.ReactElement {
         },
     ]
 
+    const electionService = new ElectionService(BackendAPI)
+
     const [ballots, setBallots] = React.useState([
         { title: 'Diktator 1' },
         { title: 'Diktator 2' },
         { title: 'Diktator 3' },
     ])
 
-    const addBallot = () => {
-        const ballotList = [...ballots]
-        ballotList.push({ title: 'hello' })
-        setBallots(ballotList)
-    }
-
-    const electionService = new ElectionService(BackendAPI)
     const [errorMessage, setErrorMessage] = React.useState('')
+    const [successMessage, setSuccessMessage] = React.useState('')
 
     const formValidated = async (form: IElectionDetails) => {
         setErrorMessage('')
@@ -56,7 +52,7 @@ export default function CreateElectionView(): React.ReactElement {
             form.isAutomatic = false
             form.isLocked = false
             electionService.createElection(form)
-            setErrorMessage('Everything went right')
+            setSuccessMessage('The election was created!')
         } catch (error) {
             if (error instanceof CredentialError) {
                 setErrorMessage('Something is wrong in the filling of the form')
@@ -64,6 +60,12 @@ export default function CreateElectionView(): React.ReactElement {
                 setErrorMessage('Something very wrong happened, try another voting service')
             }
         }
+    }
+
+    const addBallot = () => {
+        const ballotList = [...ballots]
+        ballotList.push({ title: 'hello' })
+        setBallots(ballotList)
     }
 
     return (
@@ -173,7 +175,8 @@ export default function CreateElectionView(): React.ReactElement {
                     />
                 </Col>
             </Row>
-            <div className="error-field">
+            <div className="alert-field">
+                {!!successMessage && <Alert message={successMessage} type="success" showIcon closable />}
                 {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
             </div>
         </Content>

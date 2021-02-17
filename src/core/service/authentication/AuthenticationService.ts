@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { apiRroute } from '../../routes/apiRoutes'
+import { apiRoute } from '../../routes/apiRoutes'
 import { AuthenticationDetails } from './AuthenticationDetails'
 import { AuthenticationResponse } from './AuthenticationResponse'
 import { CredentialError } from './CredentialsError'
@@ -14,7 +14,7 @@ export class AuthenticationService {
 
     public async authenticateOrganizer({ email, password }: AuthenticationDetails): Promise<void> {
         try {
-            const response = await this._httpClient.post<AuthenticationResponse>(apiRroute.authentication, {
+            const response = await this._httpClient.post<AuthenticationResponse>(apiRoute.authentication, {
                 email,
                 password,
             })
