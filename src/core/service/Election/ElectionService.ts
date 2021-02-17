@@ -23,7 +23,7 @@ export class ElectionService {
         isAutomatic,
     }: IElectionDetails): Promise<void> {
         try {
-            await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
+            const response = await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
                 title,
                 description,
                 electionOrganizer,

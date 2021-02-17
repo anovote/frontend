@@ -152,7 +152,14 @@ export default function CreateElectionView(): React.ReactElement {
                             </Col>
                         </Row>
                         <Form.Item>
-                            <Button type="primary" shape="round" icon={<PlusOutlined />} size="large" htmlType="submit">
+                            <Button
+                                className="create-election-button"
+                                type="primary"
+                                shape="round"
+                                icon={<PlusOutlined />}
+                                size="large"
+                                htmlType="submit"
+                            >
                                 Create election!
                             </Button>
                         </Form.Item>
