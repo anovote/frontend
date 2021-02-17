@@ -5,11 +5,12 @@
     @include is-rounded;
     @include has-shadow;
 
-    .error-field {
+}
+
+.error-field {
         min-height: 3rem;
         margin: 0 0 1rem 0;
     }
-}
 
 .schedule-form {
     min-width: 350px;
@@ -39,4 +40,8 @@
 
 .ballot-section {
     padding: 2rem 2rem 2rem;
+}
+
+.password-input {
+    width: 100%;
 }
