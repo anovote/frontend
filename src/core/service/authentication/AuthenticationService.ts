@@ -1,4 +1,5 @@
 import { AxiosError, AxiosInstance } from 'axios'
+import { StatusCodes } from 'http-status-codes'
 import { apiRoute } from '../../routes/apiRoutes'
 import { AuthenticationDetails } from './AuthenticationDetails'
 import { AuthenticationResponse } from './AuthenticationResponse'
@@ -25,7 +26,9 @@ export class AuthenticationService {
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
-                if (axiosError.response?.status == 400) throw new CredentialError('Credentials incorrect')
+                if (axiosError.response?.status === StatusCodes.BAD_REQUEST) {
+                    throw new CredentialError('Credentials incorrect')
+                }
             }
             throw error
         }

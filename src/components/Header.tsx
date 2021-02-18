@@ -21,6 +21,9 @@ function Header(): React.ReactElement {
                 <li>
                     <Link to="/election/createElection">Create Election</Link>
                 </li>
+                <li>
+                    <Link to="/change-password">Change password</Link>
+                </li>
             </ul>
         </nav>
     )

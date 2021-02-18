@@ -6,12 +6,14 @@
     "editor.comments.insertSpace": false,
     "editor.detectIndentation": false,
     "cSpell.words": [
-        "Anovote",
-        "antd"
+        "anovote",
+        "antd",
+        "browserslist",
+        "randexp"
     ],
     "emmet.includeLanguages": {
-            "typescript": "typescriptreact",
-            "javascript": "javascriptreact"
+        "typescript": "typescriptreact",
+        "javascript": "javascriptreact"
     },
     "editor.autoIndent": "advanced"
 }
