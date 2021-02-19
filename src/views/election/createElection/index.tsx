@@ -1,6 +1,6 @@
 import { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
-import { Form, Input, Row, Col, Table, Button, Alert, AlertProps } from 'antd'
+import { Form, Row, Col, Table, Button, Alert, AlertProps } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
 import BallotPreview from '../../../components/election/BallotPreview'
@@ -15,6 +15,7 @@ import OpenDateInput from '../../../components/election/OpenDateInput'
 import CloseDateInput from '../../../components/election/CloseDateInput'
 import ImportEligibleVotersDropdown from '../../../components/election/ImportEligibleVotersDropdown'
 import ImportElectionAuthoritiesDropdown from '../../../components/election/ImportElectionAuthoritiesDropdown'
+import ElectionPasswordInput from '../../../components/election/ElectionPasswordInput'
 
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
@@ -117,13 +118,7 @@ export default function CreateElectionView(): React.ReactElement {
                         <h2>Verification</h2>
                         <Row>
                             <Col>
-                                <Form.Item
-                                    className="password-input"
-                                    name="password"
-                                    rules={[{ required: true, message: 'Please fill in a password!' }]}
-                                >
-                                    <Input.Password placeholder="Password" />
-                                </Form.Item>
+                                <ElectionPasswordInput />
                             </Col>
                         </Row>
                         <CreateElectionButton />
