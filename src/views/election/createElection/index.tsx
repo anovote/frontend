@@ -3,12 +3,15 @@ import * as React from 'react'
 import { Form, Input, Row, Col, DatePicker, Table, Button, Dropdown, Alert, AlertProps } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
-import ImportMenu from './components/ImportMenu'
-import BallotPreview from './components/BallotPreview'
+import ImportMenu from '../../../components/election/ImportMenu'
+import BallotPreview from '../../../components/election/BallotPreview'
 import { IElectionDetails } from '../../../core/service/election/IElectionDetails'
 import { ElectionService } from '../../../core/service/election/ElectionService'
 import { BackendAPI } from '../../../core/api'
 import { ElectionStatus } from '../../../core/service/election/ElectionStatus'
+import CreateElectionButton from '../../../components/election/CreateElectionButton'
+import ElectionTitleInput from '../../../components/election/ElectionTitleInput'
+import ElectionDescriptionInput from '../../../components/election/ElectionDescriptionInput'
 
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
@@ -77,15 +80,8 @@ export default function CreateElectionView(): React.ReactElement {
                 <Col span={12} className="election-information-input">
                     <h1>Create new election</h1>
                     <Form className="is-flex-column" layout="vertical" name="description-form" onFinish={formValidated}>
-                        <Form.Item name="title" rules={[{ required: true, message: 'Please fill in a title!' }]}>
-                            <Input placeholder="Title"></Input>
-                        </Form.Item>
-                        <Form.Item
-                            name="description"
-                            rules={[{ required: true, message: 'Please fill in a description' }]}
-                        >
-                            <Input.TextArea placeholder="Description"></Input.TextArea>
-                        </Form.Item>
+                        <ElectionTitleInput />
+                        <ElectionDescriptionInput />
                         <h2>Schedule</h2>
                         <Row>
                             <Col span={12}>
@@ -154,18 +150,7 @@ export default function CreateElectionView(): React.ReactElement {
                                 </Form.Item>
                             </Col>
                         </Row>
-                        <Form.Item>
-                            <Button
-                                className="create-election-button"
-                                type="primary"
-                                shape="round"
-                                icon={<PlusOutlined />}
-                                size="large"
-                                htmlType="submit"
-                            >
-                                Create election!
-                            </Button>
-                        </Form.Item>
+                        <CreateElectionButton />
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
