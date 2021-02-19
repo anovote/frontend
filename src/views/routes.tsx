@@ -27,7 +27,7 @@ export default function RouterView(): React.ReactElement {
             <Route path="/login">
                 <LoginView />
             </Route>
-            <Route path="/election/createElection">
+            <Route path="/create-election">
                 <CreateElectionView />
             </Route>
             <Route>
