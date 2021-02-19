@@ -8,7 +8,6 @@ import BallotPreview from './BallotPreview'
 import { IElectionDetails } from '../../../core/service/election/IElectionDetails'
 import { ElectionService } from '../../../core/service/election/ElectionService'
 import { BackendAPI } from '../../../core/api'
-import { CredentialError } from '../../../core/service/authentication/CredentialsError'
 import { ElectionStatus } from '../../../core/service/election/ElectionStatus'
 
 export default function CreateElectionView(): React.ReactElement {
@@ -60,13 +59,8 @@ export default function CreateElectionView(): React.ReactElement {
                 message: '',
                 type: 'error',
             }
-            if (error && error instanceof CredentialError) {
-                newAlertProps.message = 'Credentials incorrect'
-                newAlertProps.description = 'Some of the credentials are incorrect'
-            } else {
-                newAlertProps.message = 'Something went wrong'
-                newAlertProps.description = 'Please try again later'
-            }
+            newAlertProps.message = 'Something went wrong'
+            newAlertProps.description = 'Please try again later'
             setAlertProps(newAlertProps)
         }
     }

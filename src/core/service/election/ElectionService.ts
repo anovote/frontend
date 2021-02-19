@@ -1,9 +1,6 @@
-import { AxiosError, AxiosInstance } from 'axios'
-import { StatusCodes } from 'http-status-codes'
+import { AxiosInstance } from 'axios'
 import { apiRoute } from '../../routes/apiRoutes'
-import { CredentialError } from '../authentication/CredentialsError'
 import { IElectionDetails } from './IElectionDetails'
-import { IElectionResponse } from './IElectionResponse'
 
 export class ElectionService {
     private httpClient: AxiosInstance
@@ -22,7 +19,7 @@ export class ElectionService {
         isLocked,
         isAutomatic,
     }: IElectionDetails): Promise<void> {
-        await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
+        await this.httpClient.post(apiRoute.createElection, {
             title,
             description,
             openDate,
@@ -32,6 +29,6 @@ export class ElectionService {
             isLocked,
             isAutomatic,
         })
-        // TODO handle to do with the response
+        // TODO handle what to do with the response
     }
 }
