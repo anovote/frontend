@@ -5,6 +5,7 @@ import ChangePassword from './changePassword/ChangePassword'
 import Home from './home'
 import LoginView from './login'
 import CreateElectionView from './election/createElection'
+import RegisterView from './register'
 
 /**
  * Router view
@@ -18,7 +19,7 @@ export default function RouterView(): React.ReactElement {
                 <Home />
             </Route>
             <Route path="/register">
-                <LoginView />
+                <RegisterView />
             </Route>
             <Route path="/change-password">
                 <ChangePassword />

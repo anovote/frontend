@@ -1,4 +1,5 @@
 import { AxiosError, AxiosInstance } from 'axios'
+import { StatusCodes } from 'http-status-codes'
 import { apiRoute } from '../../routes/apiRoutes'
 import { CredentialError } from '../authentication/CredentialsError'
 import { IElectionDetails } from './IElectionDetails'
@@ -22,7 +23,7 @@ export class ElectionService {
         isAutomatic,
     }: IElectionDetails): Promise<void> {
         try {
-            const response = await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
+            await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
                 title,
                 description,
                 openDate,
@@ -36,7 +37,7 @@ export class ElectionService {
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
-                if (axiosError.response?.status == 400) {
+                if (axiosError.response?.status == StatusCodes.BAD_REQUEST) {
                     throw new CredentialError('Credentials incorrect')
                 }
                 throw error
