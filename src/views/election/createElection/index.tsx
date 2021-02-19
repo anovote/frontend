@@ -1,15 +1,15 @@
 import { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
-import { Form, Input, Row, Col, DatePicker, Table, Button, Dropdown, Alert } from 'antd'
+import { Form, Input, Row, Col, DatePicker, Table, Button, Dropdown, Alert, AlertProps } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
 import ImportMenu from './ImportMenu'
 import BallotPreview from './BallotPreview'
-import { IElectionDetails } from '../../../core/service/Election/IElectionDetails'
-import { ElectionService } from '../../../core/service/Election/ElectionService'
+import { IElectionDetails } from '../../../core/service/election/IElectionDetails'
+import { ElectionService } from '../../../core/service/election/ElectionService'
 import { BackendAPI } from '../../../core/api'
 import { CredentialError } from '../../../core/service/authentication/CredentialsError'
-import { ElectionStatus } from '../../../core/service/Election/ElectionStatus'
+import { ElectionStatus } from '../../../core/service/election/ElectionStatus'
 
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
@@ -41,24 +41,34 @@ export default function CreateElectionView(): React.ReactElement {
         { title: 'Diktator 3' },
     ])
 
-    const [errorMessage, setErrorMessage] = React.useState('')
-    const [successMessage, setSuccessMessage] = React.useState('')
+    const [alertProps, setAlertProps] = React.useState<AlertProps>()
 
     const formValidated = async (form: IElectionDetails) => {
-        setErrorMessage('')
         try {
             form.status = ElectionStatus.NotStarted
             form.electionOrganizer = {}
             form.isAutomatic = false
             form.isLocked = false
             electionService.createElection(form)
-            setSuccessMessage('The election was created!')
-        } catch (error) {
-            if (error instanceof CredentialError) {
-                setErrorMessage('Something is wrong in the filling of the form')
-            } else {
-                setErrorMessage('Something very wrong happened, try another voting service')
+            const newAlertProps: AlertProps = {
+                message: 'Election created',
+                description: 'The election was created successfully',
+                type: 'success',
             }
+            setAlertProps(newAlertProps)
+        } catch (error) {
+            const newAlertProps: AlertProps = {
+                message: '',
+                type: 'error',
+            }
+            if (error && error instanceof CredentialError) {
+                newAlertProps.message = 'Credentials incorrect'
+                newAlertProps.description = 'Some of the credentials are incorrect'
+            } else {
+                newAlertProps.message = 'Something went wrong'
+                newAlertProps.description = 'Please try again later'
+            }
+            setAlertProps(newAlertProps)
         }
     }
 
@@ -183,8 +193,15 @@ export default function CreateElectionView(): React.ReactElement {
                 </Col>
             </Row>
             <div className="alert-field">
-                {!!successMessage && <Alert message={successMessage} type="success" showIcon closable />}
-                {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
+                {!!alertProps && (
+                    <Alert
+                        message={alertProps?.message}
+                        description={alertProps?.description}
+                        type={alertProps?.type}
+                        showIcon
+                        closable
+                    />
+                )}
             </div>
         </Content>
     )
