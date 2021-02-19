@@ -1,9 +1,8 @@
 import { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
-import { Form, Input, Row, Col, DatePicker, Table, Button, Dropdown, Alert, AlertProps } from 'antd'
+import { Form, Input, Row, Col, Table, Button, Alert, AlertProps } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
-import ImportMenu from '../../../components/election/ImportMenu'
 import BallotPreview from '../../../components/election/BallotPreview'
 import { IElectionDetails } from '../../../core/service/election/IElectionDetails'
 import { ElectionService } from '../../../core/service/election/ElectionService'
@@ -12,6 +11,10 @@ import { ElectionStatus } from '../../../core/service/election/ElectionStatus'
 import CreateElectionButton from '../../../components/election/CreateElectionButton'
 import ElectionTitleInput from '../../../components/election/ElectionTitleInput'
 import ElectionDescriptionInput from '../../../components/election/ElectionDescriptionInput'
+import OpenDateInput from '../../../components/election/OpenDateInput'
+import CloseDateInput from '../../../components/election/CloseDateInput'
+import ImportEligibleVotersDropdown from '../../../components/election/ImportEligibleVotersDropdown'
+import ImportElectionAuthoritiesDropdown from '../../../components/election/ImportElectionAuthoritiesDropdown'
 
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
@@ -86,38 +89,19 @@ export default function CreateElectionView(): React.ReactElement {
                         <Row>
                             <Col span={12}>
                                 <h3>Open</h3>
-                                <Form.Item
-                                    name="openDate"
-                                    rules={[{ required: true, message: 'Please choose a date and time' }]}
-                                >
-                                    <DatePicker />
-                                </Form.Item>
+                                <OpenDateInput />
                             </Col>
                             <Col span={12}>
                                 <h3>Close</h3>
-                                <Form.Item
-                                    name="closeDate"
-                                    rules={[{ required: true, message: 'Please choose a date and time' }]}
-                                >
-                                    <DatePicker />
-                                </Form.Item>
+                                <CloseDateInput />
                             </Col>
                         </Row>
-
                         <Row>
                             <Col span={12}>
                                 <h2>Eligible voters</h2>
                             </Col>
                             <Col span={12}>
-                                <Dropdown overlay={<ImportMenu />} placement="bottomRight" arrow>
-                                    <Button
-                                        className="import-menu-button"
-                                        type="primary"
-                                        shape="circle"
-                                        icon={<PlusOutlined />}
-                                        size="large"
-                                    />
-                                </Dropdown>
+                                <ImportEligibleVotersDropdown />
                             </Col>
                         </Row>
                         <Table columns={eligibleVotersColumns} dataSource={eligibleVotersDummyData}></Table>
@@ -126,15 +110,7 @@ export default function CreateElectionView(): React.ReactElement {
                                 <h2>Election authorities</h2>
                             </Col>
                             <Col span={12}>
-                                <Dropdown overlay={<ImportMenu />} placement="bottomRight" arrow>
-                                    <Button
-                                        className="import-menu-button"
-                                        type="primary"
-                                        shape="circle"
-                                        icon={<PlusOutlined />}
-                                        size="large"
-                                    />
-                                </Dropdown>
+                                <ImportElectionAuthoritiesDropdown />
                             </Col>
                         </Row>
                         <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>
