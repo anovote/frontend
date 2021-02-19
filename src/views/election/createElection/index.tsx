@@ -1,7 +1,6 @@
 import { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
-import { Form, Row, Col, Table, Button, Alert, AlertProps } from 'antd'
-import { PlusOutlined } from '@ant-design/icons'
+import { Form, Row, Col, Table, Alert, AlertProps } from 'antd'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
 import BallotPreview from '../../../components/election/BallotPreview'
 import { IElectionDetails } from '../../../core/service/election/IElectionDetails'
@@ -16,6 +15,7 @@ import CloseDateInput from '../../../components/election/CloseDateInput'
 import ImportEligibleVotersDropdown from '../../../components/election/ImportEligibleVotersDropdown'
 import ImportElectionAuthoritiesDropdown from '../../../components/election/ImportElectionAuthoritiesDropdown'
 import ElectionPasswordInput from '../../../components/election/ElectionPasswordInput'
+import CreateBallotButton from '../../../components/election/CreateBallotButton'
 
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
@@ -131,14 +131,7 @@ export default function CreateElectionView(): React.ReactElement {
                             <BallotPreview key={ballots.title} title={ballots.title} />
                         ))}
                     </div>
-                    <Button
-                        className="create-ballot-button"
-                        type="primary"
-                        shape="circle"
-                        icon={<PlusOutlined />}
-                        size="large"
-                        onClick={addBallot}
-                    />
+                    <CreateBallotButton addBallot={addBallot} />
                 </Col>
             </Row>
             <div className="alert-field">
