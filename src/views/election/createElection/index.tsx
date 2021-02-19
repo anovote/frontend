@@ -3,8 +3,8 @@ import * as React from 'react'
 import { Form, Input, Row, Col, DatePicker, Table, Button, Dropdown, Alert, AlertProps } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
-import ImportMenu from './ImportMenu'
-import BallotPreview from './BallotPreview'
+import ImportMenu from './components/ImportMenu'
+import BallotPreview from './components/BallotPreview'
 import { IElectionDetails } from '../../../core/service/election/IElectionDetails'
 import { ElectionService } from '../../../core/service/election/ElectionService'
 import { BackendAPI } from '../../../core/api'
@@ -169,7 +169,7 @@ export default function CreateElectionView(): React.ReactElement {
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
-                    <h1>Ballots</h1>
+                    <h2>Ballots</h2>
                     <div>
                         {ballots.map((ballots) => (
                             <BallotPreview key={ballots.title} title={ballots.title} />
