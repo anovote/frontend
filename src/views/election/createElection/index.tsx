@@ -46,7 +46,6 @@ export default function CreateElectionView(): React.ReactElement {
     const formValidated = async (form: IElectionDetails) => {
         try {
             form.status = ElectionStatus.NotStarted
-            form.electionOrganizer = {}
             form.isAutomatic = false
             form.isLocked = false
             electionService.createElection(form)

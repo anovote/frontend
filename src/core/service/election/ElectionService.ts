@@ -14,7 +14,6 @@ export class ElectionService {
     public async createElection({
         title,
         description,
-        electionOrganizer,
         openDate,
         closeDate,
         password,
@@ -26,7 +25,6 @@ export class ElectionService {
             const response = await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
                 title,
                 description,
-                electionOrganizer,
                 openDate,
                 closeDate,
                 password,
