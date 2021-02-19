@@ -22,26 +22,16 @@ export class ElectionService {
         isLocked,
         isAutomatic,
     }: IElectionDetails): Promise<void> {
-        try {
-            await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
-                title,
-                description,
-                openDate,
-                closeDate,
-                password,
-                status,
-                isLocked,
-                isAutomatic,
-            })
-            // TODO handle to do with the response
-        } catch (error) {
-            if (error.isAxiosError) {
-                const axiosError: AxiosError = error
-                if (axiosError.response?.status == StatusCodes.BAD_REQUEST) {
-                    throw new CredentialError('Credentials incorrect')
-                }
-                throw error
-            }
-        }
+        await this.httpClient.post<IElectionResponse>(apiRoute.createElection, {
+            title,
+            description,
+            openDate,
+            closeDate,
+            password,
+            status,
+            isLocked,
+            isAutomatic,
+        })
+        // TODO handle to do with the response
     }
 }
