@@ -9,7 +9,11 @@
         "anovote",
         "antd",
         "browserslist",
-        "randexp"
+        "flexbox",
+        "fontfamily",
+        "mixins",
+        "randexp",
+        "tokenkey"
     ],
     "emmet.includeLanguages": {
         "typescript": "typescriptreact",
