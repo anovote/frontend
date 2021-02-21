@@ -18,6 +18,8 @@ import ElectionPasswordInput from '../../../components/election/ElectionPassword
 import CreateBallotButton from '../../../components/election/CreateBallotButton'
 import IsAutomaticCheckbox from '../../../components/election/IsAutomaticCheckbox'
 import { AuthorizationError } from '../../../core/service/election/AuthorizationError'
+import { useTranslation } from 'react-i18next'
+
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
         {
@@ -41,6 +43,8 @@ export default function CreateElectionView(): React.ReactElement {
     ]
 
     const electionService = new ElectionService(BackendAPI)
+    const [t] = useTranslation(['translation', 'common'])
+    const [alertProps, setAlertProps] = React.useState<AlertProps>()
 
     const [ballots, setBallots] = React.useState([
         { title: 'Diktator 1' },
@@ -48,7 +52,11 @@ export default function CreateElectionView(): React.ReactElement {
         { title: 'Diktator 3' },
     ])
 
-    const [alertProps, setAlertProps] = React.useState<AlertProps>()
+    const addBallot = () => {
+        const ballotList = [...ballots]
+        ballotList.push({ title: 'hello' })
+        setBallots(ballotList)
+    }
 
     const formValidated = async (form: IElectionDetails) => {
         try {
@@ -79,34 +87,28 @@ export default function CreateElectionView(): React.ReactElement {
         }
     }
 
-    const addBallot = () => {
-        const ballotList = [...ballots]
-        ballotList.push({ title: 'hello' })
-        setBallots(ballotList)
-    }
-
     return (
         <Content>
             <Row>
                 <Col span={12} className="election-information-input">
-                    <h1>Create new election</h1>
+                    <h1>{t('Create new election')}</h1>
                     <Form className="is-flex-column" layout="vertical" name="description-form" onFinish={formValidated}>
                         <ElectionTitleInput />
                         <ElectionDescriptionInput />
-                        <h2>Schedule</h2>
+                        <h2>{t('Schedule')}</h2>
                         <Row>
                             <Col span={12}>
-                                <h3>Open</h3>
+                                <h3>{t('Open')}</h3>
                                 <OpenDateInput />
                             </Col>
                             <Col span={12}>
-                                <h3>Close</h3>
+                                <h3>{t('Close')}</h3>
                                 <CloseDateInput />
                             </Col>
                         </Row>
                         <Row>
                             <Col span={12}>
-                                <h2>Eligible voters</h2>
+                                <h2>{t('Eligible voters')}</h2>
                             </Col>
                             <Col span={12}>
                                 <ImportEligibleVotersDropdown />
@@ -115,14 +117,14 @@ export default function CreateElectionView(): React.ReactElement {
                         <Table columns={eligibleVotersColumns} dataSource={eligibleVotersDummyData}></Table>
                         <Row>
                             <Col span={12}>
-                                <h2>Election authorities</h2>
+                                <h2>{t('Election authorities')}</h2>
                             </Col>
                             <Col span={12}>
                                 <ImportElectionAuthoritiesDropdown />
                             </Col>
                         </Row>
                         <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>
-                        <h2>Verification</h2>
+                        <h2>{t('Verification')}</h2>
                         <Row>
                             <Col>
                                 <ElectionPasswordInput />
@@ -133,7 +135,7 @@ export default function CreateElectionView(): React.ReactElement {
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
-                    <h2>Ballots</h2>
+                    <h2>{t('Ballots')}</h2>
                     <div>
                         {ballots.map((ballots) => (
                             <BallotPreview key={ballots.title} title={ballots.title} />
