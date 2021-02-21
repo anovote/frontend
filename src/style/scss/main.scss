@@ -1,8 +1,11 @@
 // CORE
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+
 @import './anovote/core/colors';
 @import './anovote/core/typography';
 
 // MIXINS
+@import './anovote/mixins/headings';
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
 
@@ -17,6 +20,7 @@
 //--------- OVERWRITES ---------
 
 // ANTD
+@import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
 
