@@ -17,6 +17,7 @@ import ImportElectionAuthoritiesDropdown from '../../../components/election/Impo
 import ElectionPasswordInput from '../../../components/election/ElectionPasswordInput'
 import CreateBallotButton from '../../../components/election/CreateBallotButton'
 import IsAutomaticCheckbox from '../../../components/election/IsAutomaticCheckbox'
+import { AuthorizationError } from '../../../core/service/election/AuthorizationError'
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
         {
@@ -53,7 +54,7 @@ export default function CreateElectionView(): React.ReactElement {
         try {
             form.status = ElectionStatus.NotStarted
             form.isLocked = false
-            electionService.createElection(form)
+            await electionService.createElection(form)
             const newAlertProps: AlertProps = {
                 message: 'Election created',
                 description: 'The election was created successfully',
@@ -65,9 +66,16 @@ export default function CreateElectionView(): React.ReactElement {
                 message: '',
                 type: 'error',
             }
-            newAlertProps.message = 'Something went wrong'
-            newAlertProps.description = 'Please try again later'
-            setAlertProps(newAlertProps)
+
+            if (error instanceof AuthorizationError) {
+                newAlertProps.message = 'Election Organizer not logged in'
+                newAlertProps.description = 'The election organizer needs to be logged in to create an election'
+                setAlertProps(newAlertProps)
+            } else {
+                newAlertProps.message = 'Something went wrong'
+                newAlertProps.description = 'Please try again later'
+                setAlertProps(newAlertProps)
+            }
         }
     }
 
