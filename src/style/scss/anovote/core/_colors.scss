@@ -1,12 +1,36 @@
 // BODY
-$main-color: #F8F8F8;
+$main-color: #FFFFFF;
+$white: #FFFFFF;
+$dark: #1d2d44;
+$background: #FAFAFA;
 
-// ELEMENTS
-$element-color: #FFFFFF;
+// GRAYS
+$alternate-color: #f5f7f8;
+$border-color: #f5f5f5;
+$shadow-color: #eaedf0;
+$light-grey: #d8d8d8;
+$darker-grey: #aaafbf;
+
+// COLORS 
+$main-light: #aeb8fe;
+$main-contrasting: #758bfd;
+
+$info-light: #6b93ff;
+$info-contrasting: #6b93ff;
+
+$success-light: #89f0d7;
+$success-contrasting: #00ebb1;
+
+$danger-light: #ffb5ce;
+$danger-contrasting: #ff5a90;
+
+$warning-light: #fee5ae;
+$warning-contrasting: #edbf5b;
 
 // TEXT
-$main-text-color: #222222;
-$soft-text-color: #666666;
+$font-color: $dark;
+$inverse-font-color: $white;
+$soft-text-color: $darker-grey; 
+$very-soft-text-color: $light-grey;
 
 // EXTRA
-$shadow-color: #33333310;
