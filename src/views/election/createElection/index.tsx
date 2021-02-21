@@ -20,6 +20,9 @@ import IsAutomaticCheckbox from '../../../components/election/IsAutomaticCheckbo
 import { AuthorizationError } from '../../../core/service/election/AuthorizationError'
 import { useTranslation } from 'react-i18next'
 
+/**
+ * The main view used for creating an election
+ */
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
         {
@@ -58,6 +61,10 @@ export default function CreateElectionView(): React.ReactElement {
         setBallots(ballotList)
     }
 
+    /**
+     * Validates a form and returns an error if the form is not filled out correctly
+     * @param form The form we want to validate
+     */
     const formValidated = async (form: IElectionDetails) => {
         try {
             form.status = ElectionStatus.NotStarted
