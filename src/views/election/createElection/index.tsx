@@ -91,24 +91,24 @@ export default function CreateElectionView(): React.ReactElement {
         <Content>
             <Row>
                 <Col span={12} className="election-information-input">
-                    <h1>{t('Create new election')}</h1>
+                    <h1>{t('common:Create new election')}</h1>
                     <Form className="is-flex-column" layout="vertical" name="description-form" onFinish={formValidated}>
                         <ElectionTitleInput />
                         <ElectionDescriptionInput />
-                        <h2>{t('Schedule')}</h2>
+                        <h2>{t('common:Schedule')}</h2>
                         <Row>
                             <Col span={12}>
-                                <h3>{t('Open')}</h3>
+                                <h3>{t('common:Open')}</h3>
                                 <OpenDateInput />
                             </Col>
                             <Col span={12}>
-                                <h3>{t('Close')}</h3>
+                                <h3>{t('common:Close')}</h3>
                                 <CloseDateInput />
                             </Col>
                         </Row>
                         <Row>
                             <Col span={12}>
-                                <h2>{t('Eligible voters')}</h2>
+                                <h2>{t('common:Eligible voters')}</h2>
                             </Col>
                             <Col span={12}>
                                 <ImportEligibleVotersDropdown />
@@ -117,14 +117,14 @@ export default function CreateElectionView(): React.ReactElement {
                         <Table columns={eligibleVotersColumns} dataSource={eligibleVotersDummyData}></Table>
                         <Row>
                             <Col span={12}>
-                                <h2>{t('Election authorities')}</h2>
+                                <h2>{t('common:Election authorities')}</h2>
                             </Col>
                             <Col span={12}>
                                 <ImportElectionAuthoritiesDropdown />
                             </Col>
                         </Row>
                         <Table columns={electionAuthoritiesColumns} dataSource={electionAuthoritiesDummyData}></Table>
-                        <h2>{t('Verification')}</h2>
+                        <h2>{t('common:Verification')}</h2>
                         <Row>
                             <Col>
                                 <ElectionPasswordInput />
@@ -135,7 +135,7 @@ export default function CreateElectionView(): React.ReactElement {
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
-                    <h2>{t('Ballots')}</h2>
+                    <h2>{t('common:Ballots')}</h2>
                     <div>
                         {ballots.map((ballots) => (
                             <BallotPreview key={ballots.title} title={ballots.title} />
