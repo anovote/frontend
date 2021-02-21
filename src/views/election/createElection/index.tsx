@@ -17,7 +17,6 @@ import ImportElectionAuthoritiesDropdown from '../../../components/election/Impo
 import ElectionPasswordInput from '../../../components/election/ElectionPasswordInput'
 import CreateBallotButton from '../../../components/election/CreateBallotButton'
 import IsAutomaticCheckbox from '../../../components/election/IsAutomaticCheckbox'
-
 export default function CreateElectionView(): React.ReactElement {
     const eligibleVotersColumns = [
         {
