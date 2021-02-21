@@ -1,3 +1,23 @@
+// HEADINGS
+
 h1.ant-typography {
     @include title();
+}
+
+h2.ant-typography {
+    @include subtitle();
+}
+
+h3.ant-typography {
+    @include paragraph-title();
+}
+
+// TEXT
+
+span.ant-typography {
+    @include text();
+}
+
+span.ant-typography-secondary {
+    @include label();
 }
