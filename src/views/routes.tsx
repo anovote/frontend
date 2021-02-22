@@ -31,12 +31,13 @@ export default function RouterView(): React.ReactElement {
             </Route>
 
             <ProtectedRoute
+                // Added as example
                 isLoggedIn={isLoggedIn}
                 authLevel={authLevel}
                 allowedLevels={[AuthLevel.authorizer]}
                 path="/protected"
             >
-                (this route is protected)
+                this route is protected
             </ProtectedRoute>
             <Route>
                 <NotFound />
