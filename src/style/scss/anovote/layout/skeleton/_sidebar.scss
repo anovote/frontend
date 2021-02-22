@@ -1,0 +1,144 @@
+.skeleton-sidebar {
+    background-color: $white;
+    height: calc(100vh - #{$header-height});
+    width: $sidebar-width !important;
+    min-width: $sidebar-width !important;
+    max-width: $sidebar-width !important;
+    flex: 0 0 $sidebar-width !important;
+    padding: 2 * $bu 2.5 * $bu;
+
+    .ant-layout-sider-children {
+        @include is-flex-column;
+        justify-content: stretch;
+    }
+}
+
+
+
+#logo {
+    margin-top: - 3 * $bu;
+    margin-bottom: 3 * $bu;
+}
+
+.sidebar-menu {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    flex: 1;
+    border: 0;
+
+    li,
+    #view-profile {
+        width: 100%;
+    }
+}
+
+.ant-menu-item {
+    color: $darker-grey;
+
+    a {
+
+        color: $darker-grey !important;
+        @include text();
+
+    }
+
+
+}
+
+.ant-menu-item-active,
+.ant-menu-item:hover {
+    a {
+        color: $font-color !important;
+    }
+
+}
+
+.ant-menu-vertical .ant-menu-item {
+    margin-top: 0;
+}
+
+.ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: $alternate-color;
+    border-radius: 0.625rem;
+
+    span a {
+        color: $font-color !important;
+    }
+}
+
+.ant-menu-item:focus-within {
+    outline: $darker-grey auto 1px;
+}
+
+.ant-menu-item-selected:focus-within {
+    outline: none;
+}
+
+// Set colors for each menu item
+// Dashboard
+.ant-menu-vertical .ant-menu-item:nth-child(2) {
+    margin-top: 3 * $bu;
+}
+
+.ant-menu-item-selected:nth-child(2),
+.ant-menu-item:nth-child(2):hover .ant-menu-item-icon {
+    color: $dark;
+}
+
+.ant-menu-item:hover {
+    outline: none !important;
+    background: none;
+    color: none;
+}
+
+// Elections
+.ant-menu-item-selected:nth-child(3),
+.ant-menu-item:nth-child(3):hover .ant-menu-item-icon {
+    color: $info-contrasting;
+}
+
+// Customize
+.ant-menu-item-selected:nth-child(4),
+.ant-menu-item:nth-child(4):hover .ant-menu-item-icon {
+    color: $main-light;
+}
+
+// Settings
+.ant-menu-item-selected:nth-child(6),
+.ant-menu-item:nth-child(6):hover .ant-menu-item-icon {
+    color: $dark;
+}
+
+#view-profile {
+    width: 100%;
+    height: 5 * $bu;
+    background-color: $main-light;
+    border-radius: 1.2rem;
+    line-height: 80px;
+    text-indent: 1rem;
+    margin-top: auto;
+}
+
+#settings {
+    margin-top: 3 * $bu;
+    align-self: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+    line-height: 0 !important;
+
+    a {
+        font-weight: $bold;
+    }
+}
+
+#create-election {
+    width: 100%;
+    height: 5 * $bu;
+    background-color: $main-light;
+    border-radius: 1.2rem;
+    line-height: 80px;
+    text-indent: 1rem;
+}

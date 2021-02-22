@@ -1,0 +1,32 @@
+.skeleton-header {
+    height: $header-height;
+    background-color: $white;
+    @include is-flex-column();
+    padding-left: calc(#{$sidebar-width} + 2 * #{$bu});
+    justify-content: center;
+}
+
+.ant-input-group {
+
+    display: flex;
+    flex-direction: row-reverse;
+
+    .ant-input-affix-wrapper {
+        border: 0;
+    }
+
+    .ant-input-search-button {
+        margin-left: 2px;
+        border: 0;
+        z-index: 10;
+        color: $darker-grey !important
+    }
+
+    .ant-input {
+        border: 0;
+        margin-left: 2 * $bu;
+        color: $darker-grey;
+        font-size: $text;
+        line-height: 0.9rem;
+    }
+}
