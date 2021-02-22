@@ -1,8 +1,11 @@
 // CORE
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+
 @import './anovote/core/colors';
 @import './anovote/core/typography';
 
 // MIXINS
+@import './anovote/mixins/typography';
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
 
@@ -10,6 +13,7 @@
 @import './anovote/layout/helpers';
 
 // VIEWS
+@import './anovote/view/home';
 @import './anovote/view/login';
 @import './anovote/view/register';
 
@@ -17,10 +21,11 @@
 //--------- OVERWRITES ---------
 
 // ANTD
+@import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
 
 body {
-    font-family: $primary-fontfamily;
-    background-color: $main-color;
+    font-family: $font-family;
+    background-color: $background;
 }
