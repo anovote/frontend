@@ -31,3 +31,32 @@ export default function RouterView(): React.ReactElement {
         </Switch>
     )
 }
+
+interface PrivateRouteProps extends RouteProps {
+    isLoggedIn: boolean
+}
+
+const PrivateRoute = (props: PrivateRouteProps) => {
+    const { component: Component, children, ...rest } = props
+    return (
+        <Route
+            {...rest}
+            render={(routeProps) =>
+                !props.isLoggedIn ? (
+                    Component ? (
+                        <Component {...routeProps} />
+                    ) : (
+                        children
+                    )
+                ) : (
+                    <Redirect
+                        to={{
+                            pathname: '/login',
+                            state: { from: routeProps.location },
+                        }}
+                    />
+                )
+            }
+        />
+    )
+}
