@@ -24,7 +24,7 @@ interface IPrivateRouteProps extends RouteProps {
 /**
  * Component to protect a route. The protected route requires that the user is logged in, and
  * meets the passed levels for the route. If not logged in the user is redirected to login page.
- * If logged in in but not meets the requirements, we route back to origin.
+ * If logged in in but not meets the requirements, we diplay an error component.
  * @param props route props
  */
 export const ProtectedRoute = (props: IPrivateRouteProps): ReactElement | null => {
