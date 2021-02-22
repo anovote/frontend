@@ -1,10 +1,21 @@
 import React, { createContext, ReactElement, useContext, useState } from 'react'
-import { appState, IAppState } from './appState'
+import { appState, AuthLevel, IAppState } from './appState'
 
+/**
+ * Describes methods that is resposible for altering the global application state.
+ */
 interface IAppStateDispatcher {
-    setLoginState: () => void
+    /**
+     * Updates application state to logged in,
+     * and set the provided auth level
+     */
+    setLoginState: (authLevel: AuthLevel) => void
+    /**
+     * Clears the loggedin user.
+     */
     setLogoutState: () => void
 }
+
 const appContext = createContext(appState)
 const appStateDispatch = createContext({} as IAppStateDispatcher)
 
@@ -14,11 +25,11 @@ const appStateDispatch = createContext({} as IAppStateDispatcher)
 function ProvideAppContext({ children }: { children: Array<ReactElement> }): ReactElement {
     const [state, setState] = useState(appState)
     const dispatcher: IAppStateDispatcher = {
-        setLoginState: () => {
-            setState({ ...state, isLoggedIn: true })
+        setLoginState: (authLevel: AuthLevel) => {
+            setState({ ...state, isLoggedIn: true, authLevel })
         },
         setLogoutState: () => {
-            setState({ ...state, isLoggedIn: false })
+            setState({ ...state, isLoggedIn: false, authLevel: AuthLevel.none })
         },
     }
     return (
