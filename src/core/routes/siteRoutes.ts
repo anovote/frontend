@@ -9,12 +9,12 @@ export const getAdminRoute = (): IAdminRoutes => {
     }
 }
 
-interface IVoterRoutes {
+interface IPublicRoutes {
     joinElection: string
 }
-const voterRoutePrefix = '/'
-export const getVoterRoute = (): IVoterRoutes => {
+const publicRoutePrefix = '/'
+export const getPublicRoute = (): IPublicRoutes => {
     return {
-        joinElection: `${voterRoutePrefix}join`,
+        joinElection: `${publicRoutePrefix}join`,
     }
 }
