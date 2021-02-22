@@ -1,5 +1,5 @@
 
-@mixin default {
+@mixin base {
     font-weight: $regular;
     font-size: $text;
     color: $font-color;
@@ -8,7 +8,7 @@
 }
 
 @mixin title {
-    @include default();
+    @include base();
     font-weight: $black;
     font-size: $title;
     letter-spacing: $letter-spacing-title;
@@ -26,7 +26,7 @@
 }
 
 @mixin text {
-    @include default();
+    @include base();
 }
 
 @mixin label {
