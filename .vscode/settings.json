@@ -6,13 +6,18 @@
     "editor.comments.insertSpace": false,
     "editor.detectIndentation": false,
     "cSpell.words": [
+        "Sider",
         "anovote",
         "antd",
         "browserslist",
+        "cacheable",
         "flexbox",
         "fontfamily",
         "mixins",
+        "precaching",
+        "preload",
         "randexp",
+        "subnav",
         "tokenkey"
     ],
     "emmet.includeLanguages": {
