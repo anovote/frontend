@@ -4,12 +4,15 @@ import './style/scss/main.scss'
 
 import Header from './components/Header'
 import RouterView from './views/routes'
+import { ProvideAppContext } from './core/state/app/AppStateContext'
 
 function App(): React.ReactElement {
     return (
         <div className="App">
-            <Header />
-            <RouterView />
+            <ProvideAppContext>
+                <Header />
+                <RouterView />
+            </ProvideAppContext>
         </div>
     )
 }
