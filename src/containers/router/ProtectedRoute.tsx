@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { Redirect, Route, RouteProps } from 'react-router-dom'
-import { AuthLevel } from '../../core/state/app/appState'
+import { AuthLevel } from '../../core/service/authentication/AuthLevel'
 /**
  * Inspiration for protected route component
  * https://stackoverflow.com/questions/47747754/how-to-rewrite-the-protected-private-route-using-typescript-and-react-router-4-a

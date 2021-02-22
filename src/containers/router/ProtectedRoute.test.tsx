@@ -1,7 +1,7 @@
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { MemoryRouter, Route, Switch } from 'react-router-dom'
-import { AuthLevel } from '../../core/state/app/appState'
+import { AuthLevel } from '../../core/service/authentication/AuthLevel'
 import { mockMatchMedia } from '../../mocks/mockMatchMedia'
 import { ProtectedRoute } from './ProtectedRoute'
 

@@ -1,5 +1,6 @@
 import React, { createContext, ReactElement, useContext, useState } from 'react'
-import { appState, AuthLevel, IAppState } from './appState'
+import { AuthLevel } from '../../service/authentication/AuthLevel'
+import { appState, IAppState } from './appState'
 
 /**
  * Describes methods that is resposible for altering the global application state.
