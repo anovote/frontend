@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-export const LargeIconButton = ({
+export default function LargeIconButton({
     reverse,
     text,
     children,
@@ -9,7 +9,7 @@ export const LargeIconButton = ({
     text: string
     children?: ReactElement
     onClick: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-}): ReactElement => {
+}): ReactElement {
     const classReverse = reverse ? 'is-flex-row-reverse' : ''
     return (
         <button onClick={(event) => onClick(event)} className={`large-icon-button main-light ${classReverse}`}>
