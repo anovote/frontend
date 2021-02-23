@@ -3,6 +3,7 @@ import Text from 'antd/lib/typography/Text'
 import * as React from 'react'
 import SelectMultipleIcon from './SelectMultipleIcon'
 import SelectOneIcon from './SelectOneIcon'
+import SelectRankedIcon from './SelectRankedIcon'
 
 export default function SelectBallotType(): React.ReactElement {
     return (
@@ -16,6 +17,7 @@ export default function SelectBallotType(): React.ReactElement {
                 <Text className="select-ballot-type-text">Select one</Text>
             </Radio>
             <Radio value={3}>
+                <SelectRankedIcon />
                 <Text className="select-ballot-type-text">Select ranked</Text>
             </Radio>
         </Radio.Group>
