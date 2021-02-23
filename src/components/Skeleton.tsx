@@ -1,11 +1,14 @@
+import { EyeFilled, HomeFilled, ProjectFilled, SettingFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
-import { EyeFilled, HomeFilled, SettingFilled, ProjectFilled } from '@ant-design/icons'
-const { Header, Content, Sider } = Layout
+import Search from 'antd/lib/input/Search'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
+import LargeIconButton from '../containers/button/LargeIconbutton'
 import { ReactComponent as AnovoteLogo } from '../style/assets/anovote-logo.svg'
-import Search from 'antd/lib/input/Search'
+import CirclePlusIcon from './icons/CirclePlusIcon'
+import ProfileRoundIcon from './icons/ProfileRoundIcon'
+const { Header, Content, Sider } = Layout
 
 /**
  * Skeleton component for application
@@ -32,9 +35,14 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                 <Sider className="skeleton-sidebar">
                     <AnovoteLogo id="logo" />
                     <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={['1']}>
-                        <div id="create-election" tabIndex={2}>
-                            Create Election
-                        </div>
+                        <LargeIconButton
+                            text={t('Create Election')}
+                            onClick={createElection}
+                            height="6rem"
+                            tabIndex={2}
+                        >
+                            <CirclePlusIcon />
+                        </LargeIconButton>
                         <Menu.Item key="1" icon={<HomeFilled />}>
                             <Link to="/" tabIndex={3} id="dashboard">
                                 {t('Dashboard')}
@@ -50,9 +58,15 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                                 {t('Customize')}
                             </Link>
                         </Menu.Item>
-                        <div id="view-profile" tabIndex={6}>
-                            Profile
-                        </div>
+                        <LargeIconButton
+                            classId="view-profile"
+                            text="Name for you"
+                            reverse={true}
+                            onClick={toProfile}
+                            tabIndex={6}
+                        >
+                            <ProfileRoundIcon />
+                        </LargeIconButton>
                         <Menu.Item key="4" icon={<SettingFilled />} id="settings">
                             <Link to="/Settings" tabIndex={7}>
                                 {t('Settings')}
