@@ -1,0 +1,15 @@
+/*
+ Creates a line with given heigh and width rotated at provided degrees.
+*/
+@mixin spanline($rotation, $width, $height) {
+    content: '';
+    display: block;
+    position: absolute;
+    width: $width;
+    height: $height;
+    top: -$height / 2;
+    left: -$width / 2;
+    background: $white;
+    border-radius: .5rem;
+    transform: rotate($rotation);
+}

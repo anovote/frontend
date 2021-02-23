@@ -30,7 +30,62 @@ $warning-contrasting: #edbf5b;
 // TEXT
 $font-color: $dark;
 $inverse-font-color: $white;
-$soft-text-color: $darker-grey; 
+$soft-text-color: $darker-grey;
 $very-soft-text-color: $light-grey;
 
 // EXTRA
+
+
+.main-contrasting,
+.main-light,
+.info-contrasting,
+.info-light,
+.success-contrasting,
+.success-light,
+.danger-contrasting,
+.danger-light,
+.warning-contrasting,
+.warning-light {
+    color: $white;
+}
+
+.main-contrasting {
+    background-color: $main-contrasting;
+}
+
+.main-light {
+    background-color: $main-light;
+}
+
+.info-light {
+    background-color: $info-light;
+}
+
+.info-contrasting {
+    background-color: $info-contrasting;
+}
+
+.success-light {
+    background-color: $success-light;
+}
+
+.success-contrasting {
+    background-color: $success-contrasting;
+}
+
+
+.danger-light {
+    background-color: $danger-light;
+}
+
+.danger-contrasting {
+    background-color: $danger-contrasting;
+}
+
+.warning-light {
+    background-color: $warning-light;
+}
+
+.warning-contrasting {
+    background-color: $warning-contrasting;
+}
