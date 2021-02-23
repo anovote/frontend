@@ -16,6 +16,16 @@
     @include has-content-center-center;
 }
 
+.is-flex-row-reverse {
+    // !important is needes because we want to force override if another class has flex-direction
+    flex-direction: row-reverse !important;
+}
+
+.is-flex-coloumn-reverse {
+    // !important is needes because we want to force override if another class has flex-direction
+    flex-direction: column-reverse !important;
+}
+
 /** SIZE **/
 
 .is-fullscreen {

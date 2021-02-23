@@ -1,0 +1,50 @@
+button {
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+}
+
+.large-icon-button {
+    font-weight: bold;
+    padding: 1rem;
+    height: 7rem;
+    width: 210px;
+    border: none;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    line-height: 1.45em;
+
+    @include has-shadow();
+    @include is-rounded();
+    @include text();
+    @include is-flex-row();
+
+    // Targets all siblings of parent element,
+    >* {
+        white-space: normal;
+        flex: 0 0 auto;
+    }
+
+    >*:first-child {
+        padding: 0 2em 0 0;
+        font-weight: bold;
+        text-align: left;
+        flex: 0 1 auto;
+    }
+
+    &.is-flex-row-reverse {
+        justify-content: flex-end;
+
+        >*:first-child {
+            padding: 0 0 0 .75rem;
+        }
+    }
+}

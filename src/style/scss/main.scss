@@ -9,10 +9,15 @@
 @import './anovote/mixins/typography';
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
+@import './anovote/mixins/icon';
 
 // HELPERS
 @import './anovote/layout/helpers';
 @import './anovote/layout/skeleton/skeleton';
+
+// COMPONENTS
+@import './anovote/components/button';
+@import './anovote/components/icons';
 
 // VIEWS
 @import './anovote/view/home';
