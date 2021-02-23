@@ -1,0 +1,16 @@
+.ant-radio-wrapper {
+    background-color: aqua;
+    width: 10rem;
+    height: 10rem;
+    @include is-rounded;
+    @include has-shadow;
+}
+
+
+.ant-radio {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}

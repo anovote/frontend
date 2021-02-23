@@ -17,6 +17,8 @@
 @import './anovote/view/login';
 @import './anovote/view/register';
 
+// Components
+@import './anovote/components/ballot/ballot';
 
 //--------- OVERWRITES ---------
 
@@ -24,6 +26,7 @@
 @import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
+@import './antd/components/ballot/ballot';
 
 body {
     font-family: $font-family;
