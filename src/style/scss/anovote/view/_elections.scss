@@ -1,0 +1,8 @@
+#upcoming,
+#in-progress,
+#finished {
+    width: 20rem;
+    height: 40rem;
+    @include is-rounded();
+    background: $alternate-color;
+}
