@@ -23,15 +23,16 @@
 
     &::after {
         content: ' ';
-        width: 72px;
-        height: 4px;
+        width: 4.5rem;
+        height: 0.25rem;
         position: relative;
         background-color: $main-contrasting;
-        top: 34px;
+        top: 2.125rem;
         display: block;
         margin-left: auto;
         margin-right: auto;
-        @include is-rounded
+        @include is-rounded;
+        @include has-shadow;
     }
 }
 
