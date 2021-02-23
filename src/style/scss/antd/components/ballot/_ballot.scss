@@ -1,9 +1,11 @@
 .ant-radio-wrapper {
-    background-color: aqua;
+    background-color: $white;
     width: 10rem;
     height: 10rem;
     @include is-rounded;
     @include has-shadow;
+    margin-right: 0.75rem;
+    margin-left: 0.75rem;
 }
 
 
