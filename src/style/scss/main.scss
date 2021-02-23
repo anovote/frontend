@@ -6,6 +6,7 @@
 @import './anovote/core/variables';
 
 // MIXINS
+@import './anovote/mixins/universalDesign';
 @import './anovote/mixins/typography';
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
@@ -27,7 +28,6 @@
 //--------- OVERWRITES ---------
 
 // ANTD
-@import './antd/menu/menuItem';
 @import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
