@@ -17,13 +17,13 @@
 @import './anovote/view/login';
 @import './anovote/view/register';
 
-
 //--------- OVERWRITES ---------
 
 // ANTD
 @import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
+@import './antd/input';
 
 body {
     font-family: $font-family;
