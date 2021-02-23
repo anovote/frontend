@@ -1,8 +1,26 @@
-#upcoming,
-#in-progress,
-#finished {
-    width: 20rem;
-    height: 40rem;
-    @include is-rounded();
-    background: $alternate-color;
+@import '../components/election/entry';
+@import '../components/election/header';
+
+.election-card {
+    width: 26rem;
+    min-height: 25rem;
+    padding: 0;
+
+    .ant-card-body {
+        padding: 0;
+    }
+}
+
+.election-card {
+    margin-right: 2.5rem;
+}
+
+.election-card-list {
+    border: none;
+
+    .ant-list-header,
+    .ant-list-item {
+        padding: 0.5 * $bu $bu;
+        border-bottom: none !important;
+    }
 }

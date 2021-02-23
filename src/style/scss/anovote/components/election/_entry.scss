@@ -1,0 +1,21 @@
+.election-entry {
+    background-color: $alternate-color;
+    @include is-rounded-large;
+    height: 6.25rem;
+    width: 100%;
+    padding: 0.5rem 0.8rem;
+    position: relative;
+
+    &::before {
+        content: '';
+        border-left: 3px solid $main-contrasting;
+        position: absolute;
+        top: 0.6rem;
+        bottom: 0.6rem;
+        left: 0px;
+        width: 1.5rem;
+        border-radius: 0.2rem;
+
+
+    }
+}
