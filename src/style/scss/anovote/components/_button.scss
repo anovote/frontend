@@ -11,9 +11,9 @@ button {
 
 .large-icon-button {
     font-weight: bold;
-    padding: 1rem;
+    padding: 1.25rem;
     height: 7rem;
-    width: 210px;
+    width: inherit;
     border: none;
     position: relative;
     justify-content: space-between;
@@ -26,6 +26,10 @@ button {
     @include text();
     @include is-flex-row();
 
+    &:focus {
+        @include is-button-in-focus();
+    }
+
     // Targets all siblings of parent element,
     > * {
         white-space: normal;
@@ -33,7 +37,7 @@ button {
     }
 
     > *:first-child {
-        padding: 0 2em 0 0;
+        padding: 0 2.5em 0 0;
         font-weight: bold;
         text-align: left;
         flex: 0 1 auto;
