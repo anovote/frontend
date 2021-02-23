@@ -3,18 +3,23 @@ import { EyeFilled, HomeFilled, SettingFilled, ProjectFilled } from '@ant-design
 const { Header, Content, Sider } = Layout
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link } from 'react-router-dom'
-
+import { Link, useHistory } from 'react-router-dom'
 import { ReactComponent as AnovoteLogo } from '../style/assets/anovote-logo.svg'
 import Search from 'antd/lib/input/Search'
 
 /**
- * Header component for application
- * just a simple nav bar to demonstrate how the router works
+ * Skeleton component for application
  */
 function Skeleton(props: { content: ReactElement }): ReactElement {
     const [t] = useTranslation(['common'])
+    const history = useHistory()
 
+    function toProfile() {
+        history.push('/profile')
+    }
+    function createElection() {
+        history.push('/create-election')
+    }
     function onSearch() {
         console.log('Tried to search')
     }
