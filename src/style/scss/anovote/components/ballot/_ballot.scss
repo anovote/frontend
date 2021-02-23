@@ -2,8 +2,9 @@ $large-bar-width: 4.5rem;
 $large-bar-height: 0.75rem;
 
 $medium-bar-width: 4rem;
-
 $small-bar-width: 3.625rem;
+
+$middle-bar-padding: 0.5625rem;
 
 .select-ballot-type-text {
     display: block;
@@ -13,36 +14,33 @@ $small-bar-width: 3.625rem;
     padding: 1rem;
 }
 
+.icon-bar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .large-bar {
     width: $large-bar-width;
     height: $large-bar-height;
     background-color: $main-light;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .medium-bar {
     width: $medium-bar-width;
     height: $large-bar-height;
     background-color: $main-light;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .small-bar {
     width: $small-bar-width;
     height: $large-bar-height;
     background-color: $alternate-color;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .middle-bar {
-    margin-top: 0.5625rem;
-    margin-bottom: 0.5625rem;
+    margin-top: $middle-bar-padding;
+    margin-bottom: $middle-bar-padding;
 }
 
 .main-contrasting-color {
