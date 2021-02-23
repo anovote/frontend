@@ -1,5 +1,4 @@
 button {
-
     &:hover {
         cursor: pointer;
     }
@@ -28,12 +27,12 @@ button {
     @include is-flex-row();
 
     // Targets all siblings of parent element,
-    >* {
+    > * {
         white-space: normal;
         flex: 0 0 auto;
     }
 
-    >*:first-child {
+    > *:first-child {
         padding: 0 2em 0 0;
         font-weight: bold;
         text-align: left;
@@ -43,8 +42,8 @@ button {
     &.is-flex-row-reverse {
         justify-content: flex-end;
 
-        >*:first-child {
-            padding: 0 0 0 .75rem;
+        > *:first-child {
+            padding: 0 0 0 0.75rem;
         }
     }
 }
