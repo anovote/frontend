@@ -2,6 +2,7 @@ import { Col, Form, Input, Row, Space } from 'antd'
 import Button from 'antd/lib/button/button'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
+import ChangePasswordForm from 'containers/forms/profile/ChangePasswordForm'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
