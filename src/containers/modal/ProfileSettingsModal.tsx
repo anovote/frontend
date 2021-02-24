@@ -1,7 +1,7 @@
-import { Col, Form, Input, Row, Space } from 'antd'
-import Button from 'antd/lib/button/button'
+import { Col, Row } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
+import ChangeEmailFrom from 'containers/forms/profile/ChangeEmailForm'
 import ChangePasswordForm from 'containers/forms/profile/ChangePasswordForm'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -33,25 +33,7 @@ export default function ProfileSettingsModal({
                 <Row>
                     <Col span={24}>
                         <Title level={3}>{t('profile:Change email')}</Title>
-                        <Form onFinish={one} layout={'horizontal'} name="basic">
-                            <Space direction="horizontal" className="inline-form-item">
-                                <Form.Item
-                                    name="username"
-                                    rules={[
-                                        {
-                                            required: true,
-                                            message: t('form:Is required'),
-                                        },
-                                    ]}
-                                >
-                                    <Input style={{ width: 250 }} placeholder={t('common:Email')} />
-                                </Form.Item>
-
-                                <Button type="primary" htmlType="submit" className="">
-                                    {t('common:Save')}
-                                </Button>
-                            </Space>
-                        </Form>
+                        <ChangeEmailFrom />
                     </Col>
                 </Row>
                 <Row>
