@@ -7,5 +7,6 @@
     "Must contain uppercase": "$t(Must contain) {{count}} uppercase characters",
     "Must contain uppercase plural": "$t(Must contain) {{count}} uppercase characters",
     "Must be an email": "$t(Must be) an email address",
-    "Must match": "Must match {{field}}"
+    "Must match": "Must match {{field}}",
+    "Password validation": "Minimum 8 characters, one uppercase, one numeric and one special"
 }

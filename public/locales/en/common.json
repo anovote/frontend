@@ -2,6 +2,9 @@
     "Log In": "Log In",
     "Settings": "Settings",
     "Password": "Password",
+    "Retype password": "Retype password",
+    "New password": "New password",
+    "Retype new password": "Retype new password",
     "Email": "Email",
     "Save": "Save"
 }
