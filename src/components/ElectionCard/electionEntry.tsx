@@ -1,17 +1,32 @@
+import { CalendarOutlined } from '@ant-design/icons'
+import { Space } from 'antd'
 import Text from 'antd/lib/typography/Text'
 import Title from 'antd/lib/typography/Title'
+import { IElection } from 'core/models/IElection'
+import { ElectionStatus } from 'core/models/IElectionStatus'
 import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router-dom'
 
-interface EntryProps {
-    title: string
-    date: Date | string
-}
+export default function ElectionEntry({ election }: { election: IElection }): ReactElement {
+    const [t] = useTranslation(['common', 'translation'])
 
-export default function ElectionEntry({ title, date }: EntryProps): ReactElement {
+    const colors = new Map()
+    colors.set(ElectionStatus.NotStarted, 'not-started')
+    colors.set(ElectionStatus.Started, 'in-progress')
+    colors.set(ElectionStatus.Finished, 'finished')
+
+    let date = election.openDate?.toDateString()
+
+    if (election.status == ElectionStatus.Finished) date = t('Ended on ') + election.closeDate?.toDateString()
+
     return (
-        <div className="election-entry">
-            <Title level={5}>{title}</Title>
-            <Text>{date}</Text>
-        </div>
+        <Link to="test" className={'election-entry ' + colors.get(election.status)}>
+            <Title level={5}>{election.title}</Title>
+            <Space align="center">
+                <CalendarOutlined />
+                <Text>{date}</Text>
+            </Space>
+        </Link>
     )
 }
