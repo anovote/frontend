@@ -1,9 +1,10 @@
 .ant-modal-content {
     @include is-rounded-large();
+    background-color: $background;
 }
 
-.ant-modal-content {
-    background-color: $background;
+.ant-modal-body {
+    padding: 1.5rem 1.5rem 3rem 1.5rem;
 }
 
 .ant-modal-header {
