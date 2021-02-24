@@ -1,4 +1,7 @@
+import Title from 'antd/lib/typography/Title'
+import Text from 'antd/lib/typography/Text'
 import React from 'react'
+import SwitchWithLabel from '../../components/switch/SwitchWithLabel'
 
 /**
  * Landing page of application and home root
@@ -7,8 +10,29 @@ import React from 'react'
 export default function Home(): React.ReactElement {
     return (
         <div>
-            <h1>Welcom to Anovote</h1>
-            <span>This is the landing page of the application</span>
+            <Title>This is a title.</Title>
+            <Title level={2}>This a subtitle</Title>
+            <Title level={3}>This is a paragraph/card title</Title>
+            <Text>Normal text</Text>
+            <br />
+            <Text type="secondary">Label</Text>
+
+            <hr />
+            <div id="colors">
+                <span className="round">
+                    <span className="inner-round"></span>
+                </span>
+                <span className="round">
+                    <span className="inner-round"></span>
+                </span>
+                <span className="round">
+                    <span className="inner-round"></span>
+                </span>
+                <span className="round">
+                    <span className="inner-round"></span>
+                </span>
+            </div>
+            <SwitchWithLabel label="Proceeds automatic between ballots" />
         </div>
     )
 }

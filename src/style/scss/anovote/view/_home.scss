@@ -1,0 +1,48 @@
+#colors {
+    display: flex;
+    align-items: center;
+}
+.round:nth-child(1) {
+    background-color: $main-light;
+
+    .inner-round {
+        background-color: $main-contrasting;
+    }
+}
+
+.round:nth-child(2) {
+    background-color: $success-light;
+    .inner-round {
+        background-color: $success-contrasting;
+    }
+}
+
+.round:nth-child(3) {
+    background-color: $danger-light;
+    .inner-round {
+        background-color: $danger-contrasting;
+    }
+}
+
+.round:nth-child(4) {
+    background-color: $warning-light;
+    .inner-round {
+        background-color: $warning-contrasting;
+    }
+}
+
+.round {
+    height: 4rem;
+    width: 4rem;
+    margin: 1rem;
+    border-radius: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inner-round {
+    margin: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    border-radius: 1.5rem;
+}

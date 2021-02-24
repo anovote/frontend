@@ -1,0 +1,42 @@
+@mixin typography-base {
+    font-weight: $regular;
+    font-size: $text;
+    color: $font-color;
+    letter-spacing: $letter-spacing-text;
+    line-height: 1.18rem;
+}
+
+@mixin title {
+    @include typography-base();
+    font-weight: $black;
+    font-size: $title;
+    letter-spacing: $letter-spacing-title;
+    line-height: 3.56rem;
+}
+
+@mixin subtitle {
+    @include title();
+    font-size: $subtitle;
+}
+
+@mixin paragraph-title {
+    @include title();
+    font-size: $paragraph-title;
+}
+
+@mixin text {
+    @include typography-base();
+}
+
+@mixin label {
+    @include text();
+    font-size: $label;
+    font-weight: $bold;
+    color: $soft-text-color;
+}
+
+@mixin additional-label {
+    @include label();
+    font-weight: $regular;
+    font-size: $additional-info;
+}
