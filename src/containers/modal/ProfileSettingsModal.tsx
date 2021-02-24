@@ -3,10 +3,11 @@ import Button from 'antd/lib/button/button'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
 import React, { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
-export const AnoModal = () => {
+export default function ProfileSettingsModal() {
     const [isModalVisible, setIsModalVisible] = useState(false)
-    const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([])
+    const [t] = useTranslation(['translation', 'common', 'form'])
 
     const showModal = () => {
         setIsModalVisible(true)
@@ -18,6 +19,10 @@ export const AnoModal = () => {
 
     const handleCancel = () => {
         setIsModalVisible(false)
+    }
+
+    function one() {
+        console.log('hei')
     }
     return (
         <>
@@ -35,18 +40,22 @@ export const AnoModal = () => {
             >
                 <Row>
                     <Col span={24}>
-                        <Title level={2}>Christoffer Traeen</Title>
+                        <Title level={2}></Title>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={24}>
                         <Title level={3}>Update email</Title>
-                        <Form layout={'vertical'} name="basic" initialValues={{ remember: true }}>
-                            <Space>
+                        <Form onFinish={one} layout={'horizontal'} name="basic" initialValues={{ remember: true }}>
+                            <Space direction="horizontal" className="inline-form-item">
                                 <Form.Item
                                     name="username"
-                                    noStyle
-                                    rules={[{ required: true, message: 'Username is required' }]}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: t('form:Must contain special character', { count: 2 }),
+                                        },
+                                    ]}
                                 >
                                     <Input style={{ width: 250 }} placeholder="Please input" />
                                 </Form.Item>
@@ -61,19 +70,17 @@ export const AnoModal = () => {
                 <Row>
                     <Col span={24}>
                         <Title level={3}>Change password</Title>
-                        <Form layout={'vertical'} name="basic" initialValues={{ remember: true }}>
+                        <Form layout={'vertical'}>
                             <Space direction="vertical">
                                 <Form.Item
                                     name="username"
-                                    noStyle
                                     rules={[{ required: true, message: 'Username is required' }]}
                                 >
                                     <Input.Password style={{ width: 250 }} placeholder="Please input" />
                                 </Form.Item>
-                                <Space>
+                                <Space className="inline-form-item">
                                     <Form.Item
                                         name="username"
-                                        noStyle
                                         rules={[{ required: true, message: 'Username is required' }]}
                                     >
                                         <Input.Password style={{ width: 250 }} placeholder="Please input" />
