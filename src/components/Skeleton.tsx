@@ -38,8 +38,8 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                         <LargeIconButton
                             text={t('Create Election')}
                             onClick={createElection}
-                            height="6rem"
                             tabIndex={2}
+                            classId="create-election"
                         >
                             <CirclePlusIcon />
                         </LargeIconButton>
