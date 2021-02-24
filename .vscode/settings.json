@@ -6,14 +6,21 @@
     "editor.comments.insertSpace": false,
     "editor.detectIndentation": false,
     "cSpell.words": [
+        "Iconbutton",
+        "Sider",
         "anovote",
         "antd",
         "browserslist",
         "cascader",
+        "cacheable",
         "flexbox",
         "fontfamily",
         "mixins",
+        "precaching",
+        "preload",
         "randexp",
+        "spanline",
+        "subnav",
         "tokenkey"
     ],
     "emmet.includeLanguages": {

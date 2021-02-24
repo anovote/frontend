@@ -6,6 +6,7 @@
 @import './anovote/core/variables';
 
 // MIXINS
+@import './anovote/mixins/universalDesign';
 @import './anovote/mixins/typography';
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
@@ -13,6 +14,7 @@
 
 // HELPERS
 @import './anovote/layout/helpers';
+@import './anovote/layout/skeleton/skeleton';
 
 // COMPONENTS
 @import './anovote/components/button';
@@ -24,6 +26,7 @@
 @import './anovote/view/login';
 @import './anovote/view/register';
 
+@import './anovote/components/switch';
 //--------- OVERWRITES ---------
 
 // ANTD
@@ -31,6 +34,7 @@
 @import './antd/layout';
 @import './antd/card';
 @import './antd/modal';
+@import './antd/switch';
 @import './antd/input';
 @import './antd/button';
 
