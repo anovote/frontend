@@ -3,5 +3,9 @@
 }
 
 @mixin is-rounded {
-    border-radius: 2rem;
+    border-radius: $normal-border-radius;
+}
+
+@mixin is-rounded-large {
+    border-radius: $large-border-radius;
 }
