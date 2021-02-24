@@ -8,11 +8,9 @@ import RouterView from 'views/routes'
 function App(): React.ReactElement {
     return (
         <div className="App">
-            <Skeleton content={
-                <ProvideAppContext>
-                    <RouterView />
-                </ProvideAppContext>
-            } />
+            <ProvideAppContext>
+                <Skeleton content={<RouterView />} />
+            </ProvideAppContext>
         </div>
     )
 }

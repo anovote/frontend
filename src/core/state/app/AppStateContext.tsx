@@ -3,7 +3,7 @@ import { AuthLevel } from '../../service/authentication/AuthLevel'
 import { appState, IAppState } from './appState'
 
 /**
- * Describes methods that is resposible for altering the global application state.
+ * Describes methods that is responsible for altering the global application state.
  */
 interface IAppStateDispatcher {
     /**
@@ -12,7 +12,7 @@ interface IAppStateDispatcher {
      */
     setLoginState: (authLevel: AuthLevel) => void
     /**
-     * Clears the loggedin user.
+     * Clears the logged in user.
      */
     setLogoutState: () => void
 }
@@ -21,9 +21,9 @@ const appContext = createContext(appState)
 const appStateDispatch = createContext({} as IAppStateDispatcher)
 
 /**
- * Provides App state context to all child componets that this components wraps
+ * Provides App state context to all child component(s) that this components wraps
  */
-function ProvideAppContext({ children }: { children: Array<ReactElement> }): ReactElement {
+function ProvideAppContext({ children }: { children: Array<ReactElement> | ReactElement }): ReactElement {
     const [state, setState] = useState(appState)
     const dispatcher: IAppStateDispatcher = {
         setLoginState: (authLevel: AuthLevel) => {
@@ -47,7 +47,7 @@ const useAppState = (): IAppState => {
     return useContext(appContext)
 }
 /**
- * Hook to use app state dispathers. The dispatchers are methods for altering the application
+ * Hook to use app state dispatcher. The dispatchers are methods for altering the application
  * state
  */
 const useAppStateDispatcher = (): IAppStateDispatcher => {
