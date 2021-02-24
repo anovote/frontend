@@ -1,8 +1,8 @@
 // BODY
-$main-color: #FFFFFF;
-$white: #FFFFFF;
+$main-color: #ffffff;
+$white: #ffffff;
 $dark: #1d2d44;
-$background: #FAFAFA;
+$background: #fafafa;
 
 // GRAYS
 $alternate-color: #f5f7f8;
@@ -11,7 +11,7 @@ $shadow-color: #eaedf0;
 $light-grey: #d8d8d8;
 $darker-grey: #aaafbf;
 
-// COLORS 
+// COLORS
 $main-light: #aeb8fe;
 $main-contrasting: #758bfd;
 
@@ -30,7 +30,60 @@ $warning-contrasting: #edbf5b;
 // TEXT
 $font-color: $dark;
 $inverse-font-color: $white;
-$soft-text-color: $darker-grey; 
+$soft-text-color: $darker-grey;
 $very-soft-text-color: $light-grey;
 
 // EXTRA
+
+.main-contrasting,
+.main-light,
+.info-contrasting,
+.info-light,
+.success-contrasting,
+.success-light,
+.danger-contrasting,
+.danger-light,
+.warning-contrasting,
+.warning-light {
+    color: $white;
+}
+
+.main-contrasting {
+    background-color: $main-contrasting;
+}
+
+.main-light {
+    background-color: $main-light;
+}
+
+.info-light {
+    background-color: $info-light;
+}
+
+.info-contrasting {
+    background-color: $info-contrasting;
+}
+
+.success-light {
+    background-color: $success-light;
+}
+
+.success-contrasting {
+    background-color: $success-contrasting;
+}
+
+.danger-light {
+    background-color: $danger-light;
+}
+
+.danger-contrasting {
+    background-color: $danger-contrasting;
+}
+
+.warning-light {
+    background-color: $warning-light;
+}
+
+.warning-contrasting {
+    background-color: $warning-contrasting;
+}

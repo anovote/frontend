@@ -1,0 +1,26 @@
+/**
+ Creates + icon in the element using the class
+*/
+.pluss {
+    position: relative;
+    font-size: 1rem;
+
+    &:before {
+        @include spanline(0deg, 1em, 0.2em)
+    }
+
+    &:after {
+        @include spanline(90deg, 1em, 0.25em)
+    }
+}
+
+/**
+ Circle with content positioned in the center center of it.
+*/
+.circle-center-content {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 99rem;
+    @include is-flex();
+    @include has-content-center-center();
+}
