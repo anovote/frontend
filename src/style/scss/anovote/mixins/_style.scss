@@ -1,5 +1,5 @@
 @mixin has-shadow {
-    box-shadow: 0 2rem 2rem $shadow-color;
+    box-shadow: 0 0.4rem 0.2rem -0.1rem $shadow-color;
 }
 
 @mixin is-rounded {

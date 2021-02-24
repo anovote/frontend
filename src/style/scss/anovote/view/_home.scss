@@ -1,10 +1,10 @@
 #colors {
- display: flex;   
- align-items: center;
+    display: flex;
+    align-items: center;
 }
 .round:nth-child(1) {
     background-color: $main-light;
-    
+
     .inner-round {
         background-color: $main-contrasting;
     }

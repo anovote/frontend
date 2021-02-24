@@ -1,0 +1,10 @@
+.ant-input {
+    @include is-rounded;
+    @include has-shadow;
+}
+
+textarea.ant-input {
+    @include is-rounded;
+    min-height: 6rem;
+    font-size: 0.8rem;
+}

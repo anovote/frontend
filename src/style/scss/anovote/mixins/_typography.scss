@@ -1,4 +1,3 @@
-
 @mixin typography-base {
     font-weight: $regular;
     font-size: $text;
@@ -36,7 +35,7 @@
     color: $soft-text-color;
 }
 
-@mixin additional-label { 
+@mixin additional-label {
     @include label();
     font-weight: $regular;
     font-size: $additional-info;
