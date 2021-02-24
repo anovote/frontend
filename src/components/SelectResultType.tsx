@@ -11,15 +11,15 @@ export default function SelectResultType(): React.ReactElement {
             <Radio.Group className="radio-group">
                 <Radio value={1} className="radio-button">
                     <NoneIcon className="none-icon" />
-                    <Text className="select-none-text">None</Text>
+                    <Text className="radio-text select-none-text">None</Text>
                 </Radio>
                 <Radio value={2} className="radio-button">
                     <SingleWinnerIcon className="single-icon" />
-                    <Text className="select-single-text">Single winner</Text>
+                    <Text className="radio-text select-single-text">Single winner</Text>
                 </Radio>
                 <Radio value={3} className="radio-button">
                     <RankedIcon className="ranked-icon" />
-                    <Text className="select-ranked-text">Ranked</Text>
+                    <Text className="radio-text select-ranked-text">Ranked</Text>
                 </Radio>
             </Radio.Group>
         </div>

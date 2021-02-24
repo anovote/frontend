@@ -11,15 +11,15 @@ export default function SelectBallotType(): React.ReactElement {
             <Radio.Group className="radio-group">
                 <Radio value={1} className="radio-button">
                     <SelectMultipleIcon />
-                    <Text className="select-type-text">Select multiple</Text>
+                    <Text className="radio-text select-type-text">Select multiple</Text>
                 </Radio>
                 <Radio value={2} className="radio-button">
                     <SelectOneIcon />
-                    <Text className="select-type-text">Select one</Text>
+                    <Text className="radio-text select-type-text">Select one</Text>
                 </Radio>
                 <Radio value={3} className="radio-button">
                     <SelectRankedIcon />
-                    <Text className="select-type-text">Select ranked</Text>
+                    <Text className="radio-text select-type-text">Select ranked</Text>
                 </Radio>
             </Radio.Group>
         </div>
