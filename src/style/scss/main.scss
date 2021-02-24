@@ -22,12 +22,14 @@
 @import './anovote/view/login';
 @import './anovote/view/register';
 
+@import './anovote/components/switch';
 //--------- OVERWRITES ---------
 
 // ANTD
 @import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
+@import './antd/switch';
 @import './antd/input';
 
 body {
