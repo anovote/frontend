@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next'
 export default function ChangePasswordForm(): React.ReactElement {
     const [alertProps, setAlertProps] = React.useState<AlertProps>()
     const service = new ElectionOrganizerService(BackendAPI)
-
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
+
     const submitForm = async (values: ChangePasswordInterface) => {
         try {
             await service.validateAndChangePassword(values)
@@ -30,7 +30,7 @@ export default function ChangePasswordForm(): React.ReactElement {
 
     return (
         <>
-            <div className="error-field">
+            <Space direction="vertical">
                 {!!alertProps && (
                     <Alert
                         message={alertProps?.message}
@@ -43,49 +43,51 @@ export default function ChangePasswordForm(): React.ReactElement {
                         closable
                     />
                 )}
-            </div>
-            <Form layout={'vertical'} onFinish={submitForm}>
-                <Space direction="vertical">
-                    <Form.Item
-                        name="password1"
-                        rules={[
-                            { required: true, message: t('form:Is required') },
-                            {
-                                min: 8,
-                                message: t('form:Password validation'),
-                                pattern: service.strongRegex,
-                            },
-                        ]}
-                    >
-                        <Input.Password style={{ width: 250 }} placeholder={t('common:New password')} />
-                    </Form.Item>
-                    <Space className="inline-form-item">
+                <Form layout={'vertical'} onFinish={submitForm}>
+                    <Space direction="vertical">
                         <Form.Item
-                            name="password2"
+                            name="password1"
                             rules={[
                                 { required: true, message: t('form:Is required') },
-
-                                ({ getFieldValue }) => ({
-                                    validator(_, value) {
-                                        if (!value || getFieldValue('password1') === value) {
-                                            return Promise.resolve()
-                                        }
-                                        return Promise.reject(
-                                            t('form:Must be equal', { field: t('common:New password').toLowerCase() }),
-                                        )
-                                    },
-                                }),
+                                {
+                                    min: 8,
+                                    message: t('form:Password validation'),
+                                    pattern: service.strongRegex,
+                                },
                             ]}
                         >
-                            <Input.Password style={{ width: 250 }} placeholder={t('common:Retype new password')} />
+                            <Input.Password style={{ width: 250 }} placeholder={t('common:New password')} />
                         </Form.Item>
+                        <Space className="inline-form-item">
+                            <Form.Item
+                                name="password2"
+                                rules={[
+                                    { required: true, message: t('form:Is required') },
 
-                        <Button type="primary" htmlType="submit">
-                            {t('common:Save')}
-                        </Button>
+                                    ({ getFieldValue }) => ({
+                                        validator(_, value) {
+                                            if (!value || getFieldValue('password1') === value) {
+                                                return Promise.resolve()
+                                            }
+                                            return Promise.reject(
+                                                t('form:Must be equal', {
+                                                    field: t('common:New password').toLowerCase(),
+                                                }),
+                                            )
+                                        },
+                                    }),
+                                ]}
+                            >
+                                <Input.Password style={{ width: 250 }} placeholder={t('common:Retype new password')} />
+                            </Form.Item>
+
+                            <Button type="primary" htmlType="submit">
+                                {t('common:Save')}
+                            </Button>
+                        </Space>
                     </Space>
-                </Space>
-            </Form>
+                </Form>
+            </Space>
         </>
     )
 }
