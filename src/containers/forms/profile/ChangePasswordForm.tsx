@@ -1,6 +1,5 @@
 import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
 import { BackendAPI } from 'core/api'
-import { PasswordDoesNotMatchError } from 'core/models/customErrors'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -14,22 +13,16 @@ export default function ChangePasswordForm(): React.ReactElement {
         try {
             await service.validateAndChangePassword(values)
             const newAlertProps: AlertProps = {
-                message: 'Password changed',
-                description: 'Password was changed successfully',
+                message: t('profile:Password changed'),
+                description: t('profile:Your password changed'),
                 type: 'success',
             }
             setAlertProps(newAlertProps)
         } catch (error) {
             const newAlertProps: AlertProps = {
-                message: '',
+                message: t('common:Something went wrong'),
+                description: t('common:Try again later'),
                 type: 'error',
-            }
-            if (error && error instanceof PasswordDoesNotMatchError) {
-                newAlertProps.message = 'Passwords does not match'
-                newAlertProps.description = 'Please try again'
-            } else {
-                newAlertProps.message = 'Something went wrong'
-                newAlertProps.description = 'Please try again later'
             }
             setAlertProps(newAlertProps)
         }
@@ -43,6 +36,9 @@ export default function ChangePasswordForm(): React.ReactElement {
                         message={alertProps?.message}
                         description={alertProps?.description}
                         type={alertProps?.type}
+                        onClose={() => {
+                            setAlertProps(undefined)
+                        }}
                         showIcon
                         closable
                     />
