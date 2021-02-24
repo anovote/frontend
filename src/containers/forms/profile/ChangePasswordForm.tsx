@@ -1,9 +1,8 @@
-import { Space, Form, Input, Button, Divider, Alert, AlertProps } from 'antd'
-
-import React from 'react'
+import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
 import { BackendAPI } from 'core/api'
-import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import { PasswordDoesNotMatchError } from 'core/models/customErrors'
+import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ChangePasswordForm(): React.ReactElement {
@@ -52,7 +51,7 @@ export default function ChangePasswordForm(): React.ReactElement {
             <Form layout={'vertical'} onFinish={submitForm}>
                 <Space direction="vertical">
                     <Form.Item
-                        name="new-password"
+                        name="password1"
                         rules={[
                             { required: true, message: t('form:Is required') },
                             {
@@ -65,7 +64,23 @@ export default function ChangePasswordForm(): React.ReactElement {
                         <Input.Password style={{ width: 250 }} placeholder={t('common:New password')} />
                     </Form.Item>
                     <Space className="inline-form-item">
-                        <Form.Item name="re-new-password" rules={[{ required: true, message: t('form:Is required') }]}>
+                        <Form.Item
+                            name="password2"
+                            rules={[
+                                { required: true, message: t('form:Is required') },
+
+                                ({ getFieldValue }) => ({
+                                    validator(_, value) {
+                                        if (!value || getFieldValue('password1') === value) {
+                                            return Promise.resolve()
+                                        }
+                                        return Promise.reject(
+                                            t('form:Must be equal', { field: t('common:New password').toLowerCase() }),
+                                        )
+                                    },
+                                }),
+                            ]}
+                        >
                             <Input.Password style={{ width: 250 }} placeholder={t('common:Retype new password')} />
                         </Form.Item>
 
