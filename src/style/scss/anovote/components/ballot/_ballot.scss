@@ -6,7 +6,7 @@ $small-bar-width: 3.625rem;
 
 $middle-bar-padding: 0.5625rem;
 
-.select-ballot-type-text {
+.select-type-text {
     transition: all 0.35s;
     display: block;
     margin-left: auto;
@@ -97,7 +97,7 @@ $middle-bar-padding: 0.5625rem;
         height: 11.5rem;
         padding-top: 1rem;
 
-        .select-ballot-type-text {
+        .select-type-text {
             padding-top: 1.5rem;
             font-weight: bold !important;
         }

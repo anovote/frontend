@@ -1,0 +1,24 @@
+<svg id="Result_icon" data-name="Result icon" xmlns="http://www.w3.org/2000/svg" width="87.202" height="87.202" viewBox="0 0 87.202 87.202">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f5f7f8;
+      }
+
+      .cls-2 {
+        fill: none;
+        stroke: #aeb8fe;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 5px;
+      }
+    </style>
+  </defs>
+  <rect id="Rectangle_79" data-name="Rectangle 79" class="cls-1" width="48" height="8" transform="translate(19.601 22.601)"/>
+  <rect id="Rectangle_80" data-name="Rectangle 80" class="cls-1" width="48" height="8" transform="translate(19.601 39.601)"/>
+  <rect id="Rectangle_81" data-name="Rectangle 81" class="cls-1" width="48" height="8" transform="translate(19.601 55.601)"/>
+  <g id="cross" transform="translate(43.601 -10.607) rotate(45)">
+    <path id="Path_37" data-name="Path 37" class="cls-2" d="M18,7.5V69.161" transform="translate(20.33 0)"/>
+    <path id="Path_38" data-name="Path 38" class="cls-2" d="M7.5,18H69.161" transform="translate(0 20.33)"/>
+  </g>
+</svg>
