@@ -9,5 +9,6 @@
     "Must be an email": "$t(form:Must be) an email address",
     "Must match": "Must match {{field}}",
     "Password validation": "Minimum 8 characters, one uppercase, one numeric and one special",
-    "Must be equal": "$t(form:Must be) equal to {{field}}"
+    "Must be equal": "$t(form:Must be) equal to {{field}}",
+    "Email is not valid": "Email is not valid"
 }
