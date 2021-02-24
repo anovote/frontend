@@ -1,13 +1,12 @@
-import { Checkbox, Col, Form, Input, Layout, Pagination, Row, Space, Tooltip } from 'antd'
+import { Col, Form, Input, Row, Space } from 'antd'
 import Button from 'antd/lib/button/button'
-import { Content, Footer, Header } from 'antd/lib/layout/layout'
-import Sider from 'antd/lib/layout/Sider'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
 import React, { useState } from 'react'
-import LoginView from '../../views/login'
+
 export const AnoModal = () => {
     const [isModalVisible, setIsModalVisible] = useState(false)
+    const [autoCompleteResult, setAutoCompleteResult] = useState<string[]>([])
 
     const showModal = () => {
         setIsModalVisible(true)
@@ -20,7 +19,6 @@ export const AnoModal = () => {
     const handleCancel = () => {
         setIsModalVisible(false)
     }
-
     return (
         <>
             <Button type="primary" onClick={showModal}>
@@ -33,6 +31,7 @@ export const AnoModal = () => {
                 visible={isModalVisible}
                 onOk={handleOk}
                 onCancel={handleCancel}
+                className="modal-display-small"
             >
                 <Row>
                     <Col span={24}>
@@ -52,7 +51,7 @@ export const AnoModal = () => {
                                     <Input style={{ width: 250 }} placeholder="Please input" />
                                 </Form.Item>
 
-                                <Button type="primary" htmlType="submit">
+                                <Button type="primary" htmlType="submit" className="main-light is-rounded">
                                     Submit
                                 </Button>
                             </Space>
@@ -60,7 +59,7 @@ export const AnoModal = () => {
                     </Col>
                 </Row>
                 <Row>
-                    <Col span={8}>
+                    <Col span={24}>
                         <Title level={3}>Change password</Title>
                         <Form layout={'vertical'} name="basic" initialValues={{ remember: true }}>
                             <Space direction="vertical">
