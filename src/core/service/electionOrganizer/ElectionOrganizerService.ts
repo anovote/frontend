@@ -19,7 +19,6 @@ export class ElectionOrganizerService {
      * @param newPasswords contains the passwords to be checked
      */
     async validateAndChangePassword(newPasswords: ChangePasswordInterface): Promise<void> | never {
-        this.validatePassword(newPasswords)
         return await this.changePassword(newPasswords.password1)
     }
 
