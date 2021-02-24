@@ -4,7 +4,7 @@ import { isValidEmail } from 'core/helpers/validation'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export default function ChangeEmailFrom(): ReactElement {
+export default function ChangeEmailForm(): ReactElement {
     const [alertMessage, setAlertMessage] = React.useState<AlertProps>()
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const submitForm = async (formData: { email: string }) => {
