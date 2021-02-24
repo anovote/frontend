@@ -2,11 +2,12 @@
     "Must be": "Must be",
     "Must contain": "Must contain",
     "Is required": "Field is required",
-    "Must contain special character": "$t(Must contain) {{count}} special character",
+    "Must contain special character": "$t(form:Must contain) {{count}} special character",
     "Must contain special character_plural": "$t(Must contain) {{count}}  special characters",
-    "Must contain uppercase": "$t(Must contain) {{count}} uppercase characters",
-    "Must contain uppercase plural": "$t(Must contain) {{count}} uppercase characters",
-    "Must be an email": "$t(Must be) an email address",
+    "Must contain uppercase": "$t(form:Must contain) {{count}} uppercase characters",
+    "Must contain uppercase plural": "$t(form:Must contain) {{count}} uppercase characters",
+    "Must be an email": "$t(form:Must be) an email address",
     "Must match": "Must match {{field}}",
-    "Password validation": "Minimum 8 characters, one uppercase, one numeric and one special"
+    "Password validation": "Minimum 8 characters, one uppercase, one numeric and one special",
+    "Must be equal": "$t(form:Must be) equal to {{field}}"
 }
