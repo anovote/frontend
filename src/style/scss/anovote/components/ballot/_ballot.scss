@@ -7,6 +7,7 @@ $small-bar-width: 3.625rem;
 $middle-bar-padding: 0.5625rem;
 
 .select-ballot-type-text {
+    transition: all 0.35s;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -48,5 +49,71 @@ $middle-bar-padding: 0.5625rem;
 }
 
 .small-ranked-color {
-    background-color: #E0E4FF;
+    background-color: #e0e4ff;
+}
+
+.radio-button {
+    .ant-radio {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+}
+
+.radio-wrapper {
+    .ant-radio-group {
+        height: 13rem;
+        width: 37.5rem;
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-end;
+        gap: 0rem;
+    }
+}
+
+.radio-group {
+    .ant-radio-wrapper {
+        transition: all 0.35s;
+        background-color: $white;
+        width: 10rem;
+        height: 10rem;
+        @include is-rounded;
+        @include has-shadow;
+
+        > span:nth-child(2) {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+    }
+
+    .ant-radio-wrapper-checked {
+        transition: all 0.35s;
+        width: 11.5rem;
+        height: 11.5rem;
+        padding-top: 1rem;
+
+        .select-ballot-type-text {
+            padding-top: 1.5rem;
+            font-weight: bold !important;
+        }
+
+        &::after {
+            content: ' ';
+            width: 4.5rem;
+            height: 0.25rem;
+            position: relative;
+            background-color: $main-contrasting;
+            top: 2.125rem;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            @include is-rounded;
+            @include has-shadow;
+        }
+    }
 }
