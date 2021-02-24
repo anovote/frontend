@@ -1,0 +1,26 @@
+.election-status-container {
+    display: inline-block;
+    border-style: solid;
+    border-width: thick;
+    border-radius: 2.5rem;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+
+    text-align: center;
+
+    .ant-typography {
+        margin-bottom: 0rem;
+    }
+}
+
+.election-not-started-container {
+    border-color: $main-light;
+}
+
+.election-started-container {
+    border-color: #FFE940;
+}
+
+.election-finished-container {
+    border-color: $success-light;
+}
