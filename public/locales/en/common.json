@@ -6,5 +6,7 @@
     "New password": "New password",
     "Retype new password": "Retype new password",
     "Email": "Email",
-    "Save": "Save"
+    "Save": "Save",
+    "Something went wrong": "Something went wrong",
+    "Try again later": "Try again later"
 }
