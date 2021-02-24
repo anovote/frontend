@@ -16,16 +16,16 @@ export default function ElectionEntry({ election }: { election: IElection }): Re
     colors.set(ElectionStatus.Started, 'in-progress')
     colors.set(ElectionStatus.Finished, 'finished')
 
-    let date = election.openDate?.toDateString()
+    let dateString = election.openDate?.toDateString()
 
-    if (election.status == ElectionStatus.Finished) date = t('Ended on ') + election.closeDate?.toDateString()
+    if (election.status == ElectionStatus.Finished) dateString = t('Ended on ') + election.closeDate?.toDateString()
 
     return (
         <Link to="test" className={'election-entry ' + colors.get(election.status)}>
             <Title level={5}>{election.title}</Title>
             <Space align="center">
                 <CalendarOutlined />
-                <Text>{date}</Text>
+                <Text>{dateString}</Text>
             </Space>
         </Link>
     )
