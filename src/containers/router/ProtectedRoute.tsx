@@ -1,5 +1,5 @@
-import React, { ReactElement } from 'react'
-import { Redirect, Route, RouteProps } from 'react-router-dom'
+import React, { ReactComponentElement, ReactElement, ReactNode } from 'react'
+import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router-dom'
 import { AuthLevel } from '../../core/service/authentication/AuthLevel'
 /**
  * Inspiration for protected route component
@@ -15,7 +15,7 @@ interface IPrivateRouteProps extends RouteProps {
      */
     authLevel: AuthLevel
     /**
-     * flag for the currently loggedin user. Should be true
+     * flag for the currently logged in user. Should be true
      * if logged in, else false.
      */
     isLoggedIn: boolean
@@ -24,7 +24,7 @@ interface IPrivateRouteProps extends RouteProps {
 /**
  * Component to protect a route. The protected route requires that the user is logged in, and
  * meets the passed levels for the route. If not logged in the user is redirected to login page.
- * If logged in in but not meets the requirements, we diplay an error component.
+ * If logged in in but not meets the requirements, we display an error component.
  * @param props route props
  */
 export const ProtectedRoute = (props: IPrivateRouteProps): ReactElement | null => {
@@ -32,26 +32,24 @@ export const ProtectedRoute = (props: IPrivateRouteProps): ReactElement | null =
     const hasLevel = props.allowedLevels.some((level) => level === authLevel)
     const canRoute = hasLevel && isLoggedIn
 
-    return (
-        <Route
-            {...rest}
-            render={(routeProps) => {
-                if (canRoute) {
-                    return Component ? <Component {...routeProps} /> : children
-                } else if (isLoggedIn) {
-                    // TODO ! Make a prettier component
-                    return <div>You dont have access</div>
-                } else {
-                    return (
-                        <Redirect
-                            to={{
-                                pathname: '/login',
-                                state: { from: routeProps.location },
-                            }}
-                        />
-                    )
-                }
-            }}
-        />
-    )
+    /**
+     * Determines the render component to use for the route based on authentication permissions and
+     * if is authenticated.
+     * If the user is not authenticated, redirect them to login. If they are authenticated, but lack
+     * the right permissions, block the route.
+     * If they are logged in, and have access proceed with the route
+     * @param routeProps props for the route we are going to
+     */
+    function getRenderComponent(routeProps: RouteComponentProps) {
+        let renderComponent: ReactElement | ReactNode | null | undefined
+
+        renderComponent = <Redirect to={{ pathname: '/login', state: { from: routeProps.location } }} />
+
+        if (canRoute) renderComponent = Component ? <Component {...routeProps} /> : children
+        else if (isLoggedIn) renderComponent = <div>You don not have access</div>
+
+        return renderComponent
+    }
+
+    return <Route {...rest} render={(routeProps) => getRenderComponent(routeProps)} />
 }
