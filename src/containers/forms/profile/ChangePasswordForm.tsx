@@ -1,5 +1,6 @@
 import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
 import { BackendAPI } from 'core/api'
+import { PasswordDoesNotMatchError } from 'core/models/customErrors'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -21,8 +22,12 @@ export default function ChangePasswordForm(): React.ReactElement {
         } catch (error) {
             const newAlertProps: AlertProps = {
                 message: t('common:Something went wrong'),
-                description: t('common:Try again later'),
                 type: 'error',
+            }
+            if (error instanceof PasswordDoesNotMatchError) {
+                newAlertProps.description = `${t('common:Password')} ${t('form:Must match').toLocaleLowerCase()}`
+            } else {
+                newAlertProps.description = t('common:Try again later')
             }
             setAlertProps(newAlertProps)
         }
