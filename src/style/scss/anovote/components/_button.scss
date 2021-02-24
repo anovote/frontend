@@ -13,7 +13,8 @@ button {
     font-weight: bold;
     padding: 1.25rem;
     height: 7rem;
-    width: inherit;
+    width: 100%;
+    max-width: 13.625rem;
     border: none;
     position: relative;
     justify-content: space-between;
