@@ -8,6 +8,7 @@ export default function ChangeEmailForm(): ReactElement {
     const [alertMessage, setAlertMessage] = React.useState<AlertProps>()
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const submitForm = async (formData: { email: string }) => {
+        console.info(formData)
         setAlertMessage({ type: 'error', message: 'LOGIC NOT IMPLEMENTED' })
     }
     return (
