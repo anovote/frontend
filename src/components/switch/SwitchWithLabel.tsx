@@ -6,7 +6,9 @@ export default function SwitchWithLabel({ label }: { label: string }): React.Rea
     return (
         <div>
             <Space size="large" align="end">
-                <Text className="switch-text">{label}</Text>
+                <Text className="switch-text" type="secondary">
+                    {label}
+                </Text>
                 <Switch />
             </Space>
         </div>
