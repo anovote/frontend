@@ -1,7 +1,6 @@
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from '../components/routeDefaults/NotFound'
-import ChangePassword from './changePassword/ChangePassword'
 import Home from './home'
 import LoginView from './login'
 
@@ -19,9 +18,7 @@ export default function RouterView(): React.ReactElement {
             <Route path="/register">
                 <LoginView />
             </Route>
-            <Route path="/change-password">
-                <ChangePassword />
-            </Route>
+
             <Route path="/login">
                 <LoginView />
             </Route>
