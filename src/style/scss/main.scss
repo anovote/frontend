@@ -3,6 +3,7 @@
 
 @import './anovote/core/colors';
 @import './anovote/core/typography';
+@import './anovote/core/variables';
 
 // MIXINS
 @import './anovote/mixins/typography';
@@ -24,6 +25,7 @@
 @import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
+@import './antd/modal';
 
 body {
     font-family: $font-family;
