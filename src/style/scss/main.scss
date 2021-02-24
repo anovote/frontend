@@ -3,8 +3,10 @@
 
 @import './anovote/core/colors';
 @import './anovote/core/typography';
+@import './anovote/core/variables';
 
 // MIXINS
+@import './anovote/mixins/universalDesign';
 @import './anovote/mixins/typography';
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
@@ -12,6 +14,7 @@
 
 // HELPERS
 @import './anovote/layout/helpers';
+@import './anovote/layout/skeleton/skeleton';
 
 // COMPONENTS
 @import './anovote/components/button';

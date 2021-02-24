@@ -30,13 +30,14 @@
 
 .is-fullscreen {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - #{$header-height});
+    padding: 2 * $bu 3 * $bu;
 }
 
 .is-full-height {
-    height: 100vh;
+    height: calc(100vh - #{$header-height});
 }
 
 .is-full-width {
-    width: 100vw;
+    width: calc(100vw - #{$sidebar-width})
 }
