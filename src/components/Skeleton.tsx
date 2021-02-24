@@ -38,7 +38,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                     <AnovoteLogo id="logo" />
                     <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={['1']}>
                         <LargeIconButton
-                            text={t('Create Election')}
+                            text={t('Create election')}
                             onClick={createElection}
                             tabIndex={2}
                             classId="create-election"
