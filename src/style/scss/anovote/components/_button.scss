@@ -7,6 +7,10 @@ button {
     &:focus {
         outline: none;
     }
+
+    &:focus-visible {
+        @include is-button-in-focus();
+    }
 }
 
 .large-icon-button {
@@ -26,10 +30,6 @@ button {
     @include is-rounded();
     @include text();
     @include is-flex-row();
-
-    &:focus {
-        @include is-button-in-focus();
-    }
 
     // Targets all siblings of parent element,
     > * {
