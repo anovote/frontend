@@ -1,18 +1,3 @@
-.card-total-count {
-    display: block;
-    background: $main-light;
-    width: 3rem;
-    height: 2rem;
-    @include is-rounded();
-
-    @include text();
-    text-align: center !important;
-    line-height: 2rem !important;
-    color: $white;
-    font-weight: $bold;
-
-}
-
 #header-info {
     display: flex;
     justify-content: flex-end;
@@ -29,6 +14,21 @@
     box-shadow: none;
 
     .anticon {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
+    }
+}
+.col-position {
+    .card-total-count {
+        display: block;
+        background: $main-light;
+        width: 3rem;
+        height: 2rem;
+        @include is-rounded-large();
+
+        @include text();
+        text-align: center !important;
+        line-height: 2rem !important;
+        color: $white;
+        font-weight: $bold;
     }
 }
