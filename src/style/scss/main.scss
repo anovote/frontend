@@ -6,13 +6,19 @@
 @import './anovote/core/variables';
 
 // MIXINS
+@import './anovote/mixins/universalDesign';
 @import './anovote/mixins/typography';
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
+@import './anovote/mixins/icon';
 
 // HELPERS
 @import './anovote/layout/helpers';
 @import './anovote/layout/skeleton/skeleton';
+
+// COMPONENTS
+@import './anovote/components/button';
+@import './anovote/components/icons';
 
 // VIEWS
 @import './anovote/view/home';
@@ -20,14 +26,15 @@
 @import './anovote/view/login';
 @import './anovote/view/register';
 
-
+@import './anovote/components/switch';
 //--------- OVERWRITES ---------
 
 // ANTD
-@import './antd/menu/menuItem';
 @import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
+@import './antd/switch';
+@import './antd/input';
 
 body {
     font-family: $font-family;

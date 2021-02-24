@@ -1,0 +1,59 @@
+@import './menuItem';
+
+.skeleton-sidebar {
+    background-color: $white;
+    height: calc(100vh - #{$header-height});
+    width: $sidebar-width !important;
+    min-width: $sidebar-width !important;
+    max-width: $sidebar-width !important;
+    flex: 0 0 $sidebar-width !important;
+    padding: 2 * $bu 2.5 * $bu;
+
+    .ant-layout-sider-children {
+        @include is-flex-column;
+        justify-content: stretch;
+    }
+}
+
+#logo {
+    margin-top: -3 * $bu;
+    margin-bottom: 3 * $bu;
+}
+
+#create-election {
+    height: 6 * $bu !important;
+}
+
+.sidebar-menu {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    flex: 1;
+    border: 0;
+
+    li,
+    #view-profile {
+        width: 100%;
+    }
+}
+
+#view-profile {
+    margin-top: auto;
+}
+
+.user-icon {
+    font-size: 2rem;
+}
+
+#settings {
+    @include is-flex-row();
+    @include has-content-center-center();
+    margin-top: 3 * $bu;
+    align-self: center;
+    width: 60%;
+    line-height: 0 !important;
+
+    a {
+        font-weight: $bold;
+    }
+}
