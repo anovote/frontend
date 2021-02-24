@@ -7,14 +7,10 @@ import { useTranslation } from 'react-i18next'
 
 export default function ProfileSettingsModal() {
     const [isModalVisible, setIsModalVisible] = useState(false)
-    const [t] = useTranslation(['translation', 'common', 'form'])
+    const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
     const showModal = () => {
         setIsModalVisible(true)
-    }
-
-    const handleOk = () => {
-        setIsModalVisible(false)
     }
 
     const handleCancel = () => {
@@ -31,37 +27,36 @@ export default function ProfileSettingsModal() {
             </Button>
             <Modal
                 width={'100vw'}
-                title={'Update profile'}
+                title={t('profile:Update profile')}
                 footer={null}
                 visible={isModalVisible}
-                onOk={handleOk}
                 onCancel={handleCancel}
                 className="modal-display-small"
             >
                 <Row>
                     <Col span={24}>
-                        <Title level={2}></Title>
+                        <Title level={2}>Name of person</Title>
                     </Col>
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <Title level={3}>Update email</Title>
-                        <Form onFinish={one} layout={'horizontal'} name="basic" initialValues={{ remember: true }}>
+                        <Title level={3}>{t('profile:Change email')}</Title>
+                        <Form onFinish={one} layout={'horizontal'} name="basic">
                             <Space direction="horizontal" className="inline-form-item">
                                 <Form.Item
                                     name="username"
                                     rules={[
                                         {
                                             required: true,
-                                            message: t('form:Must contain special character', { count: 2 }),
+                                            message: t('form:Is required'),
                                         },
                                     ]}
                                 >
-                                    <Input style={{ width: 250 }} placeholder="Please input" />
+                                    <Input style={{ width: 250 }} placeholder={t('common:Email')} />
                                 </Form.Item>
 
-                                <Button type="primary" htmlType="submit" className="main-light is-rounded">
-                                    Submit
+                                <Button type="primary" htmlType="submit" className="">
+                                    {t('common:Save')}
                                 </Button>
                             </Space>
                         </Form>
@@ -69,29 +64,8 @@ export default function ProfileSettingsModal() {
                 </Row>
                 <Row>
                     <Col span={24}>
-                        <Title level={3}>Change password</Title>
-                        <Form layout={'vertical'}>
-                            <Space direction="vertical">
-                                <Form.Item
-                                    name="username"
-                                    rules={[{ required: true, message: 'Username is required' }]}
-                                >
-                                    <Input.Password style={{ width: 250 }} placeholder="Please input" />
-                                </Form.Item>
-                                <Space className="inline-form-item">
-                                    <Form.Item
-                                        name="username"
-                                        rules={[{ required: true, message: 'Username is required' }]}
-                                    >
-                                        <Input.Password style={{ width: 250 }} placeholder="Please input" />
-                                    </Form.Item>
-
-                                    <Button type="primary" htmlType="submit">
-                                        Submit
-                                    </Button>
-                                </Space>
-                            </Space>
-                        </Form>
+                        <Title level={3}>{t('profile:Change password')}</Title>
+                        <ChangePasswordForm />
                     </Col>
                 </Row>
             </Modal>
