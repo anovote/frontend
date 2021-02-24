@@ -80,9 +80,19 @@ export default function ElectionsView(): React.ReactElement {
         <>
             <Title>{t('Elections')}</Title>
             <Space align="start" wrap={true}>
-                <ElectionCard type={ElectionStatus.NotStarted} title={t('To be held')} data={upcoming}></ElectionCard>
+                <ElectionCard
+                    type={ElectionStatus.NotStarted}
+                    title={t('To be held')}
+                    data={upcoming}
+                    minHeight={50}
+                ></ElectionCard>
                 <ElectionCard type={ElectionStatus.Started} title={t('In progress')} data={inProgress}></ElectionCard>
-                <ElectionCard type={ElectionStatus.Finished} title={t('Finished')} data={finished}></ElectionCard>
+                <ElectionCard
+                    type={ElectionStatus.Finished}
+                    title={t('Finished')}
+                    data={finished}
+                    minHeight={40}
+                ></ElectionCard>
             </Space>
         </>
     )

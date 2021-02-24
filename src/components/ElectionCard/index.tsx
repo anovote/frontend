@@ -8,10 +8,12 @@ interface ElectionCardProps {
     type: ElectionStatus
     title: string
     data?: IElection[]
+    // in rem
+    minHeight?: number
 }
-export default function ElectionCard({ type, title, data }: ElectionCardProps): ReactElement {
+export default function ElectionCard({ type, title, data, minHeight }: ElectionCardProps): ReactElement {
     return (
-        <Card className="election-card">
+        <Card className="election-card" style={{ minHeight: minHeight + 'rem' }}>
             <List
                 className="election-card-list"
                 header={<ElectionHeader type={type} title={title} count={data ? data.length : 0} />}
