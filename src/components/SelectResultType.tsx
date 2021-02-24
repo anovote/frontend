@@ -1,5 +1,8 @@
 import { Radio } from 'antd'
 import * as React from 'react'
+import { ReactComponent as NoneIcon } from '../style/assets/none.svg'
+import { ReactComponent as SingleWinnerIcon } from '../style/assets/single.svg'
+import { ReactComponent as RankedIcon } from '../style/assets/ranked.svg'
 import Text from 'antd/lib/typography/Text'
 
 export default function SelectResultType(): React.ReactElement {
@@ -7,13 +10,16 @@ export default function SelectResultType(): React.ReactElement {
         <div className="radio-wrapper">
             <Radio.Group className="radio-group">
                 <Radio value={1} className="radio-button">
-                    <Text className="select-type-text">None</Text>
+                    <NoneIcon className="none-icon" />
+                    <Text className="select-none-text">None</Text>
                 </Radio>
                 <Radio value={2} className="radio-button">
-                    <Text className="select-type-text">Single winner</Text>
+                    <SingleWinnerIcon className="single-icon" />
+                    <Text className="select-single-text">Single winner</Text>
                 </Radio>
                 <Radio value={3} className="radio-button">
-                    <Text className="select-type-text">Ranked</Text>
+                    <RankedIcon className="ranked-icon" />
+                    <Text className="select-ranked-text">Ranked</Text>
                 </Radio>
             </Radio.Group>
         </div>

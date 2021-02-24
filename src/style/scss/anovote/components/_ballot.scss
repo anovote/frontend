@@ -99,7 +99,18 @@ $middle-bar-padding: 0.5625rem;
 
         .select-type-text {
             padding-top: 1.5rem;
-            font-weight: bold !important;
+        }
+
+        .select-ranked-text {
+            padding-top: 1.75rem;
+        }
+
+        .select-single-text {
+            padding-top: 2rem;
+        }
+
+        .select-none-text {
+            padding-top: 1.3125rem;
         }
 
         &::after {

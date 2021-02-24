@@ -1,0 +1,41 @@
+.select-ranked-text {
+    transition: all 0.35s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 1.125rem;
+    font-weight: bold !important;
+}
+
+.select-single-text {
+    transition: all 0.35s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 1.25rem;
+    font-weight: bold !important;
+}
+
+.select-none-text {
+    transition: all 0.35s;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    padding: 1.15625rem;
+    font-weight: bold !important;
+}
+
+.ranked-icon {
+    margin-bottom: 0.125rem;
+}
+
+.single-icon {
+    margin-bottom: 0.25rem;
+}
+
+.none-icon {
+    margin-bottom: 0.15625rem
+}    
