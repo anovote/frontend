@@ -1,0 +1,16 @@
+.ant-modal-content {
+    @include is-rounded-large();
+}
+
+.ant-modal-content {
+    background-color: $background;
+}
+
+.ant-modal-header {
+    border-radius: $large-border-radius $large-border-radius 0 0;
+}
+
+.ant-modal-footer {
+    border-radius: 0 0 $large-border-radius $large-border-radius;
+    background-color: $white;
+}
