@@ -5,7 +5,7 @@ import { Space, Switch } from 'antd'
 export default function SwitchWithLabel({ label }: { label: string }): React.ReactElement {
     return (
         <div>
-            <Space size="large">
+            <Space size="large" align="end">
                 <Text className="switch-text">{label}</Text>
                 <Switch />
             </Space>
