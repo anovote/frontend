@@ -28,6 +28,33 @@
     @include typography-base();
 }
 
+@mixin text-inverse {
+    @include typography-base();
+    color: $inverse-font-color;
+}
+
+@mixin text-medium {
+    @include typography-base();
+    font-size: $paragraph-title;
+}
+
+@mixin text-medium-inverse {
+    @include typography-base();
+    color: $inverse-font-color;
+    font-size: $paragraph-title;
+}
+
+@mixin text-large {
+    @include typography-base();
+    font-size: $title;
+}
+
+@mixin text-large-inverse {
+    @include typography-base();
+    color: $inverse-font-color;
+    font-size: $title;
+}
+
 @mixin label {
     @include text();
     font-size: $label;
