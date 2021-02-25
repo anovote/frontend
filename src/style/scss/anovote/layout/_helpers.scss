@@ -9,7 +9,7 @@
 }
 
 .is-flex-row {
-    @include is-flex-column;
+    @include is-flex-row;
 }
 
 .has-content-center-center {
@@ -26,6 +26,24 @@
     flex-direction: column-reverse !important;
 }
 
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-start {
+    justify-content: flex-start;
+}
+
+/** POSITION */
+.spread {
+    @include is-flex-row;
+    justify-content: space-between;
+}
+
 /** SIZE **/
 
 .is-fullscreen {
@@ -39,5 +57,5 @@
 }
 
 .is-full-width {
-    width: calc(100vw - #{$sidebar-width})
+    width: calc(100vw - #{$sidebar-width});
 }
