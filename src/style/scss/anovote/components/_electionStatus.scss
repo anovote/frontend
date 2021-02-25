@@ -1,19 +1,12 @@
 .election-status-container {
-    display: inline-block;
-    border-style: solid;
-    border-width: thick;
-    border-radius: 2.5rem;
-    padding-right: 2.5rem;
-    padding-top: 0.8rem;
-    padding-bottom: 0.8rem;
-    padding-left: 2.5rem;
-
+    border:2px solid black;
+    padding: 0.6rem 1.5rem;
+    border-radius: 2rem;
     text-align: center;
-
+    
     .ant-typography {
         margin-bottom: 0rem;
         font-weight: bold;
-        font-size: 17px;
     }
 }
 
@@ -22,7 +15,7 @@
 }
 
 .election-started-container {
-    border-color: #FFE940;
+    border-color: $bee-yellow;
 }
 
 .election-finished-container {

@@ -22,8 +22,8 @@ export default function ElectionStatusLabel({ status }: { status: ElectionStatus
     React.useEffect(setStyling)
 
     return (
-        <div className={className}>
+        <span className={className}>
             <Text>{title}</Text>
-        </div>
+        </span>
     )
 }
