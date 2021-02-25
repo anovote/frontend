@@ -36,13 +36,12 @@ interface StatusDetail {
 export default function ElectionView(): React.ReactElement {
     const [t] = useTranslation(['translation', 'common'])
     const [alertProps, setAlertProps] = React.useState<AlertProps>()
-    const data = ['hei']
     const header = (
         <div className="spread align-items-center">
             <Title level={2}>Status </Title>
             <div className="">
-                <span className="textAditional">ELECTION ID:</span>
-                <span>123456</span>
+                <span className="text-label">ELECTION ID # </span>
+                <span className="text-medium">123456</span>
             </div>
         </div>
     )
@@ -57,31 +56,31 @@ export default function ElectionView(): React.ReactElement {
         {
             icon: <UnlockOutlined />,
             colorClass: 'danger-light',
-            title: 'Election opened',
+            title: 'Election closes',
             text: new Date().toLocaleDateString(),
         },
         {
             icon: <ClockCircleOutlined />,
             colorClass: 'main-light',
-            title: 'Election opened',
+            title: 'Time elapsed',
             text: '0D 13H 37M 00S',
         },
         {
             icon: <ForwardOutlined />,
             colorClass: 'main-light',
-            title: 'Election opened',
+            title: 'Ballot proceed',
             text: 'automatic',
         },
         {
             icon: <SecurityScanOutlined />,
             colorClass: 'main-light',
-            title: 'Election opened',
-            text: 'Feide, google',
+            title: 'Authentication method',
+            text: 'Feide, Google',
         },
         {
             icon: <SafetyOutlined />,
             colorClass: 'main-light',
-            title: 'Election opened',
+            title: 'Password',
             text: 'Anovote101!',
         },
     ]
@@ -98,9 +97,9 @@ export default function ElectionView(): React.ReactElement {
                                 <div className="status-icon-spacer">
                                     <span className={`${detail.colorClass} circle-center-content`}>{detail.icon}</span>
                                 </div>
-                                <div className={'any'}>
-                                    <div>{detail.title}</div>
-                                    {detail.text}
+                                <div className={'e'}>
+                                    <div className={'text-label mb-05'}>{detail.title}</div>
+                                    <div className={'text'}>{detail.text}</div>
                                 </div>
                             </List.Item>
                         )}
