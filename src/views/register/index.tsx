@@ -1,16 +1,22 @@
 import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
+import { useHistory } from 'react-router-dom'
 import { BackendAPI } from '../../core/api'
+import { getAdminRoute } from '../../core/routes/siteRoutes'
+import { AuthLevel } from '../../core/service/authentication/AuthLevel'
 import { CredentialError } from '../../core/service/authentication/CredentialsError'
 import { RegistrationDetails } from '../../core/service/registration/RegistrationDetails'
 import { RegistrationService } from '../../core/service/registration/RegistrationService'
+import { useAppStateDispatcher } from '../../core/state/app/AppStateContext'
 
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
 
     const [errorMessage, setErrorMessage] = React.useState('')
     const [successMessage, setSuccessMessage] = React.useState('')
+    const appDispatcher = useAppStateDispatcher()
+    const history = useHistory()
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
@@ -18,6 +24,9 @@ export default function RegisterView(): React.ReactElement {
             try {
                 await registrationService.registerOrganizer(form)
                 setSuccessMessage('Brukeren ble registrert!')
+
+                appDispatcher.setLoginState(AuthLevel.organizer)
+                history.replace(getAdminRoute().myElections)
             } catch (error) {
                 if (error instanceof CredentialError) {
                     setErrorMessage('Feil i utfyldingen av skjemaet')
