@@ -10,6 +10,7 @@ import Home from './home'
 import LoginView from './login'
 import CreateElectionView from './election/createElection'
 import RegisterView from './register'
+import ElectionView from './election/election'
 
 /**
  * Router view
@@ -36,6 +37,9 @@ export default function RouterView(): React.ReactElement {
                 </Route>
                 <Route path="/elections">
                     <ElectionsView />
+                </Route>
+                <Route path="/election/:id">
+                    <ElectionView />
                 </Route>
 
                 <ProtectedRoute
