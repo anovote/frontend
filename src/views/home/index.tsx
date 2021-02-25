@@ -2,12 +2,19 @@ import Title from 'antd/lib/typography/Title'
 import Text from 'antd/lib/typography/Text'
 import React from 'react'
 import SwitchWithLabel from '../../components/switch/SwitchWithLabel'
+import StatCard from 'components/statCard/StatCard'
 
 /**
  * Landing page of application and home root
  * @returns the landing page view
  */
 export default function Home(): React.ReactElement {
+    const a = [{ title: 'Total', value: 343 }]
+    const b = [
+        { title: 'Total', value: 99999 },
+        { title: 'Votes', value: 3343 },
+        { title: 'Votes', value: 94 },
+    ]
     return (
         <div>
             <Title>This is a title.</Title>
@@ -16,7 +23,8 @@ export default function Home(): React.ReactElement {
             <Text>Normal text</Text>
             <br />
             <Text type="secondary">Label</Text>
-
+            <StatCard stats={a} inverseColors={true} />
+            <StatCard stats={b} />
             <hr />
             <div id="colors">
                 <span className="round">
