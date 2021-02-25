@@ -7,6 +7,9 @@ import { useAppState } from '../core/state/app/AppStateContext'
 import ChangePassword from './changePassword/ChangePassword'
 import Home from './home'
 import LoginView from './login'
+import CreateElectionView from './election/createElection'
+import RegisterView from './register'
+
 /**
  * Router view
  * sets up routes for the application.
@@ -21,13 +24,17 @@ export default function RouterView(): React.ReactElement {
                 <Home />
             </Route>
             <Route path="/register">
-                <LoginView />
+                <RegisterView />
             </Route>
             <Route path="/change-password">
                 <ChangePassword />
             </Route>
             <Route path="/login">
                 <LoginView />
+            </Route>
+
+            <Route path="/create-election">
+                <CreateElectionView />
             </Route>
 
             <ProtectedRoute
@@ -39,6 +46,7 @@ export default function RouterView(): React.ReactElement {
             >
                 this route is protected
             </ProtectedRoute>
+        
             <Route>
                 <NotFound />
             </Route>

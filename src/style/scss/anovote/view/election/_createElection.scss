@@ -1,0 +1,49 @@
+.description-form {
+    min-width: 350px;
+    padding: 2rem 2rem 2rem;
+    @include is-rounded;
+    @include has-shadow;
+
+}
+
+.alert-field {
+        min-height: 3rem;
+        margin: 0 0 1rem 0;
+    }
+
+.schedule-form {
+    min-width: 350px;
+    padding: 2rem 2rem 2rem;
+    @include is-rounded;
+    @include has-shadow;
+
+    .error-field {
+        min-height: 3rem;
+        margin: 0 0 1rem 0;
+    }
+}
+
+.election-information-input {
+    padding: 2rem 2rem 2rem;
+}
+
+.import-menu-button {
+    float: right;
+}
+
+.create-ballot-button {
+    margin: 0 auto;
+    display: block;
+}
+
+.ballot-section {
+    padding: 2rem 2rem 2rem;
+}
+
+.password-input {
+    width: 100%;
+}
+
+.create-election-button {
+    width: 90%;
+}
