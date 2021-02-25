@@ -46,7 +46,6 @@ export default function RouterView(): React.ReactElement {
             >
                 this route is protected
             </ProtectedRoute>
-        
             <Route>
                 <NotFound />
             </Route>
