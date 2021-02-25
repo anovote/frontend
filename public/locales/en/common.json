@@ -12,5 +12,11 @@
     "Create election": "Create election",
     "Elections": "Elections",
     "Dashboard": "Dashboard",
-    "Customize": "Customize"
+    "Customize": "Customize",
+    "Vote": "Vote",
+    "Vote_plural": "Votes",
+    "Total": "Total",
+    "Blank": "Blank",
+    "Previous": "Previous",
+    "Next": "Next"
 }
