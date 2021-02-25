@@ -21,7 +21,8 @@
         "randexp",
         "spanline",
         "subnav",
-        "tokenkey"
+        "tokenkey",
+        "unmount"
     ],
     "emmet.includeLanguages": {
         "typescript": "typescriptreact",
