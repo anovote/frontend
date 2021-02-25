@@ -1,2 +1,20 @@
-$primary-fontfamily: 'Arial',
-'Times new roman';
+$font-family: 'Lato', sans-serif;
+
+// SIZES
+$bu: 1rem; // base unit
+
+$title: 3 * $bu;
+$subtitle: 2 * $bu;
+$paragraph-title: 1.5 * $bu;
+$text: $bu;
+$label: 0.75 * $bu;
+$additional-info: 0.625 * $bu;
+
+// WEIGHTS
+$regular: 400;
+$bold: 700;
+$black: 900;
+
+// LETTER SPACING
+$letter-spacing-title: 0.072rem;
+$letter-spacing-text: 0rem;
