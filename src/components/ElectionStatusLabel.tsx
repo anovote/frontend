@@ -8,13 +8,13 @@ export default function ElectionStatusLabel({ status }: { status: ElectionStatus
 
     const setStyling = () => {
         if (status === ElectionStatus.NotStarted) {
-            setClassName('election-status-container election-not-started-container')
+            setClassName('status-container border-not-started')
             setTitle('PLANNED')
         } else if (status === ElectionStatus.Started) {
-            setClassName('election-status-container election-started-container')
+            setClassName('status-container border-started')
             setTitle('IN PROGRESS')
         } else if (status === ElectionStatus.Finished) {
-            setClassName('election-status-container election-finished-container')
+            setClassName('status-container border-finished')
             setTitle('FINISHED')
         }
     }

@@ -1,4 +1,4 @@
-.election-status-container {
+.status-container {
     border:2px solid black;
     padding: 0.6rem 1.5rem;
     border-radius: 2rem;
@@ -10,14 +10,14 @@
     }
 }
 
-.election-not-started-container {
+.border-not-started {
     border-color: $main-light;
 }
 
-.election-started-container {
+.border-started {
     border-color: $bee-yellow;
 }
 
-.election-finished-container {
+.border-finished {
     border-color: $success-light;
 }
