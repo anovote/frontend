@@ -2,12 +2,52 @@ import Title from 'antd/lib/typography/Title'
 import Text from 'antd/lib/typography/Text'
 import React from 'react'
 import SwitchWithLabel from '../../components/switch/SwitchWithLabel'
+import BallotsQueue from 'components/queue/BallotsQueue'
 
 /**
  * Landing page of application and home root
  * @returns the landing page view
  */
 export default function Home(): React.ReactElement {
+    const data = [
+        {
+            id: 1,
+            title: 'First election',
+            description: 'This is the first of all elections',
+            status: 0,
+        },
+        {
+            id: 2,
+            title: 'Second election',
+            description: 'Very important question here',
+            status: 0,
+        },
+        {
+            id: 3,
+            title: 'Third election',
+            description: 'This is the first of all elections',
+            status: 0,
+        },
+        {
+            id: 4,
+            title: 'Fourth election',
+            description: 'Make me proud daddy',
+            status: 0,
+        },
+        {
+            id: 5,
+            title: 'Big election',
+            description: 'Hello hello hello',
+            status: 0,
+        },
+        {
+            id: 6,
+            title: 'Hello election',
+            description: 'Big big win',
+            status: 0,
+        },
+    ]
+
     return (
         <div>
             <Title>This is a title.</Title>
@@ -32,7 +72,9 @@ export default function Home(): React.ReactElement {
                     <span className="inner-round"></span>
                 </span>
             </div>
-            <SwitchWithLabel label="Proceeds automatic between ballots" />
+            <hr />
+
+            <BallotsQueue dataSource={data} />
         </div>
     )
 }
