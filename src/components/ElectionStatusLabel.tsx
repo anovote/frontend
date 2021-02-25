@@ -1,5 +1,5 @@
 import * as React from 'react'
-import Title from 'antd/lib/typography/Title'
+import Text from 'antd/lib/typography/Text'
 import { ElectionStatus } from '../core/models/ElectionStatus'
 
 export default function ElectionStatusLabel({ status }: { status: ElectionStatus }): React.ReactElement {
@@ -23,7 +23,7 @@ export default function ElectionStatusLabel({ status }: { status: ElectionStatus
 
     return (
         <div className={className}>
-            <Title level={3}>{title}</Title>
+            <Text>{title}</Text>
         </div>
     )
 }
