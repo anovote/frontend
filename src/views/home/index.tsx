@@ -33,7 +33,7 @@ export default function Home(): React.ReactElement {
                     <span className="inner-round"></span>
                 </span>
             </div>
-            <ElectionStatusLabel status={ElectionStatus.Finished} />
+            <ElectionStatusLabel status={ElectionStatus.Started} />
         </div>
     )
 }
