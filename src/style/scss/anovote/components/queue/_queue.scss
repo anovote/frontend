@@ -1,0 +1,104 @@
+$queue-card-height: 8.325 * $bu;
+$queue-card-active-height: 11.25 * $bu;
+$queue-card-width: 53 * $bu;
+$queue-card-active-width: 56 * $bu;
+
+// z-indexes, for easier reference to what the values are in reference to others
+$card-z-index: 1;
+$tail-z-index: -4;
+
+.ballots-queue {
+    padding: 3rem;
+    .ant-steps-vertical {
+        .ant-steps-item-container {
+            @include is-rounded-large();
+            @include has-shadow();
+            background: $white;
+            height: $queue-card-height;
+            width: $queue-card-width;
+            margin: 1rem 0;
+            z-index: $card-z-index;
+            padding: 0.5rem 1rem;
+            transition: all ease-out 0.5s;
+            display: flex;
+        }
+
+        .ant-steps-item-tail {
+            display: none;
+            //margin-left: 2rem;
+            //z-index: $tail-z-index;
+            //transform-origin: bottom;
+            &::after {
+                display: none;
+            }
+        }
+
+        .ant-steps-item-icon {
+            transition: transform ease-in 0.3s;
+            transition: width ease-out 0.5s;
+            opacity: 1;
+            margin: 0.5rem 1rem 0 0.2rem;
+        }
+
+        .ant-steps-item-content {
+            transition: all 0.4s;
+            display: flex;
+            height: 100%;
+            width: 100%;
+            justify-content: space-between;
+            background-color: yellow;
+
+            .ant-steps-item-title {
+                @include paragraph-title();
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+
+                .ant-steps-item-subtitle {
+                    background-color: blue;
+                    padding: 0;
+                    margin: 0;
+                }
+            }
+
+            .ant-steps-item-description {
+                background: red;
+                padding: 1rem 0 1rem 2rem;
+                height: 100%;
+                width: 15rem;
+                align-self: center;
+            }
+        }
+
+        // ACTIVE
+        .ant-steps-item-active {
+            .ant-steps-item-container {
+                background: $main-contrasting;
+                transform: scale(1.08);
+
+                .ant-steps-item-icon {
+                    width: 0;
+                    opacity: 0;
+                    transform: rotateZ('180deg');
+                }
+
+                .ant-steps-item-content {
+                    .ant-steps-item-title {
+                        color: $white;
+                    }
+                }
+            }
+        }
+
+        .ant-steps-item-finish {
+            opacity: 0.7;
+            // colors
+            .ant-steps-item-tail::after,
+            .ant-steps-item-icon,
+            .ant-steps-item-icon .ant-steps-icon .anticon-check {
+                border-color: $main-contrasting;
+                color: $main-contrasting;
+            }
+        }
+    }
+}

@@ -19,13 +19,14 @@
 // COMPONENTS
 @import './anovote/components/button';
 @import './anovote/components/icons';
+@import './anovote/components/switch';
 
 // VIEWS
 @import './anovote/view/home';
 @import './anovote/view/login';
 @import './anovote/view/register';
+@import './anovote/view/ballotsQueue/base';
 
-@import './anovote/components/switch';
 //--------- OVERWRITES ---------
 
 // ANTD
