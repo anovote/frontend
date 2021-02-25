@@ -2,7 +2,6 @@ import { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
 import { Form, Row, Col, Table, Alert, AlertProps } from 'antd'
 import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
-import BallotPreview from '../../../components/election/BallotPreview'
 import { IElectionDetails } from '../../../core/service/election/IElectionDetails'
 import { ElectionService } from '../../../core/service/election/ElectionService'
 import { BackendAPI } from '../../../core/api'
@@ -48,18 +47,6 @@ export default function CreateElectionView(): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
     const [t] = useTranslation(['translation', 'common'])
     const [alertProps, setAlertProps] = React.useState<AlertProps>()
-
-    const [ballots, setBallots] = React.useState([
-        { title: 'Diktator 1' },
-        { title: 'Diktator 2' },
-        { title: 'Diktator 3' },
-    ])
-
-    const addBallot = () => {
-        const ballotList = [...ballots]
-        ballotList.push({ title: 'hello' })
-        setBallots(ballotList)
-    }
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
@@ -143,12 +130,6 @@ export default function CreateElectionView(): React.ReactElement {
                 </Col>
                 <Col span={12} className="ballot-section">
                     <h2>{t('common:Ballots')}</h2>
-                    <div>
-                        {ballots.map((ballots) => (
-                            <BallotPreview key={ballots.title} title={ballots.title} />
-                        ))}
-                    </div>
-                    <CreateBallotButton addBallot={addBallot} />
                 </Col>
             </Row>
             <div className="alert-field">
