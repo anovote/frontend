@@ -1,5 +1,5 @@
 .preview-item {
-    height: 2.5625rem;
+    height: 2.5rem;
     padding-left: 1.5rem;
     margin: 1rem;
     @include is-rounded;
@@ -28,5 +28,25 @@
 
     .ant-typography {
         font-weight: bold;
+    }
+}
+
+.add-preview-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.add-preview-button {
+    background-color: $main-light;
+    .btn-icon {
+        color: $white;
+    }
+    
+    &:hover {
+        background-color: $main-light;
+    }
+    
+    &:focus {
+        background-color: $main-light;
     }
 }
