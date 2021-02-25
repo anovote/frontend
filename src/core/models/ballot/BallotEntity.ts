@@ -1,3 +1,6 @@
+import { BallotResultDisplay } from './BallotResultDisplay'
+import { BallotStatus } from './BallotStatus'
+import { BallotType } from './BallotType'
 import { IBallotEntity } from './IBallotEntity'
 import { ICandidate } from './ICandidate'
 
@@ -10,7 +13,6 @@ export class BallotEntity implements IBallotEntity {
     constructor(ballotEntity: IBallotEntity) {
         this._ballot = ballotEntity
     }
-
     get id(): number {
         return this._ballot.id
     }
@@ -27,7 +29,11 @@ export class BallotEntity implements IBallotEntity {
         return this._ballot.image
     }
 
-    get resultDisplayType(): number {
+    get type(): BallotType {
+        return this._ballot.type
+    }
+
+    get resultDisplayType(): BallotResultDisplay {
         return this._ballot.resultDisplayType
     }
 
@@ -35,7 +41,7 @@ export class BallotEntity implements IBallotEntity {
         return this._ballot.resultDisplayCount
     }
 
-    get status(): number {
+    get status(): BallotStatus {
         return this._ballot.status
     }
 
