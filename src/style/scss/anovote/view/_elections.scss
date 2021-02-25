@@ -1,0 +1,25 @@
+@import '../components/election/entry';
+@import '../components/election/header';
+
+.election-card {
+    width: 26rem;
+    min-height: 25rem;
+    padding: 0;
+    margin-right: 2.5rem;
+
+    .ant-card-body {
+        padding: 0;
+    }
+}
+
+.election-card-list {
+    border: none;
+    // add padding to bottom as we don't use a footer
+    padding-bottom: 0.5rem;
+
+    .ant-list-header,
+    .ant-list-item {
+        padding: 0.5 * $bu $bu;
+        border-bottom: none !important;
+    }
+}

@@ -1,0 +1,34 @@
+#header-info {
+    display: flex;
+    justify-content: flex-end;
+
+    .col-position {
+        margin-top: 0.7rem;
+    }
+}
+
+#card-add-btn {
+    background: none;
+    color: $dark;
+    border: none;
+    box-shadow: none;
+
+    .anticon {
+        font-size: 1.5rem;
+    }
+}
+.col-position {
+    .card-total-count {
+        display: block;
+        background: $main-light;
+        width: 3rem;
+        height: 2rem;
+        @include is-rounded-large();
+
+        @include text();
+        text-align: center !important;
+        line-height: 2rem !important;
+        color: $white;
+        font-weight: $bold;
+    }
+}
