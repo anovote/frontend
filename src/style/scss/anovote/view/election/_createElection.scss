@@ -1,6 +1,5 @@
 .description-form {
     min-width: 350px;
-    background: $element-color;
     padding: 2rem 2rem 2rem;
     @include is-rounded;
     @include has-shadow;
@@ -14,7 +13,6 @@
 
 .schedule-form {
     min-width: 350px;
-    background: $element-color;
     padding: 2rem 2rem 2rem;
     @include is-rounded;
     @include has-shadow;
