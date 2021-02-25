@@ -1,0 +1,4 @@
+.inline-form-item {
+    @include is-flex();
+    align-items: flex-start;
+}
