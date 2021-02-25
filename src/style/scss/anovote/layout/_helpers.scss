@@ -26,6 +26,19 @@
     flex-direction: column-reverse !important;
 }
 
+/** POSITION */
+.spread {
+    @include is-flex-row;
+    justify-content: space-between;
+}
+
+.inline-icon {
+    @include is-flex-row;
+    align-items: center;
+    > *:not(.anticon) {
+        display: inline-block;
+    }
+}
 /** SIZE **/
 
 .is-fullscreen {
