@@ -19,4 +19,12 @@
     "Blank": "Blank",
     "Previous": "Previous",
     "Next": "Next"
+    "Create new election": "Create new election",
+    "Schedule": "Schedule",
+    "Open": "Open",
+    "Close": "Close",
+    "Eligible voters": "Eligible voters",
+    "Election authorities": "Election authorities",
+    "Verification": "Verification",
+    "Ballots": "Ballots"
 }
