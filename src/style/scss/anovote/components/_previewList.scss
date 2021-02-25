@@ -1,0 +1,24 @@
+.preview-item {
+    background-color: $white;
+    height: 3.5rem;
+    padding: 0rem 1rem;
+    @include is-rounded;
+    @include has-shadow;
+    @include is-flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .button-container-wrap {
+        @include is-flex-row;
+    }
+}
+
+.button-container {
+    .ant-btn {
+        padding: 0;
+    }
+
+    .ant-typography {
+        font-weight: bold;
+    }
+}
