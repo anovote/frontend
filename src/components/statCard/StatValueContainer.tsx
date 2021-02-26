@@ -1,5 +1,5 @@
 import React from 'react'
-import { IStatValue } from './StatCard'
+import { IStatValue } from './IStatValue'
 
 export default function StatValueContainer({ title, value }: IStatValue): JSX.Element {
     return (
