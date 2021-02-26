@@ -11,13 +11,13 @@ export default function ElectionStatusLabel({ status }: { status: ElectionStatus
 
     const setStyling = () => {
         if (status === ElectionStatus.NotStarted) {
-            setClassName('status-container border-not-started')
+            setClassName('border-not-started')
             setTitle(t('PLANNED'))
         } else if (status === ElectionStatus.Started) {
-            setClassName('status-container border-started')
+            setClassName('border-started')
             setTitle(t('IN PROGRESS'))
         } else if (status === ElectionStatus.Finished) {
-            setClassName('status-container border-finished')
+            setClassName('border-finished')
             setTitle(t('FINISHED'))
         }
     }
@@ -25,7 +25,7 @@ export default function ElectionStatusLabel({ status }: { status: ElectionStatus
     React.useEffect(setStyling)
 
     return (
-        <span className={className}>
+        <span className={`status-container ${className}`}>
             <Text>{title}</Text>
         </span>
     )
