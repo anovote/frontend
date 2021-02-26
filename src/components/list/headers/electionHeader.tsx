@@ -5,11 +5,11 @@ import { ElectionStatus } from 'core/models/IElectionStatus'
 import React, { ReactElement } from 'react'
 
 export default function ElectionHeader({
-    type,
+    status,
     title,
     count,
 }: {
-    type: ElectionStatus
+    status: ElectionStatus
     title: string
     count: number | undefined
 }): ReactElement {
@@ -19,7 +19,7 @@ export default function ElectionHeader({
             <span className="card-total-count">{count}</span>
         </Space>
     )
-    if (type == ElectionStatus.Finished) {
+    if (status == ElectionStatus.Finished) {
         info = (
             <Space className="col-position" align="center">
                 <span className="card-total-count">{count}</span>
