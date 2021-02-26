@@ -1,8 +1,10 @@
 import Title from 'antd/lib/typography/Title'
 import Text from 'antd/lib/typography/Text'
 import React from 'react'
+
 import SwitchWithLabel from '../../components/switch/SwitchWithLabel'
 import StatCard from 'components/statCard/StatCard'
+import SelectResultType from '../../components/SelectResultType'
 
 /**
  * Landing page of application and home root
@@ -40,7 +42,7 @@ export default function Home(): React.ReactElement {
                     <span className="inner-round"></span>
                 </span>
             </div>
-            <SwitchWithLabel label="Proceeds automatic between ballots" />
+            <SelectResultType />
         </div>
     )
 }

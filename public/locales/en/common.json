@@ -1,3 +1,19 @@
 {
-    "Log In": "Log In"
+    "Log In": "Log In",
+    "Select multiple": "Velg flere",
+    "Select one": "Velg en",
+    "Ranked": "Rangert",
+    "None": "Ingen",
+    "Single winner": "En vinner",
+    "Create new election": "Lag nytt valg",
+    "Schedule": "Rute",
+    "Open": "Start",
+    "Close": "Slutt",
+    "Eligible voters": "Kvalifiserte velgere",
+    "Election authorities": "Valg observatører",
+    "Verification": "Verifisering",
+    "Ballots": "Valg",
+    "PLANNED": "PLANLAGT",
+    "IN PROGRESS": "PÅGÅENDE",
+    "FINISHED": "FERDIG"
 }
