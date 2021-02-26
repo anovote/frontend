@@ -10,10 +10,9 @@
     background-color: $white;
 
     .button-container-wrap {
+        padding: 0.28125rem 0;
         padding-left: 6.75rem;
-        padding-top: 0.28125rem;
-        padding-bottom: 0.28125rem;
-        background: url(./drop.svg);
+        background: url('../../../assets/drop.svg');
         background-repeat: no-repeat;
         @include is-rounded;
         @include is-flex-row;
@@ -37,15 +36,17 @@
 }
 
 .add-preview-button {
+    @include has-shadow();
     background-color: $main-light;
+
     .btn-icon {
         color: $white;
     }
-    
+
     &:hover {
-        background-color: $main-light;
+        background-color: $main-contrasting;
     }
-    
+
     &:focus {
         background-color: $main-light;
     }
