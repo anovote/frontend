@@ -1,4 +1,5 @@
 import {
+    CarTwoTone,
     ClockCircleOutlined,
     ForwardOutlined,
     LockOutlined,
@@ -6,8 +7,10 @@ import {
     SecurityScanOutlined,
     UnlockOutlined,
 } from '@ant-design/icons'
-import { AlertProps, Card, Col, List, Row } from 'antd'
+import { AlertProps, Card, Col, List, Row, Space } from 'antd'
+import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
+import CardList from 'components/cards/CardList'
 import * as React from 'react'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -80,33 +83,36 @@ export default function ElectionView(): React.ReactElement {
             text: 'Anovote101!',
         },
     ]
+
+    /**
+     * Generates the list entry with correct elements.
+     * @param item the election object to render in list
+     */
+    const render = (statusItem: StatusDetail) => {
+        return (
+            <Item className={'justify-content-start'}>
+                <div className="status-icon-spacer">
+                    <span className={`${statusItem.colorClass} circle-center-content`}>{statusItem.icon}</span>
+                </div>
+                <div className={'e'}>
+                    <div className={'text-label'}>{statusItem.title}</div>
+                    <div className={'text'}>{statusItem.text}</div>
+                </div>
+            </Item>
+        )
+    }
+    const cardTitle = <Title level={2}>{t('election:Connected voters')}</Title>
     return (
         <Row>
             <Col span={12}>
-                <Card className="election-card">
-                    <List
-                        className="election-card-list"
-                        header={header}
-                        dataSource={details}
-                        renderItem={(detail) => (
-                            <List.Item className={'justify-content-start'}>
-                                <div className="status-icon-spacer">
-                                    <span className={`${detail.colorClass} circle-center-content`}>{detail.icon}</span>
-                                </div>
-                                <div className={'e'}>
-                                    <div className={'text-label'}>{detail.title}</div>
-                                    <div className={'text'}>{detail.text}</div>
-                                </div>
-                            </List.Item>
-                        )}
-                    />
-                </Card>
-                <Card className={'election-card'}>
-                    <div className="is-flex-column">
-                        <span className={'text-subtitle'}>{t('common:Connected')}</span>
-                        <span className={'text-large'}>1337</span>
-                    </div>
-                </Card>
+                <Space direction={'vertical'}>
+                    <CardList listHeader={header} list={details} renderItem={(item) => render(item)}></CardList>
+                    <Card className={'info-card'} title={cardTitle}>
+                        <div className="is-flex-column has-content-center-center">
+                            <span className={'text-large'}>1337</span>
+                        </div>
+                    </Card>
+                </Space>
             </Col>
             <Col span={12}>col-12</Col>
         </Row>
