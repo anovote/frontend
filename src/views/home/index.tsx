@@ -2,7 +2,6 @@ import Title from 'antd/lib/typography/Title'
 import Text from 'antd/lib/typography/Text'
 import React from 'react'
 
-import SwitchWithLabel from '../../components/switch/SwitchWithLabel'
 import StatCard from 'components/statCard/StatCard'
 import SelectResultType from '../../components/SelectResultType'
 
