@@ -1,6 +1,6 @@
 .election-entry {
     background-color: $alternate-color;
-    @include is-rounded-large;
+    @include is-rounded;
     height: 6.25rem;
     width: 100%;
     padding: 0.6rem 1rem;
