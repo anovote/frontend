@@ -26,5 +26,13 @@
     "Eligible voters": "Eligible voters",
     "Election authorities": "Election authorities",
     "Verification": "Verification",
-    "Ballots": "Ballots"
+    "Ballots": "Ballots",
+    "Select multiple": "Select multiple",
+    "Select one": "Select one",
+    "Ranked": "Ranked",
+    "None": "None",
+    "Single winner": "Single winner",
+    "PLANNED": "PLANLAGT",
+    "IN PROGRESS": "PÅGÅENDE",
+    "FINISHED": "FERDIG"
 }

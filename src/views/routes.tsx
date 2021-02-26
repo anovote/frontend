@@ -36,7 +36,6 @@ export default function RouterView(): React.ReactElement {
                 <Route path="/create-election">
                     <CreateElectionView />
                 </Route>
-
                 <ProtectedRoute
                     // Added as example
                     isLoggedIn={isLoggedIn}
