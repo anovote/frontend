@@ -10,6 +10,7 @@
     "Something went wrong": "Something went wrong",
     "Try again later": "Try again later",
     "Create election": "Create election",
+    "Election": "Election",
     "Elections": "Elections",
     "Dashboard": "Dashboard",
     "Customize": "Customize",
@@ -26,5 +27,7 @@
     "Eligible voters": "Eligible voters",
     "Election authorities": "Election authorities",
     "Verification": "Verification",
-    "Ballots": "Ballots"
+    "Ballots": "Ballots",
+    "Connected": "Connected",
+    "Status": "Status"
 }
