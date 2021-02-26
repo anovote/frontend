@@ -1,12 +1,8 @@
 import React from 'react'
+import { IStatValue } from './IStatValue'
 import StatValueContainer from './StatValueContainer'
 
-export interface IStatValue {
-    title: string
-    value: number
-}
 type Stats = Array<IStatValue>
-
 export default function StatCard(
     { stats, inverseColors }: { stats: Stats; inverseColors?: boolean } = { stats: [], inverseColors: false },
 ): JSX.Element {

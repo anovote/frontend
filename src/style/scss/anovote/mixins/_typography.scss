@@ -43,7 +43,6 @@
     color: $inverse-font-color;
     font-size: $paragraph-title;
 }
-
 @mixin text-large {
     @include typography-base();
     font-size: $title;
@@ -61,7 +60,6 @@
     font-weight: $bold;
     color: $soft-text-color;
 }
-
 @mixin additional-label {
     @include label();
     font-weight: $regular;

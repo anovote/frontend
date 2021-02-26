@@ -15,12 +15,37 @@
 }
 
 /**
+ Creates cross icon in the element using the class
+*/
+.cross {
+    position: relative;
+    font-size: 1rem;
+
+    &:before {
+        @include spanline(45deg, 1.1em, 0.25em);
+    }
+
+    &:after {
+        @include spanline(135deg, 1.1em, 0.25em);
+    }
+}
+
+/**
  Circle with content positioned in the center center of it.
 */
-.circle-center-content {
-    width: 3rem;
-    height: 3rem;
+.circle-center-content,
+.circle-center-content-small {
     border-radius: 99rem;
     @include is-flex();
     @include has-content-center-center();
+}
+
+.circle-center-content {
+    width: 3rem;
+    height: 3rem;
+}
+
+.circle-center-content-small {
+    width: 1.75rem;
+    height: 1.75rem;
 }
