@@ -40,7 +40,6 @@ export default function RouterView(): React.ReactElement {
                 <Route path="/create-election">
                     <CreateElectionView />
                 </Route>
-
                 <ProtectedRoute
                     // Added as example
                     isLoggedIn={isLoggedIn}
@@ -50,7 +49,6 @@ export default function RouterView(): React.ReactElement {
                 >
                     this route is protected
                 </ProtectedRoute>
-
                 <Route>
                     <NotFound />
                 </Route>
