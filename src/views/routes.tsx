@@ -4,7 +4,6 @@ import NotFound from '../components/routeDefaults/NotFound'
 import { ProtectedRoute } from '../containers/router/ProtectedRoute'
 import { AuthLevel } from '../core/service/authentication/AuthLevel'
 import { useAppState } from '../core/state/app/AppStateContext'
-import ChangePassword from './changePassword/ChangePassword'
 import CreateElectionView from './election/createElection'
 import ElectionsView from './elections'
 import Home from './home'
@@ -27,9 +26,6 @@ export default function RouterView(): React.ReactElement {
                 </Route>
                 <Route path="/register">
                     <RegisterView />
-                </Route>
-                <Route path="/change-password">
-                    <ChangePassword />
                 </Route>
                 <Route path="/login">
                     <LoginView />

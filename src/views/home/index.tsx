@@ -16,7 +16,6 @@ export default function Home(): React.ReactElement {
             <Text>Normal text</Text>
             <br />
             <Text type="secondary">Label</Text>
-
             <hr />
             <div id="colors">
                 <span className="round">

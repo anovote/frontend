@@ -1,7 +1,8 @@
 import { EyeFilled, HomeFilled, ProjectFilled, SettingFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import Search from 'antd/lib/input/Search'
-import React, { ReactElement } from 'react'
+import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
+import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 import LargeIconButton from '../containers/button/LargeIconbutton'
@@ -16,10 +17,10 @@ const { Header, Content, Sider } = Layout
 function Skeleton(props: { content: ReactElement }): ReactElement {
     const [t] = useTranslation(['common'])
     const history = useHistory()
+    const [showProfileModal, setProfileModalState] = useState(false)
 
-    function toProfile() {
-        history.push('/profile')
-    }
+    const closeProfileModalHandler = () => setProfileModalState(false)
+    const openProfileModal = () => setProfileModalState(true)
     function createElection() {
         history.push('/create-election')
     }
@@ -32,11 +33,12 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                 <Search placeholder="Search something.." allowClear size="middle" onSearch={onSearch} tabIndex={1} />
             </Header>
             <Layout>
+                <ProfileSettingsModal showModal={showProfileModal} close={closeProfileModalHandler} />
                 <Sider className="skeleton-sidebar">
                     <AnovoteLogo id="logo" />
                     <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={['1']}>
                         <LargeIconButton
-                            text={t('Create Election')}
+                            text={t('Create election')}
                             onClick={createElection}
                             tabIndex={2}
                             classId="create-election"
@@ -62,7 +64,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                             classId="view-profile"
                             text="Name for you"
                             reverse={true}
-                            onClick={toProfile}
+                            onClick={openProfileModal}
                             tabIndex={6}
                         >
                             <ProfileRoundIcon />
