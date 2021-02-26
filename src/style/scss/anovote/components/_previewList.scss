@@ -1,0 +1,52 @@
+.preview-item {
+    background: url('../../../assets/drop.svg');
+    background-repeat: no-repeat;
+    background-position-x: right;
+    height: 2.5rem;
+    min-width: 20rem;
+    padding-left: 1.5rem;
+    padding-right: 0.5rem;
+    margin: 1rem;
+    @include is-rounded;
+    @include has-shadow;
+    @include is-flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: $white;
+
+    // move first button away from text
+    .ant-btn:nth-child(2) {
+        margin-left: auto;
+    }
+    .ant-btn {
+        padding: 0;
+        color: $white;
+        @include is-rounded();
+    }
+
+    .ant-typography {
+        font-weight: bold;
+    }
+}
+
+.add-preview-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.add-preview-button {
+    @include has-shadow();
+    background-color: $main-light;
+
+    .btn-icon {
+        color: $white;
+    }
+
+    &:hover {
+        background-color: $main-contrasting;
+    }
+
+    &:focus {
+        background-color: $main-light;
+    }
+}
