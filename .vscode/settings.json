@@ -10,6 +10,7 @@
         "Sider",
         "anovote",
         "antd",
+        "anticon",
         "browserslist",
         "cascader",
         "cacheable",
@@ -21,7 +22,8 @@
         "randexp",
         "spanline",
         "subnav",
-        "tokenkey"
+        "tokenkey",
+        "unmount"
     ],
     "emmet.includeLanguages": {
         "typescript": "typescriptreact",
