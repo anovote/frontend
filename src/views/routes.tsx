@@ -37,6 +37,7 @@ export default function RouterView(): React.ReactElement {
                 </Route>
                 <Route path="/election/:id">
                     <ElectionView />
+                </Route>
                 <Route path="/create-election">
                     <CreateElectionView />
                 </Route>
