@@ -5,3 +5,7 @@
 @mixin is-rounded {
     border-radius: 0.625rem;
 }
+
+@mixin is-rounded-large {
+    border-radius: 1.25rem;
+}
