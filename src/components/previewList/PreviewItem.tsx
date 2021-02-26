@@ -7,15 +7,9 @@ export default function PreviewItem({ title }: { title: string }): React.ReactEl
     return (
         <div className="preview-item">
             <Text>{title}</Text>
-            <div className="button-container-wrap">
-                <div className="button-container">
-                    <Button type="text" icon={<EditFilled />}></Button>
-                </div>
+            <Button type="text" icon={<EditFilled />}></Button>
 
-                <div className="button-container">
-                    <Button type="text" icon={<CloseOutlined />}></Button>
-                </div>
-            </div>
+            <Button type="text" icon={<CloseOutlined />}></Button>
         </div>
     )
 }

@@ -1,6 +1,11 @@
 .preview-item {
+    background: url('../../../assets/drop.svg');
+    background-repeat: no-repeat;
+    background-position-x: right;
     height: 2.5rem;
+    min-width: 20rem;
     padding-left: 1.5rem;
+    padding-right: 0.5rem;
     margin: 1rem;
     @include is-rounded;
     @include has-shadow;
@@ -9,20 +14,14 @@
     justify-content: space-between;
     background-color: $white;
 
-    .button-container-wrap {
-        padding: 0.28125rem 0;
-        padding-left: 6.75rem;
-        background: url('../../../assets/drop.svg');
-        background-repeat: no-repeat;
-        @include is-rounded;
-        @include is-flex-row;
+    // move first button away from text
+    .ant-btn:nth-child(2) {
+        margin-left: auto;
     }
-}
-
-.button-container {
     .ant-btn {
         padding: 0;
         color: $white;
+        @include is-rounded();
     }
 
     .ant-typography {
