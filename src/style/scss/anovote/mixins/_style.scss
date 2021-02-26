@@ -3,5 +3,13 @@
 }
 
 @mixin is-rounded {
-    border-radius: 0.625rem;
+    border-radius: $normal-border-radius;
+}
+
+@mixin is-rounded-large {
+    border-radius: $large-border-radius;
+}
+
+@mixin is-rounded-large {
+    border-radius: 1.25rem;
 }

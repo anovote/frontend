@@ -1,0 +1,46 @@
+.election-entry {
+    background-color: $alternate-color;
+    @include is-rounded;
+    height: 6.25rem;
+    width: 100%;
+    padding: 0.6rem 1rem;
+    position: relative;
+    @include is-flex-column();
+    justify-content: space-between;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0.6rem;
+        bottom: 0.6rem;
+        left: 0px;
+        width: 1.5rem;
+        border-radius: 0.2rem;
+    }
+
+    .ant-space-item {
+        .anticon-calendar {
+            color: $darker-grey;
+        }
+        .ant-typography {
+            color: $darker-grey !important;
+        }
+    }
+}
+
+.not-started {
+    &::before {
+        border-left: 3px solid $main-light;
+    }
+}
+
+.in-progress {
+    &::before {
+        border-left: 3px solid $warning-contrasting;
+    }
+}
+.finished {
+    &::before {
+        border-left: 3px solid $danger-contrasting;
+    }
+}

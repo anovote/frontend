@@ -24,6 +24,10 @@ i18n.init({
     // does not work in dev mode
     //saveMissing: true,
     saveMissingTo: 'current',
+    // Returns Missing key: string if a key is missing.
+    parseMissingKeyHandler: (k) => {
+        return `Missing key: ${k}`
+    },
 
     //keySeparator: false, // we do not use keys in form messages.welcome
     fallbackLng: 'en',

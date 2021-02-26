@@ -1,0 +1,43 @@
+.text-title {
+    @include title();
+}
+
+.text-subtitle {
+    @include subtitle();
+}
+
+.text-paragraph-title {
+    @include paragraph-title();
+}
+
+.text {
+    @include text();
+}
+
+.text-inverse {
+    @include text-inverse();
+}
+
+.text-medium {
+    @include text-medium();
+}
+
+.text-medium-inverse {
+    @include text-medium-inverse();
+}
+
+.text-large {
+    @include text-large();
+}
+
+.text-large-inverse {
+    @include text-large-inverse();
+}
+
+.text-additional-label {
+    @include additional-label();
+}
+
+.text-label {
+    @include label;
+}

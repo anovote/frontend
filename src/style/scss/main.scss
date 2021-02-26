@@ -15,28 +15,43 @@
 // HELPERS
 @import './anovote/layout/helpers';
 @import './anovote/layout/skeleton/skeleton';
+@import './anovote/layout/form';
+@import './anovote/layout/typography';
 
 // COMPONENTS
 @import './anovote/components/button';
 @import './anovote/components/icons';
+@import './anovote/components/modal';
+@import './anovote/components/stats';
+@import './anovote/components/election/entry';
+@import './anovote/components/election/header';
+@import './anovote/components/cardList';
+@import './anovote/components/switch';
 
 // VIEWS
 @import './anovote/view/home';
 @import './anovote/view/login';
 @import './anovote/view/register';
+@import './anovote/view/election/elections';
 @import './anovote/view/election/createElection';
 
 @import './anovote/components/switch';
-
 @import './anovote/components/previewList';
+@import './anovote/components/ballot';
+@import './anovote/components/ranked';
+@import './anovote/components/radio';
+@import './anovote/components/electionStatus';
+
 //--------- OVERWRITES ---------
 
 // ANTD
 @import './antd/typography';
 @import './antd/layout';
 @import './antd/card';
+@import './antd/modal';
 @import './antd/switch';
 @import './antd/input';
+@import './antd/button';
 
 body {
     font-family: $font-family;

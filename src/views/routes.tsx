@@ -4,10 +4,10 @@ import NotFound from '../components/routeDefaults/NotFound'
 import { ProtectedRoute } from '../containers/router/ProtectedRoute'
 import { AuthLevel } from '../core/service/authentication/AuthLevel'
 import { useAppState } from '../core/state/app/AppStateContext'
-import ChangePassword from './changePassword/ChangePassword'
+import CreateElectionView from './election/createElection'
+import ElectionsView from './elections'
 import Home from './home'
 import LoginView from './login'
-import CreateElectionView from './election/createElection'
 import RegisterView from './register'
 
 /**
