@@ -1,21 +1,17 @@
-import { Content } from 'antd/lib/layout/layout'
-import * as React from 'react'
-import { Form, Row, Col, Table, Alert, AlertProps, Card, List } from 'antd'
-
-import { useTranslation } from 'react-i18next'
-import Title from 'antd/lib/typography/Title'
-import { ReactNode } from 'react'
 import {
-    ClockCircleFilled,
     ClockCircleOutlined,
     ForwardOutlined,
-    LockFilled,
     LockOutlined,
     SafetyOutlined,
     SecurityScanOutlined,
-    UnlockFilled,
     UnlockOutlined,
 } from '@ant-design/icons'
+import { AlertProps, Card, Col, List, Row } from 'antd'
+import Title from 'antd/lib/typography/Title'
+import * as React from 'react'
+import { ReactNode } from 'react'
+import { useTranslation } from 'react-i18next'
+
 interface ElectionStatus {
     openDate: Date
     closeDate: Date
@@ -34,53 +30,53 @@ interface StatusDetail {
  * The main view used for creating an election
  */
 export default function ElectionView(): React.ReactElement {
-    const [t] = useTranslation(['translation', 'common'])
+    const [t] = useTranslation(['translation', 'common', 'election'])
     const [alertProps, setAlertProps] = React.useState<AlertProps>()
     const header = (
         <div className="spread align-items-center">
-            <Title level={2}>Status </Title>
+            <Title level={2}>{t('common:Status')} </Title>
             <div className="">
-                <span className="text-label">ELECTION ID # </span>
+                <span className="text-label">{t('common:Election')} ID # </span>
                 <span className="text-medium">123456</span>
             </div>
         </div>
     )
-
     const details: Array<StatusDetail> = [
         {
             icon: <LockOutlined />,
             colorClass: 'success-light',
-            title: 'Election opened',
+            title: t('election:Election open'),
             text: new Date().toLocaleDateString(),
         },
         {
             icon: <UnlockOutlined />,
             colorClass: 'danger-light',
-            title: 'Election closes',
+            title: t('election:Election close'),
             text: new Date().toLocaleDateString(),
         },
         {
             icon: <ClockCircleOutlined />,
             colorClass: 'main-light',
-            title: 'Time elapsed',
+            title: t('election:Time elapsed'),
             text: '0D 13H 37M 00S',
         },
         {
             icon: <ForwardOutlined />,
             colorClass: 'main-light',
-            title: 'Ballot proceed',
+            title: t('election:Ballot proceed'),
             text: 'automatic',
         },
         {
             icon: <SecurityScanOutlined />,
             colorClass: 'main-light',
-            title: 'Authentication method',
+            title: t('election:Authentication method'),
             text: 'Feide, Google',
         },
         {
             icon: <SafetyOutlined />,
             colorClass: 'main-light',
-            title: 'Password',
+            title: t('common:Password'),
+
             text: 'Anovote101!',
         },
     ]
@@ -98,12 +94,18 @@ export default function ElectionView(): React.ReactElement {
                                     <span className={`${detail.colorClass} circle-center-content`}>{detail.icon}</span>
                                 </div>
                                 <div className={'e'}>
-                                    <div className={'text-label mb-05'}>{detail.title}</div>
+                                    <div className={'text-label'}>{detail.title}</div>
                                     <div className={'text'}>{detail.text}</div>
                                 </div>
                             </List.Item>
                         )}
                     />
+                </Card>
+                <Card className={'election-card'}>
+                    <div className="is-flex-column">
+                        <span className={'text-subtitle'}>{t('common:Connected')}</span>
+                        <span className={'text-large'}>1337</span>
+                    </div>
                 </Card>
             </Col>
             <Col span={12}>col-12</Col>
