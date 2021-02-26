@@ -29,5 +29,13 @@
     "Verification": "Verification",
     "Ballots": "Ballots",
     "Connected": "Connected",
-    "Status": "Status"
+    "Status": "Status",
+    "Select multiple": "Select multiple",
+    "Select one": "Select one",
+    "Ranked": "Ranked",
+    "None": "None",
+    "Single winner": "Single winner",
+    "PLANNED": "PLANLAGT",
+    "IN PROGRESS": "PÅGÅENDE",
+    "FINISHED": "FERDIG"
 }

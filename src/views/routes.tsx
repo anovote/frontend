@@ -8,6 +8,7 @@ import { useAppState } from '../core/state/app/AppStateContext'
 import ElectionView from './election/election'
 import CreateElectionView from './election/createElection'
 import ElectionsView from './elections'
+import CreateElectionView from './election/createElection'
 import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
@@ -42,6 +43,9 @@ export default function RouterView(): React.ReactElement {
                     <CreateElectionView />
                 </Route>
 
+                <Route path="/create-election">
+                    <CreateElectionView />
+                </Route>
                 <ProtectedRoute
                     // Added as example
                     isLoggedIn={isLoggedIn}
@@ -51,7 +55,6 @@ export default function RouterView(): React.ReactElement {
                 >
                     this route is protected
                 </ProtectedRoute>
-
                 <Route>
                     <NotFound />
                 </Route>
