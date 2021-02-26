@@ -1,10 +1,13 @@
 import { Space } from 'antd'
+import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
+import CardList from 'components/cards/CardList'
+import ElectionEntry from 'components/list/entries/electionEntry'
+import ElectionHeader from 'components/list/headers/electionHeader'
 import { IElection } from 'core/models/IElection'
 import { ElectionStatus } from 'core/models/IElectionStatus'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import ElectionCard from '../../components/ElectionCard'
 
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common'])
@@ -76,23 +79,58 @@ export default function ElectionsView(): React.ReactElement {
         setFinished(finished)
     }, [])
 
+    /**
+     * Generates the list entry with correct elements.
+     * @param item the election object to render in list
+     */
+    const render = (item: IElection) => {
+        return (
+            <Item>
+                <ElectionEntry election={item} />
+            </Item>
+        )
+    }
+
     return (
         <>
             <Title>{t('Elections')}</Title>
             <Space align="start" wrap={true}>
-                <ElectionCard
-                    type={ElectionStatus.NotStarted}
-                    title={t('To be held')}
-                    data={upcoming}
-                    minHeight={50}
-                ></ElectionCard>
-                <ElectionCard type={ElectionStatus.Started} title={t('In progress')} data={inProgress}></ElectionCard>
-                <ElectionCard
-                    type={ElectionStatus.Finished}
-                    title={t('Finished')}
-                    data={finished}
-                    minHeight={40}
-                ></ElectionCard>
+                <CardList
+                    listHeader={
+                        <ElectionHeader
+                            status={ElectionStatus.NotStarted}
+                            title={t('To be held')}
+                            count={upcoming.length}
+                        />
+                    }
+                    list={upcoming}
+                    renderItem={(item) => render(item)}
+                    classNames="election-card"
+                ></CardList>
+                <CardList
+                    listHeader={
+                        <ElectionHeader
+                            status={ElectionStatus.Started}
+                            title={t('In progress')}
+                            count={inProgress.length}
+                        />
+                    }
+                    renderItem={(item) => render(item)}
+                    list={inProgress}
+                    classNames="election-card"
+                ></CardList>
+                <CardList
+                    listHeader={
+                        <ElectionHeader
+                            status={ElectionStatus.Finished}
+                            title={t('Finished')}
+                            count={finished.length}
+                        />
+                    }
+                    list={finished}
+                    renderItem={(item) => render(item)}
+                    classNames="election-card"
+                ></CardList>
             </Space>
         </>
     )
