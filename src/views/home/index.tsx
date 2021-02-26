@@ -1,8 +1,7 @@
 import Title from 'antd/lib/typography/Title'
 import Text from 'antd/lib/typography/Text'
 import React from 'react'
-import ElectionStatusLabel from '../../components/ElectionStatusLabel'
-import { ElectionStatus } from '../../core/models/ElectionStatus'
+import SelectResultType from '../../components/SelectResultType'
 
 /**
  * Landing page of application and home root
@@ -33,7 +32,7 @@ export default function Home(): React.ReactElement {
                     <span className="inner-round"></span>
                 </span>
             </div>
-            <ElectionStatusLabel status={ElectionStatus.Started} />
+            <SelectResultType />
         </div>
     )
 }
