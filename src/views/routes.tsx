@@ -8,6 +8,9 @@ import ChangePassword from './changePassword/ChangePassword'
 import ElectionsView from './elections'
 import Home from './home'
 import LoginView from './login'
+import CreateElectionView from './election/createElection'
+import RegisterView from './register'
+
 /**
  * Router view
  * sets up routes for the application.
@@ -18,36 +21,37 @@ export default function RouterView(): React.ReactElement {
 
     return (
         <div className="is-fullscreen">
-            <Switch>
-                <Route exact path="/">
-                    <Home />
-                </Route>
-                <Route path="/register">
-                    <LoginView />
-                </Route>
-                <Route path="/change-password">
-                    <ChangePassword />
-                </Route>
-                <Route path="/login">
-                    <LoginView />
-                </Route>
-                <Route path="/elections">
-                    <ElectionsView />
-                </Route>
+        <Switch>
+            <Route exact path="/">
+                <Home />
+            </Route>
+            <Route path="/register">
+                <RegisterView />
+            </Route>
+            <Route path="/change-password">
+                <ChangePassword />
+            </Route>
+            <Route path="/login">
+                <LoginView />
+            </Route>
 
-                <ProtectedRoute
-                    // Added as example
-                    isLoggedIn={isLoggedIn}
-                    authLevel={authLevel}
-                    allowedLevels={[AuthLevel.authorizer]}
-                    path="/protected"
-                >
-                    this route is protected
-                </ProtectedRoute>
-                <Route>
-                    <NotFound />
-                </Route>
-            </Switch>
-        </div>
+            <Route path="/create-election">
+                <CreateElectionView />
+            </Route>
+
+            <ProtectedRoute
+                // Added as example
+                isLoggedIn={isLoggedIn}
+                authLevel={authLevel}
+                allowedLevels={[AuthLevel.authorizer]}
+                path="/protected"
+            >
+                this route is protected
+            </ProtectedRoute>
+        
+            <Route>
+                <NotFound />
+            </Route>
+        </Switch>
     )
 }
