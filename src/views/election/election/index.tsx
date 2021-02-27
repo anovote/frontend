@@ -7,19 +7,13 @@ import {
     UnlockOutlined,
 } from '@ant-design/icons'
 import { Card, Col, Row, Space } from 'antd'
-import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import CountUpTimer from 'components/countUpTimer/countUpTimer'
 import * as React from 'react'
-import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-interface StatusDetail {
-    icon: ReactNode
-    colorClass: string
-    title: string
-    text: string | ReactNode
-}
+import { IStatusDetail } from './IStatusDetail'
+import StatusListItem from './StatusListItem'
 /**
  * The main view used for creating an election
  */
@@ -35,7 +29,7 @@ export default function ElectionView(): React.ReactElement {
         </div>
     )
 
-    const details: Array<StatusDetail> = [
+    const details: Array<IStatusDetail> = [
         {
             icon: <LockOutlined />,
             colorClass: 'success-light',
@@ -76,29 +70,12 @@ export default function ElectionView(): React.ReactElement {
         },
     ]
 
-    /**
-     * Generates the list entry with correct elements.
-     * @param item the election object to render in list
-     */
-    const render = (statusItem: StatusDetail) => {
-        return (
-            <Item className={'justify-content-start'}>
-                <div className="status-icon-spacer">
-                    <span className={`${statusItem.colorClass} circle-center-content`}>{statusItem.icon}</span>
-                </div>
-                <div className={'e'}>
-                    <div className={'text-label'}>{statusItem.title}</div>
-                    <div className={'text'}>{statusItem.text}</div>
-                </div>
-            </Item>
-        )
-    }
     const cardTitle = <Title level={2}>{t('election:Connected voters')}</Title>
     return (
         <Row>
             <Col span={12}>
                 <Space direction={'vertical'}>
-                    <CardList listHeader={header} list={details} renderItem={(item) => render(item)}></CardList>
+                    <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)}></CardList>
                     <Card className={'info-card'} title={cardTitle}>
                         <div className="is-flex-column has-content-center-center">
                             <span className={'text-large'}>1337</span>
