@@ -1,5 +1,4 @@
 import {
-    CarTwoTone,
     ClockCircleOutlined,
     ForwardOutlined,
     LockOutlined,
@@ -7,34 +6,25 @@ import {
     SecurityScanOutlined,
     UnlockOutlined,
 } from '@ant-design/icons'
-import { AlertProps, Card, Col, List, Row, Space } from 'antd'
+import { Card, Col, Row, Space } from 'antd'
 import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
+import CountUpTimer from 'components/countUpTimer/countUpTimer'
 import * as React from 'react'
 import { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
-
-interface ElectionStatus {
-    openDate: Date
-    closeDate: Date
-    timeElapsed: Date
-    ballotProcessMode: number
-    authenticationMethod: string
-    electionPassword: string
-}
 interface StatusDetail {
     icon: ReactNode
     colorClass: string
     title: string
-    text: string
+    text: string | ReactNode
 }
 /**
  * The main view used for creating an election
  */
 export default function ElectionView(): React.ReactElement {
     const [t] = useTranslation(['translation', 'common', 'election'])
-    const [alertProps, setAlertProps] = React.useState<AlertProps>()
     const header = (
         <div className="spread align-items-center">
             <Title level={2}>{t('common:Status')} </Title>
@@ -44,6 +34,7 @@ export default function ElectionView(): React.ReactElement {
             </div>
         </div>
     )
+
     const details: Array<StatusDetail> = [
         {
             icon: <LockOutlined />,
@@ -61,7 +52,8 @@ export default function ElectionView(): React.ReactElement {
             icon: <ClockCircleOutlined />,
             colorClass: 'main-light',
             title: t('election:Time elapsed'),
-            text: '0D 13H 37M 00S',
+            // TODO! implement logic to set timer on states from current election
+            text: <CountUpTimer />,
         },
         {
             icon: <ForwardOutlined />,
