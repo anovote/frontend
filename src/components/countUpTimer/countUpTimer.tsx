@@ -19,8 +19,6 @@ export default function CountUpTimer({
 
     if (doCount) {
         React.useEffect(() => {
-            console.log(counter)
-
             const int = setInterval(() => {
                 counter.tick()
                 setTime(Object.assign({}, counter.time))
