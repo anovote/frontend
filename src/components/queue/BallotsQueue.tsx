@@ -3,12 +3,13 @@ import Title from 'antd/lib/typography/Title'
 import PushBallotIcon from 'components/icons/PushBallotIcon'
 import StatCard from 'components/statCard/StatCard'
 import SquareIconButton from 'containers/button/SquareIconButton'
+import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import React, { ReactElement, useState } from 'react'
 import QueueDescription from './QueueDescription'
 
 const { Step } = Steps
 
-export default function BallotsQueue({ dataSource }: { dataSource: any[] }): ReactElement {
+export default function BallotsQueue({ dataSource }: { dataSource: BallotEntity[] }): ReactElement {
     const [current, setCurrent] = useState(0)
 
     const queue = []
@@ -29,7 +30,7 @@ export default function BallotsQueue({ dataSource }: { dataSource: any[] }): Rea
                 subTitle={<QueueDescription />}
                 description={
                     <>
-                        <StatCard stats={b} />{' '}
+                        <StatCard stats={b} />
                         <SquareIconButton
                             text="Push Ballot"
                             tabIndex={0}
@@ -42,17 +43,10 @@ export default function BallotsQueue({ dataSource }: { dataSource: any[] }): Rea
                 }
             />,
         )
-        timeline.push(<Step key={ballot.id} />)
     }
 
     return (
         <div className="ballots-queue">
-            <Steps current={current} progressDot={true}>
-                {timeline}
-            </Steps>
-
-            <Divider />
-
             <Steps current={current} onChange={setCurrent} direction="vertical" className="queue">
                 {queue}
             </Steps>
