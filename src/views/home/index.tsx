@@ -1,9 +1,11 @@
 import Title from 'antd/lib/typography/Title'
 import Text from 'antd/lib/typography/Text'
 import React from 'react'
-import SwitchWithLabel from '../../components/switch/SwitchWithLabel'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import StatCard from 'components/statCard/StatCard'
+import SquareIconButton from 'containers/button/SquareIconButton'
+import { RocketOutlined } from '@ant-design/icons'
+import PushBallotIcon from 'components/icons/PushBallotIcon'
 
 /**
  * Landing page of application and home root
@@ -13,7 +15,8 @@ export default function Home(): React.ReactElement {
     const data = [
         {
             id: 1,
-            title: 'First election',
+            title:
+                'First election, First election, First election, First election, First election, First electionFirst election, First election, First election, First election, First election, First election',
             description: 'This is the first of all elections',
             status: 0,
         },
