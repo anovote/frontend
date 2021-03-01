@@ -1,8 +1,8 @@
 import { Radio } from 'antd'
 import * as React from 'react'
-import { ReactComponent as NoneIcon } from '../style/assets/none.svg'
-import { ReactComponent as SingleWinnerIcon } from '../style/assets/single.svg'
-import { ReactComponent as RankedIcon } from '../style/assets/ranked.svg'
+import { ReactComponent as NoneIcon } from 'style/assets/none.svg'
+import { ReactComponent as SingleWinnerIcon } from 'style/assets/single.svg'
+import { ReactComponent as RankedIcon } from 'style/assets/ranked.svg'
 import Text from 'antd/lib/typography/Text'
 import { useTranslation } from 'react-i18next'
 
