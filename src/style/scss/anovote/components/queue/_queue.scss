@@ -15,6 +15,21 @@ $tail-z-index: -4;
     .queue {
         padding: 0 3rem;
     }
+
+    .ant-steps-label-vertical {
+        .ant-steps-item {
+            //flex: 1 1 auto;
+            //width: 0px;
+            .ant-steps-item-container {
+                width: 10px;
+
+                span.ant-steps-icon {
+                    top: 0;
+                }
+            }
+        }
+    }
+
     .ant-steps-vertical {
         .ant-steps-item-container {
             @include is-rounded-large();
@@ -39,8 +54,14 @@ $tail-z-index: -4;
 
         .ant-steps-item-icon {
             margin: 0.5rem 1rem 0 0.2rem;
-
+            display: flex;
+            justify-content: center;
+            align-items: center;
             transition: all ease-out 0.1s;
+
+            span {
+                top: 0;
+            }
         }
 
         .ant-steps-item-content {
