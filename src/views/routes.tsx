@@ -5,6 +5,7 @@ import { ProtectedRoute } from '../containers/router/ProtectedRoute'
 import { AuthLevel } from '../core/service/authentication/AuthLevel'
 import { useAppState } from '../core/state/app/AppStateContext'
 import CreateElectionView from './election/createElection'
+import Room from './election/room'
 import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
@@ -28,7 +29,9 @@ export default function RouterView(): React.ReactElement {
             <Route path="/login">
                 <LoginView />
             </Route>
-
+            <Route path="/room">
+                <Room />
+            </Route>
             <Route path="/create-election">
                 <CreateElectionView />
             </Route>
