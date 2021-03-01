@@ -7,6 +7,7 @@
 }
 
 .radio-group {
+    margin: 0 0 1.75rem 0;
     .ant-radio-wrapper {
         transition: all 0.35s;
         background-color: $white;
@@ -52,7 +53,7 @@
             height: 0.25rem;
             position: relative;
             background-color: $main-contrasting;
-            top: 2.125rem;
+            top: 1rem;
             display: block;
             margin-left: auto;
             margin-right: auto;
@@ -91,6 +92,5 @@
         display: flex;
         justify-content: space-around;
         align-items: flex-end;
-        gap: 0rem;
     }
 }
