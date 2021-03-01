@@ -14,13 +14,15 @@ export default function BallotsQueue({ dataSource }: { dataSource: BallotEntity[
 
     const queue = []
 
-    const timeline = []
-
-    const b = [
-        { title: 'Total', value: 99999 },
-        { title: 'Votes', value: 3343 },
+    const stats = [
+        { title: 'Total', value: 143 },
+        { title: 'Issues', value: 23 },
         { title: 'Votes', value: 94 },
     ]
+
+    function pushBallot(id: number) {
+        console.log('pushing ballot with id ', id)
+    }
 
     for (const ballot of dataSource) {
         queue.push(
@@ -30,12 +32,12 @@ export default function BallotsQueue({ dataSource }: { dataSource: BallotEntity[
                 subTitle={<QueueDescription />}
                 description={
                     <>
-                        <StatCard stats={b} />
+                        <StatCard stats={stats} />
                         <SquareIconButton
                             text="Push Ballot"
                             tabIndex={0}
                             classId="push-ballot-button"
-                            onClick={() => console.log('log ballot id: ', ballot.id)}
+                            onClick={() => pushBallot(ballot.id)}
                         >
                             <PushBallotIcon />
                         </SquareIconButton>
