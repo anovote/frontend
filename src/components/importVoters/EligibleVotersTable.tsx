@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { Table } from 'antd'
+import ImportEligibleVotersDropdown from 'components/election/ImportEligibleVotersDropdown'
 
 export default function EligibleVotersTable(): React.ReactElement {
     const columns = [
@@ -11,7 +12,8 @@ export default function EligibleVotersTable(): React.ReactElement {
     ]
 
     return (
-        <div>
+        <div className="voters-table-container">
+            <ImportEligibleVotersDropdown />
             <Table columns={columns} />
         </div>
     )
