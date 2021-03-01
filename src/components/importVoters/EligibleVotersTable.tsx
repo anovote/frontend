@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Table, Upload, Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { readFileSync } from 'fs'
 import { parse } from 'papaparse'
 
 export default function EligibleVotersTable(): React.ReactElement {
@@ -13,23 +12,35 @@ export default function EligibleVotersTable(): React.ReactElement {
         },
     ]
 
-    const [uploadedFile, setUploadedFile] = React.useState<File>()
+    const [mappedCsvArray, setMappedCsvArray] = React.useState([{}])
 
-    const saveFile = (file: File): boolean => {
+    const parseFile = (file: File): boolean => {
         parse(file, {
             complete: (result) => {
-                console.dir(result.data)
+                parseToObjectArray(result.data)
             },
         })
         return false
     }
 
+    const parseToObjectArray = (array: unknown[]) => {
+        for (let i = 1; i < array.length; i++) {
+            const email = array[i] as string[]
+            mappedCsvArray.push({ key: i, email: email[0] })
+            const newMappedCsvArray = [...mappedCsvArray]
+            setMappedCsvArray(newMappedCsvArray)
+        }
+        mappedCsvArray.shift()
+        const shifterArray = [...mappedCsvArray]
+        setMappedCsvArray(shifterArray)
+    }
+
     return (
         <div className="voters-table-container">
-            <Upload beforeUpload={saveFile}>
+            <Upload beforeUpload={parseFile}>
                 <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
             </Upload>
-            <Table columns={columns} />
+            <Table columns={columns} dataSource={mappedCsvArray} />
         </div>
     )
 }
