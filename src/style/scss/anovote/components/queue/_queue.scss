@@ -8,65 +8,113 @@ $card-z-index: 1;
 $tail-z-index: -4;
 
 .ballots-queue {
+    width: 100%;
+    max-width: 90rem;
+    min-width: 50rem;
     padding: 3rem;
+    .queue {
+        padding: 0 3rem;
+    }
     .ant-steps-vertical {
         .ant-steps-item-container {
             @include is-rounded-large();
             @include has-shadow();
+            @include is-flex-row();
             background: $white;
-            height: $queue-card-height;
-            width: $queue-card-width;
+            min-height: $queue-card-height;
+            width: 80%;
             margin: 1rem 0;
             z-index: $card-z-index;
             padding: 0.5rem 1rem;
-            transition: all ease-out 0.5s;
-            display: flex;
+            position: relative;
+            transition: all ease-out 0.3s;
         }
 
         .ant-steps-item-tail {
             display: none;
-            //margin-left: 2rem;
-            //z-index: $tail-z-index;
-            //transform-origin: bottom;
             &::after {
                 display: none;
             }
         }
 
         .ant-steps-item-icon {
-            transition: transform ease-in 0.3s;
-            transition: width ease-out 0.5s;
-            opacity: 1;
             margin: 0.5rem 1rem 0 0.2rem;
+
+            transition: all ease-out 0.1s;
         }
 
         .ant-steps-item-content {
-            transition: all 0.4s;
+            transition: all 0.3s;
             display: flex;
-            height: 100%;
-            width: 100%;
+            flex: 1 1 0px;
             justify-content: space-between;
-            background-color: yellow;
+            width: 100%;
 
             .ant-steps-item-title {
-                @include paragraph-title();
-                display: flex;
-                flex-direction: column;
+                flex: 1 1 10rem;
+                width: 0px;
+                @include is-flex-column();
                 justify-content: space-between;
 
+                .ant-typography {
+                    flex-grow: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    margin: 0.5rem 0.5rem 0 0;
+                }
+
                 .ant-steps-item-subtitle {
-                    background-color: blue;
+                    flex-grow: 1;
                     padding: 0;
                     margin: 0;
+                    @include is-flex-column();
+                    justify-content: flex-end;
+
+                    &::before {
+                        content: '';
+                        width: 5rem;
+                        height: 1px;
+                        background: $alternate-color;
+                        border-radius: 1rem;
+                        margin-bottom: 0.5rem;
+                        transition: background ease 0.2s;
+                    }
+                    .queue-additional {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
                 }
             }
 
             .ant-steps-item-description {
-                background: red;
-                padding: 1rem 0 1rem 2rem;
+                flex: 0;
                 height: 100%;
-                width: 15rem;
                 align-self: center;
+                display: flex;
+                justify-content: flex-end;
+                align-content: center;
+                padding: 0.5rem 0;
+
+                .stats-card {
+                    padding: 0.5rem 0.75rem;
+                    background-color: $alternate-color;
+
+                    .stat {
+                        margin: 0;
+
+                        .stat-title {
+                            font-size: 0.8rem;
+                        }
+                        .stat-value {
+                            font-size: 1rem;
+                        }
+                    }
+                }
+                #push-ballot-button {
+                    display: none;
+                }
             }
         }
 
@@ -77,14 +125,38 @@ $tail-z-index: -4;
                 transform: scale(1.08);
 
                 .ant-steps-item-icon {
-                    width: 0;
-                    opacity: 0;
-                    transform: rotateZ('180deg');
+                    background: $white;
+                    border: 0;
+                    span {
+                        color: $main-contrasting;
+                    }
                 }
 
                 .ant-steps-item-content {
                     .ant-steps-item-title {
-                        color: $white;
+                        .ant-typography {
+                            color: $white;
+                        }
+
+                        .ant-steps-item-subtitle {
+                            &::before {
+                                background: #697eed;
+                            }
+                        }
+                    }
+                    .ant-steps-item-description {
+                        .stats-card {
+                            background-color: $white;
+                        }
+                        #push-ballot-button {
+                            display: flex;
+                            position: absolute;
+                            top: 0.5rem;
+                            right: -9rem;
+                            width: 7.5rem;
+                            height: 7.5rem;
+                            font-size: 0.9rem;
+                        }
                     }
                 }
             }

@@ -12,24 +12,18 @@ button {
         @include is-button-in-focus();
     }
 }
-
-.large-icon-button {
-    font-weight: bold;
-    padding: 1.25rem;
-    height: 7rem;
+.anovote-button-style {
     width: 100%;
-    max-width: 13.625rem;
+    padding: 1.25rem;
+    font-weight: bold;
     border: none;
     position: relative;
-    justify-content: space-between;
-    align-items: center;
     flex-shrink: 0;
     line-height: 1.45em;
 
     @include has-shadow();
-    @include is-rounded();
+    @include is-rounded-large();
     @include text();
-    @include is-flex-row();
 
     // Targets all siblings of parent element,
     > * {
@@ -38,10 +32,23 @@ button {
     }
 
     > *:first-child {
-        padding: 0 2.5em 0 0;
         font-weight: bold;
-        text-align: left;
         flex: 0 1 auto;
+    }
+}
+
+.large-icon-button {
+    height: 7rem;
+    width: 100%;
+    max-width: 13.625rem;
+    justify-content: space-between;
+    align-items: center;
+
+    @include is-flex-row();
+
+    > *:first-child {
+        padding: 0 2.5em 0 0;
+        text-align: left;
     }
 
     &.is-flex-row-reverse {
@@ -50,5 +57,25 @@ button {
         > *:first-child {
             padding: 0 0 0 0.75rem;
         }
+    }
+}
+
+.square-icon-button {
+    height: 100%;
+    max-height: 8rem;
+    aspect-ratio: 1;
+    max-width: 8rem;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.45em;
+    transition: all 0.3s;
+    transition: all ease-in 0.3s;
+
+    @include is-flex();
+    flex-direction: column-reverse;
+
+    > *:first-child {
+        font-weight: bold;
+        text-align: center;
     }
 }

@@ -5,7 +5,7 @@
     height: 100%;
     @include is-flex-row;
     @include has-content-space-between-center;
-    @include is-rounded;
+    @include is-rounded-large;
 
     .stat {
         margin: 0 1.5rem;
