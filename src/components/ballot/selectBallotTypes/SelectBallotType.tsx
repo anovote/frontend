@@ -8,16 +8,16 @@ import SelectRankedIcon from './SelectRankedIcon'
 
 export default function SelectBallotType({ label }: { label: string }): React.ReactElement {
     const [t] = useTranslation(['ballot'])
-
+    const initialValue = 2
     return (
-        <Form.Item label={label} name={'ballot-type'}>
-            <div className="radio-wrapper">
-                <Radio.Group className="radio-group">
+        <Form.Item label={label} name={'ballot-type'} initialValue={initialValue}>
+            <div className="radio-wrapper is-flex is-flex-justify-content-center">
+                <Radio.Group className="radio-group" defaultValue={initialValue}>
                     <Radio value={1} className="radio-button">
                         <SelectMultipleIcon />
                         <Text className="radio-text select-type-text">{t('ballot:Select multiple')}</Text>
                     </Radio>
-                    <Radio value={2} className="radio-button">
+                    <Radio value={2} className="radio-button" defaultChecked={true}>
                         <SelectOneIcon />
                         <Text className="radio-text select-type-text">{t('ballot:Select one')}</Text>
                     </Radio>
