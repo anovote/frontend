@@ -12,6 +12,7 @@
         "antd",
         "anticon",
         "browserslist",
+        "cascader",
         "cacheable",
         "flexbox",
         "fontfamily",
@@ -21,7 +22,8 @@
         "randexp",
         "spanline",
         "subnav",
-        "tokenkey"
+        "tokenkey",
+        "unmount"
     ],
     "emmet.includeLanguages": {
         "typescript": "typescriptreact",

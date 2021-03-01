@@ -63,8 +63,6 @@ export default function Home(): React.ReactElement {
             <Text>Normal text</Text>
             <br />
             <Text type="secondary">Label</Text>
-            <StatCard stats={a} inverseColors={true} />
-            <StatCard stats={b} />
             <hr />
             <div id="colors">
                 <span className="round">

@@ -1,4 +1,4 @@
 export interface AuthenticationDetails {
-    identification: string
+    email: string
     password: string
 }
