@@ -9,11 +9,19 @@
 }
 
 .is-flex-row {
-    @include is-flex-column;
+    @include is-flex-row;
 }
 
 .has-content-center-center {
     @include has-content-center-center;
+}
+
+.is-flex-align-items-center {
+    align-items: center;
+}
+
+.is-flex-justify-content-center {
+    justify-content: center;
 }
 
 .is-flex-row-reverse {
