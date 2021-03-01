@@ -1,11 +1,8 @@
-import Title from 'antd/lib/typography/Title'
 import Text from 'antd/lib/typography/Text'
-import React from 'react'
+import Title from 'antd/lib/typography/Title'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import StatCard from 'components/statCard/StatCard'
-import SquareIconButton from 'containers/button/SquareIconButton'
-import { RocketOutlined } from '@ant-design/icons'
-import PushBallotIcon from 'components/icons/PushBallotIcon'
+import React from 'react'
 
 /**
  * Landing page of application and home root
