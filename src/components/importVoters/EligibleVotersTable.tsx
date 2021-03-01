@@ -1,7 +1,8 @@
 import * as React from 'react'
 import { Table, Upload, Button } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { readString } from 'react-papaparse'
+import { readFileSync } from 'fs'
+import { parse } from 'papaparse'
 
 export default function EligibleVotersTable(): React.ReactElement {
     const columns = [
@@ -15,11 +16,13 @@ export default function EligibleVotersTable(): React.ReactElement {
     const [uploadedFile, setUploadedFile] = React.useState<File>()
 
     const saveFile = (file: File): boolean => {
-        setUploadedFile(file)
+        parse(file, {
+            complete: (result) => {
+                console.dir(result.data)
+            },
+        })
         return false
     }
-
-    console.log(uploadedFile)
 
     return (
         <div className="voters-table-container">
