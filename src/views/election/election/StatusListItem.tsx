@@ -13,7 +13,7 @@ export default function statusListItem(statusItem: IStatusDetail): ReactNode {
             <div className="status-icon-spacer">
                 <span className={`${statusItem.colorClass} circle-center-content`}>{statusItem.icon}</span>
             </div>
-            <div className={'e'}>
+            <div className={'labels-right'}>
                 <div className={'text-label'}>{statusItem.title}</div>
                 <div className={'text'}>{statusItem.text}</div>
             </div>

@@ -23,7 +23,7 @@ export default function ElectionView(): React.ReactElement {
         <div className="spread align-items-center">
             <Title level={2}>{t('common:Status')} </Title>
             <div className="">
-                <span className="text-label">{t('common:Election')} ID # </span>
+                <span className="text-label">{t('common:Election').toUpperCase()} ID # </span>
                 <span className="text-medium">123456</span>
             </div>
         </div>
