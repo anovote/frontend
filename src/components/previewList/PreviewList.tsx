@@ -6,7 +6,7 @@ import * as React from 'react'
 import { useCallback, useState } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import AddPreviewButton from './AddPreviewButton'
-import { freshBallots } from './dummyData'
+import { freshBallots } from 'dummy/ballotsDummyData'
 import PreviewItem from './PreviewItem'
 
 /**
