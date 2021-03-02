@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, Upload, Button } from 'antd'
+import { Table, Upload, Button, Menu, Dropdown } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { parse } from 'papaparse'
 
@@ -45,11 +45,24 @@ export default function EligibleVotersTable(): React.ReactElement {
         setMappedCsvArray(shifterArray)
     }
 
+    const ImportFileMenu = (): React.ReactElement => {
+        return (
+            <Menu>
+                <Menu.Item>
+                    <Upload beforeUpload={parseFile}>CSV</Upload>
+                </Menu.Item>
+                <Menu.Item>
+                    <Upload beforeUpload={parseFile}>JSON</Upload>
+                </Menu.Item>
+            </Menu>
+        )
+    }
+
     return (
         <div className="voters-table-container">
-            <Upload beforeUpload={parseFile}>
+            <Dropdown overlay={<ImportFileMenu />} placement="bottomRight" arrow>
                 <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
-            </Upload>
+            </Dropdown>
             <Table columns={columns} dataSource={mappedCsvArray} />
         </div>
     )
