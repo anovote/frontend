@@ -4,9 +4,9 @@ import NotFound from '../components/routeDefaults/NotFound'
 import { ProtectedRoute } from '../containers/router/ProtectedRoute'
 import { AuthLevel } from '../core/service/authentication/AuthLevel'
 import { useAppState } from '../core/state/app/AppStateContext'
-
-import ElectionView from './election/election'
 import CreateElectionView from './election/createElection'
+import ElectionView from './election/election'
+import Room from './election/room'
 import ElectionsView from './elections'
 import Home from './home'
 import LoginView from './login'
@@ -41,7 +41,9 @@ export default function RouterView(): React.ReactElement {
                 <Route path="/create-election">
                     <CreateElectionView />
                 </Route>
-
+                <Route path="/room">
+                    <Room />
+                </Route>
                 <Route path="/create-election">
                     <CreateElectionView />
                 </Route>
