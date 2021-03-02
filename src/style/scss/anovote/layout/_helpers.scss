@@ -62,3 +62,13 @@
 .is-full-width {
     width: calc(100vw - #{$sidebar-width});
 }
+
+.split-view {
+    @include is-flex-row;
+    flex-wrap: wrap;
+}
+
+.split-view-right,
+.split-view-left {
+    flex-basis: 50%;
+}
