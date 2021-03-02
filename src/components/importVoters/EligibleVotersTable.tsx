@@ -15,12 +15,21 @@ export default function EligibleVotersTable(): React.ReactElement {
     const [mappedCsvArray, setMappedCsvArray] = React.useState([{}])
 
     const parseFile = (file: File): boolean => {
-        if (!file.name.includes('.csv')) throw new Error('File not csv!')
-        parse(file, {
-            complete: (result) => {
-                parseToObjectArray(result.data)
-            },
-        })
+        if (file.type === 'text/csv') {
+            parse(file, {
+                complete: (result) => {
+                    parseToObjectArray(result.data)
+                },
+            })
+        } else if (file.type === 'application/json') {
+            const reader = new FileReader()
+            reader.readAsText(file)
+            reader.onload = (e) => {
+                const dataString = JSON.stringify(e.target?.result)
+                const data = JSON.parse(JSON.parse(dataString))
+                setMappedCsvArray(data.emails)
+            }
+        }
         return false
     }
 
