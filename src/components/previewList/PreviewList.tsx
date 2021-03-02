@@ -1,94 +1,70 @@
 /* eslint-disable react/display-name */
-import { BallotResultDisplay } from 'core/models/ballot/BallotResultDisplay'
-import { BallotStatus } from 'core/models/ballot/BallotStatus'
-import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import * as React from 'react'
+import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import AddPreviewButton from './AddPreviewButton'
+import { freshBallots } from './dummyData'
 import PreviewItem from './PreviewItem'
 
+/**
+ * Inspired by https://codesandbox.io/s/zqwz5n5p9x?file=/src/index.js
+ * and https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
+ */
+
 export default function PreviewList(): React.ReactElement {
-    const freshBallots: IBallotEntity[] = [
-        {
-            id: 1,
-            title: 'first ballot',
-            description: 'this was the first ballot',
-            type: BallotType.SINGLE,
-            status: BallotStatus.IN_QUEUE,
-            candidates: [
-                { candidate: 'first', id: 1 },
-                { candidate: 'second', id: 2 },
-            ],
-            image: undefined,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            resultDisplayCount: 1,
-            resultDisplayType: BallotResultDisplay.SINGLE,
-        },
-        {
-            id: 2,
-            title: 'second ballot',
-            description: 'this was the first ballot',
-            type: BallotType.SINGLE,
-            status: BallotStatus.IN_QUEUE,
-            candidates: [
-                { candidate: 'first', id: 1 },
-                { candidate: 'second', id: 2 },
-            ],
-            image: undefined,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            resultDisplayCount: 1,
-            resultDisplayType: BallotResultDisplay.SINGLE,
-        },
-        {
-            id: 3,
-            title: 'third ballot',
-            description: 'this was the first ballot',
-            type: BallotType.SINGLE,
-            status: BallotStatus.IN_QUEUE,
-            candidates: [
-                { candidate: 'first', id: 1 },
-                { candidate: 'second', id: 2 },
-            ],
-            image: undefined,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            resultDisplayCount: 1,
-            resultDisplayType: BallotResultDisplay.SINGLE,
-        },
-    ]
-
-    const [previews, setPreviews] = React.useState([{ title: 'Helloooo' }])
-    const [ballots] = useState<IBallotEntity[]>(freshBallots)
-
-    const addPreview = () => {
-        const previewList = [...previews]
-        previewList.push({ title: 'Wallah brosjan' })
-        setPreviews(previewList)
+    const [ballotsState, setBallotsState] = useState<IBallotEntity[]>(freshBallots)
+    const addNewBallot = () => {
+        // TODO
+        console.log('Not implemented')
     }
 
-    const onDragEndHandler = useCallback(() => {
-        throw Error('not implemented')
-    }, [])
+    const reorder = (list: Array<any>, startIndex: number, endIndex: number) => {
+        const result = Array.from(list)
+        const [removed] = result.splice(startIndex, 1)
+        result.splice(endIndex, 0, removed)
+
+        return result
+    }
+
+    useEffect(() => {
+        console.log(ballotsState)
+    }, [ballotsState])
+
+    const onDragEndHandler = useCallback(
+        (result) => {
+            const { destination, source } = result
+
+            // Not dropped in drop context or not moved
+            if (
+                !destination ||
+                (destination.index === source.index && destination.droppableId === source.droppableId)
+            ) {
+                return
+            }
+
+            const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
+            setBallotsState(newBallots)
+        },
+        [ballotsState],
+    )
 
     return (
         <div>
             <DragDropContext onDragEnd={onDragEndHandler}>
                 <Droppable droppableId="ballots">
-                    {/*{(provided) => <TestList ballots={ballots} {...provided.droppableProps} />}*/}
                     {(dropProvided) => (
                         <div ref={dropProvided.innerRef}>
-                            {ballots.map(({ title, id }, index) => {
+                            {ballotsState.map(({ title, id }, index) => {
                                 return <PreviewItem key={id} title={title} id={id.toString()} index={index} />
                             })}
+                            {dropProvided.placeholder}
                         </div>
                     )}
                 </Droppable>
             </DragDropContext>
-            <AddPreviewButton addPreview={addPreview} />
+            <AddPreviewButton addPreview={addNewBallot} />
         </div>
     )
 }
@@ -101,7 +77,3 @@ export function TestList(ballots: IBallotEntity[]): JSX.Element[] {
         return <PreviewItem key={id} title={title} id={id.toString()} index={index} />
     })
 }
-
-//interface ListProps {
-//    ballots: IBallotEntity[]
-//}
