@@ -29,6 +29,8 @@
         "middlewares",
         "mixins",
         "Nilsen",
+        "onstatechange",
+        "onupdatefound",
         "postgres",
         "postgresql",
         "precache",
@@ -59,15 +61,6 @@
         "varchar",
         "zwaldowski"
     ],
-    "flagWords": [
-        "hte"
-    ],
-    "ignorePaths": [
-        "*.env*",
-        ".prettier*",
-        "package.json",
-        "yarn.lock",
-        ".eslint*",
-        ".vscode/*"
-    ]
+    "flagWords": ["hte"],
+    "ignorePaths": ["*.env*", ".prettier*", "package.json", "yarn.lock", ".eslint*", ".vscode/*"]
 }
