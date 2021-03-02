@@ -1,26 +1,18 @@
+import { CloseOutlined, EditFilled } from '@ant-design/icons'
+import { Button, Space } from 'antd'
 import * as React from 'react'
-import Text from 'antd/lib/typography/Text'
-import { Button, Input, Space } from 'antd'
-import { EditFilled, CloseOutlined } from '@ant-design/icons'
-import { useEffect, useState } from 'react'
 
 export default function PreviewItem({
-    title,
+    itemTitle,
     id,
-    children,
     onEdit,
     onDelete,
 }: {
-    title: string
+    itemTitle?: string
     id: string | number
-    children: React.ReactNode | undefined
     onEdit: (id: string | number) => void
     onDelete: (id: string | number) => void
 }): React.ReactElement {
-    const [editMode, setEditMode] = useState(false)
-    const toggleEditMode = () => {
-        setEditMode(!editMode)
-    }
     const onEditHandler = () => {
         onEdit(id)
     }
@@ -29,9 +21,7 @@ export default function PreviewItem({
     }
     return (
         <div className="preview-item">
-            {children}
-            {/*<Text>{title}</Text>
-            {editMode && <Input onKeyDown={enterKeyHandler}></Input>}*/}
+            {itemTitle}
             <Space direction={'horizontal'}>
                 <Button type="text" icon={<EditFilled />} onClick={onEditHandler}></Button>
                 <Button type="text" icon={<CloseOutlined />} onClick={onDeleteHandler}></Button>
