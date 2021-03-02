@@ -1,3 +1,4 @@
+.info-card,
 .card-list {
     min-width: 26rem;
     width: max-content;
@@ -6,7 +7,11 @@
         padding: $bu;
     }
 }
-
+.info-card {
+    .ant-card-head {
+        border: none;
+    }
+}
 .card-list-ant-component {
     border: none;
     // add padding to bottom as we don't use a footer
