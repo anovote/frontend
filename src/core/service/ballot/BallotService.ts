@@ -24,9 +24,9 @@ export default class BallotService {
         }
     }
 
-    async updateBallot(electionId: number, ballot: IBallotEntity): Promise<IBallotEntity> {
+    async updateBallots(electionId: number, ballots: IBallotEntity[]): Promise<IBallotEntity[]> {
         const url = this.getUrl(electionId)
-        const response = await this._httpClient.put<BallotEntity>(url, ballot)
+        const response = await this._httpClient.put<BallotEntity[]>(url, ballots)
         this.validateResponse(response)
         return response.data
     }
