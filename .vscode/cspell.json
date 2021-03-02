@@ -9,6 +9,7 @@
         "cacheable",
         "cascader",
         "chmod",
+        "CHOKIDAR",
         "Christoffer",
         "DHMS",
         "dmhs",
@@ -54,6 +55,7 @@
         "typeorm",
         "unhashed",
         "unmount",
+        "USEPOLLING",
         "varchar",
         "zwaldowski"
     ],
