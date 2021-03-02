@@ -9,6 +9,7 @@ export interface IBallot {
     image?: string
     type: BallotType
     resultDisplayType: BallotResultDisplay
+    displayResultCount: boolean
     resultDisplayTypeCount: number
     order: number
     candidates: Array<ICandidate>
