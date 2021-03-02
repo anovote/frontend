@@ -1,31 +1,35 @@
-import { AppConfig } from 'core/config'
+import { Events } from 'core/events'
+import { useSocket } from 'core/state/websocket/useSocketHook'
 import React, { ReactElement, useEffect } from 'react'
-import useSocket from 'use-socket.io-client'
 
 export default function room(): ReactElement {
-    let socket: any
+    const [socket] = useSocket(
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwib3JnYW5pemVyIjp0cnVlLCJpYXQiOjE2MTQ2OTQzMTcsImV4cCI6MTYxNDg2NzExN30.In727cRSJTAhRZtf5i0-XgECAi2awFH4JYjI3kty_m4',
+    )
+    socket.connect()
+
     useEffect(() => {
-        //socket = io(AppConfig.WS_URI).connect()
-        const [socket] = useSocket(AppConfig.WS_URI)
-        socket.connect()
-        socket.auth = {
-            token:
-                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwib3JnYW5pemVyIjp0cnVlLCJpYXQiOjE2MTQ2MzQ3MjYsImV4cCI6MTYxNDgwNzUyNn0.IF3gVy7mY2ffXZsHF6-isZ09QYJggdZuIogZotl8Jqk',
-        }
-        socket.on('connect', () => {
+        socket.on(Events.standard.socket.connect, () => {
             console.log('Connected!')
 
-            console.log(socket.io)
+            console.log(socket.id)
         })
 
-        socket.on('disconnect', (data: any) => {
+        socket.on(Events.standard.socket.disconnect, (data: any) => {
             console.log('disconnected', data)
         })
+        socket.on(Events.standard.message, (data: any) => {
+            console.log(data)
+        })
 
-        socket.on('connect_error', (data: any) => {
+        socket.on(Events.standard.socket.connectError, (data: any) => {
             console.log('connect-error', data)
         })
-    }, [])
+
+        return () => {
+            console.log('destroy')
+        }
+    }, [socket])
 
     return (
         <div>
