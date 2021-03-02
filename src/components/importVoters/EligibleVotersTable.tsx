@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Table, Upload, Button, Menu, Dropdown } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { parse } from 'papaparse'
+import { FileParser } from './FileParser'
 
 export default function EligibleVotersTable(): React.ReactElement {
     const columns = [
@@ -12,47 +12,40 @@ export default function EligibleVotersTable(): React.ReactElement {
     ]
 
     const [mappedCsvArray, setMappedCsvArray] = React.useState([{}])
+    const fileParser = new FileParser()
 
     /**
      * Parses a CSV or JSON file, where the CSV or JSON
      * needs to be in a specific "email" format.
      * @param file The file we want to parse
      */
-    const parseFile = (file: File): boolean => {
+    const parseFile = async (file: File): Promise<void> => {
         if (file.type === 'text/csv') {
-            parse(file, {
-                complete: (result) => {
-                    parseArrayToObjectArray(result.data)
-                },
-            })
+            const parsedCsv = await fileParser.parseCsv(file)
+            parseArrayToObjectArray(parsedCsv)
         } else if (file.type === 'application/json') {
-            const reader = new FileReader()
-            reader.readAsText(file)
-            reader.onload = (e) => {
-                const dataString = JSON.stringify(e.target?.result)
-                const data = JSON.parse(JSON.parse(dataString))
-                setMappedCsvArray(data.emails)
-            }
+            const parsedJson = await fileParser.parseJson(file)
+            setMappedCsvArray(parsedJson.emails)
         } else {
             throw new Error('File is not CSV or JSON!')
         }
-        return false
+        return
     }
 
     /**
      * Parses an array to an array of objects.
      * @param array The array we want to parse
      */
-    const parseArrayToObjectArray = (array: unknown[]) => {
-        for (let i = 1; i < array.length; i++) {
-            const email = array[i] as string[]
+    const parseArrayToObjectArray = (array: string[]) => {
+        for (let i = 0; i < array.length; i++) {
+            const email = array[i]
             mappedCsvArray.push({ key: i, email: email[0] })
             const newMappedCsvArray = [...mappedCsvArray]
             setMappedCsvArray(newMappedCsvArray)
         }
-        mappedCsvArray.shift()
-        const shifterArray = [...mappedCsvArray]
-        setMappedCsvArray(shifterArray)
+        const newArr = [...mappedCsvArray]
+        newArr.shift()
+        setMappedCsvArray(newArr)
     }
 
     const ImportFileMenu = (): React.ReactElement => {
@@ -70,13 +63,7 @@ export default function EligibleVotersTable(): React.ReactElement {
 
     return (
         <div className="voters-table-container">
-            <Dropdown
-                className="import-voters-dropdown"
-                overlay={<ImportFileMenu />}
-                placement="bottomRight"
-                trigger={['click']}
-                arrow
-            >
+            <Dropdown className="import-voters-dropdown" overlay={<ImportFileMenu />} placement="bottomRight" arrow>
                 <Button
                     className="import-voters-button"
                     type="primary"
