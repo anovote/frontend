@@ -66,7 +66,9 @@
     height: calc(100vh - #{$header-height});
     padding: 2 * $bu 3 * $bu;
 }
-
+.width-100 {
+    width: 100%;
+}
 .is-full-height {
     height: calc(100vh - #{$header-height});
 }
