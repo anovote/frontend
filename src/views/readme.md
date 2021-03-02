@@ -1,3 +1,3 @@
 #Views
-Contains large components that respresents a view/page/screen.
+Contains large components that represents a view/page/screen.
 Like login page, Dashboard etc...
