@@ -13,11 +13,16 @@ export default function EligibleVotersTable(): React.ReactElement {
 
     const [mappedCsvArray, setMappedCsvArray] = React.useState([{}])
 
+    /**
+     * Parses a CSV or JSON file, where the CSV or JSON
+     * needs to be in a specific "email" format.
+     * @param file The file we want to parse
+     */
     const parseFile = (file: File): boolean => {
         if (file.type === 'text/csv') {
             parse(file, {
                 complete: (result) => {
-                    parseToObjectArray(result.data)
+                    parseArrayToObjectArray(result.data)
                 },
             })
         } else if (file.type === 'application/json') {
@@ -28,11 +33,17 @@ export default function EligibleVotersTable(): React.ReactElement {
                 const data = JSON.parse(JSON.parse(dataString))
                 setMappedCsvArray(data.emails)
             }
+        } else {
+            throw new Error('File is not CSV or JSON!')
         }
         return false
     }
 
-    const parseToObjectArray = (array: unknown[]) => {
+    /**
+     * Parses an array to an array of objects.
+     * @param array The array we want to parse
+     */
+    const parseArrayToObjectArray = (array: unknown[]) => {
         for (let i = 1; i < array.length; i++) {
             const email = array[i] as string[]
             mappedCsvArray.push({ key: i, email: email[0] })
