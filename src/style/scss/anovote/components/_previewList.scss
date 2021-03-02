@@ -34,11 +34,9 @@
         color: $white;
     }
 
-    &:hover {
-        background-color: $main-contrasting;
-    }
-
+    &:hover,
+    &:active,
     &:focus {
-        background-color: $main-light;
+        background-color: $main-contrasting;
     }
 }
