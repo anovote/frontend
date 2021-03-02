@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, Upload, Button, Menu, Dropdown } from 'antd'
+import { Table, Upload, Button, Menu, Dropdown, Alert } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { FileParser } from './FileParser'
 
@@ -11,6 +11,7 @@ export default function EligibleVotersTable(): React.ReactElement {
         },
     ]
 
+    const [errorMessage, setErrorMessage] = React.useState('')
     const [mappedCsvArray, setMappedCsvArray] = React.useState([{}])
     const fileParser = new FileParser()
 
@@ -21,13 +22,17 @@ export default function EligibleVotersTable(): React.ReactElement {
      */
     const parseFile = async (file: File): Promise<void> => {
         if (file.type === 'text/csv') {
-            const parsedCsv = await fileParser.parseCsv(file)
-            parseArrayToObjectArray(parsedCsv)
+            try {
+                const parsedCsv = await fileParser.parseCsv(file)
+                parseArrayToObjectArray(parsedCsv)
+            } catch (e) {
+                setErrorMessage('Something went wrong in the parsing')
+            }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson(file)
             setMappedCsvArray(parsedJson.emails)
         } else {
-            throw new Error('File is not CSV or JSON!')
+            setErrorMessage('The file is not CSV or JSON!')
         }
         return
     }
@@ -37,6 +42,10 @@ export default function EligibleVotersTable(): React.ReactElement {
      * @param array The array we want to parse
      */
     const parseArrayToObjectArray = (array: string[]) => {
+        if (array.length === 0) {
+            setErrorMessage('File is empty')
+            return
+        }
         for (let i = 0; i < array.length; i++) {
             const email = array[i]
             mappedCsvArray.push({ key: i, email: email[0] })
@@ -73,6 +82,7 @@ export default function EligibleVotersTable(): React.ReactElement {
                 ></Button>
             </Dropdown>
             <Table columns={columns} dataSource={mappedCsvArray} />
+            <div>{!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}</div>
         </div>
     )
 }

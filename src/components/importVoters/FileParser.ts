@@ -7,6 +7,9 @@ export class FileParser {
                 complete: (result) => {
                     resolve(result.data)
                 },
+                error: (error) => {
+                    throw new Error(error + 'error in csv parsing')
+                },
             })
         })
     }
