@@ -1,7 +1,8 @@
 /* eslint-disable react/display-name */
+import { BackendAPI } from 'core/api'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import BallotService from 'core/service/ballot/BallotService'
 import * as React from 'react'
-import { useEffect } from 'react'
 import { useCallback, useState } from 'react'
 import { DragDropContext, Droppable } from 'react-beautiful-dnd'
 import AddPreviewButton from './AddPreviewButton'
@@ -13,7 +14,7 @@ import PreviewItem from './PreviewItem'
  * and https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
  */
 
-export default function PreviewList(): React.ReactElement {
+export default function PreviewList({ electionId }: { electionId?: number }): React.ReactElement {
     const [ballotsState, setBallotsState] = useState<IBallotEntity[]>(freshBallots)
     const addNewBallot = () => {
         // TODO
@@ -28,12 +29,13 @@ export default function PreviewList(): React.ReactElement {
         return result
     }
 
-    useEffect(() => {
-        console.log(ballotsState)
-    }, [ballotsState])
+    const updateOnServer = async (electionId: number) => {
+        new BallotService(BackendAPI).updateBallots(electionId, ballotsState)
+    }
 
     const onDragEndHandler = useCallback(
         (result) => {
+            console.log('updating ballots state')
             const { destination, source } = result
 
             // Not dropped in drop context or not moved
@@ -46,6 +48,11 @@ export default function PreviewList(): React.ReactElement {
 
             const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
             setBallotsState(newBallots)
+
+            // only update on server if election exists
+            if (electionId) {
+                updateOnServer(electionId)
+            }
         },
         [ballotsState],
     )
