@@ -1,0 +1,26 @@
+.voters-table-container {
+    margin: 1rem;
+}
+
+.import-voters-button {
+    float: right;
+}
+
+li.ant-menu-item.ant-menu-item-only-child {
+    padding: 0 4.1875rem;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    @include is-rounded;
+}
+
+ul.ant-menu {
+    @include is-rounded;
+    @include has-shadow;
+}
+
+.ant-menu-item-active {
+    background-color: $main-light;
+    span {
+        color: white;
+    }
+}

@@ -6,7 +6,6 @@ import { parse } from 'papaparse'
 export default function EligibleVotersTable(): React.ReactElement {
     const columns = [
         {
-            title: 'Email',
             dataIndex: 'email',
             key: 'email',
         },
@@ -60,8 +59,20 @@ export default function EligibleVotersTable(): React.ReactElement {
 
     return (
         <div className="voters-table-container">
-            <Dropdown overlay={<ImportFileMenu />} placement="bottomRight" arrow>
-                <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
+            <Dropdown
+                className="import-voters-dropdown"
+                overlay={<ImportFileMenu />}
+                placement="bottomRight"
+                trigger={['click']}
+                arrow
+            >
+                <Button
+                    className="import-voters-button"
+                    type="primary"
+                    icon={<PlusOutlined />}
+                    size="large"
+                    shape="circle"
+                ></Button>
             </Dropdown>
             <Table columns={columns} dataSource={mappedCsvArray} />
         </div>
