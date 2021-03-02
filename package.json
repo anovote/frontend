@@ -44,7 +44,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}' --quiet --fix"
+        "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}' --quiet --fix",
+        "spellCheck": "cspell --config ./.vscode/cspell.json --relative -u 'src/**/*.tsx'"
     },
     "eslintConfig": {
         "extends": [
@@ -70,6 +71,7 @@
         "@types/react-router-dom": "^5.1.7",
         "@typescript-eslint/eslint-plugin": "^4.14.0",
         "@typescript-eslint/parser": "^4.14.0",
+        "cspell": "^5.3.4",
         "eslint": "^7.18.0",
         "eslint-config-prettier": "^7.2.0",
         "eslint-plugin-prettier": "^3.3.1",
