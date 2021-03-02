@@ -151,6 +151,7 @@ export default function CreateBallotModal({
                         <Title level={3}>{modalTitle}</Title>
                         <Form.Item
                             name="title"
+                            initialValue={initialBallot?.title}
                             rules={[
                                 {
                                     required: true,
@@ -158,14 +159,11 @@ export default function CreateBallotModal({
                                 },
                             ]}
                         >
-                            <Input placeholder={t('common:Title')} defaultValue={initialBallot?.title} />
+                            <Input placeholder={t('common:Title')} />
                         </Form.Item>
 
-                        <Form.Item name="description">
-                            <Input.TextArea
-                                placeholder={t('common:Description')}
-                                defaultValue={initialBallot?.description}
-                            />
+                        <Form.Item name="description" initialValue={initialBallot?.description}>
+                            <Input.TextArea placeholder={t('common:Description')} />
                         </Form.Item>
                         <SelectBallotType label={t('ballot:Select type')} initialValue={initialBallot?.type} />
                         <SelectResultType
