@@ -1,4 +1,5 @@
 import { parse } from 'papaparse'
+import { EmailArray } from './EmailArray'
 
 export class FileParser {
     public async parseCsv(file: File): Promise<string[]> {
@@ -14,8 +15,8 @@ export class FileParser {
         })
     }
 
-    public async parseJson(file: File): Promise<any> {
-        return new Promise<any>((resolve) => {
+    public async parseJson(file: File): Promise<EmailArray> {
+        return new Promise<EmailArray>((resolve) => {
             const reader = new FileReader()
             reader.readAsText(file)
             reader.onload = (e) => {
