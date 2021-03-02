@@ -24,3 +24,52 @@ ul.ant-menu {
         color: white;
     }
 }
+
+li.ant-pagination-item {
+    @include is-rounded;
+
+    &:hover {
+        border-color: $main-light;
+    }
+    &:focus {
+        border-color: $main-light;
+    }
+    &:active {
+        border-color: $main-light;
+    }
+}
+
+.ant-pagination-next {
+    button.ant-pagination-item-link {
+        @include is-rounded;
+
+        &:hover {
+            border-color: $main-light;
+        }
+        &:focus {
+            border-color: $main-light;
+        }
+        &:active {
+            border-color: $main-light;
+        }
+    }
+}
+.ant-pagination-prev {
+    button.ant-pagination-item-link {
+        @include is-rounded;
+
+        &:hover {
+            border-color: $main-light;
+        }
+        &:focus {
+            border-color: $main-light;
+        }
+        &:active {
+            border-color: $main-light;
+        }
+    }
+}
+
+.ant-pagination-item-active {
+    border-color: $main-light;
+}
