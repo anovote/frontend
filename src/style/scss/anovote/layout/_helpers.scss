@@ -82,7 +82,8 @@
 
 .split-view-right,
 .split-view-left {
-    flex-basis: 50%;
+    flex: 1 1 50%;
+    padding: 0 1rem;
 }
 /** HELPER */
 @mixin symmetricPM($amount, $direction, $type) {
