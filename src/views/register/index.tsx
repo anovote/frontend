@@ -1,7 +1,7 @@
 import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next/*'
+import { useTranslation } from 'react-i18next/'
 import { useHistory } from 'react-router-dom'
 import { BackendAPI } from '../../core/api'
 import { getAdminRoute } from '../../core/routes/siteRoutes'
