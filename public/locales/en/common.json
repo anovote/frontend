@@ -42,6 +42,7 @@
     "Add": "Add",
     "Cancel": "Cancel",
     "Update": "Update {{value}}",
+    "Edit": "Edit {{value}}",
     "Create": "Create {{value}}",
     "Ballot": "Ballot",
     "PLANNED": "PLANLAGT",
