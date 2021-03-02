@@ -30,12 +30,14 @@ export default function CreateBallotModal({
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const [editCandidate, setEditCandidate] = useState<{ id: number } | undefined>(undefined)
     const [addNew, setAddNew] = useState(false)
-    const candidatesInitialState: CandidateState = []
+    const candidatesInitialState: CandidateState =
+        initialBallot?.candidates.flatMap((candidate) => candidate.candidate) || []
     const candidateTextInput: MutableRefObject<Input | null> = useRef(null)
     const ballotText = t('common:Ballot')
     const modalTitle = initialBallot
         ? t('common:Edit', { value: ballotText.toLowerCase() })
         : t('common:Create', { value: ballotText.toLowerCase() })
+
     function candidateReducer(state: Array<string>, action: CandidateAction): Array<string> {
         switch (action.type) {
             case 'add':
@@ -156,16 +158,22 @@ export default function CreateBallotModal({
                                 },
                             ]}
                         >
-                            <Input placeholder={t('common:Title')} />
+                            <Input placeholder={t('common:Title')} defaultValue={initialBallot?.title} />
                         </Form.Item>
 
                         <Form.Item name="description">
-                            <Input.TextArea placeholder={t('common:Description')} />
+                            <Input.TextArea
+                                placeholder={t('common:Description')}
+                                defaultValue={initialBallot?.description}
+                            />
                         </Form.Item>
-                        <SelectBallotType label={t('ballot:Select type')} />
-                        <SelectResultType label={t('ballot:Result type')} />
+                        <SelectBallotType label={t('ballot:Select type')} initialValue={initialBallot?.type} />
+                        <SelectResultType
+                            label={t('ballot:Result type')}
+                            initialValue={initialBallot?.resultDisplayType}
+                        />
                         <Form.Item label={t('ballot:Display vote count')}>
-                            <Switch></Switch>
+                            <Switch defaultChecked={initialBallot?.displayResultCount}></Switch>
                         </Form.Item>
                         <Button type="primary" htmlType="submit">
                             {t('common:Save')}
