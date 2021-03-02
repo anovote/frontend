@@ -41,7 +41,9 @@
     "Description": "Description",
     "Add": "Add",
     "Cancel": "Cancel",
-    "Update": "Update",
+    "Update": "Update {{value}}",
+    "Create": "Create {{value}}",
+    "Ballot": "Ballot",
     "PLANNED": "PLANLAGT",
     "IN PROGRESS": "PÅGÅENDE",
     "FINISHED": "FERDIG"

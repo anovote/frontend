@@ -19,18 +19,23 @@ export default function CreateBallotModal({
     showModal,
     close,
     initialBallot,
+    onSubmitted,
 }: {
     showModal: boolean
     close: () => void
     initialBallot?: IBallot
+    onSubmitted: (ballot: IBallot) => void
 }): ReactElement {
     const [alertMessage, setAlertMessage] = React.useState<AlertProps>()
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const [editCandidate, setEditCandidate] = useState<{ id: number } | undefined>(undefined)
+    const [addNew, setAddNew] = useState(false)
     const candidatesInitialState: CandidateState = []
     const candidateTextInput: MutableRefObject<Input | null> = useRef(null)
-    const [addNew, setAddNew] = useState(false)
-
+    const ballotText = t('common:Ballot')
+    const modalTitle = initialBallot
+        ? t('common:Edit', { value: ballotText.toLowerCase() })
+        : t('common:Create', { value: ballotText.toLowerCase() })
     function candidateReducer(state: Array<string>, action: CandidateAction): Array<string> {
         switch (action.type) {
             case 'add':
@@ -53,7 +58,7 @@ export default function CreateBallotModal({
     const [candidatesList, setCandidatesList] = useReducer(candidateReducer, candidatesInitialState)
 
     const submitForm = async (formData: IBallot) => {
-        setAlertMessage({ type: 'error', message: 'LOGIC NOT IMPLEMENTED' })
+        onSubmitted(formData)
     }
 
     function clearCandidateInput() {
@@ -64,17 +69,21 @@ export default function CreateBallotModal({
     const onCancel = () => {
         clearCandidateInput()
     }
+
     const onDelete = (index: number) => {
         setCandidatesList({ type: 'remove', payload: index })
     }
+
     const onEdit = (id: number) => {
         clearCandidateInput()
         setEditCandidate({ id })
     }
+
     const onAdd = () => {
         clearCandidateInput()
         setAddNew(true)
     }
+
     const onCandidateInputKeydown = (event: React.KeyboardEvent<HTMLInputElement>, index: number | undefined) => {
         event.stopPropagation()
         event.nativeEvent.stopImmediatePropagation()
@@ -91,7 +100,6 @@ export default function CreateBallotModal({
         const candidate: string = candidateTextInput.current?.state.value
         if (candidate) {
             if (index == undefined) {
-                setAddNew(false)
                 setCandidatesList({ type: 'add', payload: candidate })
             } else {
                 setCandidatesList({ type: 'update', payload: { index: index, value: candidate } })
@@ -100,9 +108,9 @@ export default function CreateBallotModal({
         clearCandidateInput()
     }
     const candidateInputField = (index?: number) => (
-        <div className="is-flex-row width-100">
+        <div className="is-flex-row width-100 mb-10">
             <Input
-                className="mr-10"
+                className="mr-10 pl-10"
                 autoFocus={true}
                 ref={candidateTextInput}
                 onKeyDown={(event) => onCandidateInputKeydown(event, index)}
@@ -118,7 +126,7 @@ export default function CreateBallotModal({
         <>
             <Modal
                 width={'100vw'}
-                title={'Create ballot'}
+                title={modalTitle}
                 footer={null}
                 visible={showModal}
                 onCancel={close}
@@ -138,7 +146,7 @@ export default function CreateBallotModal({
                         />
                     )}
                     <div className={'split-view-left'}>
-                        <Title level={3}>Edit ballot</Title>
+                        <Title level={3}>{modalTitle}</Title>
                         <Form.Item
                             name="title"
                             rules={[
@@ -151,15 +159,15 @@ export default function CreateBallotModal({
                             <Input placeholder={t('common:Title')} />
                         </Form.Item>
 
-                        <Form.Item>
+                        <Form.Item name="description">
                             <Input.TextArea placeholder={t('common:Description')} />
                         </Form.Item>
-                        <SelectBallotType label={'Select type'} />
-                        <SelectResultType label={'Result type'} />
-                        <Form.Item label={'Display vote count'}>
+                        <SelectBallotType label={t('ballot:Select type')} />
+                        <SelectResultType label={t('ballot:Result type')} />
+                        <Form.Item label={t('ballot:Display vote count')}>
                             <Switch></Switch>
                         </Form.Item>
-                        <Button type="primary" htmlType="submit" className="">
+                        <Button type="primary" htmlType="submit">
                             {t('common:Save')}
                         </Button>
                     </div>
@@ -167,7 +175,7 @@ export default function CreateBallotModal({
                         <Form.Item
                             name="candidates"
                             label={t('common:Candidate', { count: 2 })}
-                            className={candidatesList.length == 0 ? 'no=input' : ''}
+                            className={candidatesList.length == 0 ? 'no-input' : ''}
                             rules={[
                                 {
                                     validator: (_, value) => {
@@ -182,11 +190,6 @@ export default function CreateBallotModal({
                                     },
                                 },
                             ]}
-                            shouldUpdate={(prevValues, curValues) => {
-                                console.log(prevValues)
-
-                                return prevValues.users !== curValues.users
-                            }}
                         >
                             <List
                                 locale={{ emptyText: <></> }}
