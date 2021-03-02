@@ -8,3 +8,9 @@ form {
         @include paragraph-title();
     }
 }
+
+.no-input {
+    .ant-form-item-control-input {
+        display: none;
+    }
+}
