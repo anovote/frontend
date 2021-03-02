@@ -1,4 +1,4 @@
-import { Alert, AlertProps, Button, Form, Input, Switch } from 'antd'
+import { Alert, AlertProps, Button, Col, Form, Input, Row, Switch } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotType'
 import SelectResultType from 'components/ballot/SelectResultType'
@@ -19,6 +19,12 @@ export default function CreateBallotModal({
         console.info(formData)
         setAlertMessage({ type: 'error', message: 'LOGIC NOT IMPLEMENTED' })
     }
+    const onDelete = () => {
+        console.log('Delete')
+    }
+    const onEdit = () => {
+        console.log('On edit')
+    }
     return (
         <>
             <Modal
@@ -30,7 +36,7 @@ export default function CreateBallotModal({
                 onCancel={close}
                 className="modal-display-large"
             >
-                <Form onFinish={submitForm} layout={'vertical'} className="is-flex-row">
+                <Form onFinish={submitForm} layout={'vertical'} className="is-flex-row split-view">
                     {!!alertMessage && (
                         <Alert
                             message={alertMessage?.message}
@@ -43,7 +49,7 @@ export default function CreateBallotModal({
                             closable
                         />
                     )}
-                    <div>
+                    <div className={'split-view-left'}>
                         <Form.Item
                             name="title"
                             rules={[
@@ -68,8 +74,8 @@ export default function CreateBallotModal({
                             {t('common:Save')}
                         </Button>
                     </div>
-                    <div>
-                        <PreviewList></PreviewList>
+                    <div className="split-view-right">
+                        <PreviewList onDelete={onDelete} onEdit={onEdit}></PreviewList>
                     </div>
                 </Form>
             </Modal>
