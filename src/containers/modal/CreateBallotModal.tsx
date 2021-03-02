@@ -1,12 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Alert, AlertProps, Button, List, Col, Form, Input, Row, Space, Switch } from 'antd'
+import { Alert, AlertProps, Button, Form, Input, List, Switch } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
-import { spawn } from 'child_process'
+import Title from 'antd/lib/typography/Title'
 import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotType'
 import SelectResultType from 'components/ballot/SelectResultType'
 import PreviewItem from 'components/previewList/PreviewItem'
-import PreviewList from 'components/previewList/PreviewList'
-import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { IBallot } from 'core/models/ballot/IBallot'
 import React, { MutableRefObject, ReactElement, useReducer, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -23,7 +22,7 @@ export default function CreateBallotModal({
 }: {
     showModal: boolean
     close: () => void
-    initialBallot?: IBallotEntity
+    initialBallot?: IBallot
 }): ReactElement {
     const [alertMessage, setAlertMessage] = React.useState<AlertProps>()
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
@@ -53,7 +52,7 @@ export default function CreateBallotModal({
 
     const [candidatesList, setCandidatesList] = useReducer(candidateReducer, candidatesInitialState)
 
-    const submitForm = async (formData: { email: string }) => {
+    const submitForm = async (formData: IBallot) => {
         setAlertMessage({ type: 'error', message: 'LOGIC NOT IMPLEMENTED' })
     }
 
@@ -62,7 +61,7 @@ export default function CreateBallotModal({
         setAddNew(false)
     }
 
-    const onCancel = (index: number | undefined) => {
+    const onCancel = () => {
         clearCandidateInput()
     }
     const onDelete = (index: number) => {
@@ -112,7 +111,7 @@ export default function CreateBallotModal({
             <Button className="mr-10" onClick={() => saveCandidateField(index)}>
                 {index != undefined ? t('common:Update') : t('common:Add')}
             </Button>
-            <Button onClick={() => onCancel(index)}>{t('common:Cancel')}</Button>
+            <Button onClick={() => onCancel()}>{t('common:Cancel')}</Button>
         </div>
     )
     return (
@@ -139,6 +138,7 @@ export default function CreateBallotModal({
                         />
                     )}
                     <div className={'split-view-left'}>
+                        <Title level={3}>Edit ballot</Title>
                         <Form.Item
                             name="title"
                             rules={[
@@ -164,20 +164,46 @@ export default function CreateBallotModal({
                         </Button>
                     </div>
                     <div className="split-view-right">
-                        <List
-                            dataSource={candidatesList}
-                            renderItem={(item, index) => (
-                                <>
-                                    <PreviewItem
-                                        onEdit={() => onEdit(index)}
-                                        onDelete={() => onDelete(index)}
-                                        id={index}
-                                        itemTitle={item}
-                                    />
-                                    {editCandidate && editCandidate.id == index && candidateInputField(index)}
-                                </>
-                            )}
-                        ></List>
+                        <Form.Item
+                            name="candidates"
+                            label={t('common:Candidate', { count: 2 })}
+                            className={candidatesList.length == 0 ? 'no=input' : ''}
+                            rules={[
+                                {
+                                    validator: (_, value) => {
+                                        if (candidatesList.length > 0) {
+                                            return Promise.resolve()
+                                        }
+                                        return Promise.reject(
+                                            t('form:Must have at least one', {
+                                                field: t('common:Candidate').toLowerCase(),
+                                            }),
+                                        )
+                                    },
+                                },
+                            ]}
+                            shouldUpdate={(prevValues, curValues) => {
+                                console.log(prevValues)
+
+                                return prevValues.users !== curValues.users
+                            }}
+                        >
+                            <List
+                                locale={{ emptyText: <></> }}
+                                dataSource={candidatesList}
+                                renderItem={(item, index) => (
+                                    <>
+                                        <PreviewItem
+                                            onEdit={() => onEdit(index)}
+                                            onDelete={() => onDelete(index)}
+                                            id={index}
+                                            itemTitle={item}
+                                        />
+                                        {editCandidate && editCandidate.id == index && candidateInputField(index)}
+                                    </>
+                                )}
+                            ></List>
+                        </Form.Item>
                         {addNew && candidateInputField()}
                         <div className="is-flex justify-content-center width-100 mt-10">
                             <Button
