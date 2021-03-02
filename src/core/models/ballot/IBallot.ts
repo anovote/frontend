@@ -13,4 +13,5 @@ export interface IBallot {
     type: BallotType
     status: BallotStatus
     candidates: Array<ICandidate>
+    order: number
 }
