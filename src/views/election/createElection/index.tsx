@@ -130,6 +130,7 @@ export default function CreateElectionView(): React.ReactElement {
                 </Col>
                 <Col span={12} className="ballot-section">
                     <h2>{t('common:Ballots')}</h2>
+                    <PreviewList />
                 </Col>
             </Row>
             <div className="alert-field">
