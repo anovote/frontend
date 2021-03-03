@@ -13,7 +13,7 @@ export default class BallotService {
     }
 
     async getBallotsForElection(electionId: number): Promise<IBallotEntity[]> {
-        const url = this.getUrl(electionId)
+        const url = this.getBallotsUrl(electionId)
         const response = await this._httpClient.get<BallotEntity[]>(url)
         this.validateResponse(response)
         return response.data
@@ -26,13 +26,13 @@ export default class BallotService {
     }
 
     async updateBallots(electionId: number, ballots: IBallot[]): Promise<IBallotEntity[]> {
-        const url = this.getUrl(electionId)
+        const url = this.getBallotsUrl(electionId)
         const response = await this._httpClient.put<BallotEntity[]>(url, ballots)
         this.validateResponse(response)
         return response.data
     }
 
-    private getUrl(electionId: number) {
+    private getBallotsUrl(electionId: number) {
         return apiRoute.createElection + `/${electionId}` + apiRoute.ballots
     }
 }
