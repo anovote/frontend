@@ -249,13 +249,6 @@ export default function Home(): React.ReactElement {
             updatedAt: new Date(),
         },
     ]
-
-    const a = [{ title: 'Total', value: 343 }]
-    const b = [
-        { title: 'Total', value: 99999 },
-        { title: 'Votes', value: 3343 },
-        { title: 'Votes', value: 94 },
-    ]
     return (
         <div>
             <Title>This is a title.</Title>
