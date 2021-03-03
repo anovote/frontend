@@ -1,22 +1,23 @@
+import { Alert, AlertProps, Col, Form, Row, Table } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
+import PreviewList from 'components/previewList/PreviewList'
 import * as React from 'react'
-import { Form, Row, Col, Table, Alert, AlertProps } from 'antd'
-import { eligibleVotersDummyData, electionAuthoritiesDummyData } from './DummyData'
-import { IElectionDetails } from '../../../core/service/election/IElectionDetails'
-import { ElectionService } from '../../../core/service/election/ElectionService'
-import { BackendAPI } from '../../../core/api'
-import { ElectionStatus } from '../../../core/service/election/ElectionStatus'
-import CreateElectionButton from '../../../components/election/CreateElectionButton'
-import ElectionTitleInput from '../../../components/election/ElectionTitleInput'
-import ElectionDescriptionInput from '../../../components/election/ElectionDescriptionInput'
-import OpenDateInput from '../../../components/election/OpenDateInput'
-import CloseDateInput from '../../../components/election/CloseDateInput'
-import ImportEligibleVotersDropdown from '../../../components/election/ImportEligibleVotersDropdown'
-import ImportElectionAuthoritiesDropdown from '../../../components/election/ImportElectionAuthoritiesDropdown'
-import ElectionPasswordInput from '../../../components/election/ElectionPasswordInput'
-import IsAutomaticCheckbox from '../../../components/election/IsAutomaticCheckbox'
-import { AuthorizationError } from '../../../core/service/election/AuthorizationError'
 import { useTranslation } from 'react-i18next'
+import CloseDateInput from 'components/election/CloseDateInput'
+import CreateElectionButton from 'components/election/CreateElectionButton'
+import ElectionDescriptionInput from 'components/election/ElectionDescriptionInput'
+import ElectionPasswordInput from 'components/election/ElectionPasswordInput'
+import ElectionTitleInput from 'components/election/ElectionTitleInput'
+import ImportElectionAuthoritiesDropdown from 'components/election/ImportElectionAuthoritiesDropdown'
+import ImportEligibleVotersDropdown from 'components/election/ImportEligibleVotersDropdown'
+import IsAutomaticCheckbox from 'components/election/IsAutomaticCheckbox'
+import OpenDateInput from 'components/election/OpenDateInput'
+import { BackendAPI } from 'core/api'
+import { AuthorizationError } from 'core/service/election/AuthorizationError'
+import { ElectionService } from 'core/service/election/ElectionService'
+import { ElectionStatus } from 'core/service/election/ElectionStatus'
+import { IElectionDetails } from 'core/service/election/IElectionDetails'
+import { electionAuthoritiesDummyData, eligibleVotersDummyData } from './DummyData'
 
 /**
  * The main view used for creating an election
@@ -129,6 +130,7 @@ export default function CreateElectionView(): React.ReactElement {
                 </Col>
                 <Col span={12} className="ballot-section">
                     <h2>{t('common:Ballots')}</h2>
+                    <PreviewList />
                 </Col>
             </Row>
             <div className="alert-field">

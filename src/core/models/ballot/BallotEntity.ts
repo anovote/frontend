@@ -64,4 +64,8 @@ export class BallotEntity implements IBallotEntity {
     get updatedAt(): Date {
         return this._ballot.updatedAt
     }
+
+    get order(): number {
+        return this._ballot.order
+    }
 }

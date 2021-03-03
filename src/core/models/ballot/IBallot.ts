@@ -13,4 +13,5 @@ export interface IBallot {
     resultDisplayTypeCount: number
     order: number
     candidates: Array<ICandidate>
+    order: number
 }
