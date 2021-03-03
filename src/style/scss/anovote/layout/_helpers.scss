@@ -9,11 +9,19 @@
 }
 
 .is-flex-row {
-    @include is-flex-column;
+    @include is-flex-row;
 }
 
 .has-content-center-center {
     @include has-content-center-center;
+}
+
+.is-flex-align-items-center {
+    align-items: center;
+}
+
+.is-flex-justify-content-center {
+    justify-content: center;
 }
 
 .is-flex-row-reverse {
@@ -24,6 +32,18 @@
 .is-flex-column-reverse {
     // !important is needs because we want to force override if another class has flex-direction
     flex-direction: column-reverse !important;
+}
+
+.align-items-center {
+    align-items: center;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-start {
+    justify-content: flex-start;
 }
 
 /** POSITION */
@@ -53,4 +73,200 @@
 
 .is-full-width {
     width: calc(100vw - #{$sidebar-width});
+}
+
+/** HELPER */
+@mixin symmetricPM($amount, $direction, $type) {
+    @if $type == padding {
+        @if $direction == x {
+            padding-left: $amount + rem;
+            padding-right: $amount + rem;
+        } @else {
+            padding-top: $amount + rem;
+            padding-bottom: $amount + rem;
+        }
+    } @else {
+        @if $direction == x {
+            margin-left: $amount + rem;
+            margin-right: $amount + rem;
+        } @else {
+            margin-top: $amount + rem;
+            margin-bottom: $amount + rem;
+        }
+    }
+}
+/** PADDING */
+.px-10 {
+    @include symmetricPM(1, x, padding);
+}
+.px-15 {
+    @include symmetricPM(1.5, x, padding);
+}
+.px-20 {
+    @include symmetricPM(2, x, padding);
+}
+.py-10 {
+    @include symmetricPM(1, y, padding);
+}
+.py-15 {
+    @include symmetricPM(1.5, y, padding);
+}
+.py-20 {
+    @include symmetricPM(2, y, padding);
+}
+/** MARGIN */
+.mx-10 {
+    @include symmetricPM(1, x, margin);
+}
+.mx-15 {
+    @include symmetricPM(1.5, x, margin);
+}
+.mx-20 {
+    @include symmetricPM(2, x, margin);
+}
+.my-10 {
+    @include symmetricPM(1, y, margin);
+}
+.my-15 {
+    @include symmetricPM(1.5, y, margin);
+}
+.my-20 {
+    @include symmetricPM(2, y, margin);
+}
+
+@mixin PM($value, $direction, $type) {
+    $pos: bottom;
+    @if $direction == up {
+        #{$type}-top: $value + rem;
+    } @else if($direction == right) {
+        #{$type}-right: $value + rem;
+    } @else if($direction == bottom) {
+        #{$type}-bottom: $value + rem;
+    } @else if($direction == left) {
+        #{$type}-left: $value + rem;
+    }
+}
+/** PADDING */
+.pt-05 {
+    @include PM(0.5, up, padding);
+}
+
+.pr-05 {
+    @include PM(0.5, right, padding);
+}
+
+.pb-05 {
+    @include PM(0.5, bottom, padding);
+}
+
+.pl-05 {
+    @include PM(0.5, left, padding);
+}
+.pt-10 {
+    @include PM(1, up, padding);
+}
+
+.pr-10 {
+    @include PM(1, right, padding);
+}
+
+.pb-10 {
+    @include PM(1, bottom, padding);
+}
+
+.pl-10 {
+    @include PM(1, left, padding);
+}
+
+.pt-15 {
+    @include PM(1.5, up, padding);
+}
+
+.pr-15 {
+    @include PM(1.5, right, padding);
+}
+
+.pb-15 {
+    @include PM(1.5, bottom, padding);
+}
+
+.pl-15 {
+    @include PM(1.5, left, padding);
+}
+.pt-20 {
+    @include PM(2, up, padding);
+}
+
+.pr-20 {
+    @include PM(2, right, padding);
+}
+
+.pb-20 {
+    @include PM(2, bottom, padding);
+}
+
+.pl-20 {
+    @include PM(2, left, padding);
+}
+/** MARGIN */
+.mt-05 {
+    @include PM(0.5, up, margin);
+}
+
+.mr-05 {
+    @include PM(0.5, right, margin);
+}
+
+.mb-05 {
+    @include PM(0.5, bottom, margin);
+}
+
+.ml-05 {
+    @include PM(0.5, left, margin);
+}
+.mt-10 {
+    @include PM(1, up, margin);
+}
+
+.mr-10 {
+    @include PM(1, right, margin);
+}
+
+.mb-10 {
+    @include PM(1, bottom, margin);
+}
+
+.ml-10 {
+    @include PM(1, left, margin);
+}
+
+.mt-15 {
+    @include PM(1.5, up, margin);
+}
+
+.mr-15 {
+    @include PM(1.5, right, margin);
+}
+
+.mb-15 {
+    @include PM(1.5, bottom, margin);
+}
+
+.ml-15 {
+    @include PM(1.5, left, margin);
+}
+.mt-20 {
+    @include PM(2, up, margin);
+}
+
+.mr-20 {
+    @include PM(2, right, margin);
+}
+
+.mb-20 {
+    @include PM(2, bottom, margin);
+}
+
+.ml-20 {
+    @include PM(2, left, margin);
 }

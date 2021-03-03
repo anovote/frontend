@@ -2,3 +2,9 @@
     @include is-flex();
     align-items: flex-start;
 }
+
+form {
+    .ant-form-item-label label {
+        @include paragraph-title();
+    }
+}

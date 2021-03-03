@@ -26,12 +26,13 @@
 @import './anovote/components/stats';
 @import './anovote/components/election/entry';
 @import './anovote/components/election/header';
-@import './anovote/components/cardList';
 @import './anovote/components/previewList';
 @import './anovote/components/ballot';
 @import './anovote/components/ranked';
 @import './anovote/components/radio';
 @import './anovote/components/electionStatus';
+@import './anovote/components/card';
+@import './anovote/components/election/statusLeft';
 
 // VIEWS
 @import './anovote/view/home';
