@@ -18,16 +18,19 @@ import { IBallot } from 'core/models/ballot/IBallot'
 
 export default function PreviewList({ electionId }: { electionId?: number }): React.ReactElement {
     const [ballotsState, setBallotsState] = useState<IBallot[]>(freshBallots)
-    const [showCreateModalState, setShowCreateBallotModalState] = useState<boolean>(false)
+    const [createBallotModalState, setCreateBallotModalState] = useState<CreateBallotModalState>({
+        show: false,
+        initialBallot: undefined,
+    })
 
     const closeModalHandler = () => {
-        setShowCreateBallotModalState(false)
+        setCreateBallotModalState({ show: false, initialBallot: undefined })
     }
 
     const addNewBallot = () => {
         // TODO
         console.log('Add new ballot')
-        setShowCreateBallotModalState(true)
+        setCreateBallotModalState({ show: true })
     }
 
     const onSubmitCreateBallotHandler = (ballot: IBallot) => {
@@ -75,18 +78,22 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
     const onDeleteHandler = () => {
         console.log('item delete click')
     }
-    const onEditHandler = () => {
-        console.log('edit click')
+    const onEditHandler = (id: number) => {
+        const ballot = ballotsState[id]
+        setCreateBallotModalState({ show: true, initialBallot: ballot })
     }
 
     return (
         <div>
-            <CreateBallotModal
-                showModal={showCreateModalState}
-                close={closeModalHandler}
-                onSubmitted={onSubmitCreateBallotHandler}
-                initialBallot={undefined}
-            />
+            {console.log(ballotsState)}
+            {createBallotModalState.show && (
+                <CreateBallotModal
+                    initialBallot={createBallotModalState.initialBallot}
+                    showModal={createBallotModalState.show}
+                    close={closeModalHandler}
+                    onSubmitted={onSubmitCreateBallotHandler}
+                />
+            )}
             <DragDropContext onDragEnd={onDragEndHandler}>
                 <Droppable droppableId="ballots">
                     {(dropProvided) => (
@@ -105,7 +112,7 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
                                                     itemTitle={title}
                                                     id={index.toString()}
                                                     onDelete={onDeleteHandler}
-                                                    onEdit={onEditHandler}
+                                                    onEdit={() => onEditHandler(index)}
                                                 />
                                             </div>
                                         )}
@@ -122,12 +129,7 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
     )
 }
 
-//;<CreateBallotModal
-//    showModal={true}
-//    close={() => {
-//        console.log('close')
-//    }}
-//    onSubmitted={() => {
-//        console.log('submit')
-//    }}
-//></CreateBallotModal>
+interface CreateBallotModalState {
+    show: boolean
+    initialBallot?: IBallot
+}
