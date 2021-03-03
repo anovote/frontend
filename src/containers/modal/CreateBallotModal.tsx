@@ -14,6 +14,7 @@ type CandidateAction =
     | { type: 'add'; payload: string }
     | { type: 'remove'; payload: number }
     | { type: 'update'; payload: { index: number; value: string } }
+    | { type: 'clear' }
 
 export default function CreateBallotModal({
     showModal,
@@ -51,6 +52,9 @@ export default function CreateBallotModal({
                 const newState = Object.assign([], state) as CandidateState
                 newState[action.payload.index] = action.payload.value
                 return newState
+            }
+            case 'clear': {
+                return []
             }
             default:
                 return state
@@ -124,6 +128,12 @@ export default function CreateBallotModal({
             <Button onClick={() => onCancel()}>{t('common:Cancel')}</Button>
         </div>
     )
+
+    const resetFormData = () => {
+        console.log('reset form data')
+        setCandidatesList({ type: 'clear' })
+    }
+
     return (
         <>
             <Modal
@@ -133,6 +143,8 @@ export default function CreateBallotModal({
                 visible={showModal}
                 onCancel={close}
                 className="modal-display-large"
+                afterClose={resetFormData}
+                destroyOnClose={true}
             >
                 <Form onFinish={submitForm} layout={'vertical'} className="is-flex-row split-view">
                     {!!alertMessage && (
@@ -184,7 +196,7 @@ export default function CreateBallotModal({
                             className={candidatesList.length == 0 ? 'no-input' : ''}
                             rules={[
                                 {
-                                    validator: (_, value) => {
+                                    validator: () => {
                                         if (candidatesList.length > 0) {
                                             return Promise.resolve()
                                         }
