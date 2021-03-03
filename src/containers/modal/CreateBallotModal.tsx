@@ -6,14 +6,15 @@ import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotTy
 import SelectResultType from 'components/ballot/SelectResultType'
 import PreviewItem from 'components/previewList/PreviewItem'
 import { IBallot } from 'core/models/ballot/IBallot'
+import { ICandidate } from 'core/models/ballot/ICandidate'
 import React, { MutableRefObject, ReactElement, useReducer, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-type CandidateState = Array<string>
+type CandidateState = Array<ICandidate>
 type CandidateAction =
-    | { type: 'add'; payload: string }
+    | { type: 'add'; payload: ICandidate }
     | { type: 'remove'; payload: number }
-    | { type: 'update'; payload: { index: number; value: string } }
+    | { type: 'update'; payload: { index: number; value: ICandidate } }
     | { type: 'clear' }
 
 export default function CreateBallotModal({
@@ -31,15 +32,16 @@ export default function CreateBallotModal({
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const [editCandidate, setEditCandidate] = useState<{ id: number } | undefined>(undefined)
     const [addNew, setAddNew] = useState(false)
-    const candidatesInitialState: CandidateState =
-        initialBallot?.candidates.flatMap((candidate) => candidate.candidate) || []
+
+    const candidatesInitialState: CandidateState = initialBallot?.candidates || []
+
     const candidateTextInput: MutableRefObject<Input | null> = useRef(null)
     const ballotText = t('common:Ballot')
     const modalTitle = initialBallot
         ? t('common:Edit', { value: ballotText.toLowerCase() })
         : t('common:Create', { value: ballotText.toLowerCase() })
 
-    function candidateReducer(state: Array<string>, action: CandidateAction): Array<string> {
+    function candidateReducer(state: Array<ICandidate>, action: CandidateAction): Array<ICandidate> {
         switch (action.type) {
             case 'add':
                 return [...state, action.payload]
@@ -64,6 +66,7 @@ export default function CreateBallotModal({
     const [candidatesList, setCandidatesList] = useReducer(candidateReducer, candidatesInitialState)
 
     const submitForm = async (formData: IBallot) => {
+        formData.candidates = candidatesList
         onSubmitted(formData)
     }
 
@@ -106,9 +109,9 @@ export default function CreateBallotModal({
         const candidate: string = candidateTextInput.current?.state.value
         if (candidate) {
             if (index == undefined) {
-                setCandidatesList({ type: 'add', payload: candidate })
+                setCandidatesList({ type: 'add', payload: { candidate } })
             } else {
-                setCandidatesList({ type: 'update', payload: { index: index, value: candidate } })
+                setCandidatesList({ type: 'update', payload: { index: index, value: { candidate } } })
             }
         }
         clearCandidateInput()
@@ -120,7 +123,7 @@ export default function CreateBallotModal({
                 autoFocus={true}
                 ref={candidateTextInput}
                 onKeyDown={(event) => onCandidateInputKeydown(event, index)}
-                defaultValue={index != undefined ? candidatesList[index] : ''}
+                defaultValue={index != undefined ? candidatesList[index].candidate : ''}
             ></Input>
             <Button className="mr-10" onClick={() => saveCandidateField(index)}>
                 {index != undefined ? t('common:Update') : t('common:Add')}
@@ -130,7 +133,6 @@ export default function CreateBallotModal({
     )
 
     const resetFormData = () => {
-        console.log('reset form data')
         setCandidatesList({ type: 'clear' })
     }
 
@@ -218,7 +220,7 @@ export default function CreateBallotModal({
                                             onEdit={() => onEdit(index)}
                                             onDelete={() => onDelete(index)}
                                             id={index}
-                                            itemTitle={item}
+                                            itemTitle={item.candidate}
                                         />
                                         {editCandidate && editCandidate.id == index && candidateInputField(index)}
                                     </>
