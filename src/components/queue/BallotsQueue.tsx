@@ -31,12 +31,12 @@ export default function BallotsQueue({ dataSource }: { dataSource: BallotEntity[
             <Step
                 key={ballot.id}
                 title={<Title level={4}>{ballot.title}</Title>}
-                subTitle={<QueueDescription />}
+                subTitle={<QueueDescription winner="John Doe" />}
                 description={
                     <>
                         <StatCard stats={stats} />
                         <SquareIconButton
-                            text="Push Ballot"
+                            text={t('common:Push ballot')}
                             tabIndex={0}
                             classId="push-ballot-button"
                             onClick={() => pushBallot(ballot.id)}
