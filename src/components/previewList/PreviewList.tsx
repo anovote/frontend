@@ -63,8 +63,26 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
                 <Droppable droppableId="ballots">
                     {(dropProvided) => (
                         <div ref={dropProvided.innerRef}>
-                            {ballotsState.map(({ title, id }, index) => {
-                                return <PreviewItem key={id} title={title} id={id.toString()} index={index} />
+                            {ballotsState.map(({ title }, index) => {
+                                return (
+                                    <Draggable key={index} draggableId={index.toString()} index={index}>
+                                        {(provided) => (
+                                            <div
+                                                ref={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                            >
+                                                <PreviewItem
+                                                    key={index}
+                                                    itemTitle={title}
+                                                    id={index.toString()}
+                                                    onDelete={onDeleteHandler}
+                                                    onEdit={onEditHandler}
+                                                />
+                                            </div>
+                                        )}
+                                    </Draggable>
+                                )
                             })}
                             {dropProvided.placeholder}
                         </div>
