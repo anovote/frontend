@@ -1,5 +1,6 @@
 import { AxiosInstance, AxiosResponse } from 'axios'
 import { BallotEntity } from 'core/models/ballot/BallotEntity'
+import { IBallot } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { apiRoute } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
@@ -24,7 +25,7 @@ export default class BallotService {
         }
     }
 
-    async updateBallots(electionId: number, ballots: IBallotEntity[]): Promise<IBallotEntity[]> {
+    async updateBallots(electionId: number, ballots: IBallot[]): Promise<IBallotEntity[]> {
         const url = this.getUrl(electionId)
         const response = await this._httpClient.put<BallotEntity[]>(url, ballots)
         this.validateResponse(response)
