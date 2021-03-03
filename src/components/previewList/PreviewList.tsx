@@ -75,8 +75,11 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
         [ballotsState],
     )
 
-    const onDeleteHandler = () => {
+    const onDeleteHandler = (index: number) => {
         console.log('item delete click')
+        const newState = Array.from(ballotsState)
+        newState.splice(index, 1)
+        setBallotsState(newState)
     }
     const onEditHandler = (id: number) => {
         const ballot = ballotsState[id]
@@ -111,7 +114,7 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
                                                     key={index}
                                                     itemTitle={title}
                                                     id={index.toString()}
-                                                    onDelete={onDeleteHandler}
+                                                    onDelete={() => onDeleteHandler(index)}
                                                     onEdit={() => onEditHandler(index)}
                                                 />
                                             </div>
