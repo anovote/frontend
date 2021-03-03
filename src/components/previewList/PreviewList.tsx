@@ -4,10 +4,12 @@ import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import BallotService from 'core/service/ballot/BallotService'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
-import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import AddPreviewButton from './AddPreviewButton'
 import { freshBallots } from 'dummy/ballotsDummyData'
 import PreviewItem from './PreviewItem'
+import CreateBallotModal from 'containers/modal/CreateBallotModal'
+import { IBallot } from 'core/models/ballot/IBallot'
 
 /**
  * Inspired by https://codesandbox.io/s/zqwz5n5p9x?file=/src/index.js
@@ -15,13 +17,26 @@ import PreviewItem from './PreviewItem'
  */
 
 export default function PreviewList({ electionId }: { electionId?: number }): React.ReactElement {
-    const [ballotsState, setBallotsState] = useState<IBallotEntity[]>(freshBallots)
-    const addNewBallot = () => {
-        // TODO
-        console.log('Not implemented')
+    const [ballotsState, setBallotsState] = useState<IBallot[]>(freshBallots)
+    const [showCreateModalState, setShowCreateBallotModalState] = useState<boolean>(false)
+
+    const closeModalHandler = () => {
+        setShowCreateBallotModalState(false)
     }
 
-    const reorder = (list: Array<IBallotEntity>, startIndex: number, endIndex: number) => {
+    const addNewBallot = () => {
+        // TODO
+        console.log('Add new ballot')
+        setShowCreateBallotModalState(true)
+    }
+
+    const onSubmitCreateBallotHandler = (ballot: IBallot) => {
+        ballotsState.push(ballot)
+        setBallotsState(ballotsState)
+        closeModalHandler()
+    }
+
+    const reorder = (list: Array<IBallot>, startIndex: number, endIndex: number) => {
         const result = Array.from(list)
         const [removed] = result.splice(startIndex, 1)
         result.splice(endIndex, 0, removed)
@@ -57,8 +72,21 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
         [ballotsState],
     )
 
+    const onDeleteHandler = () => {
+        console.log('item delete click')
+    }
+    const onEditHandler = () => {
+        console.log('edit click')
+    }
+
     return (
         <div>
+            <CreateBallotModal
+                showModal={showCreateModalState}
+                close={closeModalHandler}
+                onSubmitted={onSubmitCreateBallotHandler}
+                initialBallot={undefined}
+            />
             <DragDropContext onDragEnd={onDragEndHandler}>
                 <Droppable droppableId="ballots">
                     {(dropProvided) => (
@@ -94,11 +122,12 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
     )
 }
 
-export function TestList(ballots: IBallotEntity[]): JSX.Element[] {
-    return ballots.map((ballot: IBallotEntity, index: number) => {
-        console.log(ballot)
-
-        const { title, id } = ballot
-        return <PreviewItem key={id} title={title} id={id.toString()} index={index} />
-    })
-}
+//;<CreateBallotModal
+//    showModal={true}
+//    close={() => {
+//        console.log('close')
+//    }}
+//    onSubmitted={() => {
+//        console.log('submit')
+//    }}
+//></CreateBallotModal>
