@@ -2,7 +2,17 @@ import * as React from 'react'
 import AddPreviewButton from './AddPreviewButton'
 import PreviewItem from './PreviewItem'
 
-export default function PreviewList(): React.ReactElement {
+export default function PreviewList({
+    onEdit,
+    onDelete,
+    onAdd,
+    listItems = [],
+}: {
+    onEdit: () => void
+    onAdd: () => void
+    onDelete: () => void
+    listItems: Array<string>
+}): React.ReactElement {
     const [previews, setPreviews] = React.useState([{ title: 'Helloooo' }])
 
     const addPreview = () => {
@@ -12,13 +22,17 @@ export default function PreviewList(): React.ReactElement {
     }
 
     return (
-        <div>
-            <div>
-                {previews.map((previews) => (
-                    <PreviewItem key={Math.random()} title={previews.title} />
-                ))}
-            </div>
-            <AddPreviewButton addPreview={addPreview} />
-        </div>
+        <>
+            {previews.map((previews, index) => (
+                <PreviewItem
+                    onDelete={onDelete}
+                    onEdit={onEdit}
+                    id={index}
+                    key={Math.random()}
+                    itemTitle={previews.title}
+                ></PreviewItem>
+            ))}
+            <AddPreviewButton addPreview={onAdd} />
+        </>
     )
 }

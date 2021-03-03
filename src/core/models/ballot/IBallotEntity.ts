@@ -1,3 +1,4 @@
+import { BallotStatus } from './BallotStatus'
 import { IBallot } from './IBallot'
 
 /**
@@ -7,6 +8,7 @@ import { IBallot } from './IBallot'
  */
 export interface IBallotEntity extends IBallot {
     id: number
+    status: BallotStatus
     createdAt: Date
     updatedAt: Date
 }
