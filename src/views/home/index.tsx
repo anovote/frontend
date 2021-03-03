@@ -166,6 +166,7 @@ export default function Home(): React.ReactElement {
             type: 0,
             resultDisplayCount: 0,
             resultDisplayType: 0,
+            createdAt: new Date(),
             updatedAt: new Date(),
         },
         {
