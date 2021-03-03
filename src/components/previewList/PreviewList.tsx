@@ -28,12 +28,16 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
     }
 
     const addNewBallot = () => {
-        // TODO
-        console.log('Add new ballot')
         setCreateBallotModalState({ show: true })
     }
 
+    /**
+     * Updates the ballot state
+     * @param ballot The ballot returned from the createBallotModal
+     */
     const onSubmitCreateBallotHandler = (ballot: IBallot) => {
+        // todo add update logic
+
         ballotsState.push(ballot)
         setBallotsState(ballotsState)
         closeModalHandler()
@@ -53,7 +57,6 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
 
     const onDragEndHandler = useCallback(
         (result) => {
-            console.log('updating ballots state')
             const { destination, source } = result
 
             // Not dropped in drop context or not moved
@@ -81,6 +84,7 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
         newState.splice(index, 1)
         setBallotsState(newState)
     }
+
     const onEditHandler = (id: number) => {
         const ballot = ballotsState[id]
         setCreateBallotModalState({ show: true, initialBallot: ballot })
@@ -88,7 +92,6 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
 
     return (
         <div>
-            {console.log(ballotsState)}
             {createBallotModalState.show && (
                 <CreateBallotModal
                     initialBallot={createBallotModalState.initialBallot}
