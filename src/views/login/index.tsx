@@ -1,5 +1,6 @@
 import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
@@ -16,7 +17,7 @@ import { useAppStateDispatcher } from '../../core/state/app/AppStateContext'
  * @returns view
  */
 export default function LoginView(): React.ReactElement {
-    const authService = new AuthenticationService(BackendAPI)
+    const authService = new AuthenticationService(BackendAPI, new LocalStorageService())
     const [t] = useTranslation(['translation', 'common'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
