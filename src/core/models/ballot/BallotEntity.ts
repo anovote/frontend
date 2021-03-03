@@ -45,10 +45,6 @@ export class BallotEntity implements IBallotEntity {
         return this._ballot.displayResultCount
     }
 
-    get order(): number {
-        return this._ballot.order
-    }
-
     get status(): BallotStatus {
         return this._ballot.status
     }
