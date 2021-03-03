@@ -3,7 +3,6 @@
     font-size: $text;
     color: $font-color;
     letter-spacing: $letter-spacing-text;
-    line-height: 1.18rem;
 }
 
 @mixin title {
@@ -11,7 +10,6 @@
     font-weight: $black;
     font-size: $title;
     letter-spacing: $letter-spacing-title;
-    line-height: 3.56rem;
 }
 
 @mixin subtitle {
