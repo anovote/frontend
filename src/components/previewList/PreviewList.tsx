@@ -1,15 +1,15 @@
 /* eslint-disable react/display-name */
+import CreateBallotModal from 'containers/modal/CreateBallotModal'
 import { BackendAPI } from 'core/api'
+import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import BallotService from 'core/service/ballot/BallotService'
+import { freshBallots } from 'dummy/ballotsDummyData'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
 import AddPreviewButton from './AddPreviewButton'
-import { freshBallots } from 'dummy/ballotsDummyData'
 import PreviewItem from './PreviewItem'
-import CreateBallotModal from 'containers/modal/CreateBallotModal'
-import { IBallot } from 'core/models/ballot/IBallot'
 
 /**
  * Inspired by https://codesandbox.io/s/zqwz5n5p9x?file=/src/index.js
@@ -35,11 +35,14 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
      * Updates the ballot state
      * @param ballot The ballot returned from the createBallotModal
      */
-    const onSubmitCreateBallotHandler = (ballot: IBallot) => {
-        // todo add update logic
-
-        ballotsState.push(ballot)
-        setBallotsState(ballotsState)
+    const onSubmitCreateBallotHandler = (ballot: IBallot, index?: number) => {
+        const newState = Array.from(ballotsState)
+        if (index !== undefined) {
+            newState.splice(index, 1, ballot)
+        } else {
+            newState.push(ballot)
+        }
+        setBallotsState(newState)
         closeModalHandler()
     }
 
@@ -86,7 +89,8 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
     }
 
     const onEditHandler = (id: number) => {
-        const ballot = ballotsState[id]
+        const ballot: IBallotInList = { ...ballotsState[id], indexInList: id }
+
         setCreateBallotModalState({ show: true, initialBallot: ballot })
     }
 
@@ -137,5 +141,5 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
 
 interface CreateBallotModalState {
     show: boolean
-    initialBallot?: IBallot
+    initialBallot?: IBallotInList
 }

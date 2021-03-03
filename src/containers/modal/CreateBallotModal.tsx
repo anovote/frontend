@@ -5,7 +5,7 @@ import Title from 'antd/lib/typography/Title'
 import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotType'
 import SelectResultType from 'components/ballot/SelectResultType'
 import PreviewItem from 'components/previewList/PreviewItem'
-import { IBallot } from 'core/models/ballot/IBallot'
+import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { ICandidate } from 'core/models/ballot/ICandidate'
 import React, { MutableRefObject, ReactElement, useReducer, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -25,8 +25,8 @@ export default function CreateBallotModal({
 }: {
     showModal: boolean
     close: () => void
-    initialBallot?: IBallot
-    onSubmitted: (ballot: IBallot) => void
+    initialBallot?: IBallotInList
+    onSubmitted: (ballot: IBallot, indexInList?: number) => void
 }): ReactElement {
     const [alertMessage, setAlertMessage] = React.useState<AlertProps>()
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
@@ -67,7 +67,8 @@ export default function CreateBallotModal({
 
     const submitForm = async (formData: IBallot) => {
         formData.candidates = candidatesList
-        onSubmitted(formData)
+        const index = initialBallot?.indexInList
+        onSubmitted(formData, index)
     }
 
     function clearCandidateInput() {

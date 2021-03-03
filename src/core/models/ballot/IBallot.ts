@@ -14,3 +14,7 @@ export interface IBallot {
     order: number
     candidates: Array<ICandidate>
 }
+
+export interface IBallotInList extends IBallot {
+    indexInList: number
+}
