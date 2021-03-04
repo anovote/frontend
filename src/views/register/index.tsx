@@ -1,6 +1,7 @@
 import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
+import { useTranslation } from 'react-i18next/'
 import { useHistory } from 'react-router-dom'
 import { BackendAPI } from '../../core/api'
 import { getAdminRoute } from '../../core/routes/siteRoutes'
@@ -13,6 +14,7 @@ import { useAppStateDispatcher } from '../../core/state/app/AppStateContext'
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
 
+    const [t] = useTranslation('form')
     const [errorMessage, setErrorMessage] = React.useState('')
     const [successMessage, setSuccessMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
@@ -23,19 +25,19 @@ export default function RegisterView(): React.ReactElement {
             setErrorMessage('')
             try {
                 await registrationService.registerOrganizer(form)
-                setSuccessMessage('Brukeren ble registrert!')
+                setSuccessMessage(t('form:User was registered'))
 
                 appDispatcher.setLoginState(AuthLevel.organizer)
                 history.replace(getAdminRoute().elections.view)
             } catch (error) {
                 if (error instanceof CredentialError) {
-                    setErrorMessage('Feil i utfyldingen av skjemaet')
+                    setErrorMessage(t('form:Error in form'))
                 } else {
-                    setErrorMessage('Noe gikk galt, prøv igjen senere')
+                    setErrorMessage(t('form:Something went wrong'))
                 }
             }
         } else {
-            setErrorMessage('Passordene er ikke like!')
+            setErrorMessage(t('form:Must be equal', { field: t('common:Password').toLowerCase() }))
         }
     }
 
@@ -50,39 +52,43 @@ export default function RegisterView(): React.ReactElement {
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
                         <Form.Item
-                            label="Fornavn"
+                            label={t('common:First name')}
                             name="firstName"
-                            rules={[{ required: true, message: 'Husk fornavn!' }]}
+                            rules={[{ required: true, message: t('form:Remember first name') }]}
                         >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="Etternavn"
+                            label={t('common:Last name')}
                             name="lastName"
-                            rules={[{ required: true, message: 'Husk etternavn!' }]}
+                            rules={[{ required: true, message: t('form:Remember last name') }]}
                         >
                             <Input />
                         </Form.Item>
-                        <Form.Item label="Epost" name="email" rules={[{ required: true, message: 'Husk epost!' }]}>
+                        <Form.Item
+                            label={t('common:Email')}
+                            name="email"
+                            rules={[{ required: true, message: t('form:Remember email') }]}
+                        >
                             <Input />
                         </Form.Item>
                         <Form.Item
-                            label="Passord"
+                            label={t('common:Password')}
                             name="password"
-                            rules={[{ required: true, message: 'Husk passord!' }]}
+                            rules={[{ required: true, message: t('form:Remember password') }]}
                         >
                             <Input.Password />
                         </Form.Item>
                         <Form.Item
-                            label="Skriv passord igjen"
+                            label={t('form:Please rewrite password')}
                             name="reTypePassword"
-                            rules={[{ required: true, message: 'Husk passord på nytt!' }]}
+                            rules={[{ required: true, message: t('form: Remember to rewrite password') }]}
                         >
                             <Input.Password />
                         </Form.Item>
                         <Form.Item>
                             <Button type="primary" htmlType="submit">
-                                Registrer
+                                {t('form:Register')}
                             </Button>
                         </Form.Item>
                     </Form>

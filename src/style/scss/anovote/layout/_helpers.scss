@@ -66,7 +66,9 @@
     height: calc(100vh - #{$header-height});
     padding: 2 * $bu 3 * $bu;
 }
-
+.width-100 {
+    width: 100%;
+}
 .is-full-height {
     height: calc(100vh - #{$header-height});
 }
@@ -75,6 +77,16 @@
     width: calc(100vw - #{$sidebar-width});
 }
 
+.split-view {
+    @include is-flex-row;
+    flex-wrap: wrap;
+}
+
+.split-view-right,
+.split-view-left {
+    flex: 1 1 50%;
+    padding: 0 1rem;
+}
 /** HELPER */
 @mixin symmetricPM($amount, $direction, $type) {
     @if $type == padding {
