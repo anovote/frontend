@@ -12,7 +12,7 @@ export const eligibleVotersDummyData = [
 export const electionAuthoritiesDummyData = [
     {
         key: '1',
-        name: 'Eltoni',
+        name: 'Elton',
         organization: 'anovote.ru',
     },
 ]

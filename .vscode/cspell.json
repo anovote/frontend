@@ -59,7 +59,8 @@
         "unmount",
         "USEPOLLING",
         "varchar",
-        "zwaldowski"
+        "zwaldowski",
+        "droppable"
     ],
     "flagWords": ["hte"],
     "ignorePaths": ["*.env*", ".prettier*", "package.json", "yarn.lock", ".eslint*", ".vscode/*"]
