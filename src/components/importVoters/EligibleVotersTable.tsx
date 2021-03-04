@@ -2,6 +2,7 @@ import * as React from 'react'
 import { Table, Upload, Button, Menu, Dropdown, Alert } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { FileParser } from './FileParser'
+import { useTranslation } from 'react-i18next'
 
 export default function EligibleVotersTable(): React.ReactElement {
     const columns = [
@@ -11,6 +12,7 @@ export default function EligibleVotersTable(): React.ReactElement {
         },
     ]
 
+    const [t] = useTranslation(['parsing'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [mappedCsvArray, setMappedCsvArray] = React.useState([{}])
     const fileParser = new FileParser()
@@ -26,13 +28,13 @@ export default function EligibleVotersTable(): React.ReactElement {
                 const parsedCsv = await fileParser.parseCsv(file)
                 parseArrayToObjectArray(parsedCsv)
             } catch (e) {
-                setErrorMessage('Something went wrong in the parsing')
+                setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson(file)
             setMappedCsvArray(parsedJson.emails)
         } else {
-            setErrorMessage('The file is not CSV or JSON!')
+            setErrorMessage(t('The file is not CSV or JSON!'))
         }
         return
     }
@@ -43,7 +45,7 @@ export default function EligibleVotersTable(): React.ReactElement {
      */
     const parseArrayToObjectArray = (array: string[]) => {
         if (array.length === 0) {
-            setErrorMessage('File is empty')
+            setErrorMessage(t('File is empty'))
             return
         }
         for (let i = 0; i < array.length; i++) {
