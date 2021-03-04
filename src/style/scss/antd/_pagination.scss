@@ -1,0 +1,21 @@
+li.ant-pagination-item {
+    @include is-rounded;
+
+     &:hover, &:focus, &:active {
+        border-color: $main-light;
+    }
+}
+
+.ant-pagination-next, .ant-pagination-prev {
+    button.ant-pagination-item-link {
+        @include is-rounded;
+
+        &:hover, &:focus, &:active {
+            border-color: $main-light;
+        }
+    }
+}
+
+.ant-pagination-item-active {
+    border-color: $main-light;
+}

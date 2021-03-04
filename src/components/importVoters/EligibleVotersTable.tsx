@@ -48,14 +48,14 @@ export default function EligibleVotersTable(): React.ReactElement {
 
     const ImportFileMenu = (): React.ReactElement => {
         return (
-            <Menu>
+            <Menu className="import-voters-menu">
                 <Menu.Item>
                     <Upload beforeUpload={parseFile} accept=".csv">
                         CSV
                     </Upload>
                 </Menu.Item>
                 <Menu.Item>
-                    <Upload beforeUpload={parseFile} accept=".json">
+                    <Upload className="upload-button" beforeUpload={parseFile} accept=".json">
                         JSON
                     </Upload>
                 </Menu.Item>

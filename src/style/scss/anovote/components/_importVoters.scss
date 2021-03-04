@@ -6,70 +6,29 @@
     float: right;
 }
 
-li.ant-menu-item.ant-menu-item-only-child {
-    padding: 0 4.1875rem;
-    margin-right: 0.5rem;
-    margin-left: 0.5rem;
-    @include is-rounded;
-}
-
-ul.ant-menu {
-    @include is-rounded;
+.import-voters-menu {
     @include has-shadow;
+    li.ant-menu-item.ant-menu-item-only-child {
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+        @include is-rounded;
+    }
+
+    
+        @include is-rounded;
+
+    
+    .ant-menu-item-active {
+        background-color: $main-light;
+        span {
+            color: white;
+        }
+    }
 }
 
-.ant-menu-item-active {
-    background-color: $main-light;
+.upload-button {
     span {
-        color: white;
+        display: block;
+        padding: 0 4.1875rem;
     }
-}
-
-li.ant-pagination-item {
-    @include is-rounded;
-
-    &:hover {
-        border-color: $main-light;
-    }
-    &:focus {
-        border-color: $main-light;
-    }
-    &:active {
-        border-color: $main-light;
-    }
-}
-
-.ant-pagination-next {
-    button.ant-pagination-item-link {
-        @include is-rounded;
-
-        &:hover {
-            border-color: $main-light;
-        }
-        &:focus {
-            border-color: $main-light;
-        }
-        &:active {
-            border-color: $main-light;
-        }
-    }
-}
-.ant-pagination-prev {
-    button.ant-pagination-item-link {
-        @include is-rounded;
-
-        &:hover {
-            border-color: $main-light;
-        }
-        &:focus {
-            border-color: $main-light;
-        }
-        &:active {
-            border-color: $main-light;
-        }
-    }
-}
-
-.ant-pagination-item-active {
-    border-color: $main-light;
 }
