@@ -42,6 +42,14 @@
 @import './anovote/view/election/elections';
 @import './anovote/view/election/createElection';
 
+@import './anovote/components/switch';
+@import './anovote/components/previewList';
+@import './anovote/components/ballot';
+@import './anovote/components/ranked';
+@import './anovote/components/radio';
+@import './anovote/components/electionStatus';
+@import './anovote/components/importVoters';
+
 //--------- OVERWRITES ---------
 
 // ANTD
@@ -52,6 +60,7 @@
 @import './antd/switch';
 @import './antd/input';
 @import './antd/button';
+@import './antd/pagination';
 
 body {
     font-family: $font-family;

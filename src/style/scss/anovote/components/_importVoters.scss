@@ -1,0 +1,34 @@
+.voters-table-container {
+    margin: 1rem;
+}
+
+.import-voters-button {
+    float: right;
+}
+
+.import-voters-menu {
+    @include has-shadow;
+    li.ant-menu-item.ant-menu-item-only-child {
+        margin-right: 0.5rem;
+        margin-left: 0.5rem;
+        @include is-rounded;
+    }
+
+    
+        @include is-rounded;
+
+    
+    .ant-menu-item-active {
+        background-color: $main-light;
+        span {
+            color: white;
+        }
+    }
+}
+
+.upload-button {
+    span {
+        display: block;
+        padding: 0 4.1875rem;
+    }
+}

@@ -11,4 +11,12 @@
         background-color: $main-contrasting;
         border-color: $main-contrasting;
     }
+    &:active {
+        background-color: $main-contrasting;
+        border-color: $main-contrasting;
+    }
+    &:focus {
+        background-color: $main-contrasting;
+        border-color: $main-contrasting;
+    }
 }
