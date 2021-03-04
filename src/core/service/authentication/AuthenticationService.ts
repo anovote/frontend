@@ -17,6 +17,9 @@ export class AuthenticationService {
         this._storageService = storage
     }
 
+    /**
+     * Authenticates an election organizer with email and password.
+     */
     public async authenticateOrganizer({ email, password }: AuthenticationDetails): Promise<void> {
         try {
             const response = await this._httpClient.post<AuthenticationResponse>(apiRoute.authentication, {
@@ -39,12 +42,14 @@ export class AuthenticationService {
     }
 
     private setAuthorization(token: string) {
+        // TODO Fix this to be a callable function on http client instead
         this._httpClient.defaults.headers['Authorization'] = `Bearer ${token}`
     }
 
     /**
      * Tries to login with the token stored in storage. If the token is valid
      * return true, else false.
+     * This sets the authorization header for the http client if valid token
      */
     public tryLoginWithToken(): boolean {
         if (this.hasValidAuthorizationToken()) {
