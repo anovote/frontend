@@ -1,5 +1,6 @@
 import { parse } from 'papaparse'
 import { EmailArray } from './EmailArray'
+import { ParseError } from './ParseError'
 
 export class FileParser {
     public async parseCsv(file: File): Promise<string[]> {
@@ -9,7 +10,7 @@ export class FileParser {
                     resolve(result.data)
                 },
                 error: (error) => {
-                    throw new Error(error + 'error in csv parsing')
+                    throw new ParseError(error + 'error in csv parsing')
                 },
             })
         })
