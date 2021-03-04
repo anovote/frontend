@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-export default function LargeIconButton({
+export default function SquareIconButton({
     reverse,
     text,
     classId,
@@ -18,7 +18,7 @@ export default function LargeIconButton({
     return (
         <button
             onClick={(event) => onClick(event)}
-            className={`anovote-button-style large-icon-button main-light ${classReverse}`}
+            className={`anovote-button-style square-icon-button main-light ${classReverse}`}
             tabIndex={tabIndex}
             id={classId}
         >
