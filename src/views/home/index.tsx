@@ -1,8 +1,5 @@
 import Text from 'antd/lib/typography/Text'
 import Title from 'antd/lib/typography/Title'
-import BallotsQueue from 'components/queue/BallotsQueue'
-import { BallotEntity } from 'core/models/ballot/BallotEntity'
-import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import React from 'react'
 
 /**
