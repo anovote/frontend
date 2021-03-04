@@ -20,8 +20,10 @@ export class FileParser {
             const reader = new FileReader()
             reader.readAsText(file)
             reader.onload = (e) => {
-                const dataString = JSON.stringify(e.target?.result)
-                resolve(JSON.parse(JSON.parse(dataString)))
+                const dataString = e.target?.result
+                if (dataString && typeof dataString === 'string') {
+                    resolve(JSON.parse(dataString as string))
+                }
             }
         })
     }
