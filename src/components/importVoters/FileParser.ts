@@ -1,11 +1,10 @@
 import { parse } from 'papaparse'
-import { EmailArray } from './EmailArray'
 import { ParseError } from './ParseError'
 
 export class FileParser {
-    public async parseCsv(file: File): Promise<string[]> {
-        return new Promise<string[]>((resolve) => {
-            parse<string>(file, {
+    public async parseCsv<T>(file: File): Promise<T[]> {
+        return new Promise((resolve) => {
+            parse<T>(file, {
                 complete: (result) => {
                     resolve(result.data)
                 },
@@ -16,8 +15,8 @@ export class FileParser {
         })
     }
 
-    public async parseJson(file: File): Promise<EmailArray> {
-        return new Promise<EmailArray>((resolve) => {
+    public async parseJson<T>(file: File): Promise<T> {
+        return new Promise((resolve) => {
             const reader = new FileReader()
             reader.readAsText(file)
             reader.onload = (e) => {

@@ -14,7 +14,7 @@ export default function EligibleVotersTable(): React.ReactElement {
 
     const [t] = useTranslation(['parsing'])
     const [errorMessage, setErrorMessage] = React.useState('')
-    const [mappedCsvArray, setMappedCsvArray] = React.useState([{}])
+    const [mappedCsvArray, setMappedCsvArray] = React.useState<{ key: number; email: string }[]>([])
     const fileParser = new FileParser()
 
     /**
@@ -25,39 +25,25 @@ export default function EligibleVotersTable(): React.ReactElement {
     const parseFile = async (file: File): Promise<void> => {
         if (file.type === 'text/csv') {
             try {
-                const parsedCsv = await fileParser.parseCsv(file)
-                parseArrayToObjectArray(parsedCsv)
+                const parsedCsv = await fileParser.parseCsv<string>(file)
+                setMappedCsvArray(parseArrayToObjectArray(parsedCsv))
             } catch (e) {
                 setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
-            const parsedJson = await fileParser.parseJson(file)
-            setMappedCsvArray(parsedJson.emails)
+            const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
+            const emails = parseArrayToObjectArray(parsedJson.emails)
+            setMappedCsvArray(emails)
         } else {
             setErrorMessage(t('The file is not CSV or JSON!'))
         }
         return
     }
 
-    /**
-     * Parses an array to an array of objects.
-     * @param array The array we want to parse
-     */
-    const parseArrayToObjectArray = (array: string[]) => {
-        if (array.length === 0) {
-            setErrorMessage(t('File is empty'))
-            return
-        }
-        for (let i = 0; i < array.length; i++) {
-            const email = array[i]
-            mappedCsvArray.push({ key: i, email: email[0] })
-            const newMappedCsvArray = [...mappedCsvArray]
-            setMappedCsvArray(newMappedCsvArray)
-        }
-        // Shifts to remove empty object in start of array
-        const newArr = [...mappedCsvArray]
-        newArr.shift()
-        setMappedCsvArray(newArr)
+    function parseArrayToObjectArray(array: string[]): { key: number; email: string }[] {
+        return array.map((email, index) => {
+            return { key: index, email }
+        })
     }
 
     const ImportFileMenu = (): React.ReactElement => {
