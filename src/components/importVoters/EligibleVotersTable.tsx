@@ -52,6 +52,7 @@ export default function EligibleVotersTable(): React.ReactElement {
             const newMappedCsvArray = [...mappedCsvArray]
             setMappedCsvArray(newMappedCsvArray)
         }
+        // Shifts to remove empty object in start of array
         const newArr = [...mappedCsvArray]
         newArr.shift()
         setMappedCsvArray(newArr)
