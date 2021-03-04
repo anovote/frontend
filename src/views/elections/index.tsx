@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ElectionsView(): React.ReactElement {
-    const [t] = useTranslation(['common'])
+    const [t] = useTranslation(['common, election'])
     const [upcoming, setUpcoming] = useState([] as IElection[])
     const [inProgress, setInProgress] = useState([] as IElection[])
     const [finished, setFinished] = useState([] as IElection[])
@@ -93,13 +93,13 @@ export default function ElectionsView(): React.ReactElement {
 
     return (
         <>
-            <Title>{t('Elections')}</Title>
+            <Title>{t('common:Elections')}</Title>
             <Space align="start" wrap={true}>
                 <CardList
                     listHeader={
                         <ElectionHeader
                             status={ElectionStatus.NotStarted}
-                            title={t('To be held')}
+                            title={t('election:To be held')}
                             count={upcoming.length}
                         />
                     }
@@ -111,7 +111,7 @@ export default function ElectionsView(): React.ReactElement {
                     listHeader={
                         <ElectionHeader
                             status={ElectionStatus.Started}
-                            title={t('In progress')}
+                            title={t('election:In progress')}
                             count={inProgress.length}
                         />
                     }
@@ -123,7 +123,7 @@ export default function ElectionsView(): React.ReactElement {
                     listHeader={
                         <ElectionHeader
                             status={ElectionStatus.Finished}
-                            title={t('Finished')}
+                            title={t('election:Finished')}
                             count={finished.length}
                         />
                     }

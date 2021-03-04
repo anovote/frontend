@@ -22,26 +22,17 @@
         },
         "ecmaVersion": 12
     },
-    "plugins": [
-        "react",
-        "@typescript-eslint"
-    ],
+    "plugins": ["react", "@typescript-eslint"],
     "rules": {
         "indent": [
             "error",
-            4, { "SwitchCase": 1}
+            4,
+            {
+                "SwitchCase": 1
+            }
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "never"
-        ]
+        "linebreak-style": ["error", "unix"],
+        "quotes": ["error", "single"],
+        "semi": ["error", "never"]
     }
 }

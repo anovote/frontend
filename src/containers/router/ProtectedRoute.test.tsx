@@ -67,7 +67,7 @@ it('should redirect to login if not logged in and login level set to allowed lev
     expect(container.textContent).toBe(loginContent)
 })
 
-it('should display error message if logged in and not appropariate level', async () => {
+it('should display error message if logged in and not appropriate level', async () => {
     const isLoggedIn = true
     const loginLevel = AuthLevel.voter
     const allowedLevels = [AuthLevel.authorizer]

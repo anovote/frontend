@@ -29,8 +29,8 @@ it('should throw error on non axios error', async () => {
     }
 })
 
-it('should store token if successfull login', async () => {
-    const tokenValue = 'randomtoken'
+it('should store token if successfully login', async () => {
+    const tokenValue = 'randomToken'
     axiosMock.post.mockResolvedValue({ data: { token: tokenValue } })
     await service.authenticateOrganizer({ identification: 'test', password: 'test' })
     expect(global.localStorage.getItem('ACCESS_TOKEN')).toBe(tokenValue)

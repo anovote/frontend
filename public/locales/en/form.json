@@ -10,5 +10,12 @@
     "Must match": "Must match {{field}}",
     "Password validation": "Minimum 8 characters, one uppercase, one numeric and one special",
     "Must be equal": "$t(form:Must be) equal to {{field}}",
-    "Email is not valid": "Email is not valid"
+    "Email is not valid": "Email is not valid",
+    "Must have at least one": "Must have at least one {{field}}",
+    "Please provide a password": "Please provide a password",
+    "Something went wrong": "Something went wrong",
+    "Wrong email/password": "Wrong email/password",
+    "Please provide email": "Please provide email",
+    "User was registered": "User was registered",
+    "Error in form": "Error in form"
 }
