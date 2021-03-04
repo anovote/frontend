@@ -29,7 +29,7 @@ function setupInitialState() {
     if (authService.hasValidAuthorizationToken()) {
         if (authService.tryLoginWithToken()) {
             const tokenData = authService.getDecodedToken()
-            appState.authLevel = tokenData?.isOrganizer ? AuthLevel.organizer : AuthLevel.voter
+            appState.authLevel = tokenData?.organizer ? AuthLevel.organizer : AuthLevel.voter
             appState.isLoggedIn = true
         }
     }
