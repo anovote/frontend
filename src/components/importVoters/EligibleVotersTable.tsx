@@ -23,7 +23,7 @@ export default function EligibleVotersTable(): React.ReactElement {
      * @param file The file we want to parse
      */
     const parseFile = async (file: File): Promise<void> => {
-        if (file.type === 'text/csv') {
+        if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv(file)
                 parseArrayToObjectArray(parsedCsv)
