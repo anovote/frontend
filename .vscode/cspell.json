@@ -61,7 +61,8 @@
         "varchar",
         "wojtekmaj",
         "zwaldowski",
-        "droppable"
+        "droppable",
+        "papaparse"
     ],
     "flagWords": [
         "hte"
