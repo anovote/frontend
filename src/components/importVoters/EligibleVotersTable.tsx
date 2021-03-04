@@ -23,7 +23,7 @@ export default function EligibleVotersTable(): React.ReactElement {
      * @param file The file we want to parse
      */
     const parseFile = async (file: File): Promise<void> => {
-        if (file.type === 'text/csv') {
+        if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
                 setMappedCsvArray(parseArrayToObjectArray(parsedCsv))
@@ -50,10 +50,14 @@ export default function EligibleVotersTable(): React.ReactElement {
         return (
             <Menu>
                 <Menu.Item>
-                    <Upload beforeUpload={parseFile}>CSV</Upload>
+                    <Upload beforeUpload={parseFile} accept=".csv">
+                        CSV
+                    </Upload>
                 </Menu.Item>
                 <Menu.Item>
-                    <Upload beforeUpload={parseFile}>JSON</Upload>
+                    <Upload beforeUpload={parseFile} accept=".json">
+                        JSON
+                    </Upload>
                 </Menu.Item>
             </Menu>
         )
