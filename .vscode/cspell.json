@@ -60,7 +60,8 @@
         "USEPOLLING",
         "varchar",
         "wojtekmaj",
-        "zwaldowski"
+        "zwaldowski",
+        "droppable"
     ],
     "flagWords": [
         "hte"
