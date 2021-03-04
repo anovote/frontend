@@ -1,16 +1,15 @@
 import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
-import { LocalStorageService } from 'core/service/storage/LocalStorageService'
-import * as React from 'react'
-import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
 import { BackendAPI } from 'core/api'
-import { getAdminRoute } from 'core/routes/siteRoutes'
 import { AuthenticationDetails } from 'core/service/authentication/AuthenticationDetails'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { CredentialError } from 'core/service/authentication/CredentialsError'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
+import * as React from 'react'
+import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router-dom'
 
 /**
  * Logins view
