@@ -60,7 +60,8 @@
         "USEPOLLING",
         "varchar",
         "zwaldowski",
-        "droppable"
+        "droppable",
+        "papaparse"
     ],
     "flagWords": ["hte"],
     "ignorePaths": ["*.env*", ".prettier*", "package.json", "yarn.lock", ".eslint*", ".vscode/*"]
