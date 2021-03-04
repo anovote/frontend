@@ -45,7 +45,9 @@
     "Edit": "Edit {{value}}",
     "Create": "Create {{value}}",
     "Ballot": "Ballot",
-    "PLANNED": "PLANLAGT",
-    "IN PROGRESS": "PÅGÅENDE",
-    "FINISHED": "FERDIG"
+    "First name": "First name",
+    "Last name": "Last name",
+    "PLANNED": "PLANNED",
+    "IN PROGRESS": "IN PROGRESS",
+    "FINISHED": "FINISHED"
 }
