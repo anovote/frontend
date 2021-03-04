@@ -26,7 +26,7 @@ export default function RegisterView(): React.ReactElement {
                 setSuccessMessage('Brukeren ble registrert!')
 
                 appDispatcher.setLoginState(AuthLevel.organizer)
-                history.replace(getAdminRoute().myElections)
+                history.replace(getAdminRoute().elections.view)
             } catch (error) {
                 if (error instanceof CredentialError) {
                     setErrorMessage('Feil i utfyldingen av skjemaet')

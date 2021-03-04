@@ -27,7 +27,7 @@ export default function LoginView(): React.ReactElement {
         try {
             await authService.authenticateOrganizer(form)
             appDispatcher.setLoginState(AuthLevel.organizer)
-            history.replace(getAdminRoute().myElections)
+            history.replace('/protected/elections')
         } catch (error) {
             if (error instanceof CredentialError) {
                 setErrorMessage('Feil epost/passord')
