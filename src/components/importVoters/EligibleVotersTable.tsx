@@ -64,10 +64,14 @@ export default function EligibleVotersTable(): React.ReactElement {
         return (
             <Menu>
                 <Menu.Item>
-                    <Upload beforeUpload={parseFile}>CSV</Upload>
+                    <Upload beforeUpload={parseFile} accept=".csv">
+                        CSV
+                    </Upload>
                 </Menu.Item>
                 <Menu.Item>
-                    <Upload beforeUpload={parseFile}>JSON</Upload>
+                    <Upload beforeUpload={parseFile} accept=".json">
+                        JSON
+                    </Upload>
                 </Menu.Item>
             </Menu>
         )
