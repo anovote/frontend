@@ -35,11 +35,13 @@
     "Ranked": "Ranked",
     "None": "None",
     "Single winner": "Single winner",
-    "PLANNED": "PLANLAGT",
-    "IN PROGRESS": "PÅGÅENDE",
-    "FINISHED": "FERDIG",
     "Votes": "Votes",
     "Issues": "Issues",
     "Current leader": "Current leader",
     "Push ballot": "Push ballot"
+    "First name": "First name",
+    "Last name": "Last name",
+    "PLANNED": "PLANNED",
+    "IN PROGRESS": "IN PROGRESS",
+    "FINISHED": "FINISHED"
 }
