@@ -3,11 +3,11 @@ import AddPreviewButton from './AddPreviewButton'
 import PreviewItem from './PreviewItem'
 
 export default function PreviewList(): React.ReactElement {
-    const [previews, setPreviews] = React.useState([{ title: 'Helloooo' }])
+    const [previews, setPreviews] = React.useState([{ title: 'Hello' }])
 
     const addPreview = () => {
         const previewList = [...previews]
-        previewList.push({ title: 'Wallah brosjan' })
+        previewList.push({ title: 'Hi bro' })
         setPreviews(previewList)
     }
 

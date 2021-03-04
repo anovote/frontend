@@ -59,8 +59,18 @@
         "unmount",
         "USEPOLLING",
         "varchar",
+        "wojtekmaj",
         "zwaldowski"
     ],
-    "flagWords": ["hte"],
-    "ignorePaths": ["*.env*", ".prettier*", "package.json", "yarn.lock", ".eslint*", ".vscode/*"]
+    "flagWords": [
+        "hte"
+    ],
+    "ignorePaths": [
+        "*.env*",
+        ".prettier*",
+        "package.json",
+        "yarn.lock",
+        ".eslint*",
+        ".vscode/*"
+    ]
 }
