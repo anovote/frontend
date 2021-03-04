@@ -2,6 +2,7 @@ import { EyeFilled, HomeFilled, ProjectFilled, SettingFilled } from '@ant-design
 import { Layout, Menu } from 'antd'
 import Search from 'antd/lib/input/Search'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
+import { getAdminRoute } from 'core/routes/siteRoutes'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
@@ -21,8 +22,11 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
 
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
+
+    const { dashboard, elections, customize, settings } = getAdminRoute()
+
     function createElection() {
-        history.push('/create-election')
+        history.push(elections.create)
     }
     function onSearch() {
         console.log('Tried to search')
@@ -36,7 +40,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                 <ProfileSettingsModal showModal={showProfileModal} close={closeProfileModalHandler} />
                 <Sider className="skeleton-sidebar">
                     <AnovoteLogo id="logo" />
-                    <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={['1']}>
+                    <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={[history.location.pathname]}>
                         <LargeIconButton
                             text={t('Create election')}
                             onClick={createElection}
@@ -45,18 +49,18 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                         >
                             <CirclePlusIcon />
                         </LargeIconButton>
-                        <Menu.Item key="1" icon={<HomeFilled />}>
-                            <Link to="/" tabIndex={3} id="dashboard">
+                        <Menu.Item key={dashboard} icon={<HomeFilled />}>
+                            <Link to={dashboard} tabIndex={3} id="dashboard">
                                 {t('Dashboard')}
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="2" icon={<ProjectFilled />}>
-                            <Link to="/elections" tabIndex={4} id="elections">
+                        <Menu.Item key={elections.view} icon={<ProjectFilled />}>
+                            <Link to={elections.view} tabIndex={4} id="elections">
                                 {t('Elections')}
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key="3" icon={<EyeFilled />}>
-                            <Link to="/customize" tabIndex={5}>
+                        <Menu.Item key={customize} icon={<EyeFilled />}>
+                            <Link to={customize} tabIndex={5}>
                                 {t('Customize')}
                             </Link>
                         </Menu.Item>
@@ -69,8 +73,8 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                         >
                             <ProfileRoundIcon />
                         </LargeIconButton>
-                        <Menu.Item key="4" icon={<SettingFilled />} id="settings">
-                            <Link to="/Settings" tabIndex={7}>
+                        <Menu.Item key={settings} icon={<SettingFilled />} id="settings">
+                            <Link to={settings} tabIndex={7}>
                                 {t('Settings')}
                             </Link>
                         </Menu.Item>

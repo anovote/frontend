@@ -28,7 +28,7 @@ export default function RegisterView(): React.ReactElement {
                 setSuccessMessage(t('form:User was registered'))
 
                 appDispatcher.setLoginState(AuthLevel.organizer)
-                history.replace(getAdminRoute().myElections)
+                history.replace(getAdminRoute().elections.view)
             } catch (error) {
                 if (error instanceof CredentialError) {
                     setErrorMessage(t('form:Error in form'))
