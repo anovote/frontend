@@ -52,6 +52,11 @@ export default function EligibleVotersTable({
     }
 
     // https://stackoverflow.com/questions/14824283/convert-a-2d-javascript-array-to-a-1d-array/14824303
+    /**
+     * Converts a two dimensional string array to a one dimensional string array
+     * @param twoDimArray the array we want to convert
+     * @returns string array
+     */
     function convertTwoDimArrayToOneDimArray(twoDimArray: string[]) {
         let newArr: string[] = []
 
@@ -62,9 +67,15 @@ export default function EligibleVotersTable({
     }
 
     function createListOfEligibleVoters(listOfIdentifications: string[]) {
-        const unique = filterForDuplicates(listOfIdentifications)
+        const trimmedList: string[] = []
 
-        if (unique.length < listOfIdentifications.length) {
+        for (let i = 0; i < listOfIdentifications.length; i++) {
+            trimmedList.push(listOfIdentifications[i].trim())
+        }
+
+        const unique = filterForDuplicates(trimmedList)
+
+        if (unique.length < trimmedList.length) {
             setDuplicateErrorMessage('There were duplicates in the list, but we have removed these')
         }
 
@@ -81,7 +92,7 @@ export default function EligibleVotersTable({
         }
 
         if (invalidEmails.length != 0) {
-            setNotEmailErrorMessage('Email(s): ' + invalidEmails + 'were removed due to them not being valid emails')
+            setNotEmailErrorMessage('Email(s): ' + invalidEmails + ', were removed due to them not being valid emails')
         }
 
         setMappedCsvArray(parseArrayToObjectArray(unique))
