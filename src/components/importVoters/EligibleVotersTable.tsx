@@ -15,7 +15,8 @@ export default function EligibleVotersTable(): React.ReactElement {
     const [t] = useTranslation(['parsing'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [mappedCsvArray, setMappedCsvArray] = React.useState<{ key: number; email: string }[]>([])
-    const [eligibleVotersList, setEligibleVotersList] = React.useState<string[]>([])
+    const [eligibleVotersIdentificationList, setEligibleVotersIdentificationList] = React.useState<string[]>([])
+    const [eligibleVotersList, setEligibleVotersList] = React.useState([])
     const fileParser = new FileParser()
 
     /**
@@ -34,7 +35,7 @@ export default function EligibleVotersTable(): React.ReactElement {
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
-            setEligibleVotersList(parsedJson.emails)
+            setEligibleVotersIdentificationList(parsedJson.emails)
             const emails = parseArrayToObjectArray(parsedJson.emails)
             setMappedCsvArray(emails)
         } else {
@@ -56,7 +57,7 @@ export default function EligibleVotersTable(): React.ReactElement {
         for (let i = 0; i < twoDimArray.length; i++) {
             newArr = newArr.concat(twoDimArray[i])
         }
-        setEligibleVotersList(newArr)
+        setEligibleVotersIdentificationList(newArr)
     }
 
     const ImportFileMenu = (): React.ReactElement => {
@@ -103,4 +104,8 @@ export default function EligibleVotersTable(): React.ReactElement {
             <div>{!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}</div>
         </div>
     )
+}
+
+export interface EligibleVoter {
+    identification: string
 }
