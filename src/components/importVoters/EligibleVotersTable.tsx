@@ -16,7 +16,7 @@ export default function EligibleVotersTable(): React.ReactElement {
     const [errorMessage, setErrorMessage] = React.useState('')
     const [mappedCsvArray, setMappedCsvArray] = React.useState<{ key: number; email: string }[]>([])
     const [eligibleVotersIdentificationList, setEligibleVotersIdentificationList] = React.useState<string[]>([])
-    const [eligibleVotersList, setEligibleVotersList] = React.useState([])
+    const [eligibleVotersList, setEligibleVotersList] = React.useState<IEligibleVoter[]>([])
     const fileParser = new FileParser()
 
     /**
@@ -28,7 +28,8 @@ export default function EligibleVotersTable(): React.ReactElement {
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
-                setStringList(parsedCsv)
+                setEligibleVotersIdentificationList(convertTwoDimArrayToOneDimArray(parsedCsv))
+                createListOfEligibleVoters(eligibleVotersIdentificationList)
                 setMappedCsvArray(parseArrayToObjectArray(parsedCsv))
             } catch (e) {
                 setErrorMessage(t('Something went wrong in the parsing'))
@@ -51,13 +52,21 @@ export default function EligibleVotersTable(): React.ReactElement {
     }
 
     // https://stackoverflow.com/questions/14824283/convert-a-2d-javascript-array-to-a-1d-array/14824303
-    function setStringList(twoDimArray: string[]) {
+    function convertTwoDimArrayToOneDimArray(twoDimArray: string[]) {
         let newArr: string[] = []
 
         for (let i = 0; i < twoDimArray.length; i++) {
             newArr = newArr.concat(twoDimArray[i])
         }
-        setEligibleVotersIdentificationList(newArr)
+        return newArr
+    }
+
+    function createListOfEligibleVoters(listOfIdentifications: string[]) {
+        const eligibleVoters: IEligibleVoter[] = []
+        for (let i = 0; i < listOfIdentifications.length; i++) {
+            eligibleVoters.push({ identification: listOfIdentifications[i] })
+        }
+        setEligibleVotersList(eligibleVoters)
     }
 
     const ImportFileMenu = (): React.ReactElement => {
@@ -101,11 +110,12 @@ export default function EligibleVotersTable(): React.ReactElement {
                 </Col>
             </Row>
             <Table columns={columns} dataSource={mappedCsvArray} />
+            {console.log(eligibleVotersList)}
             <div>{!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}</div>
         </div>
     )
 }
 
-export interface EligibleVoter {
+export interface IEligibleVoter {
     identification: string
 }
