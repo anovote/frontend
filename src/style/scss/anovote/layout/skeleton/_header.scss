@@ -1,6 +1,6 @@
 .skeleton-header {
     height: $header-height;
-    background-color: $white;
+    background-color: $white !important;
     @include is-flex-column();
     padding-left: calc(#{$sidebar-width} + 2.5 * #{$bu});
     justify-content: center;
