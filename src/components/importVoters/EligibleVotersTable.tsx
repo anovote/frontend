@@ -18,6 +18,8 @@ export default function EligibleVotersTable({
 
     const [t] = useTranslation(['parsing'])
     const [errorMessage, setErrorMessage] = React.useState('')
+    const [duplicateErrorMessage, setDuplicateErrorMessage] = React.useState('')
+    const [notEmailErrorMessage, setNotEmailErrorMessage] = React.useState('')
     const [mappedCsvArray, setMappedCsvArray] = React.useState<{ key: number; email: string }[]>([])
     const fileParser = new FileParser()
 
@@ -31,15 +33,12 @@ export default function EligibleVotersTable({
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
                 createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
-                setMappedCsvArray(parseArrayToObjectArray(parsedCsv))
             } catch (e) {
                 setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
             createListOfEligibleVoters(parsedJson.emails)
-            const emails = parseArrayToObjectArray(parsedJson.emails)
-            setMappedCsvArray(emails)
         } else {
             setErrorMessage(t('The file is not CSV or JSON!'))
         }
@@ -65,10 +64,27 @@ export default function EligibleVotersTable({
     function createListOfEligibleVoters(listOfIdentifications: string[]) {
         const unique = filterForDuplicates(listOfIdentifications)
 
+        if (unique.length < listOfIdentifications.length) {
+            setDuplicateErrorMessage('There were duplicates in the list, but we have removed these')
+        }
+
+        const invalidEmails: string[] = []
+
         const eligibleVoters: IEligibleVoter[] = []
         for (let i = 0; i < unique.length; i++) {
-            eligibleVoters.push({ identification: unique[i] })
+            if (isEmailValid(unique[i])) {
+                eligibleVoters.push({ identification: unique[i] })
+            } else {
+                invalidEmails.push(unique[i])
+                delete unique[i]
+            }
         }
+
+        if (invalidEmails.length != 0) {
+            setNotEmailErrorMessage('Email(s): ' + invalidEmails + 'were removed due to them not being valid emails')
+        }
+
+        setMappedCsvArray(parseArrayToObjectArray(unique))
 
         onUpload(eligibleVoters)
     }
@@ -77,6 +93,16 @@ export default function EligibleVotersTable({
         return array.filter(function (elem, index, self) {
             return index === self.indexOf(elem)
         })
+    }
+
+    function isEmailValid(email: string): boolean {
+        const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+        if (email.match(emailFormat)) {
+            return true
+        } else {
+            return false
+        }
     }
 
     const ImportFileMenu = (): React.ReactElement => {
@@ -120,7 +146,13 @@ export default function EligibleVotersTable({
                 </Col>
             </Row>
             <Table columns={columns} dataSource={mappedCsvArray} />
-            <div>{!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}</div>
+            <div>
+                {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
+                {!!duplicateErrorMessage && (
+                    <Alert message={duplicateErrorMessage} type={'warning'} showIcon closable />
+                )}
+                {!!notEmailErrorMessage && <Alert message={notEmailErrorMessage} type={'warning'} showIcon closable />}
+            </div>
         </div>
     )
 }
