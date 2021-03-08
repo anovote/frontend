@@ -5,6 +5,7 @@ export interface IElectionDetails {
     description: string
     openDate: Date
     closeDate: Date
+    eligibleVoters: { email: string }[]
     password?: string
     status: ElectionStatus
     isLocked: boolean

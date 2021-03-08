@@ -15,6 +15,7 @@ export default function EligibleVotersTable(): React.ReactElement {
     const [t] = useTranslation(['parsing'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [mappedCsvArray, setMappedCsvArray] = React.useState<{ key: number; email: string }[]>([])
+    const [eligibleVotersList, setEligibleVotersList] = React.useState<string[]>([])
     const fileParser = new FileParser()
 
     /**
@@ -26,12 +27,14 @@ export default function EligibleVotersTable(): React.ReactElement {
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
+                setStringList(parsedCsv)
                 setMappedCsvArray(parseArrayToObjectArray(parsedCsv))
             } catch (e) {
                 setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
+            setEligibleVotersList(parsedJson.emails)
             const emails = parseArrayToObjectArray(parsedJson.emails)
             setMappedCsvArray(emails)
         } else {
@@ -44,6 +47,16 @@ export default function EligibleVotersTable(): React.ReactElement {
         return array.map((email, index) => {
             return { key: index, email }
         })
+    }
+
+    // https://stackoverflow.com/questions/14824283/convert-a-2d-javascript-array-to-a-1d-array/14824303
+    function setStringList(twoDimArray: string[]) {
+        let newArr: string[] = []
+
+        for (let i = 0; i < twoDimArray.length; i++) {
+            newArr = newArr.concat(twoDimArray[i])
+        }
+        setEligibleVotersList(newArr)
     }
 
     const ImportFileMenu = (): React.ReactElement => {
