@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, Upload, Button, Menu, Dropdown, Alert } from 'antd'
+import { Table, Upload, Button, Menu, Dropdown, Alert, Col, Row } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { FileParser } from './FileParser'
 import { useTranslation } from 'react-i18next'
@@ -50,7 +50,7 @@ export default function EligibleVotersTable(): React.ReactElement {
         return (
             <Menu className="import-voters-menu">
                 <Menu.Item>
-                    <Upload beforeUpload={parseFile} accept=".csv">
+                    <Upload className="upload-button" beforeUpload={parseFile} accept=".csv">
                         CSV
                     </Upload>
                 </Menu.Item>
@@ -64,16 +64,28 @@ export default function EligibleVotersTable(): React.ReactElement {
     }
 
     return (
-        <div className="voters-table-container">
-            <Dropdown className="import-voters-dropdown" overlay={<ImportFileMenu />} placement="bottomRight" arrow>
-                <Button
-                    className="import-voters-button"
-                    type="primary"
-                    icon={<PlusOutlined />}
-                    size="large"
-                    shape="circle"
-                ></Button>
-            </Dropdown>
+        <div>
+            <Row>
+                <Col span={12}>
+                    <h2>{t('common:Eligible voters')}</h2>
+                </Col>
+                <Col span={12}>
+                    <Dropdown
+                        className="import-voters-dropdown"
+                        overlay={<ImportFileMenu />}
+                        placement="bottomRight"
+                        arrow
+                    >
+                        <Button
+                            className="import-voters-button"
+                            type="primary"
+                            icon={<PlusOutlined />}
+                            size="large"
+                            shape="circle"
+                        ></Button>
+                    </Dropdown>
+                </Col>
+            </Row>
             <Table columns={columns} dataSource={mappedCsvArray} />
             <div>{!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}</div>
         </div>
