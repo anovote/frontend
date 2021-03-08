@@ -63,9 +63,7 @@ export default function EligibleVotersTable({
     }
 
     function createListOfEligibleVoters(listOfIdentifications: string[]) {
-        const unique = listOfIdentifications.filter(function (elem, index, self) {
-            return index === self.indexOf(elem)
-        })
+        const unique = filterForDuplicates(listOfIdentifications)
 
         const eligibleVoters: IEligibleVoter[] = []
         for (let i = 0; i < unique.length; i++) {
@@ -73,6 +71,12 @@ export default function EligibleVotersTable({
         }
 
         onUpload(eligibleVoters)
+    }
+
+    function filterForDuplicates(array: string[]): string[] {
+        return array.filter(function (elem, index, self) {
+            return index === self.indexOf(elem)
+        })
     }
 
     const ImportFileMenu = (): React.ReactElement => {
