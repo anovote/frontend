@@ -7,7 +7,7 @@ import ElectionPasswordInput from 'components/election/ElectionPasswordInput'
 import ElectionTitleInput from 'components/election/ElectionTitleInput'
 import IsAutomaticCheckbox from 'components/election/IsAutomaticCheckbox'
 import OpenDateInput from 'components/election/OpenDateInput'
-import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
+import EligibleVotersTable, { IEligibleVoter } from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/service/election/AuthorizationError'
@@ -24,6 +24,7 @@ export default function CreateElectionView(): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
     const [t] = useTranslation(['translation', 'common'])
     const [alertProps, setAlertProps] = React.useState<AlertProps>()
+    const [eligibleVotersList, setEligibleVotersList] = React.useState<IEligibleVoter[]>([])
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
@@ -33,6 +34,7 @@ export default function CreateElectionView(): React.ReactElement {
         try {
             form.status = ElectionStatus.NotStarted
             form.isLocked = false
+            form.eligibleVoters = eligibleVotersList
             await electionService.createElection(form)
             const newAlertProps: AlertProps = {
                 message: 'Election created',
@@ -58,6 +60,10 @@ export default function CreateElectionView(): React.ReactElement {
         }
     }
 
+    const uploadEligibleVotersCallback = (eligibleVoters: IEligibleVoter[]) => {
+        setEligibleVotersList(eligibleVoters)
+    }
+
     return (
         <Content>
             <Row>
@@ -77,7 +83,7 @@ export default function CreateElectionView(): React.ReactElement {
                                 <CloseDateInput />
                             </Col>
                         </Row>
-                        <EligibleVotersTable />
+                        <EligibleVotersTable onUpload={uploadEligibleVotersCallback} />
                         <h2>{t('common:Verification')}</h2>
                         <Row>
                             <Col>

@@ -4,7 +4,11 @@ import { PlusOutlined } from '@ant-design/icons'
 import { FileParser } from './FileParser'
 import { useTranslation } from 'react-i18next'
 
-export default function EligibleVotersTable(): React.ReactElement {
+export default function EligibleVotersTable({
+    onUpload,
+}: {
+    onUpload: (eligibleVoters: IEligibleVoter[]) => void
+}): React.ReactElement {
     const columns = [
         {
             dataIndex: 'email',
@@ -15,8 +19,6 @@ export default function EligibleVotersTable(): React.ReactElement {
     const [t] = useTranslation(['parsing'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [mappedCsvArray, setMappedCsvArray] = React.useState<{ key: number; email: string }[]>([])
-    const [eligibleVotersIdentificationList, setEligibleVotersIdentificationList] = React.useState<string[]>([])
-    const [eligibleVotersList, setEligibleVotersList] = React.useState<IEligibleVoter[]>([])
     const fileParser = new FileParser()
 
     /**
@@ -28,15 +30,14 @@ export default function EligibleVotersTable(): React.ReactElement {
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
-                setEligibleVotersIdentificationList(convertTwoDimArrayToOneDimArray(parsedCsv))
-                createListOfEligibleVoters(eligibleVotersIdentificationList)
+                createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
                 setMappedCsvArray(parseArrayToObjectArray(parsedCsv))
             } catch (e) {
                 setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
-            setEligibleVotersIdentificationList(parsedJson.emails)
+            createListOfEligibleVoters(parsedJson.emails)
             const emails = parseArrayToObjectArray(parsedJson.emails)
             setMappedCsvArray(emails)
         } else {
@@ -66,7 +67,7 @@ export default function EligibleVotersTable(): React.ReactElement {
         for (let i = 0; i < listOfIdentifications.length; i++) {
             eligibleVoters.push({ identification: listOfIdentifications[i] })
         }
-        setEligibleVotersList(eligibleVoters)
+        onUpload(eligibleVoters)
     }
 
     const ImportFileMenu = (): React.ReactElement => {
@@ -110,7 +111,6 @@ export default function EligibleVotersTable(): React.ReactElement {
                 </Col>
             </Row>
             <Table columns={columns} dataSource={mappedCsvArray} />
-            {console.log(eligibleVotersList)}
             <div>{!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}</div>
         </div>
     )

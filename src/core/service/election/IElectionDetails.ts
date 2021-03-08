@@ -1,3 +1,4 @@
+import { IEligibleVoter } from 'components/importVoters/EligibleVotersTable'
 import { ElectionStatus } from './ElectionStatus'
 
 export interface IElectionDetails {
@@ -5,7 +6,7 @@ export interface IElectionDetails {
     description: string
     openDate: Date
     closeDate: Date
-    eligibleVoters: { email: string }[]
+    eligibleVoters: IEligibleVoter[]
     password?: string
     status: ElectionStatus
     isLocked: boolean
