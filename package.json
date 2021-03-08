@@ -18,8 +18,10 @@
         "http-status-codes": "^2.1.4",
         "i18next": "^19.8.7",
         "i18next-http-backend": "^1.1.0",
+        "jwt-decode": "^3.1.2",
         "randexp": "^0.5.3",
         "react": "^17.0.1",
+        "react-beautiful-dnd": "^13.0.0",
         "react-dom": "^17.0.1",
         "react-i18next": "^11.8.6",
         "react-router-dom": "^5.2.0",
@@ -46,7 +48,8 @@
         "build": "react-scripts build",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
-        "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}' --quiet --fix"
+        "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}' --quiet --fix",
+        "spellCheck": "cspell --config ./.vscode/cspell.json --relative -u '/**/*.{tsx,jsx,ts,json,md}'"
     },
     "eslintConfig": {
         "extends": [
@@ -68,11 +71,17 @@
     },
     "devDependencies": {
         "@types/axios": "^0.14.0",
+        "@types/enzyme": "^3.10.8",
         "@types/gulp": "^4.0.8",
+        "@types/jwt-decode": "^3.1.0",
+        "@types/react-beautiful-dnd": "^13.0.0",
         "@types/react-router-dom": "^5.1.7",
         "@types/socket.io-client": "^1.4.35",
         "@typescript-eslint/eslint-plugin": "^4.14.0",
         "@typescript-eslint/parser": "^4.14.0",
+        "@wojtekmaj/enzyme-adapter-react-17": "^0.4.1",
+        "enzyme": "^3.11.0",
+        "cspell": "^5.3.4",
         "eslint": "^7.18.0",
         "eslint-config-prettier": "^7.2.0",
         "eslint-plugin-prettier": "^3.3.1",

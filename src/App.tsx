@@ -2,7 +2,6 @@ import React from 'react'
 import 'antd/dist/antd.min.css'
 import 'style/scss/main.scss'
 import { ProvideAppContext } from './core/state/app/AppStateContext'
-import Skeleton from 'components/Skeleton'
 import RouterView from 'views/routes'
 import WebSocketManager from 'core/state/websocket/WebSocketManager'
 
@@ -11,7 +10,7 @@ function App(): React.ReactElement {
         <div className="App">
             <ProvideAppContext>
                 <WebSocketManager>
-                    <Skeleton content={<RouterView />} />
+                    <RouterView />
                 </WebSocketManager>
             </ProvideAppContext>
         </div>

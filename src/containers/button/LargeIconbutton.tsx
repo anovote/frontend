@@ -18,7 +18,7 @@ export default function LargeIconButton({
     return (
         <button
             onClick={(event) => onClick(event)}
-            className={`large-icon-button main-light ${classReverse}`}
+            className={`anovote-button-style large-icon-button main-light ${classReverse}`}
             tabIndex={tabIndex}
             id={classId}
         >

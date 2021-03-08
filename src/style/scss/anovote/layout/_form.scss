@@ -2,3 +2,15 @@
     @include is-flex();
     align-items: flex-start;
 }
+
+form {
+    .ant-form-item-label label {
+        @include paragraph-title();
+    }
+}
+
+.no-input {
+    .ant-form-item-control-input {
+        display: none;
+    }
+}

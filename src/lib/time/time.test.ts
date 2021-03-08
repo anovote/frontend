@@ -3,6 +3,7 @@ import { Time } from './Time'
 it('should be true for dates from the past', () => {
     const d1 = new Date('January 19, 2021 23:15:30')
     const d2 = new Date()
+    d2.setSeconds(d2.getSeconds() - 1)
     expect(Time.isDateFromPast(d1)).toBe(true)
     expect(Time.isDateFromPast(d2)).toBe(true)
 })

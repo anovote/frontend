@@ -4,13 +4,12 @@ import NotFound from '../components/routeDefaults/NotFound'
 import { ProtectedRoute } from '../containers/router/ProtectedRoute'
 import { AuthLevel } from '../core/service/authentication/AuthLevel'
 import { useAppState } from '../core/state/app/AppStateContext'
-import CreateElectionView from './election/createElection'
-import ElectionView from './election/election'
-import Room from './election/room'
-import ElectionsView from './elections'
 import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
+import AdminRoutes from 'core/routes/AdminRoutes'
+import VoterRoutes from 'core/routes/VoterRoutes'
+import { getBaseRoute, getPublicRoute } from 'core/routes/siteRoutes'
 
 /**
  * Router view
@@ -21,45 +20,38 @@ export default function RouterView(): React.ReactElement {
     const { isLoggedIn, authLevel } = useAppState()
 
     return (
-        <div className="is-fullscreen">
+        <>
             <Switch>
-                <Route exact path="/">
+                <Route exact path={getPublicRoute().landing}>
                     <Home />
                 </Route>
-                <Route path="/register">
+                <Route path={getPublicRoute().register}>
                     <RegisterView />
                 </Route>
-                <Route path="/login">
+                <Route path={getPublicRoute().login}>
                     <LoginView />
-                </Route>
-                <Route path="/elections">
-                    <ElectionsView />
-                </Route>
-                <Route path="/election/:id">
-                    <ElectionView />
-                </Route>
-                <Route path="/create-election">
-                    <CreateElectionView />
-                </Route>
-                <Route path="/room">
-                    <Room />
-                </Route>
-                <Route path="/create-election">
-                    <CreateElectionView />
                 </Route>
                 <ProtectedRoute
                     // Added as example
                     isLoggedIn={isLoggedIn}
                     authLevel={authLevel}
-                    allowedLevels={[AuthLevel.authorizer]}
-                    path="/protected"
+                    allowedLevels={[AuthLevel.organizer]}
+                    path={getBaseRoute().admin}
                 >
-                    this route is protected
+                    <AdminRoutes />
+                </ProtectedRoute>
+                <ProtectedRoute
+                    isLoggedIn={isLoggedIn}
+                    authLevel={authLevel}
+                    allowedLevels={[AuthLevel.voter]}
+                    path={getBaseRoute().voter}
+                >
+                    <VoterRoutes />
                 </ProtectedRoute>
                 <Route>
                     <NotFound />
                 </Route>
             </Switch>
-        </div>
+        </>
     )
 }

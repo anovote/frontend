@@ -12,6 +12,8 @@
     "Create election": "Create election",
     "Election": "Election",
     "Elections": "Elections",
+    "Candidate": "Candidate",
+    "Candidate_plural": "Candidates",
     "Dashboard": "Dashboard",
     "Customize": "Customize",
     "Vote": "Vote",
@@ -35,7 +37,21 @@
     "Ranked": "Ranked",
     "None": "None",
     "Single winner": "Single winner",
-    "PLANNED": "PLANLAGT",
-    "IN PROGRESS": "PÅGÅENDE",
-    "FINISHED": "FERDIG"
+    "Votes": "Votes",
+    "Issues": "Issues",
+    "Current leader": "Current leader",
+    "Push ballot": "Push ballot"
+    "Title": "Title",
+    "Description": "Description",
+    "Add": "Add",
+    "Cancel": "Cancel",
+    "Update": "Update {{value}}",
+    "Edit": "Edit {{value}}",
+    "Create": "Create {{value}}",
+    "Ballot": "Ballot",
+    "First name": "First name",
+    "Last name": "Last name",
+    "PLANNED": "PLANNED",
+    "IN PROGRESS": "IN PROGRESS",
+    "FINISHED": "FINISHED"
 }

@@ -1,0 +1,189 @@
+$queue-card-height: 8.325 * $bu;
+$queue-card-active-height: 11.25 * $bu;
+$queue-card-width: 53 * $bu;
+$queue-card-active-width: 56 * $bu;
+
+// z-indexes, for easier reference to what the values are in reference to others
+$card-z-index: 1;
+$tail-z-index: -4;
+
+.ballots-queue {
+    width: 100%;
+    max-width: 90rem;
+    min-width: 50rem;
+    padding: 3rem;
+    .queue {
+        padding: 0 3rem;
+    }
+
+    .ant-steps-label-vertical {
+        .ant-steps-item {
+            //flex: 1 1 auto;
+            //width: 0px;
+            .ant-steps-item-container {
+                width: 10px;
+
+                span.ant-steps-icon {
+                    top: 0;
+                }
+            }
+        }
+    }
+
+    .ant-steps-vertical {
+        .ant-steps-item-container {
+            @include is-rounded-large();
+            @include has-shadow();
+            @include is-flex-row();
+            background: $white;
+            min-height: $queue-card-height;
+            width: 80%;
+            margin: 1rem 0;
+            z-index: $card-z-index;
+            padding: 0.5rem 1rem;
+            position: relative;
+            transition: all ease-out 0.3s;
+        }
+
+        .ant-steps-item-tail {
+            display: none;
+            &::after {
+                display: none;
+            }
+        }
+
+        .ant-steps-item-icon {
+            margin: 0.5rem 1rem 0 0.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all ease-out 0.1s;
+
+            span {
+                top: 0;
+            }
+        }
+
+        .ant-steps-item-content {
+            transition: all 0.3s;
+            display: flex;
+            flex: 1 1 0px;
+            justify-content: space-between;
+            width: 100%;
+
+            .ant-steps-item-title {
+                flex: 1 1 10rem;
+                width: 0px;
+                @include is-flex-column();
+                justify-content: space-between;
+
+                .ant-typography {
+                    flex-grow: 1;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    margin: 0.5rem 0.5rem 0 0;
+                }
+
+                .ant-steps-item-subtitle {
+                    flex-grow: 1;
+                    padding: 0;
+                    margin: 0;
+                    @include is-flex-column();
+                    justify-content: flex-end;
+
+                    &::before {
+                        content: '';
+                        width: 5rem;
+                        height: 1px;
+                        background: $alternate-color;
+                        border-radius: 1rem;
+                        margin-bottom: 0.5rem;
+                        transition: background ease 0.2s;
+                    }
+                    .queue-additional {
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+                }
+            }
+
+            .ant-steps-item-description {
+                flex: 0;
+                height: 100%;
+                align-self: center;
+                display: flex;
+                justify-content: flex-end;
+                align-content: center;
+                padding: 0.5rem 0;
+
+                .stats-card {
+                    background-color: $alternate-color;
+
+                    .stat {
+                        margin: 0 0.2rem;
+                    }
+                }
+                #push-ballot-button {
+                    display: none;
+                }
+            }
+        }
+
+        // ACTIVE
+        .ant-steps-item-active {
+            .ant-steps-item-container {
+                background: $main-contrasting;
+                transform: scale(1.08);
+
+                .ant-steps-item-icon {
+                    background: $white;
+                    border: 0;
+                    span {
+                        color: $main-contrasting;
+                    }
+                }
+
+                .ant-steps-item-content {
+                    .ant-steps-item-title {
+                        .ant-typography {
+                            color: $white;
+                        }
+
+                        .ant-steps-item-subtitle {
+                            &::before {
+                                background: #697eed;
+                            }
+                        }
+                    }
+                    .ant-steps-item-description {
+                        .stats-card {
+                            background-color: $white;
+                        }
+                        #push-ballot-button {
+                            display: flex;
+                            position: absolute;
+                            top: 0.5rem;
+                            right: -9rem;
+                            width: 7.5rem;
+                            height: 7.5rem;
+                            font-size: 0.9rem;
+                        }
+                    }
+                }
+            }
+        }
+
+        .ant-steps-item-finish {
+            opacity: 0.7;
+            // colors
+            .ant-steps-item-tail::after,
+            .ant-steps-item-icon,
+            .ant-steps-item-icon .ant-steps-icon .anticon-check {
+                border-color: $main-contrasting;
+                color: $main-contrasting;
+            }
+        }
+    }
+}

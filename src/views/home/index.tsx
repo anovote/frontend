@@ -1,5 +1,5 @@
-import Title from 'antd/lib/typography/Title'
 import Text from 'antd/lib/typography/Text'
+import Title from 'antd/lib/typography/Title'
 import React from 'react'
 
 /**
@@ -30,6 +30,7 @@ export default function Home(): React.ReactElement {
                     <span className="inner-round"></span>
                 </span>
             </div>
+            <hr />
         </div>
     )
 }
