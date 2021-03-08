@@ -24,13 +24,15 @@ export default function CreateElectionView(): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
     const [t] = useTranslation(['translation', 'common'])
     const [alertProps, setAlertProps] = React.useState<AlertProps>()
-    const [eligibleVotersList, setEligibleVotersList] = React.useState<IEligibleVoter[]>([])
+    let eligibleVotersList: IEligibleVoter[] = []
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
      * @param form The form we want to validate
      */
     const formValidated = async (form: IElectionDetails) => {
+        console.log(eligibleVotersList)
+
         try {
             form.status = ElectionStatus.NotStarted
             form.isLocked = false
@@ -61,7 +63,7 @@ export default function CreateElectionView(): React.ReactElement {
     }
 
     const uploadEligibleVotersCallback = (eligibleVoters: IEligibleVoter[]) => {
-        setEligibleVotersList(eligibleVoters)
+        eligibleVotersList = eligibleVoters
     }
 
     return (

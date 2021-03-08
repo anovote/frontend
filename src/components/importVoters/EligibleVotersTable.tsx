@@ -63,10 +63,15 @@ export default function EligibleVotersTable({
     }
 
     function createListOfEligibleVoters(listOfIdentifications: string[]) {
+        const unique = listOfIdentifications.filter(function (elem, index, self) {
+            return index === self.indexOf(elem)
+        })
+
         const eligibleVoters: IEligibleVoter[] = []
-        for (let i = 0; i < listOfIdentifications.length; i++) {
-            eligibleVoters.push({ identification: listOfIdentifications[i] })
+        for (let i = 0; i < unique.length; i++) {
+            eligibleVoters.push({ identification: unique[i] })
         }
+
         onUpload(eligibleVoters)
     }
 
