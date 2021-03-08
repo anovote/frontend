@@ -2,10 +2,8 @@ import { Events } from 'core/events'
 import { useSocket } from 'core/state/websocket/useSocketHook'
 import React, { ReactElement, useEffect } from 'react'
 
-export default function room(): ReactElement {
-    const [socket] = useSocket(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwib3JnYW5pemVyIjp0cnVlLCJpYXQiOjE2MTQ2OTQzMTcsImV4cCI6MTYxNDg2NzExN30.In727cRSJTAhRZtf5i0-XgECAi2awFH4JYjI3kty_m4',
-    )
+export default function Room(): ReactElement {
+    const [socket] = useSocket()
     socket.connect()
 
     useEffect(() => {
@@ -15,19 +13,19 @@ export default function room(): ReactElement {
             console.log(socket.id)
         })
 
-        socket.on(Events.standard.socket.disconnect, (data: any) => {
-            console.log('disconnected', data)
+        socket.on(Events.standard.socket.disconnect, () => {
+            console.log('disconnected')
         })
-        socket.on(Events.standard.message, (data: any) => {
+        socket.on(Events.standard.message, (data: string) => {
             console.log(data)
         })
 
-        socket.on(Events.standard.socket.connectError, (data: any) => {
-            console.log('connect-error', data)
+        socket.on(Events.standard.socket.connectError, () => {
+            console.log('connect-error')
         })
 
         return () => {
-            console.log('destroy')
+            socket.close()
         }
     }, [socket])
 
@@ -35,7 +33,7 @@ export default function room(): ReactElement {
         <div>
             <button
                 onClick={() => {
-                    socket.emit('ping', 'pikk!')
+                    socket.emit('ping', 'come on!')
                     console.log('send')
                 }}
             >
