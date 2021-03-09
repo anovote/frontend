@@ -52,8 +52,15 @@ export default function EligibleVotersTable({
         })
     }
 
-    function createListOfEligibleVoters(listOfIdentifications: string[]) {
-        const trimmedList: string[] = trimItemsInArray(listOfIdentifications)
+    /**
+     * Creates a list of eligible voters based of a list of emails.
+     * First the emails in the list are trimmed, then any duplicates are removed,
+     * and then checked if all of the emails are valid. Any invalid emails will be removed.
+     * @param listOfEmails The list we want to use to create an eligible voters list
+     * @returns list of eligible voters.
+     */
+    function createListOfEligibleVoters(listOfEmails: string[]): IEligibleVoter[] {
+        const trimmedList: string[] = trimItemsInArray(listOfEmails)
 
         const unique = filterForDuplicates(trimmedList)
 
@@ -62,7 +69,7 @@ export default function EligibleVotersTable({
         }
 
         const invalidEmails: string[] = []
-        const removedArray: string[] = [...unique]
+        const uniqueRemovedArray: string[] = [...unique]
         const eligibleVoters: IEligibleVoter[] = []
 
         for (let i = 0; i < unique.length; i++) {
@@ -70,7 +77,7 @@ export default function EligibleVotersTable({
                 eligibleVoters.push({ identification: unique[i] })
             } else {
                 invalidEmails.push(unique[i])
-                delete removedArray[i]
+                delete uniqueRemovedArray[i]
             }
         }
 
@@ -78,11 +85,18 @@ export default function EligibleVotersTable({
             setNotEmailErrorMessage('Email(s): ' + invalidEmails + ', were removed due to them not being valid emails')
         }
 
-        setMappedCsvArray(parseArrayToObjectArray(removedArray))
+        setMappedCsvArray(parseArrayToObjectArray(uniqueRemovedArray))
 
         onUpload(eligibleVoters)
+
+        return eligibleVoters
     }
 
+    /**
+     * Checks if a given email is valid or not.
+     * @param email the email we want to validate
+     * @returns true if valid, false if not valid
+     */
     function isEmailValid(email: string): boolean {
         const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 
