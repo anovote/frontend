@@ -20,4 +20,10 @@ export const Events = {
             ping: 'ping',
         },
     },
+    voter: {
+        close: 'close',
+        election: 'election',
+        ballot: 'ballot',
+        result: 'result',
+    },
 }
