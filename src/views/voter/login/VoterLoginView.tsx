@@ -5,6 +5,7 @@ import { BackendAPI } from 'core/api'
 import React, { ReactElement } from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { apiRoute } from 'core/routes/apiRoutes'
 
 function VoterLoginView(): ReactElement {
     const [t] = useTranslation(['form', 'common'])
@@ -16,7 +17,18 @@ function VoterLoginView(): ReactElement {
         const { email, electionCode } = form
 
         setIsLoading(true)
-        setTimeout(() => {
+
+        try {
+            await httpClient.get(apiRoute.joinElection, {
+                params: {
+                    email,
+                    electionCode,
+                },
+            })
+        } catch (err) {
+            console.log(err)
+            setAlertMessage({ type: 'error', message: err.message })
+        }
             setIsLoading(false)
         }, 3000)
         //await httpClient.get('', {
