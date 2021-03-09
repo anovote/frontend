@@ -1,5 +1,4 @@
-import Title from 'antd/lib/typography/Title'
-import React, { ReactElement, ReactNode } from 'react'
+import React, { ReactElement } from 'react'
 
 export default function VoterContentInfo({ context, title }: { title: string; context?: string }): ReactElement {
     return (
