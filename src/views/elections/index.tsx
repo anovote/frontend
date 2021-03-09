@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ElectionsView(): React.ReactElement {
-    const [t] = useTranslation(['common, election'])
+    const [t] = useTranslation(['common', 'election'])
     const [upcoming, setUpcoming] = useState([] as IElection[])
     const [inProgress, setInProgress] = useState([] as IElection[])
     const [finished, setFinished] = useState([] as IElection[])

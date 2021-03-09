@@ -20,6 +20,10 @@ interface IPublicRoutes {
     joinElection: string
 }
 
+interface IVoterRoutes {
+    room: string
+}
+
 const routePrefixes = {
     pub: '/',
     admin: '/admin/',
@@ -56,5 +60,12 @@ export const getPublicRoute = (): IPublicRoutes => {
         register: `${pub}register`,
         login: `${pub}login`,
         joinElection: `${pub}join`,
+    }
+}
+
+export const getVoterRoute = (): IVoterRoutes => {
+    const { voter } = routePrefixes
+    return {
+        room: `${voter}room`,
     }
 }
