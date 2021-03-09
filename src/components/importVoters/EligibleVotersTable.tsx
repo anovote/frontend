@@ -3,6 +3,7 @@ import { Table, Upload, Button, Menu, Dropdown, Alert, Col, Row } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { FileParser } from './FileParser'
 import { useTranslation } from 'react-i18next'
+import { convertTwoDimArrayToOneDimArray, filterForDuplicates, trimItemsInArray } from 'core/helpers/array'
 
 export default function EligibleVotersTable({
     onUpload,
@@ -51,27 +52,8 @@ export default function EligibleVotersTable({
         })
     }
 
-    // https://stackoverflow.com/questions/14824283/convert-a-2d-javascript-array-to-a-1d-array/14824303
-    /**
-     * Converts a two dimensional string array to a one dimensional string array
-     * @param twoDimArray the array we want to convert
-     * @returns string array
-     */
-    function convertTwoDimArrayToOneDimArray(twoDimArray: string[]) {
-        let newArr: string[] = []
-
-        for (let i = 0; i < twoDimArray.length; i++) {
-            newArr = newArr.concat(twoDimArray[i])
-        }
-        return newArr
-    }
-
     function createListOfEligibleVoters(listOfIdentifications: string[]) {
-        const trimmedList: string[] = []
-
-        for (let i = 0; i < listOfIdentifications.length; i++) {
-            trimmedList.push(listOfIdentifications[i].trim())
-        }
+        const trimmedList: string[] = trimItemsInArray(listOfIdentifications)
 
         const unique = filterForDuplicates(trimmedList)
 
@@ -80,14 +62,15 @@ export default function EligibleVotersTable({
         }
 
         const invalidEmails: string[] = []
-
+        const removedArray: string[] = [...unique]
         const eligibleVoters: IEligibleVoter[] = []
+
         for (let i = 0; i < unique.length; i++) {
             if (isEmailValid(unique[i])) {
                 eligibleVoters.push({ identification: unique[i] })
             } else {
                 invalidEmails.push(unique[i])
-                delete unique[i]
+                delete removedArray[i]
             }
         }
 
@@ -95,15 +78,9 @@ export default function EligibleVotersTable({
             setNotEmailErrorMessage('Email(s): ' + invalidEmails + ', were removed due to them not being valid emails')
         }
 
-        setMappedCsvArray(parseArrayToObjectArray(unique))
+        setMappedCsvArray(parseArrayToObjectArray(removedArray))
 
         onUpload(eligibleVoters)
-    }
-
-    function filterForDuplicates(array: string[]): string[] {
-        return array.filter(function (elem, index, self) {
-            return index === self.indexOf(elem)
-        })
     }
 
     function isEmailValid(email: string): boolean {
