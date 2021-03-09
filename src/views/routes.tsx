@@ -4,7 +4,6 @@ import NotFound from '../components/routeDefaults/NotFound'
 import { ProtectedRoute } from '../containers/router/ProtectedRoute'
 import { AuthLevel } from '../core/service/authentication/AuthLevel'
 import { useAppState } from '../core/state/app/AppStateContext'
-
 import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
@@ -32,7 +31,6 @@ export default function RouterView(): React.ReactElement {
                 <Route path={getPublicRoute().login}>
                     <LoginView />
                 </Route>
-
                 <ProtectedRoute
                     // Added as example
                     isLoggedIn={isLoggedIn}
