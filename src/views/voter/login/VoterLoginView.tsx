@@ -1,4 +1,4 @@
-import { Input, Form, Button } from 'antd'
+import { Input, Form, Button, AlertProps, Alert } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { AxiosInstance } from 'axios'
 import { BackendAPI } from 'core/api'
@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 function VoterLoginView(): ReactElement {
     const [t] = useTranslation(['form', 'common'])
     const [isLoading, setIsLoading] = useState(false)
+    const [alertMessage, setAlertMessage] = useState<AlertProps>()
 
     const onSubmitHandler = async (form: JoinVoteDetails) => {
         const httpClient: AxiosInstance = BackendAPI
@@ -28,6 +29,18 @@ function VoterLoginView(): ReactElement {
 
     return (
         <Layout className="layout">
+            {alertMessage && (
+                <Alert
+                    message={alertMessage?.message}
+                    description={alertMessage?.description}
+                    type={alertMessage?.type}
+                    onClose={() => {
+                        setAlertMessage(undefined)
+                    }}
+                    showIcon
+                    closable
+                />
+            )}
             <Content className="is-fullscreen has-content-center-center">
                 <Form layout="vertical" name="vote-login-form" onFinish={onSubmitHandler}>
                     <Form.Item
