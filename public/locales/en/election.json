@@ -8,5 +8,7 @@
     "To be held": "To be held",
     "In progress": "In progress",
     "Finished": "Finished",
-    "Election opens": "Election opens {{date}}"
+    "Election opens": "Election opens {{date}}",
+    "Election starts": "Election starts {{date}}",
+    "Waiting for": "Waiting for {{what}}"
 }
