@@ -7,5 +7,6 @@
     "Connected voters": "Connected voters",
     "To be held": "To be held",
     "In progress": "In progress",
-    "Finished": "Finished"
+    "Finished": "Finished",
+    "Election opens": "Election opens {{date}}"
 }

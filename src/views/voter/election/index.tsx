@@ -1,29 +1,28 @@
 import { LockOutlined } from '@ant-design/icons'
 import { Divider } from 'antd'
-import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout'
+import Layout, { Content, Footer } from 'antd/lib/layout/layout'
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
 import VoterHeader from 'components/voterHeader/VoterHeader'
-import React from 'react'
-export default function VoterElectionView() {
+import VoterTopInfo from 'components/voterContentInfo/VoterContentInfo'
+import React, { ReactElement } from 'react'
+import { useTranslation } from 'react-i18next'
+import VoterFooter from 'components/voterFooter/VoterFooter'
+export default function VoterElectionView(): ReactElement {
+    const [t] = useTranslation(['election'])
     return (
         <Layout className="small-container">
-            <Header className="voter-header">
-                <VoterHeader />
-            </Header>
+            <VoterHeader />
             <Content className="layout-content">
-                <div className="election-top">
-                    <span className="text-label">New board members 2021</span>
-                    <span className="text-medium">Test title</span>
-                </div>
-                <Divider></Divider>
+                <VoterTopInfo title="Title" context="some context" />
+                <Divider />
                 <div className="election-main">
                     <SquareIconContainer
                         icon={<LockOutlined className="wobble-animation" />}
-                        label={'election is locked'}
+                        label={t('election:Election opens', { date: new Date().toLocaleDateString() })}
                     />
                 </div>
             </Content>
-            <Footer>Anovote 2021</Footer>
+            <VoterFooter />
         </Layout>
     )
 }
