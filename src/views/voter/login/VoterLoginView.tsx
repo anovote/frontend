@@ -1,23 +1,69 @@
-import { Input, Form, Button, AlertProps, Alert } from 'antd'
+import { Alert, AlertProps, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { AxiosInstance } from 'axios'
 import { BackendAPI } from 'core/api'
-import React, { ReactElement } from 'react'
-import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { apiRoute } from 'core/routes/apiRoutes'
+import React, { ReactElement, useReducer } from 'react'
+import { useTranslation } from 'react-i18next'
+
+interface VoterLoginState {
+    alert?: AlertProps
+    isLoading: boolean
+}
+
+type VoterLoginAction = { type: 'success' | 'sendRequest' | 'closeAlert' } | { type: 'error'; alertProps: AlertProps }
+
+const voterLoginReducer = (state: VoterLoginState, action: VoterLoginAction) => {
+    console.log(action)
+    switch (action.type) {
+        case 'sendRequest':
+            return {
+                ...state,
+                isLoading: true,
+            }
+        case 'success':
+            return {
+                ...state,
+                isLoading: false,
+            }
+        case 'closeAlert':
+            return {
+                ...state,
+                alert: undefined,
+            }
+        case 'error':
+            return {
+                ...state,
+                alert: action.alertProps,
+                isLoading: false,
+            }
+
+        default:
+            break
+    }
+    return { ...state }
+}
 
 function VoterLoginView(): ReactElement {
     const [t] = useTranslation(['form', 'common'])
-    const [isLoading, setIsLoading] = useState(false)
-    const [alertMessage, setAlertMessage] = useState<AlertProps>()
+
+    const initialState: VoterLoginState = {
+        isLoading: false,
+        alert: undefined,
+    }
+
+    const [state, dispatch] = useReducer(voterLoginReducer, initialState)
+    // todo connect to socket. wait for confirmation or disconnection setup useReducer
 
     const onSubmitHandler = async (form: JoinVoteDetails) => {
         const httpClient: AxiosInstance = BackendAPI
         const { email, electionCode } = form
 
-        setIsLoading(true)
+        await sendConfirmationRequest(httpClient, email, electionCode)
+    }
 
+    async function sendConfirmationRequest(httpClient: AxiosInstance, email: string, electionCode: string) {
+        dispatch({ type: 'sendRequest' })
         try {
             await httpClient.get(apiRoute.joinElection, {
                 params: {
@@ -27,20 +73,19 @@ function VoterLoginView(): ReactElement {
             })
         } catch (err) {
             console.log(err)
-            setAlertMessage({ type: 'error', message: err.message })
+            dispatch({ type: 'error', alertProps: { type: 'error', message: err.message } })
         }
-        setIsLoading(false)
     }
 
     return (
         <Layout className="layout">
-            {alertMessage && (
+            {state.alert && (
                 <Alert
-                    message={alertMessage?.message}
-                    description={alertMessage?.description}
-                    type={alertMessage?.type}
+                    message={state.alert?.message}
+                    description={state.alert?.description}
+                    type={state.alert?.type}
                     onClose={() => {
-                        setAlertMessage(undefined)
+                        dispatch({ type: 'closeAlert' })
                     }}
                     showIcon
                     closable
@@ -53,17 +98,21 @@ function VoterLoginView(): ReactElement {
                         name={t('common:Email').toString()}
                         rules={[{ type: 'email', required: true, message: t('form:Email is not valid') }]}
                     >
-                        <Input disabled={isLoading} placeholder="email@example.com" />
+                        <Input
+                            disabled={state.isLoading}
+                            placeholder="email@example.com"
+                            defaultValue="test@test.com"
+                        />
                     </Form.Item>
                     <Form.Item
                         label={t('common:Election Code')}
                         name={t('common:Election Code').toString()}
                         rules={[{ type: 'string', required: true, min: 6 }]}
                     >
-                        <Input disabled={isLoading} />
+                        <Input disabled={state.isLoading} defaultValue="abc123" />
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit" loading={isLoading}>
+                        <Button type="primary" htmlType="submit" loading={state.isLoading}>
                             {t('common:Submit')}
                         </Button>
                     </Form.Item>
