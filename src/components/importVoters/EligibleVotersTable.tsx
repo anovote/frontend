@@ -65,7 +65,7 @@ export default function EligibleVotersTable({
         const unique = filterForDuplicates(trimmedList)
 
         if (unique.length < trimmedList.length) {
-            setDuplicateErrorMessage('There were duplicates in the list, but we have removed these')
+            setDuplicateErrorMessage(t('There were duplicates in the list, but we have removed these'))
         }
 
         const invalidEmails: string[] = []
@@ -82,7 +82,9 @@ export default function EligibleVotersTable({
         }
 
         if (invalidEmails.length != 0) {
-            setNotEmailErrorMessage('Email(s): ' + invalidEmails + ', were removed due to them not being valid emails')
+            setNotEmailErrorMessage(
+                'Email(s): ' + invalidEmails + ', ' + t('were removed due to them not being valid emails'),
+            )
         }
 
         setMappedCsvArray(parseArrayToObjectArray(uniqueRemovedArray))

@@ -1,5 +1,7 @@
 {
     "Something went wrong in the parsing": "Something went wrong in the parsing",
     "The file is not CSV or JSON!": "The file is not CSV or JSON!",
-    "File is empty": "File is empty"
+    "File is empty": "File is empty",
+    "There were duplicates in the list, but we have removed these": "There were duplicates in the list, but we have removed these",
+    "were removed due to them not being valid emails": "were removed due to them not being valid emails"
 }
