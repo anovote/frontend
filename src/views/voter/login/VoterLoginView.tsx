@@ -29,14 +29,7 @@ function VoterLoginView(): ReactElement {
             console.log(err)
             setAlertMessage({ type: 'error', message: err.message })
         }
-            setIsLoading(false)
-        }, 3000)
-        //await httpClient.get('', {
-        //    params: {
-        //        email,
-        //        electionCode,
-        //    },
-        //})
+        setIsLoading(false)
     }
 
     return (
@@ -57,15 +50,15 @@ function VoterLoginView(): ReactElement {
                 <Form layout="vertical" name="vote-login-form" onFinish={onSubmitHandler}>
                     <Form.Item
                         label={t('common:Email')}
-                        name="email"
-                        rules={[{ type: 'email', message: t('form:Email is not valid') }]}
+                        name={t('common:Email').toString()}
+                        rules={[{ type: 'email', required: true, message: t('form:Email is not valid') }]}
                     >
-                        <Input disabled={isLoading} />
+                        <Input disabled={isLoading} placeholder="email@example.com" />
                     </Form.Item>
                     <Form.Item
                         label={t('common:Election Code')}
-                        name="electionCode"
-                        rules={[{ type: 'string', min: 6 }]}
+                        name={t('common:Election Code').toString()}
+                        rules={[{ type: 'string', required: true, min: 6 }]}
                     >
                         <Input disabled={isLoading} />
                     </Form.Item>
