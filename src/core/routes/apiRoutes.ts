@@ -4,4 +4,5 @@ export const apiRoute = {
     electionOrganizer: '/admin/electionOrganizer',
     registration: '/public/auth/register',
     ballots: '/ballots',
+    joinElection: '/join',
 }
