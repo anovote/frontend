@@ -12,8 +12,8 @@ beforeAll(() => {
         'hello@gmail.com',
         'hello@gmail.com',
         'hello@gmail.com',
-        'posjgsdpojg',
-        'oiiiiiiiiiiiiiiiii',
+        'hello',
+        'no',
     ]
     noDuplicatesArray = ['hello@gmail.com', 'hasiolhd@gmail.com', '    osiadgh@lada.ru   ']
     twoDimArray = [['Hello@gmail.com'], ['hasiolhd@gmail.com'], ['    osiadgh@lada.ru   ']]
@@ -34,7 +34,7 @@ it('should remove any duplicates in the list', () => {
 it('should not remove any items when there are no duplicates in the list', () => {
     let copy: string[] = [...noDuplicatesArray]
     copy = filterForDuplicates(copy)
-    expect(copy.length).toBe(copy.length)
+    expect(copy.length).toBe(noDuplicatesArray.length)
 })
 
 it('should convert a 2d array to a 1d array', () => {
