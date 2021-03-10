@@ -71,17 +71,11 @@ export default function EligibleVotersTable({
         eligibleVoters: IEligibleVoter[]
     }): void {
         if (arrays.invalidEmails.length != 0) {
-            setInvalidEmailErrorMessage(
-                t('Email(s)') +
-                    ': ' +
-                    arrays.invalidEmails +
-                    ', ' +
-                    t('Removed because strings provided are not being valid emails').toLowerCase(),
-            )
+            setInvalidEmailErrorMessage(t('Removed the following invalid emails') + ': ' + arrays.invalidEmails)
         }
 
         if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
-            setDuplicateErrorMessage(t('There were duplicates in the list, but we have removed these'))
+            setDuplicateErrorMessage(t('Removed duplicate entries'))
         }
     }
 
