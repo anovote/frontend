@@ -75,12 +75,7 @@ function VoterLoginView(): ReactElement {
                 />
             )}
             <Content className="is-fullscreen has-content-center-center">
-                <Form
-                    layout="vertical"
-                    name="vote-login-form"
-                    onFinish={onSubmitHandler}
-                    initialValues={{ email: 'tull@toys.no', electionCode: 'abc123' }}
-                >
+                <Form layout="vertical" name="vote-login-form" onFinish={onSubmitHandler}>
                     <Form.Item
                         label={t('common:Email')}
                         name="email"
