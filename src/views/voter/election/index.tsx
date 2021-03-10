@@ -8,12 +8,16 @@ import React, { ReactElement, useEffect, useReducer } from 'react'
 import ElectionContentHandler from './ElectionContentHandler'
 import ElectionInfoHandler from './ElectionInfoHandler'
 import { electionReducer, initialElectionState } from './electionReducer'
-import { electionSocketEventBinder } from './electionSocketEventBinder'
+import { electionSocketEventBinder, electionSocketEventCleanup } from './electionSocketEventBinder'
 export default function VoterElectionView(): ReactElement {
     const [electionState, electionDispatch] = useReducer(electionReducer, initialElectionState)
     const [socket] = useSocket()
     useEffect(() => {
         electionSocketEventBinder(socket, electionDispatch)
+
+        return () => {
+            electionSocketEventCleanup()
+        }
     }, [])
     return (
         <Layout className="small-container">
