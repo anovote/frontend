@@ -16,7 +16,6 @@ function VoterLoginView(): ReactElement {
         socket.connect()
 
         socket.on(Events.standard.socket.connect, () => {
-            console.log(socket.id)
             dispatch({ type: 'connectedToSocket' })
         })
 
@@ -42,7 +41,6 @@ function VoterLoginView(): ReactElement {
 
     const onSubmitHandler = async (form: JoinVoteDetails) => {
         const { email, electionCode } = form
-
         await sendConfirmationRequest(email, electionCode)
     }
 
@@ -81,7 +79,6 @@ function VoterLoginView(): ReactElement {
                 >
                     <Form.Item
                         label={t('common:Email')}
-                        //name={t('common:Email').toString()}
                         name="email"
                         rules={[{ type: 'email', required: true, message: t('form:Email is not valid') }]}
                     >
@@ -89,7 +86,6 @@ function VoterLoginView(): ReactElement {
                     </Form.Item>
                     <Form.Item
                         label={t('common:Election Code')}
-                        //name={t('common:Election Code').toString()}
                         name={'electionCode'}
                         rules={[{ type: 'string', required: true, min: 6 }]}
                     >
