@@ -25,7 +25,7 @@ export default function EligibleVotersTable({
     const [errorMessage, setErrorMessage] = React.useState('')
     const [duplicateErrorMessage, setDuplicateErrorMessage] = React.useState('')
     const [invalidEmailErrorMessage, setInvalidEmailErrorMessage] = React.useState('')
-    const [mappedCsvArray, setMappedCsvArray] = React.useState<{ key: number; email: string }[]>([])
+    const [mappedObjectArray, setMappedObjectArray] = React.useState<{ key: number; email: string }[]>([])
     const fileParser = new FileParser()
 
     /**
@@ -38,26 +38,29 @@ export default function EligibleVotersTable({
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
-                setMappedCsvArray(parseArrayToObjectArray(parsedCsv))
                 eligibleVoters = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
             } catch (e) {
                 setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
-            setMappedCsvArray(parseArrayToObjectArray(parsedJson.emails))
             eligibleVoters = createListOfEligibleVoters(parsedJson.emails)
         } else {
             setErrorMessage(t('The file is not CSV or JSON!'))
             return
         }
+        setMappedObjectArray(createObjectArrayFromEligibleVoters(eligibleVoters))
         onUpload(eligibleVoters)
     }
 
-    function parseArrayToObjectArray(array: string[]): { key: number; email: string }[] {
-        return array.map((email, index) => {
-            return { key: index, email }
-        })
+    function createObjectArrayFromEligibleVoters(eligibleVoters: IEligibleVoter[]): { key: number; email: string }[] {
+        const objectArray: { key: number; email: string }[] = []
+
+        for (let i = 0; i < eligibleVoters.length; i++) {
+            objectArray.push({ key: i, email: eligibleVoters[i].identification })
+        }
+
+        return objectArray
     }
 
     /**
@@ -157,7 +160,7 @@ export default function EligibleVotersTable({
                     </Dropdown>
                 </Col>
             </Row>
-            <Table columns={columns} dataSource={mappedCsvArray} />
+            <Table columns={columns} dataSource={mappedObjectArray} />
             <div>
                 {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
                 {!!duplicateErrorMessage && (
