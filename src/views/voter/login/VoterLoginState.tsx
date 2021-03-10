@@ -24,42 +24,48 @@ type VoterLoginAction =
 export const voterLoginReducer = (state: VoterLoginState, action: VoterLoginAction): VoterLoginState => {
     console.log(action)
     switch (action.type) {
-        case 'emailSent':
-            return { ...state, isLoading: false, alert: action.alertProps }
-
-        case 'sendRequest':
+        case 'connectToSocket':
             return {
                 ...state,
                 isLoading: true,
             }
+
         case 'connectedToSocket':
             return { ...state, isLoading: false }
-        case 'success':
-            return {
-                ...state,
-                isLoading: false,
-            }
+
         case 'closeAlert':
             return {
                 ...state,
                 alert: undefined,
             }
+
+        case 'emailSent':
+            return { ...state, isLoading: false, alert: action.alertProps }
+
         case 'error':
             return {
                 ...state,
                 alert: action.alertProps,
                 isLoading: false,
             }
-        case 'connectToSocket':
+
+        case 'sendRequest':
             return {
                 ...state,
                 isLoading: true,
             }
+
         case 'socketNotConnected':
             return {
                 ...state,
                 isLoading: false,
                 alert: action.alertProps,
+            }
+
+        case 'success':
+            return {
+                ...state,
+                isLoading: false,
             }
 
         default:
