@@ -7,6 +7,10 @@ import React, { ReactElement, useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { VoterLoginState, voterLoginReducer } from './VoterLoginState'
 
+/**
+ * A view for a voter to give email and election code in order to join an election
+ * Sends events via socketIO to the server
+ */
 function VoterLoginView(): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['form', 'common'])
