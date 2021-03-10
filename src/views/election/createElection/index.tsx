@@ -31,8 +31,6 @@ export default function CreateElectionView(): React.ReactElement {
      * @param form The form we want to validate
      */
     const formValidated = async (form: IElectionDetails) => {
-        console.log(eligibleVotersList)
-
         try {
             form.status = ElectionStatus.NotStarted
             form.isLocked = false
