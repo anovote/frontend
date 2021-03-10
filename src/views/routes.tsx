@@ -1,3 +1,6 @@
+import AdminRoutes from 'core/routes/AdminRoutes'
+import { getBaseRoute, getPublicRoute } from 'core/routes/siteRoutes'
+import VoterRoutes from 'core/routes/VoterRoutes'
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from '../components/routeDefaults/NotFound'
@@ -7,9 +10,6 @@ import { useAppState } from '../core/state/app/AppStateContext'
 import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
-import AdminRoutes from 'core/routes/AdminRoutes'
-import VoterRoutes from 'core/routes/VoterRoutes'
-import { getBaseRoute, getPublicRoute } from 'core/routes/siteRoutes'
 
 /**
  * Router view
