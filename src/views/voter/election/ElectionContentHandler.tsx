@@ -41,10 +41,16 @@ export default function ElectionContentHandler({ state }: { state: ElectionState
             break
         case DisplayAction.DisplayNotStarted:
             {
+                let notStartedLabel = t('election:Election has not started yet')
+                if (state.election?.openDate) {
+                    notStartedLabel = t('election:Election starts', {
+                        date: state.election?.openDate?.toLocaleDateString(),
+                    })
+                }
                 renderComponent = (
                     <SquareIconContainer
                         icon={<CoffeeOutlined className="wobble-animation" />}
-                        label={t('election:Election starts', { date: state.election?.openDate?.toLocaleDateString() })}
+                        label={notStartedLabel}
                     />
                 )
             }

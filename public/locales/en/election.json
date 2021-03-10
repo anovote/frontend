@@ -10,5 +10,6 @@
     "Finished": "Finished",
     "Election opens": "Election opens {{date}}",
     "Election starts": "Election starts {{date}}",
-    "Waiting for": "Waiting for {{what}}"
+    "Waiting for": "Waiting for {{what}}",
+    "Election has not started yet": "The election has not started yet"
 }
