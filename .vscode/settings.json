@@ -9,5 +9,8 @@
         "typescript": "typescriptreact",
         "javascript": "javascriptreact"
     },
-    "editor.autoIndent": "advanced"
+    "editor.autoIndent": "advanced",
+    "i18n-ally.localesPaths": [
+        "public/locales"
+    ]
 }
