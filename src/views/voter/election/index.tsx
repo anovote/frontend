@@ -1,27 +1,28 @@
-import { LockOutlined } from '@ant-design/icons'
 import { Divider } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
-import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
 import VoterContent from 'components/voterContent/VoterContent'
-import VoterTopInfo from 'components/voterContentInfo/VoterContentInfo'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
-import React, { ReactElement } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useSocket } from 'core/state/websocket/useSocketHook'
+import React, { ReactElement, useEffect, useReducer } from 'react'
+import ElectionContentHandler from './ElectionContentHandler'
+import ElectionInfoHandler from './ElectionInfoHandler'
+import { electionReducer, initialElectionState } from './electionReducer'
+import { electionSocketEventBinder } from './electionSocketEventBinder'
 export default function VoterElectionView(): ReactElement {
-    const [t] = useTranslation(['election'])
-
+    const [electionState, electionDispatch] = useReducer(electionReducer, initialElectionState)
+    const [socket] = useSocket()
+    useEffect(() => {
+        electionSocketEventBinder(socket, electionDispatch)
+    }, [])
     return (
         <Layout className="small-container">
             <VoterHeader slogan="Anovote" />
             <Content className="layout-content">
-                <VoterTopInfo title="Title" context="some context" />
+                <ElectionInfoHandler state={electionState} />
                 <Divider />
                 <VoterContent>
-                    <SquareIconContainer
-                        icon={<LockOutlined className="wobble-animation" />}
-                        label={t('election:Election opens', { date: new Date().toLocaleDateString() })}
-                    />
+                    <ElectionContentHandler state={electionState} />
                 </VoterContent>
             </Content>
             <VoterFooter />
