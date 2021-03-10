@@ -1,66 +1,11 @@
-import { Alert, AlertProps, Button, Form, Input } from 'antd'
+import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { Events } from 'core/events'
 import { useSocket } from 'core/state/websocket/useSocketHook'
 import { StatusCodes } from 'http-status-codes'
 import React, { ReactElement, useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
-
-interface VoterLoginState {
-    alert?: AlertProps
-    isLoading: boolean
-}
-
-type VoterLoginAction =
-    | { type: 'success' | 'sendRequest' | 'closeAlert' | 'connectToSocket' | 'connectedToSocket' }
-    | { type: 'error' | 'socketNotConnected' | 'emailSent'; alertProps: AlertProps }
-
-const voterLoginReducer = (state: VoterLoginState, action: VoterLoginAction) => {
-    console.log(action)
-    switch (action.type) {
-        case 'emailSent':
-            return { ...state, isLoading: false, alert: action.alertProps }
-
-        case 'sendRequest':
-            return {
-                ...state,
-                isLoading: true,
-            }
-        case 'connectedToSocket':
-            return { ...state, isLoading: false }
-        case 'success':
-            return {
-                ...state,
-                isLoading: false,
-            }
-        case 'closeAlert':
-            return {
-                ...state,
-                alert: undefined,
-            }
-        case 'error':
-            return {
-                ...state,
-                alert: action.alertProps,
-                isLoading: false,
-            }
-        case 'connectToSocket':
-            return {
-                ...state,
-                isLoading: true,
-            }
-        case 'socketNotConnected':
-            return {
-                ...state,
-                isLoading: false,
-                alert: action.alertProps,
-            }
-
-        default:
-            break
-    }
-    return { ...state }
-}
+import { VoterLoginState, voterLoginReducer } from './VoterLoginState'
 
 function VoterLoginView(): ReactElement {
     const [socket] = useSocket()
