@@ -1,5 +1,5 @@
-import React, { ReactNode } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
 
-export default function CenterView({ children }: { children: ReactNode | ReactNode[] }) {
+export default function CenterView({ children }: { children: ReactNode | ReactNode[] }): ReactElement {
     return <div className="center-view">{children}</div>
 }
