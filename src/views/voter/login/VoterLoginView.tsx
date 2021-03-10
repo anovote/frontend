@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next'
 interface VoterLoginState {
     alert?: AlertProps
     isLoading: boolean
+    connectToSocket: boolean
 }
 
 type VoterLoginAction = { type: 'success' | 'sendRequest' | 'closeAlert' } | { type: 'error'; alertProps: AlertProps }
@@ -53,7 +54,7 @@ function VoterLoginView(): ReactElement {
     }
 
     const [state, dispatch] = useReducer(voterLoginReducer, initialState)
-    // todo connect to socket. wait for confirmation or disconnection setup useReducer
+    // todo connect to socket. wait for confirmation or disconnection
 
     const onSubmitHandler = async (form: JoinVoteDetails) => {
         const httpClient: AxiosInstance = BackendAPI
