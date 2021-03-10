@@ -10,6 +10,7 @@ import { useAppState } from '../core/state/app/AppStateContext'
 import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
+import VerifyVoterView from './voter/verify'
 
 /**
  * Router view
@@ -30,6 +31,9 @@ export default function RouterView(): React.ReactElement {
                 </Route>
                 <Route path={getPublicRoute().login}>
                     <LoginView />
+                </Route>
+                <Route path={getPublicRoute().verifyVoter}>
+                    <VerifyVoterView />
                 </Route>
                 <ProtectedRoute
                     // Added as example
