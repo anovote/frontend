@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Table, Upload, Button, Menu, Dropdown, Alert, Col, Row } from 'antd'
+import { Table, Upload, Button, Menu, Dropdown, Alert, Col, Row, Space } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 import { FileParser } from './FileParser'
 import { useTranslation } from 'react-i18next'
@@ -34,23 +34,24 @@ export default function EligibleVotersTable({
      * @param file The file we want to parse
      */
     const parseFile = async (file: File): Promise<void> => {
-        let eligibleVoters: IEligibleVoter[] = []
+        let arrays: any
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
-                eligibleVoters = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
+                arrays = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
             } catch (e) {
                 setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
-            eligibleVoters = createListOfEligibleVoters(parsedJson.emails)
+            arrays = createListOfEligibleVoters(parsedJson.emails)
         } else {
             setErrorMessage(t('The file is not CSV or JSON!'))
             return
         }
-        setMappedObjectArray(createObjectArrayFromEligibleVoters(eligibleVoters))
-        onUpload(eligibleVoters)
+        checkInputArrays(arrays)
+        setMappedObjectArray(createObjectArrayFromEligibleVoters(arrays.eligibleVoters))
+        onUpload(arrays.eligibleVoters)
     }
 
     function createObjectArrayFromEligibleVoters(eligibleVoters: IEligibleVoter[]): { key: number; email: string }[] {
@@ -67,42 +68,52 @@ export default function EligibleVotersTable({
      * Creates a list of eligible voters based of a list of emails.
      * First the emails in the list are trimmed, then any duplicates are removed,
      * and then checked if all of the emails are valid. Any invalid emails will be removed.
-     * @param listOfEmails The list we want to use to create an eligible voters list
-     * @returns list of eligible voters.
+     * @param arrays
+     * @returns
      */
-    function createListOfEligibleVoters(listOfEmails: string[]): IEligibleVoter[] {
+    function createListOfEligibleVoters(
+        listOfEmails: string[],
+    ): { invalidEmails: string[]; noDuplicates: string[]; eligibleVoters: IEligibleVoter[] } {
         const trimmedList: string[] = trimItemsInArray(listOfEmails)
 
-        const unique = filterForDuplicates(trimmedList)
-
-        if (unique.length < trimmedList.length) {
-            setDuplicateErrorMessage(t('There were duplicates in the list, but we have removed these'))
-        }
+        const noDuplicates = filterForDuplicates(trimmedList)
 
         const invalidEmails: string[] = []
-        const uniqueRemovedArray: string[] = [...unique]
         const eligibleVoters: IEligibleVoter[] = []
 
-        for (let i = 0; i < unique.length; i++) {
-            if (isEmailValid(unique[i])) {
-                eligibleVoters.push({ identification: unique[i] })
+        for (let i = 0; i < noDuplicates.length; i++) {
+            if (isEmailValid(noDuplicates[i])) {
+                eligibleVoters.push({ identification: noDuplicates[i] })
             } else {
-                invalidEmails.push(unique[i])
-                delete uniqueRemovedArray[i]
+                invalidEmails.push(noDuplicates[i])
             }
         }
 
-        if (invalidEmails.length != 0) {
+        return {
+            invalidEmails,
+            noDuplicates,
+            eligibleVoters,
+        }
+    }
+
+    function checkInputArrays(arrays: {
+        invalidEmails: string[]
+        noDuplicates: string[]
+        eligibleVoters: IEligibleVoter[]
+    }): void {
+        if (arrays.invalidEmails.length != 0) {
             setInvalidEmailErrorMessage(
                 t('Email(s)') +
                     ': ' +
-                    invalidEmails +
+                    arrays.invalidEmails +
                     ', ' +
                     t('Removed because strings provided are not being valid emails').toLowerCase(),
             )
         }
 
-        return eligibleVoters
+        if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
+            setDuplicateErrorMessage(t('There were duplicates in the list, but we have removed these'))
+        }
     }
 
     /**
@@ -144,20 +155,16 @@ export default function EligibleVotersTable({
                     <h2>{t('common:Eligible voters')}</h2>
                 </Col>
                 <Col span={12}>
-                    <Dropdown
-                        className="import-voters-dropdown"
-                        overlay={<ImportFileMenu />}
-                        placement="bottomRight"
-                        arrow
-                    >
-                        <Button
-                            className="import-voters-button"
-                            type="primary"
-                            icon={<PlusOutlined />}
-                            size="large"
-                            shape="circle"
-                        ></Button>
-                    </Dropdown>
+                    <Space align="end" direction="vertical" className="width-100">
+                        <Dropdown
+                            className="import-voters-dropdown"
+                            overlay={<ImportFileMenu />}
+                            placement="bottomRight"
+                            arrow
+                        >
+                            <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
+                        </Dropdown>
+                    </Space>
                 </Col>
             </Row>
             <Table columns={columns} dataSource={mappedObjectArray} />
