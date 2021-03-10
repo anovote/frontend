@@ -22,7 +22,6 @@ type VoterLoginAction =
  * @returns the state after the reducer has ran
  */
 export const voterLoginReducer = (state: VoterLoginState, action: VoterLoginAction): VoterLoginState => {
-    console.log(action)
     switch (action.type) {
         case 'connectToSocket':
             return {
