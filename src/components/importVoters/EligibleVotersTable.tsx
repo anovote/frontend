@@ -24,7 +24,7 @@ export default function EligibleVotersTable({
     const [t] = useTranslation(['parsing'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [duplicateErrorMessage, setDuplicateErrorMessage] = React.useState('')
-    const [notEmailErrorMessage, setNotEmailErrorMessage] = React.useState('')
+    const [invalidEmailErrorMessage, setInvalidEmailErrorMessage] = React.useState('')
     const [mappedCsvArray, setMappedCsvArray] = React.useState<{ key: number; email: string }[]>([])
     const fileParser = new FileParser()
 
@@ -90,7 +90,7 @@ export default function EligibleVotersTable({
         }
 
         if (invalidEmails.length != 0) {
-            setNotEmailErrorMessage(
+            setInvalidEmailErrorMessage(
                 t('Email(s)') +
                     ': ' +
                     invalidEmails +
@@ -163,7 +163,9 @@ export default function EligibleVotersTable({
                 {!!duplicateErrorMessage && (
                     <Alert message={duplicateErrorMessage} type={'warning'} showIcon closable />
                 )}
-                {!!notEmailErrorMessage && <Alert message={notEmailErrorMessage} type={'warning'} showIcon closable />}
+                {!!invalidEmailErrorMessage && (
+                    <Alert message={invalidEmailErrorMessage} type={'warning'} showIcon closable />
+                )}
             </div>
         </div>
     )
