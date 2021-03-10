@@ -11,8 +11,8 @@ export default function ElectionInfoHandler({ state }: { state: ElectionState })
     let context = undefined
     const shouldDisplay = true
     switch (state.displayAction) {
-        case DisplayAction.DisplayResult:
-        case DisplayAction.DisplayBallot:
+        case DisplayAction.Result:
+        case DisplayAction.Ballot:
             {
                 if (state.ballot && state.election) {
                     title = state.ballot.title

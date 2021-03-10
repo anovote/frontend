@@ -12,7 +12,7 @@ export default function ElectionContentHandler({ state }: { state: ElectionState
     const [t] = useTranslation(['election', 'common'])
     let renderComponent: ReactElement
     switch (state.displayAction) {
-        case DisplayAction.DisplayLocked:
+        case DisplayAction.Locked:
             {
                 renderComponent = (
                     <SquareIconContainer
@@ -23,7 +23,7 @@ export default function ElectionContentHandler({ state }: { state: ElectionState
             }
 
             break
-        case DisplayAction.DisplayWaiting:
+        case DisplayAction.Waiting:
             {
                 let waitingFor = ''
                 if (!state.election) waitingFor = t('common:Election')
@@ -39,7 +39,7 @@ export default function ElectionContentHandler({ state }: { state: ElectionState
             }
 
             break
-        case DisplayAction.DisplayNotStarted:
+        case DisplayAction.NotStarted:
             {
                 let notStartedLabel = t('election:Election has not started yet')
                 if (state.election?.openDate) {
