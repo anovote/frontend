@@ -83,7 +83,11 @@ export default function EligibleVotersTable({
 
         if (invalidEmails.length != 0) {
             setNotEmailErrorMessage(
-                'Email(s): ' + invalidEmails + ', ' + t('were removed due to them not being valid emails'),
+                t('Email(s)') +
+                    ': ' +
+                    invalidEmails +
+                    ', ' +
+                    t('Removed because strings provided are not being valid emails').toLowerCase(),
             )
         }
 
