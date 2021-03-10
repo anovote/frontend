@@ -20,6 +20,15 @@ export const Events = {
             ping: 'ping',
         },
     },
+    join: {
+        send: {
+            verifyVoterIntegrity: 'verify_voter_integrity',
+            token: 'join_with_token',
+        },
+        receive: {
+            voterIntegrityVerified: 'voter_integrity_verified',
+        },
+    },
     voter: {
         close: 'close',
         election: 'election',
