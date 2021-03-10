@@ -17,5 +17,6 @@
     "Wrong email/password": "Wrong email/password",
     "Please provide email": "Please provide email",
     "User was registered": "User was registered",
-    "Error in form": "Error in form"
+    "Error in form": "Error in form",
+    "Please rewrite password": "Please rewrite password"
 }

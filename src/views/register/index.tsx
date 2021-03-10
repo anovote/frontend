@@ -14,7 +14,7 @@ import { useAppStateDispatcher } from '../../core/state/app/AppStateContext'
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
 
-    const [t] = useTranslation('form')
+    const [t] = useTranslation(['form', 'common'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [successMessage, setSuccessMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
