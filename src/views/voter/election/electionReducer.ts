@@ -31,7 +31,7 @@ export type ElectionState = {
 export type ElectionAction =
     | { type: 'election'; payload: IElection }
     | { type: 'ballot'; payload: IBallot }
-    // Not implemented yet
+    // TODO Not implemented yet
     | { type: 'result'; payload: null }
     | { type: 'close'; payload: boolean }
 
