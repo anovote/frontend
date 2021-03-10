@@ -1,9 +1,10 @@
-import * as React from 'react'
-import { Table, Upload, Button, Menu, Dropdown, Alert, Col, Row, Space } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import { FileParser } from './FileParser'
+import { Alert, Button, Col, Dropdown, Menu, Row, Space, Table, Upload } from 'antd'
+import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
+import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { convertTwoDimArrayToOneDimArray, filterForDuplicates, trimItemsInArray } from 'core/helpers/array'
+import { createListOfEligibleVoters } from '../../core/helpers/eligibleVoter'
+import { FileParser } from './FileParser'
 
 export interface IEligibleVoter {
     identification: string
@@ -64,38 +65,6 @@ export default function EligibleVotersTable({
         return objectArray
     }
 
-    /**
-     * Creates a list of eligible voters based of a list of emails.
-     * First the emails in the list are trimmed, then any duplicates are removed,
-     * and then checked if all of the emails are valid. Any invalid emails will be removed.
-     * @param arrays
-     * @returns
-     */
-    function createListOfEligibleVoters(
-        listOfEmails: string[],
-    ): { invalidEmails: string[]; noDuplicates: string[]; eligibleVoters: IEligibleVoter[] } {
-        const trimmedList: string[] = trimItemsInArray(listOfEmails)
-
-        const noDuplicates = filterForDuplicates(trimmedList)
-
-        const invalidEmails: string[] = []
-        const eligibleVoters: IEligibleVoter[] = []
-
-        for (let i = 0; i < noDuplicates.length; i++) {
-            if (isEmailValid(noDuplicates[i])) {
-                eligibleVoters.push({ identification: noDuplicates[i] })
-            } else {
-                invalidEmails.push(noDuplicates[i])
-            }
-        }
-
-        return {
-            invalidEmails,
-            noDuplicates,
-            eligibleVoters,
-        }
-    }
-
     function checkInputArrays(arrays: {
         invalidEmails: string[]
         noDuplicates: string[]
@@ -113,21 +82,6 @@ export default function EligibleVotersTable({
 
         if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
             setDuplicateErrorMessage(t('There were duplicates in the list, but we have removed these'))
-        }
-    }
-
-    /**
-     * Checks if a given email is valid or not.
-     * @param email the email we want to validate
-     * @returns true if valid, false if not valid
-     */
-    function isEmailValid(email: string): boolean {
-        const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-
-        if (email.match(emailFormat)) {
-            return true
-        } else {
-            return false
         }
     }
 
