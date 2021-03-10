@@ -1,13 +1,3 @@
-// TODO REFACTOR
-.center-view {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-.header-logo {
-    width: 2.5 * $bu;
-    height: auto;
-}
 .small-container {
     @include is-flex-column;
     max-width: $medium-screen;
@@ -22,32 +12,5 @@
     }
     footer {
         padding: 1rem;
-    }
-}
-
-.voter-header {
-    @include is-flex-row;
-    * {
-        margin: 0 0.5rem 0 0;
-    }
-}
-
-.header-slogan {
-    font-weight: bold;
-}
-
-.layout-content {
-    @include is-flex-column;
-}
-.election-top {
-    padding: 1rem 0 0 0;
-    @include is-flex-column;
-}
-.election-main {
-    padding: 1rem 0;
-    @include is-flex-column;
-    align-items: center;
-    > * {
-        width: 100%;
     }
 }

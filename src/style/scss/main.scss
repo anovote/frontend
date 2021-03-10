@@ -12,13 +12,15 @@
 @import './anovote/mixins/style';
 @import './anovote/mixins/icon';
 
-// HELPERS
+// LAYOUTS
 @import './anovote/layout/helpers';
 @import './anovote/layout/skeleton/skeleton';
 @import './anovote/layout/form';
 @import './anovote/layout/typography';
 @import './anovote/layout/container';
 @import './anovote/layout/animations';
+@import './anovote/layout/voter';
+
 // COMPONENTS
 @import './anovote/components/button';
 @import './anovote/components/icons';
