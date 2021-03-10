@@ -3,5 +3,6 @@
     "The file is not CSV or JSON!": "The file is not CSV or JSON!",
     "File is empty": "File is empty",
     "There were duplicates in the list, but we have removed these": "There were duplicates in the list, but we have removed these",
-    "Removed because strings provided are not being valid emails": "Removed because strings provided are not being valid emails"
+    "Removed because strings provided are not being valid emails": "Removed because strings provided are not being valid emails",
+    "Email(s)": "Email(s)"
 }

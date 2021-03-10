@@ -5,6 +5,10 @@ import { FileParser } from './FileParser'
 import { useTranslation } from 'react-i18next'
 import { convertTwoDimArrayToOneDimArray, filterForDuplicates, trimItemsInArray } from 'core/helpers/array'
 
+export interface IEligibleVoter {
+    identification: string
+}
+
 export default function EligibleVotersTable({
     onUpload,
 }: {
@@ -30,20 +34,24 @@ export default function EligibleVotersTable({
      * @param file The file we want to parse
      */
     const parseFile = async (file: File): Promise<void> => {
+        let eligibleVoters: IEligibleVoter[] = []
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
-                createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
+                setMappedCsvArray(parseArrayToObjectArray(parsedCsv))
+                eligibleVoters = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
             } catch (e) {
                 setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
-            createListOfEligibleVoters(parsedJson.emails)
+            setMappedCsvArray(parseArrayToObjectArray(parsedJson.emails))
+            eligibleVoters = createListOfEligibleVoters(parsedJson.emails)
         } else {
             setErrorMessage(t('The file is not CSV or JSON!'))
+            return
         }
-        return
+        onUpload(eligibleVoters)
     }
 
     function parseArrayToObjectArray(array: string[]): { key: number; email: string }[] {
@@ -90,10 +98,6 @@ export default function EligibleVotersTable({
                     t('Removed because strings provided are not being valid emails').toLowerCase(),
             )
         }
-
-        setMappedCsvArray(parseArrayToObjectArray(uniqueRemovedArray))
-
-        onUpload(eligibleVoters)
 
         return eligibleVoters
     }
@@ -163,8 +167,4 @@ export default function EligibleVotersTable({
             </div>
         </div>
     )
-}
-
-export interface IEligibleVoter {
-    identification: string
 }
