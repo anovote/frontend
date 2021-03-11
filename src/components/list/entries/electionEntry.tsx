@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 
 export default function ElectionEntry({ election }: { election: IElection }): ReactElement {
-    const [t] = useTranslation(['common', 'translation'])
+    const [t] = useTranslation(['common', 'translation', 'election'])
 
     const colors = new Map()
     colors.set(ElectionStatus.NotStarted, 'not-started')
@@ -18,7 +18,8 @@ export default function ElectionEntry({ election }: { election: IElection }): Re
 
     let dateString = election.openDate?.toDateString()
 
-    if (election.status == ElectionStatus.Finished) dateString = t('Ended on ') + election.closeDate?.toDateString()
+    if (election.status == ElectionStatus.Finished)
+        dateString = t('election:Ended on ') + election.closeDate?.toDateString()
 
     return (
         <Link to="test" className={'election-entry ' + colors.get(election.status)}>

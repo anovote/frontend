@@ -11,6 +11,7 @@ import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
 import VerifyVoterView from './voter/verify'
+import VoterLoginView from './voter/login/VoterLoginView'
 
 /**
  * Router view
@@ -52,6 +53,9 @@ export default function RouterView(): React.ReactElement {
                 >
                     <VoterRoutes />
                 </ProtectedRoute>
+                <Route path={getPublicRoute().joinElection}>
+                    <VoterLoginView />
+                </Route>
                 <Route>
                     <NotFound />
                 </Route>
