@@ -83,8 +83,7 @@ export default function VerifyVoterView(): ReactElement {
             })
             socket.on(Events.standard.socket.connect, () => {
                 // Trigger this only once, as we do not need it after we get a response.
-                socket.once(Events.join.receive.voterIntegrityVerified, integrityVerifiedEvent)
-                socket.emit(Events.join.send.verifyVoterIntegrity, verificationPayload)
+                socket.emit(Events.client.auth.verify.voterIntegrity, verificationPayload, integrityVerifiedEvent)
             })
             socket.connect()
         } else {
