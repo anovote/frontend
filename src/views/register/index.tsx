@@ -82,7 +82,7 @@ export default function RegisterView(): React.ReactElement {
                         <Form.Item
                             label={t('form:Please rewrite password')}
                             name="reTypePassword"
-                            rules={[{ required: true, message: t('form: Remember to rewrite password') }]}
+                            rules={[{ required: true, message: t('form:Remember to rewrite password') }]}
                         >
                             <Input.Password />
                         </Form.Item>
