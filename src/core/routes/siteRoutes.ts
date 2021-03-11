@@ -21,7 +21,7 @@ interface IPublicRoutes {
 }
 
 interface IVoterRoutes {
-    room: string
+    election: string
 }
 
 const routePrefixes = {
@@ -66,6 +66,6 @@ export const getPublicRoute = (): IPublicRoutes => {
 export const getVoterRoute = (): IVoterRoutes => {
     const { voter } = routePrefixes
     return {
-        room: `${voter}room`,
+        election: `${voter}election`,
     }
 }
