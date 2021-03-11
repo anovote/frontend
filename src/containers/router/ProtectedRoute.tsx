@@ -51,5 +51,5 @@ export const ProtectedRoute = (props: IPrivateRouteProps): ReactElement | null =
         return renderComponent
     }
 
-    return <Route {...rest} render={(routeProps) => getRenderComponent(routeProps)} />
+    return <Route exact={true} {...rest} render={(routeProps) => getRenderComponent(routeProps)} />
 }
