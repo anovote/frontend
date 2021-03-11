@@ -71,8 +71,6 @@ export default function VerifyVoterView(): ReactElement {
             const verificationPayload: IVerificationParams = {
                 code: codeToVerify,
             }
-
-            socket.connect()
             socket.on(Events.standard.socket.connectError, () => {
                 setStatusState({
                     icon: <FrownOutlined className="color-danger-contrasting scale-up-center" />,
@@ -88,6 +86,7 @@ export default function VerifyVoterView(): ReactElement {
                 socket.once(Events.join.receive.voterIntegrityVerified, integrityVerifiedEvent)
                 socket.emit(Events.join.send.verifyVoterIntegrity, verificationPayload)
             })
+            socket.connect()
         } else {
             setStatusState({
                 icon: <FrownOutlined className="color-danger-contrasting scale-up-center" />,
