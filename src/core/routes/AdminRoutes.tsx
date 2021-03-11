@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react'
 import { Route } from 'react-router-dom'
 import CreateElectionView from 'views/election/createElection'
 import ElectionView from 'views/election/election'
+import { ElectionInProgressView } from 'views/election/ElectionInProgressView'
 import ElectionsView from 'views/elections'
 import { getAdminRoute } from './siteRoutes'
 
@@ -13,15 +14,18 @@ export default function AdminRoutes(): ReactElement {
         <Skeleton
             content={
                 <div className="is-fullscreen">
-                    <Route path={adminRoute.elections.view}>
+                    <Route exact path={adminRoute.elections.view}>
                         <ElectionsView />
                     </Route>
-                    <Route path={adminRoute.elections.viewId}>
+                    <Route exact path={adminRoute.elections.viewId}>
                         <ElectionView />
                     </Route>
-                    <Route path={adminRoute.elections.create}>
+                    <Route exact path={adminRoute.elections.create}>
                         <CreateElectionView />
                     </Route>
+                    {/*<Route exact path={adminRoute.elections.inProgress}>
+                        <ElectionInProgressView />
+                    </Route>*/}
                 </div>
             }
         />
