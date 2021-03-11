@@ -1,5 +1,10 @@
 import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
+import CenterView from 'components/centerView/CenterView'
+import VoterContent from 'components/voterContent/VoterContent'
+import VoterContentInfo from 'components/voterContentInfo/VoterContentInfo'
+import VoterFooter from 'components/voterFooter/VoterFooter'
+import VoterHeader from 'components/voterHeader/VoterHeader'
 import { Events } from 'core/events'
 import { useSocket } from 'core/state/websocket/useSocketHook'
 import { StatusCodes } from 'http-status-codes'
@@ -61,8 +66,13 @@ function VoterLoginView(): ReactElement {
     }
 
     return (
-        <Layout className="layout">
-            {state.alert && (
+        <CenterView>
+            <Layout className="small-container">
+                <VoterHeader slogan="Anovote" />
+                <Content className="voter-election-layout-content">
+                    <VoterContentInfo title="Join an election"></VoterContentInfo>
+                    <VoterContent>
+                        {(state.alert && (
                 <Alert
                     message={state.alert?.message}
                     description={state.alert?.description}
@@ -73,8 +83,7 @@ function VoterLoginView(): ReactElement {
                     showIcon
                     closable
                 />
-            )}
-            <Content className="is-fullscreen has-content-center-center">
+                        )) || <></>}
                 <Form layout="vertical" name="vote-login-form" onFinish={onSubmitHandler}>
                     <Form.Item
                         label={t('common:Email')}
@@ -86,7 +95,7 @@ function VoterLoginView(): ReactElement {
                     <Form.Item
                         label={t('common:Election Code')}
                         name={'electionCode'}
-                        rules={[{ type: 'string', required: true, min: 6 }]}
+                                rules={[{ type: 'string', required: true }]}
                     >
                         <Input disabled={state.isLoading} />
                     </Form.Item>
@@ -96,8 +105,11 @@ function VoterLoginView(): ReactElement {
                         </Button>
                     </Form.Item>
                 </Form>
+                    </VoterContent>
             </Content>
+                <VoterFooter />
         </Layout>
+        </CenterView>
     )
 }
 
