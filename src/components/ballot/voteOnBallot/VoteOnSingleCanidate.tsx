@@ -16,10 +16,10 @@ export function VoteOnSingleCandidate(): React.ReactElement {
         const vote: IVote = {
             candidate: 1,
             submitted: new Date(),
-            voterId: 696969,
+            voterId: 999,
             ballotId: 6969,
         }
-        socket.emit('ping')
+        socket.emit('vote_submitted')
         console.log(vote)
     }
 
