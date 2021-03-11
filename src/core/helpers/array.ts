@@ -29,3 +29,17 @@ export function filterForDuplicates(array: string[]): string[] {
         return index === self.indexOf(elem)
     })
 }
+
+export function doWhiteSpacesExist(array: string[]): boolean {
+    const itemsWithWhiteSpace: string[] = []
+    let containsWhiteSpace = false
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].match(' ')) {
+            itemsWithWhiteSpace.push(array[i])
+        }
+    }
+
+    if (itemsWithWhiteSpace.length != 0) containsWhiteSpace = true
+
+    return containsWhiteSpace
+}

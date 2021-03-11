@@ -1,4 +1,4 @@
-import { convertTwoDimArrayToOneDimArray, filterForDuplicates, trimItemsInArray } from './array'
+import { convertTwoDimArrayToOneDimArray, doWhiteSpacesExist, filterForDuplicates, trimItemsInArray } from './array'
 
 let testArray: string[]
 let noDuplicatesArray: string[]
@@ -40,7 +40,7 @@ beforeAll(() => {
 it('should trim all items in the array', () => {
     let copy: string[] = [...testArray]
     copy = trimItemsInArray(copy)
-    expect(copy[2]).toBe('osiadgh@lada.ru')
+    expect(doWhiteSpacesExist(copy)).toBeFalsy()
 })
 
 it('should remove any duplicates in the list', () => {
@@ -59,6 +59,5 @@ it('should not remove any items when there are no duplicates in the list', () =>
 it('should convert a 2d array to a 1d array', () => {
     const copy: any = [...twoDimArray]
     const newArr: string[] = convertTwoDimArrayToOneDimArray(copy)
-    expect(newArr.length).toBe(3)
-    expect(newArr[0]).toBe('Hello@gmail.com')
+    expect(newArr[0] === copy[0][0]).toBeTruthy()
 })
