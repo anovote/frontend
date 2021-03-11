@@ -23,9 +23,9 @@ export default function AdminRoutes(): ReactElement {
                     <Route exact path={adminRoute.elections.create}>
                         <CreateElectionView />
                     </Route>
-                    {/*<Route exact path={adminRoute.elections.inProgress}>
+                    <Route exact path={adminRoute.elections.inProgress}>
                         <ElectionInProgressView />
-                    </Route>*/}
+                    </Route>
                 </div>
             }
         />
