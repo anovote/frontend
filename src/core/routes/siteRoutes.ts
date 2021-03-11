@@ -48,7 +48,7 @@ export const getAdminRoute = (): IAdminRoutes => {
             view: `${admin}elections`,
             viewId: `${admin}elections/:id`,
             create: `${admin}create-election`,
-            inProgress: `${admin}in-progress/:id`,
+            inProgress: `${admin}in-progress`,
         },
         customize: `${admin}customize`,
         settings: `${admin}settings`,
