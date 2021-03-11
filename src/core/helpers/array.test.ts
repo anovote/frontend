@@ -29,6 +29,7 @@ it('should remove any duplicates in the list', () => {
     let copy: string[] = [...testArray]
     copy = filterForDuplicates(copy)
     expect(copy.length).toBe(5)
+    expect(copy).toContain('hello@gmail.com')
 })
 
 it('should not remove any items when there are no duplicates in the list', () => {

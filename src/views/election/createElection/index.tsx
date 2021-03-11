@@ -24,7 +24,7 @@ export default function CreateElectionView(): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
     const [t] = useTranslation(['translation', 'common'])
     const [alertProps, setAlertProps] = React.useState<AlertProps>()
-    let eligibleVotersList: IEligibleVoter[] = []
+    const [eligibleVoters, setEligibleVoters] = React.useState<IEligibleVoter[]>([])
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
@@ -34,7 +34,7 @@ export default function CreateElectionView(): React.ReactElement {
         try {
             form.status = ElectionStatus.NotStarted
             form.isLocked = false
-            form.eligibleVoters = eligibleVotersList
+            form.eligibleVoters = eligibleVoters
             await electionService.createElection(form)
             const newAlertProps: AlertProps = {
                 message: 'Election created',
@@ -61,7 +61,7 @@ export default function CreateElectionView(): React.ReactElement {
     }
 
     const uploadEligibleVotersCallback = (eligibleVoters: IEligibleVoter[]) => {
-        eligibleVotersList = eligibleVoters
+        setEligibleVoters(eligibleVoters)
     }
 
     return (
