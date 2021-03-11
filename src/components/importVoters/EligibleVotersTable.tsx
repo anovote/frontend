@@ -1,14 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Alert, Button, Col, Dropdown, Menu, Row, Space, Table, Upload } from 'antd'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
+import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { createListOfEligibleVoters } from '../../core/helpers/eligibleVoter'
 import { FileParser } from './FileParser'
-
-export interface IEligibleVoter {
-    identification: string
-}
 
 export default function EligibleVotersTable({
     onUpload,

@@ -1,4 +1,4 @@
-import { IEligibleVoter } from 'components/importVoters/EligibleVotersTable'
+import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from './ElectionStatus'
 
 export interface IElectionDetails {

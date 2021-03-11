@@ -1,6 +1,6 @@
 import { filterForDuplicates, trimItemsInArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
-import { IEligibleVoter } from '../../components/importVoters/EligibleVotersTable'
+import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 
 /**
  * Creates a list of eligible voters based of a list of emails.
