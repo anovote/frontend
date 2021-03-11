@@ -9,5 +9,15 @@
         "typescript": "typescriptreact",
         "javascript": "javascriptreact"
     },
-    "editor.autoIndent": "advanced"
+    "editor.autoIndent": "advanced",
+    "i18n-ally.localesPaths": ["public/locales"],
+    "i18n-ally.namespace": true,
+    "i18n-ally.pathMatcher": "{locale}/{namespace}.json",
+    "i18n-ally.sortKeys": true,
+    "i18n-ally.keepFulfilled": true,
+    "i18n-ally.localeCountryMap": {
+        "en": "gb" // show UK's flag instead of US's
+    },
+    "i18n-ally.enabledFrameworks": ["react", "i18next"],
+    "i18n-ally.keystyle": "nested"
 }
