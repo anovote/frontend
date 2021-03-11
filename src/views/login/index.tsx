@@ -29,7 +29,7 @@ export default function LoginView(): React.ReactElement {
             history.replace('/protected/elections')
         } catch (error) {
             if (error instanceof CredentialError) {
-                setErrorMessage(t('form:Wrong email/password'))
+                setErrorMessage(t('form:Wrong email password'))
             } else {
                 setErrorMessage(t('form:Something went wrong'))
             }
@@ -39,7 +39,7 @@ export default function LoginView(): React.ReactElement {
     return (
         <Layout className="layout">
             <Content className="is-fullscreen is-flex-column has-content-center-center">
-                <h1>{t('Welcome to Anovote')}</h1>
+                <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="login-form">
                     <div className="error-field">
                         {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}

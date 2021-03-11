@@ -1,11 +1,12 @@
 {
-    "Election open": "Election open",
-    "Election close": "Election close",
-    "Time elapsed": "Time elapsed",
-    "Ballot proceed": "Ballot proceed",
+    "Ended on ": "Ended on",
     "Authentication method": "Authentication method",
+    "Ballot proceed": "Ballot proceed",
     "Connected voters": "Connected voters",
-    "To be held": "To be held",
+    "Election close": "Election close",
+    "Election open": "Election open",
+    "Finished": "Finished",
     "In progress": "In progress",
-    "Finished": "Finished"
+    "Time elapsed": "Time elapsed",
+    "To be held": "To be held"
 }
