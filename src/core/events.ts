@@ -8,6 +8,7 @@ export const Events = {
             connect: 'connect',
             disconnect: 'disconnect',
             connectError: 'connect_error',
+            confirmReceivedJoin: 'confirmReceivedJoin',
         },
         manager: {
             reconnect: {
