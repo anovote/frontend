@@ -18,6 +18,7 @@ interface IPublicRoutes {
     register: string
     login: string
     joinElection: string
+    verifyVoter: string
 }
 
 interface IVoterRoutes {
@@ -60,6 +61,7 @@ export const getPublicRoute = (): IPublicRoutes => {
         register: `${pub}register`,
         login: `${pub}login`,
         joinElection: `${pub}join`,
+        verifyVoter: `${pub}join/verify`,
     }
 }
 

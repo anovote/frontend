@@ -25,10 +25,10 @@ export const electionSocketEventBinder = (socket: AnoSocket, stateDispatcher: Re
         anoSocket = socket
         electionStateDispatcher = stateDispatcher
 
-        anoSocket.on(Events.voter.election, electionEvent)
-        anoSocket.on(Events.voter.ballot, ballotEvent)
-        anoSocket.on(Events.voter.result, resultEvent)
-        anoSocket.on(Events.voter.close, closeEvent)
+        anoSocket.on(Events.server.election.push, electionEvent)
+        anoSocket.on(Events.server.ballot.push, ballotEvent)
+        anoSocket.on(Events.server.result.push, resultEvent)
+        anoSocket.on(Events.server.election.close, closeEvent)
 
         hasBound = true
     }
@@ -39,9 +39,9 @@ export const electionSocketEventBinder = (socket: AnoSocket, stateDispatcher: Re
  */
 export const electionSocketEventCleanup = (): void => {
     if (anoSocket) {
-        anoSocket.removeEventListener(Events.voter.election, electionEvent)
-        anoSocket.removeEventListener(Events.voter.ballot, ballotEvent)
-        anoSocket.removeEventListener(Events.voter.result, resultEvent)
-        anoSocket.removeEventListener(Events.voter.close, closeEvent)
+        anoSocket.removeEventListener(Events.server.election.push, electionEvent)
+        anoSocket.removeEventListener(Events.server.ballot.push, ballotEvent)
+        anoSocket.removeEventListener(Events.server.result.push, resultEvent)
+        anoSocket.removeEventListener(Events.server.election.close, closeEvent)
     }
 }
