@@ -6,7 +6,7 @@ import {
     SecurityScanOutlined,
     UnlockOutlined,
 } from '@ant-design/icons'
-import { Card, Col, Row, Space } from 'antd'
+import { Card, Col, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import CountUpTimer from 'components/countUpTimer/countUpTimer'
@@ -79,7 +79,7 @@ export default function ElectionView(): React.ReactElement {
                     <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)}></CardList>
                     <Card className={'info-card'} title={cardTitle}>
                         <div className="is-flex-column has-content-center-center">
-                            <span className={'text-large'}>1337</span>
+                            <span className={'text-large'}>1337</span> {/* todo fetch real time*/}
                         </div>
                     </Card>
                 </Space>
