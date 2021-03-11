@@ -73,9 +73,21 @@ export default function VerifyVoterView(): ReactElement {
             }
 
             socket.connect()
+            socket.on(Events.standard.socket.connectError, () => {
+                setStatusState({
+                    icon: <FrownOutlined className="color-danger-contrasting scale-up-center" />,
+                    label: t('voter:Voter verification failed'),
+                    alert: {
+                        message: t('common:Unexpected error'),
+                        type: 'error',
+                    },
+                })
+            })
+            socket.on(Events.standard.socket.connect, () => {
                 // Trigger this only once, as we do not need it after we get a response.
                 socket.once(Events.join.receive.voterIntegrityVerified, integrityVerifiedEvent)
                 socket.emit(Events.join.send.verifyVoterIntegrity, verificationPayload)
+            })
         } else {
             setStatusState({
                 icon: <FrownOutlined className="color-danger-contrasting scale-up-center" />,
