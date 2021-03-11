@@ -72,8 +72,9 @@ export default function ElectionView(): React.ReactElement {
 
     const cardTitle = <Title level={2}>{t('election:Connected voters')}</Title>
     return (
-        <Row>
-            <Col span={12}>
+        <>
+            {/*<Row>*/}
+            <Col>
                 <Space direction={'vertical'}>
                     <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)}></CardList>
                     <Card className={'info-card'} title={cardTitle}>
@@ -83,7 +84,8 @@ export default function ElectionView(): React.ReactElement {
                     </Card>
                 </Space>
             </Col>
-            <Col span={12}>col-12</Col>
-        </Row>
+            {/*<Col span={12}>col-12</Col>*/}
+            {/*</Row>*/}
+        </>
     )
 }
