@@ -10,9 +10,6 @@ import { useAppState } from '../core/state/app/AppStateContext'
 import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
-import AdminRoutes from 'core/routes/AdminRoutes'
-import VoterRoutes from 'core/routes/VoterRoutes'
-import { getBaseRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import VoterLoginView from './voter/login/VoterLoginView'
 
 /**
