@@ -1,5 +1,6 @@
 import { Button } from 'antd'
 import * as React from 'react'
+import { useSocket } from 'core/state/websocket/useSocketHook'
 
 export interface IVote {
     candidate: number
@@ -8,6 +9,9 @@ export interface IVote {
     ballotId: number
 }
 export function VoteOnSingleCandidate(): React.ReactElement {
+    const [socket] = useSocket()
+    socket.connect()
+
     const submitVote = () => {
         const vote: IVote = {
             candidate: 1,
@@ -15,6 +19,7 @@ export function VoteOnSingleCandidate(): React.ReactElement {
             voterId: 696969,
             ballotId: 6969,
         }
+        socket.emit('ping')
         console.log(vote)
     }
 
