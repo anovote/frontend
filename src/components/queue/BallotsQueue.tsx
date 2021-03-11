@@ -4,15 +4,20 @@ import PushBallotIcon from 'components/icons/PushBallotIcon'
 import StatCard from 'components/statCard/StatCard'
 import SquareIconButton from 'containers/button/SquareIconButton'
 import { BallotEntity } from 'core/models/ballot/BallotEntity'
+import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { ElectionEventService } from 'core/service/election/ElectionEventService'
+import { useSocket } from 'core/state/websocket/useSocketHook'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import QueueDescription from './QueueDescription'
 
 const { Step } = Steps
 
-export default function BallotsQueue({ dataSource }: { dataSource: BallotEntity[] }): ReactElement {
+export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity[] }): ReactElement {
     const [current, setCurrent] = useState(0)
     const [t] = useTranslation(['common'])
+    const [socket] = useSocket()
+    const electionEventService: ElectionEventService = new ElectionEventService(socket)
 
     const queue = []
 
@@ -24,6 +29,12 @@ export default function BallotsQueue({ dataSource }: { dataSource: BallotEntity[
 
     function pushBallot(id: number) {
         console.log('pushing ballot with id ', id)
+        const ballot = dataSource.find((ballot) => ballot.id === id)
+        console.log(ballot)
+        const electionId = 1
+        if (ballot) {
+            electionEventService.broadcastBallot(ballot, electionId)
+        }
     }
 
     for (const ballot of dataSource) {
