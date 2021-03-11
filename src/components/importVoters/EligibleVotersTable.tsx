@@ -35,7 +35,11 @@ export default function EligibleVotersTable({
      * @param file The file we want to parse
      */
     const parseFile = async (file: File): Promise<void> => {
-        let arrays: any
+        let arrays: { invalidEmails: string[]; noDuplicates: string[]; eligibleVoters: IEligibleVoter[] } = {
+            invalidEmails: [],
+            noDuplicates: [],
+            eligibleVoters: [],
+        }
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
