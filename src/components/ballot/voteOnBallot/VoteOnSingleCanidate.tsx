@@ -1,10 +1,5 @@
-import { Radio } from 'antd'
+import { Button } from 'antd'
 import * as React from 'react'
-
-export interface ICandidate {
-    id: number
-    candidate: string
-}
 
 export interface IVote {
     candidate: number
@@ -13,34 +8,19 @@ export interface IVote {
     ballotId: number
 }
 export function VoteOnSingleCandidate(): React.ReactElement {
-    const candidate1: ICandidate = { id: 1, candidate: 'Diana' }
-    const candidate2: ICandidate = { id: 2, candidate: 'Diana' }
-    const candidate3: ICandidate = { id: 3, candidate: 'Diana' }
-    const candidateOptions = [
-        {
-            label: candidate1.candidate,
-            value: candidate1.id,
-        },
-        {
-            label: candidate2.candidate,
-            value: candidate2.id,
-        },
-        {
-            label: candidate3.candidate,
-            value: candidate3.id,
-        },
-    ]
-
-    const candidateChosen = (e: any) => {}
+    const submitVote = () => {
+        const vote: IVote = {
+            candidate: 1,
+            submitted: new Date(),
+            voterId: 696969,
+            ballotId: 6969,
+        }
+        console.log(vote)
+    }
 
     return (
         <div>
-            <Radio.Group
-                options={candidateOptions}
-                onChange={candidateChosen}
-                optionType="button"
-                buttonStyle="solid"
-            />
+            <Button onClick={submitVote}>Submit vote</Button>
         </div>
     )
 }
