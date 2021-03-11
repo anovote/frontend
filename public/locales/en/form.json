@@ -1,9 +1,9 @@
 {
-    "Must be": "Must be",
     "Wrong email/password": "Wrong email/password",
     "Email is not valid": "Email is not valid",
     "Error in form": "Error in form",
     "Is required": "Field is required",
+    "Must be": "Must be",
     "Must be an email": "$t(form:Must be) an email address",
     "Must be equal": "$t(form:Must be) equal to {{field}}",
     "Must contain": "Must contain",
