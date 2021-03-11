@@ -4,6 +4,24 @@ let testArray: string[]
 let noDuplicatesArray: string[]
 let twoDimArray: any
 
+// https://stackoverflow.com/questions/57001262/jest-expect-only-unique-elements-in-an-array
+expect.extend({
+    toBeDistinct(received) {
+        const pass = Array.isArray(received) && new Set(received).size === received.length
+        if (pass) {
+            return {
+                message: () => `expected [${received}] array is unique`,
+                pass: true,
+            }
+        } else {
+            return {
+                message: () => `expected [${received}] array is not to unique`,
+                pass: false,
+            }
+        }
+    },
+})
+
 beforeAll(() => {
     testArray = [
         'hello@gmail.com',
@@ -27,9 +45,9 @@ it('should trim all items in the array', () => {
 
 it('should remove any duplicates in the list', () => {
     let copy: string[] = [...testArray]
+    expect(copy).not.toBeDistinct()
     copy = filterForDuplicates(copy)
-    expect(copy.length).toBe(5)
-    expect(copy).toContain('hello@gmail.com')
+    expect(copy).toBeDistinct()
 })
 
 it('should not remove any items when there are no duplicates in the list', () => {
