@@ -4,6 +4,7 @@ import { ElectionStatus } from 'core/models/ElectionStatus'
 import { IElection } from 'core/models/IElection'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
+import { ElectionInProgressView } from '../ElectionInProgressView'
 import { ElectionStatusCard } from './ElectionStatusCard'
 
 const elections: IElection[] = [
@@ -13,7 +14,7 @@ const elections: IElection[] = [
         description: 'Very nice voting',
         title: 'My election',
         isAutomatic: false,
-        status: ElectionStatus.NotStarted,
+        status: ElectionStatus.Started,
         isLocked: false,
     },
 ]
@@ -23,6 +24,7 @@ const elections: IElection[] = [
  */
 export default function ElectionView(): React.ReactElement {
     const [t] = useTranslation(['translation', 'common', 'election'])
+    const election = elections[0]
 
     const cardTitle = <Title level={2}>{t('election:Connected voters')}</Title>
     return (
@@ -38,7 +40,7 @@ export default function ElectionView(): React.ReactElement {
                         </Card>
                     </Space>
                 </Col>
-                <Col span={12}>col-12</Col>
+                <Col span={12}>{election.status === ElectionStatus.Started && <ElectionInProgressView />}</Col>
             </Row>
         </>
     )
