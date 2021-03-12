@@ -1,12 +1,4 @@
-import {
-    ClockCircleOutlined,
-    ForwardOutlined,
-    LockOutlined,
-    SafetyOutlined,
-    SecurityScanOutlined,
-    UnlockOutlined,
-} from '@ant-design/icons'
-import { Card, Col, Space } from 'antd'
+import { Card, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import CountUpTimer from 'components/countUpTimer/countUpTimer'
@@ -22,7 +14,7 @@ export default function ElectionView(): React.ReactElement {
     const cardTitle = <Title level={2}>{t('election:Connected voters')}</Title>
     return (
         <>
-            {/*<Row>*/}
+            <Row>
             <Col>
                 <Space direction={'vertical'}>
                         <ElectionStatusCard election={elections[0]} />
@@ -33,8 +25,8 @@ export default function ElectionView(): React.ReactElement {
                     </Card>
                 </Space>
             </Col>
-            {/*<Col span={12}>col-12</Col>*/}
-            {/*</Row>*/}
+                <Col span={12}>col-12</Col>
+            </Row>
         </>
     )
 }
