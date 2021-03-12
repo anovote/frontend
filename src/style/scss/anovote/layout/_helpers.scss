@@ -59,6 +59,12 @@
         display: inline-block;
     }
 }
+
+.center-view {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
 /** SIZE **/
 
 .is-fullscreen {

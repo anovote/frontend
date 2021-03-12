@@ -1,0 +1,32 @@
+.voter-header-logo {
+    width: 2.5 * $bu;
+    height: auto;
+}
+
+.voter-election-header {
+    @include is-flex-row;
+    * {
+        margin: 0 0.5rem 0 0;
+    }
+}
+
+.header-slogan {
+    font-weight: bold;
+}
+
+.voter-election-top,
+.voter-election-main,
+.voter-election-layout-content {
+    @include is-flex-column;
+}
+
+.voter-election-top {
+    padding: 1rem 0 0 0;
+}
+.voter-election-main {
+    padding: 1rem 0;
+    align-items: center;
+    > * {
+        width: 100%;
+    }
+}

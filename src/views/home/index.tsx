@@ -1,7 +1,6 @@
 import Text from 'antd/lib/typography/Text'
 import Title from 'antd/lib/typography/Title'
 import React from 'react'
-import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 
 /**
  * Landing page of application and home root
@@ -31,7 +30,6 @@ export default function Home(): React.ReactElement {
                     <span className="inner-round"></span>
                 </span>
             </div>
-            <EligibleVotersTable />
             <hr />
         </div>
     )

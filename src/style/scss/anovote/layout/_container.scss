@@ -1,0 +1,16 @@
+.small-container {
+    @include is-flex-column;
+    max-width: $medium-screen;
+    header {
+        padding: 0.5rem 1rem;
+        line-height: normal;
+        height: 3 * $bu;
+        align-items: center;
+    }
+    main {
+        padding: 0 1rem;
+    }
+    footer {
+        padding: 1rem;
+    }
+}
