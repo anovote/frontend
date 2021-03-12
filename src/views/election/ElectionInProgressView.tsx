@@ -18,7 +18,7 @@ export function ElectionInProgressView(): ReactElement {
         return () => {
             socket.disconnect()
         }
-    }, [])
+    }, [socket])
 
     return (
         <Layout>
