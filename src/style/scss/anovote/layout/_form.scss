@@ -5,7 +5,7 @@
 
 form {
     .ant-form-item-label label {
-        @include paragraph-title();
+        @include text;
     }
 }
 

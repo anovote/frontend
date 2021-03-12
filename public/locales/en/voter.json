@@ -5,5 +5,7 @@
     "Verification code is missing": "Verification code is missing",
     "This browser tab can ble closed": "This browser tab can be closed",
     "Please do not close this window": "Please do not close this window",
-    "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again"
+    "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again",
+    "Verification link sent to your": "Verification link sent to your {{type}}",
+    "Join election": "Join election"
 }

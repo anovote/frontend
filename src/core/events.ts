@@ -48,6 +48,7 @@ export const Events = {
             action: {
                 mail: 'awaiting_mail_action',
             },
+            verified: 'voter_verified',
         },
         vote: {
             error: 'vote_error',

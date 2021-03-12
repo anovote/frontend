@@ -1,19 +1,21 @@
-import { AlertProps } from 'antd'
+import { IIconMessage } from 'components/iconMessage/IIconMessage'
 
 /**
  * The state of the Voter Login View
  */
 export interface VoterLoginState {
-    alert?: AlertProps
+    message?: IIconMessage
     isLoading: boolean
+    showMessage: boolean
 }
 
 /**
  * Different actions that can happen in Voter Login view. Intended to be used with the voterLoginReducer
  */
 type VoterLoginAction =
-    | { type: 'success' | 'sendRequest' | 'closeAlert' | 'connectToSocket' | 'connectedToSocket' }
-    | { type: 'error' | 'socketNotConnected' | 'emailSent'; alertProps: AlertProps }
+    | { type: 'showMessage'; payload: IIconMessage }
+    | { type: 'hideMessage' }
+    | { type: 'isLoading'; payload: boolean }
 
 /**
  * Reducer to be used with the voter login view
@@ -23,50 +25,15 @@ type VoterLoginAction =
  */
 export const voterLoginReducer = (state: VoterLoginState, action: VoterLoginAction): VoterLoginState => {
     switch (action.type) {
-        case 'connectToSocket':
-            return {
-                ...state,
-                isLoading: true,
-            }
-
-        case 'connectedToSocket':
-            return { ...state, isLoading: false }
-
-        case 'closeAlert':
-            return {
-                ...state,
-                alert: undefined,
-            }
-
-        case 'emailSent':
-            return { ...state, isLoading: false, alert: action.alertProps }
-
-        case 'error':
-            return {
-                ...state,
-                alert: action.alertProps,
-                isLoading: false,
-            }
-
-        case 'sendRequest':
-            return {
-                ...state,
-                isLoading: true,
-            }
-
-        case 'socketNotConnected':
-            return {
-                ...state,
-                isLoading: false,
-                alert: action.alertProps,
-            }
-
-        case 'success':
-            return {
-                ...state,
-                isLoading: false,
-            }
-
+        case 'showMessage': {
+            return { ...state, message: action.payload, showMessage: true }
+        }
+        case 'hideMessage': {
+            return { ...state, message: undefined, showMessage: false }
+        }
+        case 'isLoading': {
+            return { ...state, isLoading: action.payload }
+        }
         default:
             break
     }
