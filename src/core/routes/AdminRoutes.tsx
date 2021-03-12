@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react'
 import { Route } from 'react-router-dom'
 import CreateElectionView from 'views/election/createElection'
 import ElectionView from 'views/election/election'
-import { ElectionInProgressView } from 'views/election/ElectionInProgressView'
 import ElectionsView from 'views/elections'
 import { getAdminRoute } from './siteRoutes'
 
@@ -22,9 +21,6 @@ export default function AdminRoutes(): ReactElement {
                     </Route>
                     <Route exact path={adminRoute.elections.create}>
                         <CreateElectionView />
-                    </Route>
-                    <Route exact path={adminRoute.elections.inProgress}>
-                        <ElectionInProgressView />
                     </Route>
                 </div>
             }
