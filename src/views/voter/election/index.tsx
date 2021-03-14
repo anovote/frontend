@@ -14,6 +14,8 @@ export default function VoterElectionView(): ReactElement {
     const [electionState, electionDispatch] = useReducer(electionReducer, initialElectionState)
     const [socket] = useSocket()
     useEffect(() => {
+        socket.connect()
+
         electionSocketEventBinder(socket, electionDispatch)
 
         return () => {
