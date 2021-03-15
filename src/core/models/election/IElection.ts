@@ -1,13 +1,12 @@
+import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from './ElectionStatus'
 
-export interface IElection {
-    id: number
-    electionOrganizer: number
+export interface IElectionDetails {
     title: string
     description: string
-    image?: string
-    openDate?: Date
-    closeDate?: Date
+    openDate: Date
+    closeDate: Date
+    eligibleVoters: IEligibleVoter[]
     password?: string
     status: ElectionStatus
     isLocked: boolean

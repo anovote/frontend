@@ -13,10 +13,10 @@ import { BackendAPI } from 'core/api'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { AuthorizationError } from 'core/service/election/AuthorizationError'
 import { ElectionService } from 'core/service/election/ElectionService'
-import { ElectionStatus } from 'core/service/election/ElectionStatus'
-import { IElectionDetails } from 'core/service/election/IElectionDetails'
+import { IElectionDetails } from 'core/models/election/IElection'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 
 /**
  * The main view used for creating an election
