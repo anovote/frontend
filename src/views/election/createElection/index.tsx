@@ -104,7 +104,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
                             </Col>
                         </Row>
                         <IsAutomaticCheckbox />
-                        <CreateElectionButton />
+                        <CreateElectionButton hasInitial={initialElection ? true : false} />
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
