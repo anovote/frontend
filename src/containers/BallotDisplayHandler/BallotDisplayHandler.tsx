@@ -1,18 +1,14 @@
-import { Button, Card, Space } from 'antd'
+import { Button, Space } from 'antd'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import { RadioChangeEvent } from 'antd/lib/radio'
 import Title from 'antd/lib/typography/Title'
-import SelectMultipleIcon from 'components/ballot/selectBallotTypes/SelectMultipleIcon'
-import SelectOneIcon from 'components/ballot/selectBallotTypes/SelectOneIcon'
 import BallotTypeDisplay from 'components/BallotTypeDisplay/BallotTypeDisplay'
 import CandidateList from 'components/CandidateList/CandidateList'
-import CardList from 'components/cards/CardList'
 import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import React, { ReactElement, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import StatusListItem from 'views/election/election/StatusListItem'
 
 type State = {
     selected: number
