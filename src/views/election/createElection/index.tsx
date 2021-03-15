@@ -10,13 +10,13 @@ import OpenDateInput from 'components/election/OpenDateInput'
 import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
+import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
-import { AuthorizationError } from 'core/service/election/AuthorizationError'
-import { ElectionService } from 'core/service/election/ElectionService'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionDetails } from 'core/models/election/IElection'
+import { ElectionService } from 'core/service/election/ElectionService'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ElectionStatus } from 'core/models/election/ElectionStatus'
 
 /**
  * The main view used for creating an election
