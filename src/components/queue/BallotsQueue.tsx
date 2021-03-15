@@ -38,6 +38,7 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
         }
     }
 
+    // render all ballots
     for (const ballot of dataSource) {
         queue.push(
             <Step
