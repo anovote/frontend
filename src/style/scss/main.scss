@@ -36,6 +36,7 @@
 @import './anovote/components/electionStatus';
 @import './anovote/components/card';
 @import './anovote/components/election/statusLeft';
+@import './anovote/components/eligibleVotersList';
 
 // VIEWS
 @import './anovote/view/home';
@@ -64,7 +65,6 @@
 @import './antd/input';
 @import './antd/button';
 @import './antd/pagination';
-@import './antd/list';
 
 body {
     font-size: 16px;
