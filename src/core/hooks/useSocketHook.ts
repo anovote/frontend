@@ -1,6 +1,6 @@
 import { useContext } from 'react'
-import { AnoSocket } from './IAnoSocket'
-import { WebSocketContext } from './WebSocketContext'
+import { AnoSocket } from 'core/state/websocket/IAnoSocket'
+import { WebSocketContext } from 'core/state/websocket/WebSocketContext'
 
 /**
  * A hook to fetch the socket.io instance
