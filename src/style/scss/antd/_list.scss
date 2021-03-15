@@ -1,7 +1,6 @@
 #voters-list {
     margin-top: 0.5rem;
     @include has-shadow;
-    //border: $input-border;
 
     .ant-list-items {
         @include is-rounded;
@@ -12,7 +11,7 @@
         padding: 0.4rem;
         padding-left: 1rem;
         &:nth-child(2n) {
-            background-color: $light-grey;
+            background-color: $alternate-color;
         }
 
         &:last-child {
