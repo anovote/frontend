@@ -8,8 +8,8 @@ import { useSocket } from 'core/hooks/useSocketHook'
 import React, { ReactElement, useEffect, useReducer } from 'react'
 import ElectionContentHandler from './ElectionContentHandler'
 import ElectionInfoHandler from './ElectionInfoHandler'
-import { electionReducer, initialElectionState } from './electionReducer'
-import { electionSocketEventBinder, electionSocketEventCleanup } from './electionSocketEventBinder'
+import { electionReducer, initialElectionState } from 'core/state/election/electionReducer'
+import { electionSocketEventBinder, electionSocketEventCleanup } from 'core/state/election/electionSocketEventBinder'
 export default function VoterElectionView(): ReactElement {
     const [electionState, electionDispatch] = useReducer(electionReducer, initialElectionState)
     const [socket] = useSocket()

@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { DisplayAction, ElectionState } from './electionReducer'
+import { DisplayAction, ElectionState } from 'core/state/election/electionReducer'
 import VoterTopInfo from 'components/voterContentInfo/VoterContentInfo'
 
 /**
