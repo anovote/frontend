@@ -23,7 +23,6 @@ export default function PreviewList({
     electionId?: number
     initialElection?: IElectionDetails
 }): React.ReactElement {
-    console.log(initialElection)
     const [ballotsState, setBallotsState] = useState<IBallot[]>(
         initialElection && initialElection.ballots ? initialElection.ballots : new Array<IBallot>(),
     )

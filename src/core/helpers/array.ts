@@ -16,7 +16,7 @@ export function convertTwoDimArrayToOneDimArray(twoDimArray: string[]): string[]
 
 export function trimItemsInArray(array: string[]): string[] {
     const trimmedList: string[] = []
-
+    console.log(array)
     for (let i = 0; i < array.length; i++) {
         trimmedList.push(array[i].trim())
     }
