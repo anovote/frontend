@@ -6,6 +6,11 @@ import { BallotType } from 'core/models/ballot/BallotType'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
+/**
+ * Displays the correct icon and title for a given ballot type
+ * @param props {type} the type of a ballot
+ * @returns
+ */
 export default function BallotTypeDisplay({ type }: { type: BallotType }): ReactElement {
     const [t] = useTranslation(['ballot'])
     let icon
@@ -26,7 +31,7 @@ export default function BallotTypeDisplay({ type }: { type: BallotType }): React
     }
     return (
         <>
-            <Title level={5}>{t('ballot:Ballot Type')}</Title>
+            <Title level={4}>{t('ballot:Ballot Type')}</Title>
             <div className="ballot-type">
                 <div className="status-icon-spacer ">
                     <span className="circle-center-content">{icon}</span>
