@@ -5,6 +5,7 @@ import Title from 'antd/lib/typography/Title'
 import CandidateList from 'components/CandidateList/CandidateList'
 import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallot } from 'core/models/ballot/IBallot'
+import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import React, { ReactElement, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -94,7 +95,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallot }): R
             </Space>
             <CandidateList
                 typeOfSelection={ballot.type}
-                candidates={ballot.candidates}
+                candidates={ballot.candidates as ICandidateEntity[]}
                 onChange={onChange}
                 selection={ballot.type == BallotType.SINGLE ? selection.single : selection.multiple}
             />
