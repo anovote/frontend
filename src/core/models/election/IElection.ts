@@ -1,4 +1,4 @@
-import { ElectionStatus } from './IElectionStatus'
+import { ElectionStatus } from './ElectionStatus'
 
 export interface IElection {
     id: number

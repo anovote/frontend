@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
-import { ElectionStatus } from 'core/models/election/IElectionStatus'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import React, { ReactElement } from 'react'
 
 export default function ElectionHeader({

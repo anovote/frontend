@@ -5,7 +5,7 @@ import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
 import { IElection } from 'core/models/election/IElection'
-import { ElectionStatus } from 'core/models/election/IElectionStatus'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
