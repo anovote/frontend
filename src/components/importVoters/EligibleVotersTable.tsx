@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Alert, Button, Col, Dropdown, Menu, Row, Space, Table, Upload } from 'antd'
+import { Alert, Button, Col, Dropdown, List, Menu, Row, Space, Upload } from 'antd'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
@@ -9,21 +9,18 @@ import { FileParser } from './FileParser'
 
 export default function EligibleVotersTable({
     onUpload,
+    initialVoters,
 }: {
     onUpload: (eligibleVoters: IEligibleVoter[]) => void
+    initialVoters?: IEligibleVoter[]
 }): React.ReactElement {
-    const columns = [
-        {
-            dataIndex: 'email',
-            key: 'email',
-        },
-    ]
-
     const [t] = useTranslation(['parsing'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [duplicateErrorMessage, setDuplicateErrorMessage] = React.useState('')
     const [invalidEmailErrorMessage, setInvalidEmailErrorMessage] = React.useState('')
-    const [mappedObjectArray, setMappedObjectArray] = React.useState<{ key: number; email: string }[]>([])
+    const [voters, setVoters] = React.useState<IEligibleVoter[]>(
+        initialVoters ? initialVoters : new Array<IEligibleVoter>(),
+    )
     const fileParser = new FileParser()
 
     /**
@@ -52,18 +49,8 @@ export default function EligibleVotersTable({
             return
         }
         checkInputArrays(arrays)
-        setMappedObjectArray(createObjectArrayFromEligibleVoters(arrays.eligibleVoters))
+        setVoters(arrays.eligibleVoters)
         onUpload(arrays.eligibleVoters)
-    }
-
-    function createObjectArrayFromEligibleVoters(eligibleVoters: IEligibleVoter[]): { key: number; email: string }[] {
-        const objectArray: { key: number; email: string }[] = []
-
-        for (let i = 0; i < eligibleVoters.length; i++) {
-            objectArray.push({ key: i, email: eligibleVoters[i].identification })
-        }
-
-        return objectArray
     }
 
     function checkInputArrays(arrays: {
@@ -116,7 +103,12 @@ export default function EligibleVotersTable({
                     </Space>
                 </Col>
             </Row>
-            <Table columns={columns} dataSource={mappedObjectArray} />
+            {console.log(voters)}
+            <List
+                id="voters-list"
+                dataSource={voters}
+                renderItem={(item) => <List.Item>{item.identification}</List.Item>}
+            />
             <div>
                 {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
                 {!!duplicateErrorMessage && (
