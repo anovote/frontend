@@ -7,4 +7,5 @@ export const ErrorCode = {
     voterNotExist: 'VOTER_NOT_EXIST',
     electionFinished: 'ELECTION_FINISHED',
     electionNotExist: 'ELECTION_NOT_EXIST',
+    electionCodeMissing: 'ELECTION_CODE_MISSING',
 }
