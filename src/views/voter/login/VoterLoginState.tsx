@@ -12,7 +12,7 @@ export interface VoterLoginState {
 /**
  * Different actions that can happen in Voter Login view. Intended to be used with the voterLoginReducer
  */
-type VoterLoginAction =
+export type VoterLoginAction =
     | { type: 'showMessage'; payload: IIconMessage }
     | { type: 'hideMessage' }
     | { type: 'isLoading'; payload: boolean }
@@ -29,7 +29,7 @@ export const voterLoginReducer = (state: VoterLoginState, action: VoterLoginActi
             return { ...state, message: action.payload, showMessage: true }
         }
         case 'hideMessage': {
-            return { ...state, message: undefined, showMessage: false }
+            return { ...state, message: undefined, showMessage: false, isLoading: false }
         }
         case 'isLoading': {
             return { ...state, isLoading: action.payload }

@@ -1,23 +1,20 @@
-import { Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import CenterView from 'components/centerView/CenterView'
 import IconMessage from 'components/iconMessage/IconMessage'
-import { IIconMessage } from 'components/iconMessage/IIconMessage'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterContentInfo from 'components/voterContentInfo/VoterContentInfo'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
 import { Events } from 'core/events'
-import { getVoterRoute } from 'core/routes/siteRoutes'
-import { AuthLevel } from 'core/service/authentication/AuthLevel'
-import { LocalStorageService } from 'core/service/storage/LocalStorageService'
-import { StorageKeys } from 'core/service/storage/StorageKeys'
+import { AsyncEmit } from 'core/socket/AsyncEmit'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import { useSocket } from 'core/state/websocket/useSocketHook'
 import { StatusCodes } from 'http-status-codes'
 import React, { ReactElement, useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
+import { joinAckEvent, joinConnectErrorEvent, joinConnectEvent, joinVerifiedEvent } from './Events'
 import { voterLoginReducer, VoterLoginState } from './VoterLoginState'
 /**
  * A view for a voter to give email and election code in order to join an election
@@ -35,55 +32,36 @@ function VoterLoginView(): ReactElement {
     const [state, dispatch] = useReducer(voterLoginReducer, initialState)
 
     useEffect(() => {
+        const connectEvent = joinConnectEvent(dispatch)
+        const connectErrorEvent = joinConnectErrorEvent(dispatch, t)
+        const verifiedEvent = joinVerifiedEvent(socket, history, appStateDispatcher)
         dispatch({ type: 'isLoading', payload: true })
+
         socket.connect()
+        socket.on(Events.standard.socket.connect, connectEvent)
+        socket.on(Events.standard.socket.connectError, connectErrorEvent)
+        socket.once(Events.server.auth.verified, verifiedEvent)
 
-        socket.on(Events.standard.socket.connect, () => {
-            dispatch({ type: 'isLoading', payload: false })
-            dispatch({ type: 'hideMessage' })
-        })
-        socket.on(Events.standard.socket.connectError, () => {
-            dispatch({
-                type: 'showMessage',
-                payload: { label: t('common:Unable to connect to server'), alertLevel: 'error' },
-            })
-        })
-
-        socket.once(Events.server.auth.verified, (data: { token: string }) => {
-            const localStorageService = new LocalStorageService<StorageKeys>()
-            localStorageService.setItem('ACCESS_TOKEN', data.token)
-            appStateDispatcher.setLoginState(AuthLevel.voter)
-            history.replace(getVoterRoute().election)
-        })
-    }, [])
-
-    const evn = (confirmationData: ConfirmationSocketData) => {
-        const { statusCode } = confirmationData
-        if (statusCode === StatusCodes.OK) {
-            dispatch({
-                type: 'showMessage',
-                payload: {
-                    label: t('voter:Verification link sent to your', { type: t('common:Email').toLowerCase() }),
-                    alertMessage: t('voter:Please do not close this window'),
-                    alertLevel: 'success',
-                },
-            })
-        } else {
-            dispatch({
-                type: 'showMessage',
-                payload: { label: t('voter:Voter verification failed'), alertLevel: 'error' },
-            })
+        return () => {
+            socket.removeListener(Events.standard.socket.connect, connectEvent)
+            socket.removeListener(Events.standard.socket.connectError, connectErrorEvent)
+            socket.removeListener(Events.server.auth.verified, connectEvent)
         }
-    }
+    }, [])
 
     const onSubmitHandler = async (form: JoinVoteDetails) => {
         const { email, electionCode } = form
         await sendConfirmationRequest(email, electionCode)
     }
     async function sendConfirmationRequest(email: string, electionCode: string) {
-        dispatch({ type: 'isLoading', payload: true })
-        const data = { email, electionCode }
-        socket.emit(Events.client.auth.join, data, evn)
+        try {
+            dispatch({ type: 'isLoading', payload: true })
+            const data = { email, electionCode }
+            const ackEvent = joinAckEvent(dispatch, t)
+            await AsyncEmit({ socket, event: Events.client.auth.join, data, ack: ackEvent })
+        } catch (error) {
+            dispatch({ type: 'showMessage', payload: { label: t('voter:Voter verification failed') } })
+        }
     }
 
     return (
@@ -95,6 +73,7 @@ function VoterLoginView(): ReactElement {
                     <VoterContent>
                         {(state.showMessage && state.message && (
                             <IconMessage
+                                onClose={() => dispatch({ type: 'hideMessage' })}
                                 label={state.message.label}
                                 alertLevel={state.message.alertLevel}
                                 alertMessage={state.message.alertMessage}
@@ -135,9 +114,4 @@ export default VoterLoginView
 interface JoinVoteDetails {
     email: string
     electionCode: string
-}
-
-interface ConfirmationSocketData {
-    message?: string
-    statusCode: StatusCodes
 }
