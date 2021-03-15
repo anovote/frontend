@@ -7,5 +7,9 @@
     "Please do not close this window": "Please do not close this window",
     "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again",
     "Verification link sent to your": "Verification link sent to your {{type}}",
-    "Join election": "Join election"
+    "Already verified": "You are already verified on a device",
+    "Identification not exist": "The identification do not exist for the election",
+    "Join election": "Join election",
+    "Missing election code": "Could not join, missing election code",
+    "Missing identification": "Could not join, missing identification"
 }
