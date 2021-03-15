@@ -1,7 +1,7 @@
 import { Alert, AlertProps, Col, Form, Row } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import CloseDateInput from 'components/election/CloseDateInput'
-import CreateElectionButton from 'components/election/CreateElectionButton'
+import SaveElectionButton from 'components/election/SaveElectionButton'
 import ElectionDescriptionInput from 'components/election/ElectionDescriptionInput'
 import ElectionPasswordInput from 'components/election/ElectionPasswordInput'
 import ElectionTitleInput from 'components/election/ElectionTitleInput'
@@ -104,7 +104,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
                             </Col>
                         </Row>
                         <IsAutomaticCheckbox />
-                        <CreateElectionButton hasInitial={initialElection ? true : false} />
+                        <SaveElectionButton hasInitial={initialElection ? true : false} />
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
