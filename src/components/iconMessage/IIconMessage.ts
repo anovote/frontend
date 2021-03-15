@@ -6,4 +6,5 @@ export interface IIconMessage {
     alertMessage?: string
     alertLevel?: AlertLevel
     icon?: ReactElement | ReactNode
+    onClose?: () => void
 }

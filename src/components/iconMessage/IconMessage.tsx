@@ -1,10 +1,16 @@
-import { BulbOutlined, CheckOutlined, ExclamationOutlined, FrownOutlined } from '@ant-design/icons'
-import { Alert } from 'antd'
+import { BulbOutlined, CheckOutlined, CloseCircleOutlined, ExclamationOutlined, FrownOutlined } from '@ant-design/icons'
+import { Alert, Button } from 'antd'
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
 import React, { ReactElement } from 'react'
 import { IIconMessage } from './IIconMessage'
 
-export default function IconMessage({ label, icon, alertMessage, alertLevel = 'info' }: IIconMessage): ReactElement {
+export default function IconMessage({
+    label,
+    icon,
+    alertMessage,
+    alertLevel = 'info',
+    onClose,
+}: IIconMessage): ReactElement {
     if (!icon) {
         switch (alertLevel) {
             case 'warning':
@@ -23,13 +29,20 @@ export default function IconMessage({ label, icon, alertMessage, alertLevel = 'i
         }
     }
     return (
-        <>
+        <div style={{ width: 'auto', position: 'relative' }}>
+            {onClose && (
+                <Button
+                    icon={<CloseCircleOutlined />}
+                    style={{ position: 'absolute', border: 'none', right: 0 }}
+                    onClick={onClose}
+                ></Button>
+            )}
             <SquareIconContainer icon={icon} label={label}></SquareIconContainer>
             {(!!alertMessage && (
                 <div className="mt-20 is-flex has-content-center-center">
                     <Alert type={alertLevel} showIcon={true} message={alertMessage}></Alert>
                 </div>
             )) || <></>}
-        </>
+        </div>
     )
 }
