@@ -1,25 +1,12 @@
 import { Card, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatus } from 'core/models/ElectionStatus'
-import { IElection } from 'core/models/IElection'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import CreateElectionView from '../createElection'
 import { ElectionInProgressView } from '../ElectionInProgressView'
+import { elections } from '../../../dummy/electionsDummyData'
 import { ElectionStatusCard } from './ElectionStatusCard'
-
-const elections: IElection[] = [
-    {
-        id: 1,
-        electionOrganizer: 1,
-        description: 'Very nice voting',
-        title: 'My election',
-        isAutomatic: false,
-        status: ElectionStatus.NotStarted,
-        isLocked: false,
-        password: 'get it done',
-    },
-]
 
 /**
  * The main view used for creating an election
