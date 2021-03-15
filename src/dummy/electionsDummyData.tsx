@@ -10,7 +10,7 @@ export const elections: IElection[] = [
         description: 'Very nice voting',
         title: 'My election',
         isAutomatic: false,
-        status: ElectionStatus.Finished,
+        status: ElectionStatus.NotStarted,
         isLocked: false,
         password: 'get it done',
         ballots: [
@@ -32,6 +32,14 @@ export const elections: IElection[] = [
                 candidates: [{ candidate: 'Sander' }, { candidate: 'Marit' }],
                 resultDisplayTypeCount: 1,
             },
+        ],
+        eligibleVoters: [
+            { identification: 'my@email.com' },
+            { identification: 'new@email.com' },
+            { identification: 'latest@email.com' },
+            { identification: 'cutegirl98@email.com' },
+            { identification: 'serious.business@email.com' },
+            { identification: '@email.com' },
         ],
         //openDate: moment().format(),
         // todo #125 antd uses moment so we should change our frontend dates to moment dates for ease of use
