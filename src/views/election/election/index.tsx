@@ -20,7 +20,7 @@ export default function ElectionView(): React.ReactElement {
             case ElectionStatus.NotStarted:
                 return <CreateElectionView initialElection={election} />
             case ElectionStatus.Started:
-                return <ElectionInProgressView />
+                return <ElectionInProgressView election={election} />
             case ElectionStatus.Finished:
                 return 'Election finished'
             default:
