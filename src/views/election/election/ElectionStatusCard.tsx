@@ -75,8 +75,7 @@ export function ElectionStatusCard({ election }: { election: IElection }): React
             icon: <SafetyOutlined />,
             colorClass: 'main-light',
             title: t('common:Password'),
-
-            text: <PasswordShowHide password={'Anovote101!'} />,
+            text: election.password ? <PasswordShowHide password={election.password} /> : <text>----</text>,
         },
     ]
 
