@@ -42,8 +42,9 @@ export default function EligibleVotersTable({
                 setErrorMessage(t('Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
-            const parsedJson = await fileParser.parseJson<{ emails: string[] }>(file)
-            arrays = createListOfEligibleVoters(parsedJson.emails)
+            const parsedJson = await fileParser.parseJson<{ emails: { email: string }[] }>(file)
+            const emails = parsedJson.emails.map((email) => email.email)
+            arrays = createListOfEligibleVoters(emails)
         } else {
             setErrorMessage(t('The file is not CSV or JSON!'))
             return
@@ -103,7 +104,6 @@ export default function EligibleVotersTable({
                     </Space>
                 </Col>
             </Row>
-            {console.log(voters)}
             <List
                 id="voters-list"
                 dataSource={voters}
