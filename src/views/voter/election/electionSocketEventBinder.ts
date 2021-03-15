@@ -1,6 +1,6 @@
 import { Events } from 'core/events'
 import { IBallot } from 'core/models/ballot/IBallot'
-import { IElection } from 'core/models/IElection'
+import { IElection } from 'core/models/election/IElection'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import { ElectionAction } from './electionReducer'
 
@@ -25,6 +25,8 @@ export const electionSocketEventBinder = (socket: AnoSocket, stateDispatcher: Re
         anoSocket = socket
         electionStateDispatcher = stateDispatcher
 
+        anoSocket.on('connect', () => console.log('connection'))
+        anoSocket.on('connection', () => console.log('connection'))
         anoSocket.on(Events.server.election.push, electionEvent)
         anoSocket.on(Events.server.ballot.push, ballotEvent)
         anoSocket.on(Events.server.result.push, resultEvent)
