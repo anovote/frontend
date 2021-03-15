@@ -12,7 +12,7 @@ import AddPreviewButton from './AddPreviewButton'
 import PreviewItem from './PreviewItem'
 
 /**
- * Inspired by https://codesandbox.io/s/zqwz5n5p9x?file=/src/index.js
+ * The drag and drop is inspired by https://codesandbox.io/s/zqwz5n5p9x?file=/src/index.js
  * and https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
  */
 
