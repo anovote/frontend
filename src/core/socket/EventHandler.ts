@@ -24,8 +24,11 @@ export type EventExecutor<T> = ({ data, error }: IEventResponse<T>) => void
  */
 export function WebsocketEvent<T>({ dataHandler, errorHandler }: IWebsocketEventHandler<T> = {}): EventExecutor<T> {
     return function executor(payload: IEventResponse<T> | undefined): void {
-        if (!payload) return
-        if (dataHandler && payload.data) dataHandler(payload.data)
-        if (errorHandler && payload.error) errorHandler(payload.error)
+        if (dataHandler) {
+            if (payload?.data) dataHandler(payload.data)
+            // Handles data that is undefined, or has payload that is not wrapped in {data, error} object
+            else if (!payload?.error) dataHandler(payload as T)
+        }
+        if (errorHandler && payload?.error) errorHandler(payload.error)
     }
 }
