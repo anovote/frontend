@@ -22,9 +22,10 @@ export type EventExecutor<T> = ({ data, error }: IEventResponse<T>) => void
  * @param event handler methods
  * @returns executor function for the handlers
  */
-export const WebsocketEvent = <T>({ dataHandler, errorHandler }: IWebsocketEventHandler<T> = {}): EventExecutor<T> => {
-    return function executor({ data, error }: IEventResponse<T>): void {
-        if (dataHandler && data) dataHandler(data)
-        if (errorHandler && error) errorHandler(error)
+export function WebsocketEvent<T>({ dataHandler, errorHandler }: IWebsocketEventHandler<T> = {}): EventExecutor<T> {
+    return function executor(payload: IEventResponse<T> | undefined): void {
+        if (!payload) return
+        if (dataHandler && payload.data) dataHandler(payload.data)
+        if (errorHandler && payload.error) errorHandler(payload.error)
     }
 }
