@@ -2,7 +2,7 @@ import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
 import { getVoterRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
-import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { IStorage } from 'core/service/storage/IStorage'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { EventExecutor, WebsocketEvent } from 'core/socket/EventHandler'
 import { IAppStateDispatcher } from 'core/state/app/AppStateContext'
@@ -38,14 +38,12 @@ export const joinVerifiedEvent = (
     socket: AnoSocket,
     history: H.History,
     appStateDispatcher: IAppStateDispatcher,
+    storageService: IStorage<StorageKeys>,
 ): EventExecutor<IJoinVerifiedData> => {
-    console.log('verified event init')
-
     return WebsocketEvent<IJoinVerifiedData>({
         dataHandler: (data) => {
             socket.emit(Events.client.auth.voterVerifiedReceived, data.verificationSocketId)
-            const localStorageService = new LocalStorageService<StorageKeys>()
-            localStorageService.setItem('ACCESS_TOKEN', data.token)
+            storageService.setItem('ACCESS_TOKEN', data.token)
             appStateDispatcher.setLoginState(AuthLevel.voter)
             history.replace(getVoterRoute().election)
         },

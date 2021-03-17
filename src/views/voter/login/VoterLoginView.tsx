@@ -7,6 +7,8 @@ import VoterContentInfo from 'components/voterContentInfo/VoterContentInfo'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
 import { Events } from 'core/events'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { AsyncEmit } from 'core/socket/AsyncEmit'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import { useSocket } from 'core/state/websocket/useSocketHook'
@@ -33,7 +35,12 @@ function VoterLoginView(): ReactElement {
     useEffect(() => {
         const connectEvent = joinConnectEvent(dispatch)
         const connectErrorEvent = joinConnectErrorEvent(dispatch, t)
-        const verifiedEvent = joinVerifiedEvent(socket, history, appStateDispatcher)
+        const verifiedEvent = joinVerifiedEvent(
+            socket,
+            history,
+            appStateDispatcher,
+            new LocalStorageService<StorageKeys>(),
+        )
         dispatch({ type: 'isLoading', payload: true })
 
         socket.connect()
