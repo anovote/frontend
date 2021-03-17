@@ -1,6 +1,6 @@
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
-import { StatusCodes } from 'http-status-codes'
+import { SocketEventAcknowledgement } from './SocketEventAcknowledgement'
 
 /**
  * Responsible for handling all socket events happening during an election
@@ -31,12 +31,4 @@ export class ElectionEventService {
             )
         })
     }
-}
-
-/**
- * Describes the acknowledgement coming from the server
- */
-interface SocketEventAcknowledgement {
-    status: StatusCodes
-    message: string
 }
