@@ -42,6 +42,7 @@ export const joinVerifiedEvent = (
 ): EventExecutor<IJoinVerifiedData> => {
     return WebsocketEvent<IJoinVerifiedData>({
         dataHandler: (data) => {
+            // Send verification received event to server so it can rebroadcast to the verification page
             socket.emit(Events.client.auth.voterVerifiedReceived, data.verificationSocketId)
             storageService.setItem('ACCESS_TOKEN', data.token)
             appStateDispatcher.setLoginState(AuthLevel.voter)
