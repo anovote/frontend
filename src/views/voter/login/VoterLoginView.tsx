@@ -10,7 +10,6 @@ import { Events } from 'core/events'
 import { AsyncEmit } from 'core/socket/AsyncEmit'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import { useSocket } from 'core/state/websocket/useSocketHook'
-import { StatusCodes } from 'http-status-codes'
 import React, { ReactElement, useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
@@ -22,7 +21,7 @@ import { voterLoginReducer, VoterLoginState } from './VoterLoginState'
  */
 function VoterLoginView(): ReactElement {
     const [socket] = useSocket()
-    const [t] = useTranslation(['form', 'common', 'voter'])
+    const [t] = useTranslation(['error', 'form', 'common', 'voter'])
     const history = useHistory()
     const appStateDispatcher = useAppStateDispatcher()
     const initialState: VoterLoginState = {
@@ -45,7 +44,7 @@ function VoterLoginView(): ReactElement {
         return () => {
             socket.removeListener(Events.standard.socket.connect, connectEvent)
             socket.removeListener(Events.standard.socket.connectError, connectErrorEvent)
-            socket.removeListener(Events.server.auth.verified, connectEvent)
+            socket.removeListener(Events.server.auth.verified, verifiedEvent)
         }
     }, [])
 
@@ -60,7 +59,7 @@ function VoterLoginView(): ReactElement {
             const ackEvent = joinAckEvent(dispatch, t)
             await AsyncEmit({ socket, event: Events.client.auth.join, data, ack: ackEvent })
         } catch (error) {
-            dispatch({ type: 'showMessage', payload: { label: t('voter:Voter verification failed') } })
+            dispatch({ type: 'showMessage', payload: { label: t('error:Voter verification failed') } })
         }
     }
 
