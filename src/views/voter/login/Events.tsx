@@ -22,7 +22,7 @@ export const joinConnectErrorEvent = (
     dispatch: (value: VoterLoginAction) => void,
     t: TFunction<string[]>,
 ): (() => void) => {
-    return function p() {
+    return function connectErrorEvent() {
         dispatch({
             type: 'showMessage',
             payload: { label: t('common:Unable to connect to server'), alertLevel: 'error' },
