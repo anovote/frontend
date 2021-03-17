@@ -1,6 +1,6 @@
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
-import { StatusCodes } from 'http-status-codes'
+import { SocketEventAcknowledgement } from './SocketEventAcknowledgement'
 
 /**
  * Responsible for handling all socket events happening during an election
@@ -20,23 +20,15 @@ export class ElectionEventService {
      * @param ballot ballot to be pushed
      * @param electionRoom the electionRoom to be broadcasted in. Usually the same as the election ID
      */
-    broadcastBallot = async (ballot: IBallotEntity, electionRoom: number): Promise<ElectionEventAcknowledgement> => {
+    broadcastBallot = async (ballot: IBallotEntity, electionRoom: number): Promise<SocketEventAcknowledgement> => {
         return await new Promise((resolve) => {
             this._socket.emit(
                 'pushBallot',
                 { ballot, electionRoom },
-                (acknowledgeMessage: ElectionEventAcknowledgement) => {
+                (acknowledgeMessage: SocketEventAcknowledgement) => {
                     resolve(acknowledgeMessage)
                 },
             )
         })
     }
-}
-
-/**
- * Describes the acknowledgement coming from the server
- */
-interface ElectionEventAcknowledgement {
-    status: StatusCodes
-    message: string
 }
