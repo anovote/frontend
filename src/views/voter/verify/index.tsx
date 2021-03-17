@@ -8,72 +8,71 @@ import VoterContent from 'components/voterContent/VoterContent'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
 import { Events } from 'core/events'
+import { Timeout } from 'core/helpers/Timeout'
 import { useQuery } from 'core/hooks/useQuery'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import { useSocket } from 'core/state/websocket/useSocketHook'
-import { StatusCodes } from 'http-status-codes'
 import React, { ReactElement, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-
-type ValidationCode = string
-
-interface IVerificationParams {
-    code: ValidationCode
-}
-interface IIntegrityVerification {
-    statusCode: StatusCodes
-}
+import { useHistory } from 'react-router'
+import {
+    joinVerificationEvent,
+    verifyConnectErrorEvent,
+    verifyConnectEvent,
+    verifyUpgradeToJoinAck,
+    verifyVoterIntegrityAck,
+} from './Events'
+import { IVerificationPayload } from './IVerificationPayload'
 
 export default function VerifyVoterView(): ReactElement {
     const [socket] = useSocket()
-    const [t] = useTranslation(['voter', 'common'])
+    const [t] = useTranslation(['error', 'voter', 'common', 'election'])
+    const history = useHistory()
+    const appStateDispatcher = useAppStateDispatcher()
     const query = useQuery()
     const codeToVerify = query.get('code')
-    const verificationSuccessMessage: IIconMessage = {
-        label: t('voter:Voter verification succeeded'),
-        alertMessage: t('voter:This browser tab can ble closed'),
-        alertLevel: 'success',
-    }
     const verificationMessage: IIconMessage = {
         label: t('voter:Verifying code'),
         alertMessage: t('voter:Please do not close this window'),
         alertLevel: 'warning',
     }
-    const verificationFailedMessage: IIconMessage = {
-        label: t('voter:Voter verification failed'),
-        alertMessage: t('voter:Verification failed suggestion'),
-        alertLevel: 'error',
-    }
-    const connectionFailedMessage: IIconMessage = {
-        label: t('voter:Voter verification failed'),
-        alertMessage: t('common:Unexpected error'),
-        alertLevel: 'error',
-    }
     const verificationCodeMissingMessage: IIconMessage = {
-        label: t('voter:Verification code is missing'),
+        label: t('error:Verification code is missing'),
     }
-
     const [statusState, setStatusState] = useIconMessageState(verificationMessage)
-
-    const integrityVerifiedEvent = (data: IIntegrityVerification) => {
-        if (data.statusCode === StatusCodes.OK) {
-            setStatusState(verificationSuccessMessage)
-        } else {
-            setStatusState(verificationFailedMessage)
-        }
-    }
 
     useEffect(() => {
         if (codeToVerify) {
-            const verificationPayload: IVerificationParams = {
+            const storageService = new LocalStorageService()
+            const upgradeTimeout = new Timeout(2000, () => {
+                console.log('upgrade')
+                socket.emit(
+                    Events.client.auth.upgradeVerificationToJoin,
+                    {},
+                    verifyUpgradeToJoinAck(setStatusState, t, storageService, appStateDispatcher, history),
+                )
+            })
+            const verificationPayload: IVerificationPayload = {
                 code: codeToVerify,
             }
-            socket.on(Events.standard.socket.connectError, () => {
-                setStatusState(connectionFailedMessage)
-            })
-            socket.on(Events.standard.socket.connect, () => {
-                socket.emit(Events.client.auth.verify.voterIntegrity, verificationPayload, integrityVerifiedEvent)
-            })
+            const voterIntegrityAck = verifyVoterIntegrityAck(setStatusState, upgradeTimeout, t)
+            const connectEvent = verifyConnectEvent(socket, verificationPayload, upgradeTimeout, voterIntegrityAck)
+            const connectErrorEvent = verifyConnectErrorEvent(setStatusState, upgradeTimeout, t)
+            const verifiedEvent = joinVerificationEvent(setStatusState, upgradeTimeout, t)
+            socket.on(Events.standard.socket.connect, connectEvent)
+            socket.on(Events.standard.socket.connectError, connectErrorEvent)
+            // Join page successfully joined the election
+            socket.once(Events.server.auth.joinVerified, verifiedEvent)
             socket.connect()
+
+            return () => {
+                // Cleanup all events
+                socket.removeListener(Events.standard.socket.connect, connectEvent)
+                socket.removeListener(Events.standard.socket.connectError, connectErrorEvent)
+                // Join page successfully joined the election
+                socket.removeListener(Events.server.auth.joinVerified, verifiedEvent)
+            }
         } else {
             setStatusState(verificationCodeMissingMessage)
         }
