@@ -33,7 +33,7 @@ export const joinConnectErrorEvent = (
 
 interface IJoinVerifiedData {
     token: string
-    verifySocketId: string
+    verificationSocketId: string
 }
 export const joinVerifiedEvent = (
     socket: AnoSocket,
@@ -44,7 +44,7 @@ export const joinVerifiedEvent = (
 
     return WebsocketEvent<IJoinVerifiedData>({
         dataHandler: (data) => {
-            socket.emit(Events.client.auth.voterVerifiedReceived, data.verifySocketId)
+            socket.emit(Events.client.auth.voterVerifiedReceived, data.verificationSocketId)
             const localStorageService = new LocalStorageService<StorageKeys>()
             localStorageService.setItem('ACCESS_TOKEN', data.token)
             appStateDispatcher.setLoginState(AuthLevel.voter)
