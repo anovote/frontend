@@ -17,12 +17,13 @@ export const verifyConnectEvent = (
     socket: SocketIOClient.Socket,
     verificationPayload: IVerificationPayload,
     upgradeTimeout: Timeout,
-    voterIntegrityAck: EventExecutor<any>,
+    voterIntegrityAck: EventExecutor<undefined>,
 ): EventExecutor<undefined> => {
     return WebsocketEvent({
         dataHandler: () => {
-            console.log('connect')
+            // Starts the verification
             socket.emit(Events.client.auth.verify.voterIntegrity, verificationPayload, voterIntegrityAck)
+            // Start the upgrade timer that will upgrade the verification page if timer executes
             upgradeTimeout.start()
         },
     })
@@ -40,6 +41,7 @@ export const verifyConnectErrorEvent = (
     }
     return WebsocketEvent({
         dataHandler: () => {
+            // Prevent upgrade for occurring as we have connect error
             upgradeTimeout.stop()
             setStatusState(connectionFailedMessage)
         },
@@ -58,8 +60,8 @@ export const joinVerificationEvent = (
     }
     return WebsocketEvent({
         dataHandler: () => {
+            // Stop the upgrade timer no as the join page has received the token and joined
             upgradeTimeout.stop()
-            console.log('')
             setStatusState(verificationSuccessMessage)
         },
     })
@@ -73,15 +75,15 @@ export const verifyVoterIntegrityAck = (
 ): EventExecutor<undefined> => {
     return WebsocketEvent({
         dataHandler: () => {
+            // Disable the upgrade timer
+            upgradeTimeout.stop()
             setStatusState({
                 label: t('voter:Voter verification succeeded'),
             })
-            console.log('')
         },
         errorHandler: (error) => {
+            // Disable the upgrade timer
             upgradeTimeout.stop()
-            console.log(error)
-
             const { code } = error
             const errorCodeResolver = new ErrorCodeResolver(t)
             const label = errorCodeResolver.resolve(code)
