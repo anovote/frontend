@@ -20,12 +20,12 @@ export class ElectionEventService {
      * @param ballot ballot to be pushed
      * @param electionRoom the electionRoom to be broadcasted in. Usually the same as the election ID
      */
-    broadcastBallot = async (ballot: IBallotEntity, electionRoom: number): Promise<ElectionEventAcknowledgement> => {
+    broadcastBallot = async (ballot: IBallotEntity, electionRoom: number): Promise<SocketEventAcknowledgement> => {
         return await new Promise((resolve) => {
             this._socket.emit(
                 'pushBallot',
                 { ballot, electionRoom },
-                (acknowledgeMessage: ElectionEventAcknowledgement) => {
+                (acknowledgeMessage: SocketEventAcknowledgement) => {
                     resolve(acknowledgeMessage)
                 },
             )
@@ -36,7 +36,7 @@ export class ElectionEventService {
 /**
  * Describes the acknowledgement coming from the server
  */
-interface ElectionEventAcknowledgement {
+interface SocketEventAcknowledgement {
     status: StatusCodes
     message: string
 }
