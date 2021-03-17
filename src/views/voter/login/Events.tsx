@@ -1,16 +1,15 @@
-import { EventExecutor, WebsocketEvent } from 'core/socket/EventHandler'
-import { AnoSocket } from 'core/state/websocket/IAnoSocket'
-import { TFunction } from 'react-i18next'
-import { VoterLoginAction } from './VoterLoginState'
-import * as H from 'history'
-import { LocalStorageService } from 'core/service/storage/LocalStorageService'
-import { StorageKeys } from 'core/service/storage/StorageKeys'
-import { IAppStateDispatcher } from 'core/state/app/AppStateContext'
+import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
+import { Events } from 'core/events'
 import { getVoterRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
-import { StatusCodes } from 'http-status-codes'
-import { ErrorCode } from 'core/error/ErrorCodes'
-import { Events } from 'core/events'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { StorageKeys } from 'core/service/storage/StorageKeys'
+import { EventExecutor, WebsocketEvent } from 'core/socket/EventHandler'
+import { IAppStateDispatcher } from 'core/state/app/AppStateContext'
+import { AnoSocket } from 'core/state/websocket/IAnoSocket'
+import * as H from 'history'
+import { TFunction } from 'react-i18next'
+import { VoterLoginAction } from './VoterLoginState'
 
 export const joinConnectEvent = (dispatch: (value: VoterLoginAction) => void): (() => void) => {
     return function connectEvent() {
@@ -70,27 +69,8 @@ export const joinAckEvent = (
         },
         errorHandler: (error) => {
             const { code } = error
-            let label = t('voter:Voter verification failed')
-            switch (code) {
-                case ErrorCode.alreadyVerified:
-                    label = t('voter:Already verified')
-                    break
-                case ErrorCode.voterNotExist:
-                    label = t('voter:Identification not exist')
-                    break
-                case ErrorCode.electionNotExist:
-                    label = t('election:Not exist')
-                    break
-                case ErrorCode.electionFinished:
-                    label = t('election:Is finished')
-                    break
-                case ErrorCode.electionCodeMissing:
-                    label = t('voter:Missing election code')
-                    break
-                case ErrorCode.voterIdentificationMissing:
-                    label = t('voter:Missing identification')
-                    break
-            }
+            const errorCodeResolver = new ErrorCodeResolver(t)
+            const label = errorCodeResolver.resolve(code)
             dispatch({
                 type: 'showMessage',
                 payload: { label: label, alertLevel: 'error' },
