@@ -36,8 +36,6 @@ export class ErrorCodeResolver {
      */
     resolve(code: string): string {
         const codeMessage = this._codeMappings.find((e) => e.code === code)
-        console.log(code)
-
         return codeMessage ? codeMessage.message(this._translator) : this._translator('error.Unexpected')
     }
 }
