@@ -1,6 +1,6 @@
-import { ElectionStatus } from './IElectionStatus'
+import { ElectionStatus } from './ElectionStatus'
 
-export interface IElection {
+export interface IElectionEntity {
     id: number
     electionOrganizer: number
     title: string
