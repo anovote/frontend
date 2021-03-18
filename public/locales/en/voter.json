@@ -1,9 +1,9 @@
 {
-    "Voter verification succeeded": "Verification successful",
-    "Voter verification failed": "The verification failed, please try again",
-    "Verifying code": "Verifying code",
-    "Verification code is missing": "Verification code is missing",
-    "This browser tab can ble closed": "This browser tab can be closed",
     "Please do not close this window": "Please do not close this window",
-    "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again"
+    "This browser tab can ble closed": "This browser tab can be closed",
+    "Verification code is missing": "Verification code is missing",
+    "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again",
+    "Verifying code": "Verifying code",
+    "Voter verification failed": "The verification failed, please try again",
+    "Voter verification succeeded": "Verification successful"
 }

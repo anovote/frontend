@@ -1,5 +1,5 @@
 import { Events } from 'core/events'
-import { useSocket } from 'core/state/websocket/useSocketHook'
+import { useSocket } from 'core/hooks/useSocket'
 import React, { ReactElement, useEffect } from 'react'
 
 export default function Room(): ReactElement {

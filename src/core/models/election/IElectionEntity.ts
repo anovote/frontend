@@ -1,4 +1,4 @@
-import { IElectionDetails } from 'core/service/election/IElectionDetails'
+import { IElectionDetails } from './IElection'
 
 export interface IElection extends IElectionDetails {
     id: number
