@@ -8,6 +8,9 @@
             cursor: not-allowed;
         }
     }
+    .anticon {
+        color: $main-contrasting;
+    }
 
     &.green {
         background-color: $success-light;
