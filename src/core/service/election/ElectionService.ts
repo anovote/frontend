@@ -54,7 +54,25 @@ export class ElectionService {
 
     public async getElection(electionId: number): Promise<IElection> {
         try {
-            return await (await this.httpClient.get(`${apiRoute.getElection}${electionId}`)).data
+            return (await this.httpClient.get(`${apiRoute.getElection}${electionId}`)).data
+        } catch (error) {
+            if (error.isAxiosError) {
+                const axiosError: AxiosError = error
+                if (axiosError.response?.status === StatusCodes.UNAUTHORIZED) {
+                    throw new AuthorizationError('You need to be logged in to create an election!')
+                }
+                if (axiosError.response?.status === StatusCodes.INTERNAL_SERVER_ERROR) {
+                    throw new Error('Error at the server, drink some Tea and wait')
+                }
+            }
+            throw error
+        }
+    }
+
+    public async updateElection(election: IElection): Promise<IElection> {
+        console.log(election)
+        try {
+            return (await this.httpClient.put<IElection>(`${apiRoute.getElection}${election.id}`, { election })).data
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
