@@ -9,7 +9,6 @@ import { IElection } from 'core/models/IElection'
 import { ElectionService } from 'core/service/election/ElectionService'
 import * as React from 'react'
 import { useEffect, useReducer } from 'react'
-import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 
 /**
@@ -22,7 +21,6 @@ export default function ElectionView(): React.ReactElement {
     }
     const [{ isLoading, election }, dispatch] = useReducer(reducer, initialState)
 
-    const [t] = useTranslation(['translation', 'common', 'election'])
     const { electionId } = useParams<ElectionParams>()
 
     // fetch data
