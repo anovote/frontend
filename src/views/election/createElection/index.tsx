@@ -29,7 +29,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
     const [t] = useTranslation(['translation', 'common', 'election'])
     const [alertProps, setAlertProps] = useState<AlertProps>()
     const [eligibleVoters, setEligibleVoters] = useState<IEligibleVoter[]>([])
-    const [election, setElection] = useState<IElection | undefined>(initialElection)
+    const [election] = useState<IElection | undefined>(initialElection)
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
