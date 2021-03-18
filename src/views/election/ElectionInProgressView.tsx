@@ -1,4 +1,4 @@
-import { Col, Row } from 'antd'
+import { Card, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
@@ -31,8 +31,15 @@ export function ElectionInProgressView({ election }: { election: IElection }): R
         <>
             <Row gutter={16}>
                 <Col>
-                    <Title level={1}>{election.title}</Title>
-                    <ElectionStatusCard election={election} />
+                    <Space direction="vertical">
+                        <Title level={1}>{election.title}</Title>
+                        <ElectionStatusCard election={election} />
+                        <Card className={'info-card'} title={<Title level={2}>{t('election:Connected voters')}</Title>}>
+                            <div className="is-flex-column has-content-center-center">
+                                <span className={'text-large'}>1337</span> {/* todo fetch real time*/}
+                            </div>
+                        </Card>
+                    </Space>
                 </Col>
                 <Col>
                     <Title level={2}>{t('common:Ballots')}</Title>
