@@ -1,6 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { apiRoute } from '../../routes/apiRoutes'
-import { CredentialError } from '../authentication/CredentialsError'
+import { apiRoute } from 'core/routes/apiRoutes'
+import { CredentialError } from 'core/errors/CredentialsError'
 import { RegistrationDetails } from './RegistrationDetails'
 import { RegistrationResponse } from './RegistrationResponse'
 

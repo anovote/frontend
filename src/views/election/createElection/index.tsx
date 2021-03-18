@@ -10,15 +10,14 @@ import OpenDateInput from 'components/election/OpenDateInput'
 import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
+import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
-import { IElection } from 'core/models/IElection'
-import { AuthorizationError } from 'core/service/election/AuthorizationError'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { ElectionService } from 'core/service/election/ElectionService'
-import { ElectionStatus } from 'core/service/election/ElectionStatus'
-import { IElectionDetails } from 'core/service/election/IElectionDetails'
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { IElection } from 'core/models/election/IElection'
 
 /**
  * The main view used for creating and updating an election
@@ -34,7 +33,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
      * Validates a form and returns an error if the form is not filled out correctly
      * @param form The form we want to validate
      */
-    const formValidated = async (form: IElectionDetails) => {
+    const formValidated = async (form: IElection) => {
         try {
             form.status = ElectionStatus.NotStarted
             form.isLocked = false

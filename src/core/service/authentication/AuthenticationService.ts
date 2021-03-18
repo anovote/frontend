@@ -1,12 +1,12 @@
 import { AxiosError, AxiosInstance } from 'axios'
+import { CredentialError } from 'core/errors/CredentialsError'
+import { apiRoute } from 'core/routes/apiRoutes'
+import { IStorage } from 'core/service/storage/IStorage'
+import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { StatusCodes } from 'http-status-codes'
 import jwt from 'jwt-decode'
-import { apiRoute } from '../../routes/apiRoutes'
-import { IStorage } from '../storage/IStorage'
-import { StorageKeys } from '../storage/StorageKeys'
 import { AuthenticationDetails } from './AuthenticationDetails'
 import { AuthenticationResponse } from './AuthenticationResponse'
-import { CredentialError } from './CredentialsError'
 import { IToken } from './IToken'
 export class AuthenticationService {
     private _httpClient: AxiosInstance

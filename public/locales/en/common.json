@@ -59,5 +59,7 @@
     "Vote": "Vote",
     "Vote_plural": "Votes",
     "Votes": "Votes",
-    "Unable to connect to server": "Unable to connect to server"
+    "Unable to connect to server": "Unable to connect to server",
+    "Clear": "Clear",
+    "Selected": "Selected"
 }
