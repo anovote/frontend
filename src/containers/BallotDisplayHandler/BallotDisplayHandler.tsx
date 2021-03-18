@@ -5,7 +5,7 @@ import Title from 'antd/lib/typography/Title'
 import BallotTypeDisplay from 'components/BallotTypeDisplay/BallotTypeDisplay'
 import CandidateList from 'components/CandidateList/CandidateList'
 import { BallotType } from 'core/models/ballot/BallotType'
-import { IBallot } from 'core/models/ballot/IBallot'
+import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
 import React, { ReactElement, useReducer } from 'react'
@@ -19,7 +19,7 @@ const initialState = {
     },
 }
 
-export default function BallotDisplayHandler({ ballot }: { ballot: IBallot }): ReactElement {
+export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity }): ReactElement {
     const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
     const [t] = useTranslation(['common'])

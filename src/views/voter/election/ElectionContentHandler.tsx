@@ -1,10 +1,10 @@
 import { CoffeeOutlined, HourglassOutlined, LockOutlined } from '@ant-design/icons'
-import BallotDisplayHandler from 'containers/BallotDisplayHandler/BallotDisplayHandler'
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
+import BallotDisplayHandler from 'containers/BallotDisplayHandler/BallotDisplayHandler'
+import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { DisplayAction, ElectionState } from './electionReducer'
-import { IBallot } from 'core/models/ballot/IBallot'
 
 /**
  * This modules is responsible for providing the correct components for an election based on the state
@@ -59,7 +59,7 @@ export default function ElectionContentHandler({ state }: { state: ElectionState
             break
         case DisplayAction.Ballot:
             {
-                renderComponent = <BallotDisplayHandler ballot={state.ballot as IBallot} />
+                renderComponent = <BallotDisplayHandler ballot={state.ballot as IBallotEntity} />
             }
             break
         default:
