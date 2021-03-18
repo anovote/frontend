@@ -2,37 +2,33 @@ import Text from 'antd/lib/typography/Text'
 import Title from 'antd/lib/typography/Title'
 import { VoteOnSingleCandidate } from 'components/ballot/voteOnBallot/VoteOnSingleCanidate'
 import React from 'react'
-
+import { Button } from 'antd'
+import { useSocket } from 'core/state/websocket/useSocketHook'
+import { Events } from 'core/events'
 /**
  * Landing page of application and home root
  * @returns the landing page view
  */
 export default function Home(): React.ReactElement {
+    const [socket] = useSocket()
+    socket.connect()
+
+    const onChange = () => {
+        const vote = {
+            candidate: 1,
+            submitted: new Date(),
+            voterId: 1,
+            ballotId: 1,
+        }
+
+        socket.emit(Events.client.vote.submit, vote, (data: any) => {
+            console.log(data)
+        })
+    }
+
     return (
         <div>
-            <Title>This is a title.</Title>
-            <Title level={2}>This a subtitle</Title>
-            <Title level={3}>This is a paragraph/card title</Title>
-            <Text>Normal text</Text>
-            <br />
-            <Text type="secondary">Label</Text>
-            <hr />
-            <div id="colors">
-                <span className="round">
-                    <span className="inner-round"></span>
-                </span>
-                <span className="round">
-                    <span className="inner-round"></span>
-                </span>
-                <span className="round">
-                    <span className="inner-round"></span>
-                </span>
-                <span className="round">
-                    <span className="inner-round"></span>
-                </span>
-            </div>
-            <hr />
-            <VoteOnSingleCandidate />
+            <Button onClick={onChange}>Submit vote</Button>
         </div>
     )
 }
