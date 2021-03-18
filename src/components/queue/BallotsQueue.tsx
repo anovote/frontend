@@ -8,6 +8,7 @@ import { ElectionEventService } from 'core/service/election/ElectionEventService
 import { useSocket } from 'core/state/websocket/useSocketHook'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router'
 import QueueDescription from './QueueDescription'
 
 const { Step } = Steps
@@ -16,6 +17,9 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
     const [current, setCurrent] = useState(0)
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
+    const { electionId } = useParams<ElectionParams>()
+    console.log(electionId)
+
     const electionEventService: ElectionEventService = new ElectionEventService(socket)
 
     const queue = []
@@ -30,9 +34,9 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
         console.log('pushing ballot with id ', id)
         const ballot = dataSource.find((ballot) => ballot.id === id)
         console.log(ballot)
-        const electionId = 1
-        if (ballot) {
-            const ack = await electionEventService.broadcastBallot(ballot, electionId)
+        if (ballot && electionId) {
+            const electionIdInt = Number.parseInt(electionId)
+            const ack = await electionEventService.broadcastBallot(ballot, electionIdInt)
             // todo button should be loading until ack is received
             console.log(ack)
         }
@@ -69,4 +73,8 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
             </Steps>
         </div>
     )
+}
+
+interface ElectionParams {
+    electionId?: string
 }
