@@ -1,6 +1,6 @@
 import { Events } from 'core/events'
 import { IBallot } from 'core/models/ballot/IBallot'
-import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { IElection } from 'core/models/election/IElectionEntity'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import { ElectionAction } from './electionReducer'
 
@@ -8,7 +8,7 @@ let anoSocket: AnoSocket
 let electionStateDispatcher: React.Dispatch<ElectionAction>
 let hasBound = false
 
-const electionEvent = (election: IElectionEntity) => electionStateDispatcher({ type: 'election', payload: election })
+const electionEvent = (election: IElection) => electionStateDispatcher({ type: 'election', payload: election })
 const ballotEvent = (ballot: IBallot) => electionStateDispatcher({ type: 'ballot', payload: ballot })
 const resultEvent = (result: null) => electionStateDispatcher({ type: 'result', payload: result })
 const closeEvent = (close: boolean) => electionStateDispatcher({ type: 'close', payload: close })

@@ -1,7 +1,7 @@
 import { BallotResultDisplay } from 'core/models/ballot/BallotResultDisplay'
 import { BallotType } from 'core/models/ballot/BallotType'
-import { ElectionStatus } from 'core/models/ElectionStatus'
-import { IElection } from 'core/models/IElection'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
+import { IElection } from 'core/models/election/IElectionEntity'
 
 export const elections: IElection[] = [
     {
@@ -10,7 +10,7 @@ export const elections: IElection[] = [
         description: 'Very nice voting',
         title: 'My election',
         isAutomatic: false,
-        status: ElectionStatus.NotStarted,
+        status: ElectionStatus.Started,
         isLocked: false,
         password: 'get it done',
         ballots: [

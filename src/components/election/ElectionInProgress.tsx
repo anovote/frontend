@@ -2,11 +2,11 @@ import { Card, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { IElection } from 'core/models/IElection'
-import { useSocket } from 'core/state/websocket/useSocketHook'
 import React, { ReactElement, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
+import { useSocket } from 'core/hooks/useSocket'
+import { IElection } from 'core/models/election/IElectionEntity'
 
 export function ElectionInProgressView({ election }: { election: IElection }): ReactElement {
     const [socket] = useSocket()

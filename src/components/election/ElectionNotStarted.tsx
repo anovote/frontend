@@ -4,11 +4,11 @@ import Title from 'antd/lib/typography/Title'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import IconButton from 'containers/button/IconButton'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { ElectionStatus } from 'core/models/ElectionStatus'
-import { IElection } from 'core/models/IElection'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
+import { IElection } from 'core/models/election/IElectionEntity'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 
 export const ElectionNotStarted = ({
     election,

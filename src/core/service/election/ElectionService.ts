@@ -1,9 +1,9 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { IElection } from 'core/models/IElection'
 import { StatusCodes } from 'http-status-codes'
 import { apiRoute } from 'core/routes/apiRoutes'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { IElectionDetails } from 'core/models/election/IElection'
+import { IElection } from 'core/models/election/IElectionEntity'
 
 export class ElectionService {
     private httpClient: AxiosInstance
