@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Button, Form } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
 
-export default function CreateElectionButton(): React.ReactElement {
+export default function SaveElectionButton({ hasInitial = false }: { hasInitial?: boolean }): React.ReactElement {
     return (
         <div>
             <Form.Item>
@@ -14,7 +14,7 @@ export default function CreateElectionButton(): React.ReactElement {
                     size="large"
                     htmlType="submit"
                 >
-                    Create election!
+                    {!hasInitial ? 'Create election!' : 'Update Election'}
                 </Button>
             </Form.Item>
         </div>

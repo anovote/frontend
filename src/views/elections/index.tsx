@@ -25,7 +25,6 @@ export default function ElectionsView(): React.ReactElement {
             status: ElectionStatus.NotStarted,
             openDate: new Date(2021, 3, 1, 10, 0),
             closeDate: new Date(2021, 5, 1, 10, 0),
-            image: 'image.png',
         },
         {
             id: 2,
@@ -37,7 +36,6 @@ export default function ElectionsView(): React.ReactElement {
             status: ElectionStatus.Finished,
             openDate: new Date(2021, 3, 1, 10, 0),
             closeDate: new Date(2021, 5, 1, 10, 0),
-            image: 'image.png',
         },
         {
             id: 3,
@@ -49,7 +47,6 @@ export default function ElectionsView(): React.ReactElement {
             status: ElectionStatus.Started,
             openDate: new Date(2021, 3, 1, 10, 0),
             closeDate: new Date(2021, 5, 1, 10, 0),
-            image: 'image.png',
         },
         {
             id: 4,
@@ -61,7 +58,6 @@ export default function ElectionsView(): React.ReactElement {
             status: ElectionStatus.NotStarted,
             openDate: new Date(2021, 3, 1, 10, 0),
             closeDate: new Date(2021, 5, 1, 10, 0),
-            image: 'image.png',
         },
     ]
     useEffect(() => {

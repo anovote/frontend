@@ -4,7 +4,7 @@ import moment from 'moment'
 
 export default function CloseDateInput(): React.ReactElement {
     return (
-        <Form.Item name="closeDate" rules={[{ required: true, message: 'Please choose a date and time' }]}>
+        <Form.Item name="closeDate" rules={[{ required: false, message: 'Please choose a date and time' }]}>
             <DatePicker
                 placeholder="Select date and time"
                 showTime={{ defaultValue: moment('00:00:00', 'HH:mm:ss'), format: 'HH:mm:ss' }}

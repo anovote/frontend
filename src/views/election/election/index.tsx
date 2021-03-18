@@ -1,89 +1,49 @@
-import {
-    ClockCircleOutlined,
-    ForwardOutlined,
-    LockOutlined,
-    SafetyOutlined,
-    SecurityScanOutlined,
-    UnlockOutlined,
-} from '@ant-design/icons'
 import { Card, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
-import CardList from 'components/cards/CardList'
-import CountUpTimer from 'components/countUpTimer/countUpTimer'
+import { ElectionStatus } from 'core/models/ElectionStatus'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { IStatusDetail } from './IStatusDetail'
-import StatusListItem from './StatusListItem'
+import CreateElectionView from '../createElection'
+import { ElectionInProgressView } from '../ElectionInProgressView'
+import { elections } from '../../../dummy/electionsDummyData'
+import { ElectionStatusCard } from './ElectionStatusCard'
+
 /**
  * The main view used for creating an election
  */
 export default function ElectionView(): React.ReactElement {
     const [t] = useTranslation(['translation', 'common', 'election'])
-    const header = (
-        <div className="spread align-items-center">
-            <Title level={2}>{t('common:Status')} </Title>
-            <div className="">
-                <span className="text-label">{t('common:Election').toUpperCase()} ID # </span>
-                <span className="text-medium">123456</span>
-            </div>
-        </div>
-    )
+    const election = elections[0]
 
-    const details: Array<IStatusDetail> = [
-        {
-            icon: <LockOutlined />,
-            colorClass: 'success-light',
-            title: t('election:Election open'),
-            text: new Date().toLocaleDateString(),
-        },
-        {
-            icon: <UnlockOutlined />,
-            colorClass: 'danger-light',
-            title: t('election:Election close'),
-            text: new Date().toLocaleDateString(),
-        },
-        {
-            icon: <ClockCircleOutlined />,
-            colorClass: 'main-light',
-            title: t('election:Time elapsed'),
-            // TODO! implement logic to set timer on states from current election
-            text: <CountUpTimer />,
-        },
-        {
-            icon: <ForwardOutlined />,
-            colorClass: 'main-light',
-            title: t('election:Ballot proceed'),
-            text: 'automatic',
-        },
-        {
-            icon: <SecurityScanOutlined />,
-            colorClass: 'main-light',
-            title: t('election:Authentication method'),
-            text: 'Feide, Google',
-        },
-        {
-            icon: <SafetyOutlined />,
-            colorClass: 'main-light',
-            title: t('common:Password'),
-
-            text: 'Anovote101!',
-        },
-    ]
+    const renderElectionView = (electionStatus: ElectionStatus) => {
+        switch (electionStatus) {
+            case ElectionStatus.NotStarted:
+                return <CreateElectionView initialElection={election} />
+            case ElectionStatus.Started:
+                return <ElectionInProgressView election={election} />
+            case ElectionStatus.Finished:
+                return 'Election finished'
+            default:
+                return null
+        }
+    }
 
     const cardTitle = <Title level={2}>{t('election:Connected voters')}</Title>
     return (
-        <Row>
-            <Col span={12}>
-                <Space direction={'vertical'}>
-                    <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)}></CardList>
-                    <Card className={'info-card'} title={cardTitle}>
-                        <div className="is-flex-column has-content-center-center">
-                            <span className={'text-large'}>1337</span>
-                        </div>
-                    </Card>
-                </Space>
-            </Col>
-            <Col span={12}>col-12</Col>
-        </Row>
+        <>
+            <Row>
+                <Col>
+                    <Space direction={'vertical'}>
+                        <ElectionStatusCard election={elections[0]} />
+                        <Card className={'info-card'} title={cardTitle}>
+                            <div className="is-flex-column has-content-center-center">
+                                <span className={'text-large'}>1337</span> {/* todo fetch real time*/}
+                            </div>
+                        </Card>
+                    </Space>
+                </Col>
+                <Col span={16}>{renderElectionView(election.status)}</Col>
+            </Row>
+        </>
     )
 }
