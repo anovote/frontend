@@ -13,9 +13,11 @@ import { ElectionStatus } from 'core/models/election/ElectionStatus'
 export const ElectionNotStarted = ({
     election,
     onElectionChange,
+    onElectionEdit,
 }: {
     election: IElection
     onElectionChange: (election: IElection) => void
+    onElectionEdit: () => void
 }): ReactElement => {
     const [t] = useTranslation('common')
     const deleteElectionHandler = () => {
@@ -29,7 +31,7 @@ export const ElectionNotStarted = ({
     }
 
     const editElection = () => {
-        console.log('todo handle edit of election')
+        onElectionEdit()
     }
 
     const ballots = election.ballots

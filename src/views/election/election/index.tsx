@@ -10,6 +10,7 @@ import { ElectionService } from 'core/service/election/ElectionService'
 import * as React from 'react'
 import { useEffect, useReducer } from 'react'
 import { useParams } from 'react-router-dom'
+import CreateElectionView from '../createElection'
 
 /**
  * The main view used for creating an election
@@ -18,8 +19,9 @@ export default function ElectionView(): React.ReactElement {
     const initialState: ElectionViewState = {
         isLoading: false,
         election: undefined,
+        edit: false,
     }
-    const [{ isLoading, election }, dispatch] = useReducer(reducer, initialState)
+    const [{ isLoading, election, edit }, dispatch] = useReducer(reducer, initialState)
 
     const { electionId } = useParams<ElectionParams>()
     const electionService = new ElectionService(BackendAPI)
@@ -65,12 +67,16 @@ export default function ElectionView(): React.ReactElement {
     }
 
     const renderElectionView = (election: IElection) => {
+        if (edit) {
+            return <CreateElectionView initialElection={election} />
+        }
         switch (election.status) {
             case ElectionStatus.NotStarted:
                 return (
                     <ElectionNotStarted
                         election={election}
                         onElectionChange={(election) => onElectionChangeHandler(election)}
+                        onElectionEdit={() => dispatch({ type: 'edit' })}
                     />
                 )
             case ElectionStatus.Started:
@@ -94,9 +100,14 @@ export default function ElectionView(): React.ReactElement {
 type ElectionViewState = {
     isLoading: boolean
     election?: IElection
+    edit: boolean
 }
+
 function reducer(state: ElectionViewState, action: ElectionViewActions): ElectionViewState {
     switch (action.type) {
+        case 'edit': {
+            return { ...state, edit: true }
+        }
         case 'fetchingElection':
             return { ...state, isLoading: true }
         case 'gotElection':
@@ -115,6 +126,6 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
 }
 
 type ElectionViewActions =
-    | { type: 'fetchingElection' | 'success' }
+    | { type: 'fetchingElection' | 'success' | 'edit' }
     | { type: 'gotElection' | 'updateElectionStatus' | 'updateSuccess'; election: IElection }
     | { type: 'error'; message: string }
