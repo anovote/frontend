@@ -8,7 +8,7 @@ import { ElectionStatus } from 'core/models/ElectionStatus'
 import { IElection } from 'core/models/IElection'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ElectionStatusCard } from 'views/election/election/ElectionStatusCard'
+import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 
 export const ElectionNotStarted = ({
     election,

@@ -6,7 +6,7 @@ import { IElection } from 'core/models/IElection'
 import { useSocket } from 'core/state/websocket/useSocketHook'
 import React, { ReactElement, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ElectionStatusCard } from './election/ElectionStatusCard'
+import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 
 export function ElectionInProgressView({ election }: { election: IElection }): ReactElement {
     const [socket] = useSocket()

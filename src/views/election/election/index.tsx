@@ -1,5 +1,6 @@
-import { Card, Col, Row, Space } from 'antd'
-import Title from 'antd/lib/typography/Title'
+import { ElectionFinished } from 'components/election/ElectionFinished'
+import { ElectionInProgressView } from 'components/election/ElectionInProgress'
+import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
 import { ElectionParams } from 'components/queue/ElectionParams'
 import { BackendAPI } from 'core/api'
 import { ElectionStatus } from 'core/models/ElectionStatus'
@@ -9,10 +10,8 @@ import * as React from 'react'
 import { useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { elections } from '../../../dummy/electionsDummyData'
-import CreateElectionView from '../createElection'
-import { ElectionInProgressView } from '../ElectionInProgressView'
-import { ElectionFinished } from './ElectionFinished'
+import { ElectionInProgressView } from 'components/election/ElectionInProgress'
+import { ElectionFinished } from 'components/election/ElectionFinished'
 
 /**
  * The main view used for creating an election

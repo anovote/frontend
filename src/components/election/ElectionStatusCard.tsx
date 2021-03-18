@@ -15,8 +15,8 @@ import CountUpTimer from 'components/countUpTimer/countUpTimer'
 import { IElection } from 'core/models/IElection'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { IStatusDetail } from './IStatusDetail'
-import StatusListItem from './StatusListItem'
+import { IStatusDetail } from 'views/election/election/IStatusDetail'
+import StatusListItem from 'views/election/election/StatusListItem'
 
 export function ElectionStatusCard({ election }: { election: IElection }): ReactElement {
     const [t] = useTranslation(['common'])
