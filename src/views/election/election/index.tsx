@@ -1,6 +1,6 @@
 import { Card, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
-import { ElectionParams } from 'components/queue/BallotsQueue'
+import { ElectionParams } from 'components/queue/ElectionParams'
 import { BackendAPI } from 'core/api'
 import { ElectionStatus } from 'core/models/ElectionStatus'
 import { IElection } from 'core/models/IElection'

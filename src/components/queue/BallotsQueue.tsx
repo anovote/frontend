@@ -9,6 +9,7 @@ import { useSocket } from 'core/state/websocket/useSocketHook'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
+import { ElectionParams } from './ElectionParams'
 import QueueDescription from './QueueDescription'
 
 const { Step } = Steps
@@ -77,8 +78,4 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
             </Steps>
         </div>
     )
-}
-
-interface ElectionParams {
-    electionId?: string
 }
