@@ -5,38 +5,22 @@ import Title from 'antd/lib/typography/Title'
 import BallotTypeDisplay from 'components/BallotTypeDisplay/BallotTypeDisplay'
 import CandidateList from 'components/CandidateList/CandidateList'
 import { BallotType } from 'core/models/ballot/BallotType'
-import { IBallot } from 'core/models/ballot/IBallot'
+import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { ICandidateEntity } from 'core/models/ballot/ICandidate'
-import React, { ReactElement, useReducer, useState } from 'react'
+import { reducer } from 'core/reducers/ballotReducer'
+import React, { ReactElement, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 
-type State = {
-    selected: number
-}
-
-type Action = { type: 'select' } | { type: 'deselect' } | { type: 'reset' }
-
-const reducer = (state: State, action: Action): State => {
-    switch (action.type) {
-        case 'select':
-            return { ...state, selected: state.selected + 1 }
-        case 'deselect':
-            return { ...state, selected: state.selected - 1 }
-        case 'reset':
-            return { ...state, selected: 0 }
-        default:
-    }
-    return { ...state, selected: state.selected }
-}
-
-const initialState = { selected: 0 }
-
-export default function BallotDisplayHandler({ ballot }: { ballot: IBallot }): ReactElement {
-    const [state, dispatch] = useReducer(reducer, initialState)
-    const [selection, setSelection] = useState<{ single: number | null; multiple: number[] }>({
+const initialState = {
+    selected: 0,
+    selection: {
         single: null,
         multiple: [],
-    })
+    },
+}
+
+export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity }): ReactElement {
+    const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
     const [t] = useTranslation(['common'])
 
@@ -49,21 +33,12 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallot }): R
         switch (ballot.type) {
             case BallotType.SINGLE: {
                 const radio = change as RadioChangeEvent
-                if (state.selected != 1) {
-                    dispatch({ type: 'select' })
-                }
-                setSelection({ single: radio.target.value, multiple: [] })
+                dispatch({ type: 'select', payload: { single: radio.target.value, multiple: [] } })
                 break
             }
             case BallotType.MULTIPLE: {
                 const checked = change as number[]
-                if (checked.length > state.selected) {
-                    dispatch({ type: 'select' })
-                }
-                if (checked.length < state.selected) {
-                    dispatch({ type: 'deselect' })
-                }
-                setSelection({ single: null, multiple: checked })
+                onSelectionMultiple(checked)
                 break
             }
 
@@ -73,12 +48,28 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallot }): R
     }
 
     /**
+     * Dispatches the correct update of state when
+     * a multiple selection is fired. It will either increment or decrement the selected count of the state
+     * and the selection according to the provided checked elements.
+     * If the length of the checked elements are greater than the current selected candidates, it will
+     * dispatch a select action to the state. If it is less, it will deselect
+     * @param checked the checked elements of candidates
+     */
+    const onSelectionMultiple = (checked: number[]) => {
+        if (checked.length > selected) {
+            dispatch({ type: 'select', payload: { single: null, multiple: checked } })
+        }
+        if (checked.length < selected) {
+            dispatch({ type: 'deselect', payload: { single: null, multiple: checked } })
+        }
+    }
+
+    /**
      * Clears the selected/selection of candidates and resets the selected
      * counter
      */
     const clearSelection = () => {
-        setSelection({ single: null, multiple: [] })
-        dispatch({ type: 'reset' })
+        dispatch({ type: 'reset', payload: { single: 0, multiple: [] } })
     }
 
     return (
@@ -89,9 +80,9 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallot }): R
                     {t('common:Candidate_plural')}: {ballot.candidates.length}
                 </Title>
                 <Title level={5}>
-                    {t('common:Selected')} ({state.selected})
+                    {t('common:Selected')} ({selected})
                 </Title>
-                <Button onClick={clearSelection} type="text" danger={true} style={{ opacity: !state.selected ? 0 : 1 }}>
+                <Button onClick={clearSelection} type="text" danger={true} style={{ opacity: !selected ? 0 : 1 }}>
                     {t('common:Clear')}
                 </Button>
             </Space>
