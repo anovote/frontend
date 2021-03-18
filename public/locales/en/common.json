@@ -1,5 +1,4 @@
 {
-    "Welcome to Anovote": "Welcome to Anovote",
     "Add": "Add",
     "Ballot": "Ballot",
     "Ballots": "Ballots",
@@ -28,8 +27,6 @@
     "IN PROGRESS": "IN PROGRESS",
     "Issues": "Issues",
     "Last name": "Last name",
-    "Result": "Result",
-    "Unexpected error": "An unexpected error ocurred",
     "Log In": "Log In",
     "New password": "New password",
     "Next": "Next",
@@ -40,6 +37,7 @@
     "Previous": "Previous",
     "Push ballot": "Push ballot",
     "Ranked": "Ranked",
+    "Result": "Result",
     "Retype new password": "Retype new password",
     "Retype password": "Retype password",
     "Save": "Save",
@@ -54,9 +52,12 @@
     "Title": "Title",
     "Total": "Total",
     "Try again later": "Try again later",
+    "Unexpected error": "An unexpected error ocurred",
     "Update": "Update {{value}}",
     "Verification": "Verification",
     "Vote": "Vote",
     "Vote_plural": "Votes",
-    "Votes": "Votes"
+    "Votes": "Votes",
+    "Welcome to Anovote": "Welcome to Anovote",
+    "no-ballots": "No ballots"
 }
