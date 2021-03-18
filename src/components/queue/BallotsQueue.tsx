@@ -21,6 +21,7 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
     console.log(electionId)
 
     const electionEventService: ElectionEventService = new ElectionEventService(socket)
+    const [isLoading, setIsLoading] = useState(false)
 
     const queue = []
 
@@ -31,6 +32,8 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
     ]
 
     async function pushBallot(id: number) {
+        setIsLoading(true)
+        // todo #127 pushing a ballot should change some state on the ballot on the server to indicate that it has been published
         console.log('pushing ballot with id ', id)
         const ballot = dataSource.find((ballot) => ballot.id === id)
         console.log(ballot)
@@ -45,6 +48,7 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
     // render all ballots
     for (const ballot of dataSource) {
         queue.push(
+            // todo make loading state follow the component
             <Step
                 key={ballot.id}
                 title={<Title level={4}>{ballot.title}</Title>}
@@ -58,7 +62,7 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
                             classId="push-ballot-button"
                             onClick={() => pushBallot(ballot.id)}
                         >
-                            <PushBallotIcon />
+                            <PushBallotIcon spin={isLoading} />
                         </SquareIconButton>
                     </>
                 }
