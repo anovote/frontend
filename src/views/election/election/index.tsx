@@ -12,7 +12,7 @@ import { useParams } from 'react-router-dom'
 import { elections } from '../../../dummy/electionsDummyData'
 import CreateElectionView from '../createElection'
 import { ElectionInProgressView } from '../ElectionInProgressView'
-import { ElectionStatusCard } from './ElectionStatusCard'
+import { ElectionFinished } from './ElectionFinished'
 
 /**
  * The main view used for creating an election
@@ -67,7 +67,7 @@ export default function ElectionView(): React.ReactElement {
                 return <ElectionInProgressView election={election} />
             case ElectionStatus.Finished:
                 // todo create view when results are finished
-                return 'Election finished'
+                return <ElectionFinished />
             default:
                 return null
         }
