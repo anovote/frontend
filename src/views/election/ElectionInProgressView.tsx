@@ -1,7 +1,7 @@
 import { Col, Row } from 'antd'
 import Layout from 'antd/lib/layout/layout'
 import BallotsQueue from 'components/queue/BallotsQueue'
-import { useSocket } from 'core/state/websocket/useSocketHook'
+import { useSocket } from 'core/hooks/useSocket'
 import { freshBallots } from 'dummy/ballotsDummyData'
 import React, { ReactElement, useEffect } from 'react'
 import ElectionView from './election'
