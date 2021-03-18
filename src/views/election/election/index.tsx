@@ -1,6 +1,6 @@
 import { Card, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
-import { ElectionStatus } from 'core/models/ElectionStatus'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import CreateElectionView from '../createElection'

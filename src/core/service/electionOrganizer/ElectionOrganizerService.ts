@@ -1,7 +1,7 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { apiRoute } from '../../routes/apiRoutes'
+import { apiRoute } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
-import { PasswordIsNotValidError, PasswordDoesNotMatchError } from '../../models/customErrors'
+import { PasswordIsNotValidError, PasswordDoesNotMatchError } from 'core/errors/customErrors'
 import { ChangePasswordInterface } from 'containers/forms/profile/ChangePasswordForm'
 
 export class ElectionOrganizerService {

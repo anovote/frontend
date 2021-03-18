@@ -4,16 +4,18 @@ import CenterView from 'components/centerView/CenterView'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
-import { useSocket } from 'core/state/websocket/useSocketHook'
+import { useSocket } from 'core/hooks/useSocket'
 import React, { ReactElement, useEffect, useReducer } from 'react'
 import ElectionContentHandler from './ElectionContentHandler'
 import ElectionInfoHandler from './ElectionInfoHandler'
-import { electionReducer, initialElectionState } from './electionReducer'
-import { electionSocketEventBinder, electionSocketEventCleanup } from './electionSocketEventBinder'
+import { electionReducer, initialElectionState } from 'core/state/election/electionReducer'
+import { electionSocketEventBinder, electionSocketEventCleanup } from 'core/state/election/electionSocketEventBinder'
 export default function VoterElectionView(): ReactElement {
     const [electionState, electionDispatch] = useReducer(electionReducer, initialElectionState)
     const [socket] = useSocket()
     useEffect(() => {
+        socket.connect()
+
         electionSocketEventBinder(socket, electionDispatch)
 
         return () => {

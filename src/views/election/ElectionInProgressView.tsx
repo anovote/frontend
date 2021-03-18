@@ -1,14 +1,14 @@
 import Title from 'antd/lib/typography/Title'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import BallotModal from 'containers/modal/BallotModal'
+import { useSocket } from 'core/hooks/useSocket'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { IElectionDetails } from 'core/service/election/IElectionDetails'
-import { useSocket } from 'core/state/websocket/useSocketHook'
+import { IElection } from 'core/models/election/IElection'
 import { ballotInstance } from 'dummy/ballotEntity'
 import { voteStats } from 'dummy/ballotVoteStats'
 import React, { ReactElement, useEffect, useState } from 'react'
 
-export function ElectionInProgressView({ election }: { election: IElectionDetails }): ReactElement {
+export function ElectionInProgressView({ election }: { election: IElection }): ReactElement {
     const [socket] = useSocket()
     const [stats, setStats] = useState(voteStats)
 

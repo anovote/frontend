@@ -1,0 +1,25 @@
+.ballot-type-space {
+    //.ant-space-item {
+    //    display: flex;
+    //    align-items: center;
+    //}
+    justify-content: space-around;
+}
+
+.ballot-type {
+    @include is-rounded-large;
+    @include has-shadow;
+    @include is-flex-row;
+
+    align-items: center;
+
+    align-self: center;
+
+    padding: 1.5rem 3rem;
+    background: $white;
+    margin-bottom: 2rem;
+
+    .text {
+        font-size: 1.25rem;
+    }
+}

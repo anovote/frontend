@@ -1,6 +1,6 @@
 import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
 import { BackendAPI } from 'core/api'
-import { PasswordDoesNotMatchError } from 'core/models/customErrors'
+import { PasswordDoesNotMatchError } from 'core/errors/customErrors'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import React from 'react'
 import { useTranslation } from 'react-i18next'

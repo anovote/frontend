@@ -1,6 +1,6 @@
-import { IElectionDetails } from 'core/service/election/IElectionDetails'
+import { IElection } from 'core/models/election/IElection'
 
-export interface IElection extends IElectionDetails {
+export interface IElectionEntity extends IElection {
     id: number
     electionOrganizer: number
     //title: string

@@ -5,5 +5,6 @@
     "Please do not close this window": "Please do not close this window",
     "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again",
     "Verification link sent to your": "Verification link sent to your {{type}}",
-    "Join election": "Join election"
+    "Join election": "Join election",
+    "Voter verification failed": "The verification failed, please try again"
 }
