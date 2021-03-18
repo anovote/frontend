@@ -6,7 +6,7 @@ export default function ElectionPasswordInput(): React.ReactElement {
         <Form.Item
             className="password-input"
             name="password"
-            rules={[{ required: true, message: 'Please fill in a password!' }]}
+            rules={[{ required: false, message: 'Please fill in a password!' }]}
         >
             <Input.Password placeholder="Password" />
         </Form.Item>
