@@ -29,11 +29,13 @@
         "Ihbq",
         "isready",
         "map",
+        "Marit",
         "middlewares",
         "mixins",
         "Nilsen",
         "onstatechange",
         "onupdatefound",
+        "papaparse",
         "postgres",
         "postgresql",
         "precache",
@@ -63,9 +65,7 @@
         "USEPOLLING",
         "varchar",
         "wojtekmaj",
-        "zwaldowski",
-        "droppable",
-        "papaparse"
+        "zwaldowski"
     ],
     "flagWords": [
         "hte"
