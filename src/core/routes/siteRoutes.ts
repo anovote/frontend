@@ -18,10 +18,11 @@ interface IPublicRoutes {
     register: string
     login: string
     joinElection: string
+    verifyVoter: string
 }
 
 interface IVoterRoutes {
-    room: string
+    election: string
 }
 
 const routePrefixes = {
@@ -60,12 +61,13 @@ export const getPublicRoute = (): IPublicRoutes => {
         register: `${pub}register`,
         login: `${pub}login`,
         joinElection: `${pub}join`,
+        verifyVoter: `${pub}join/verify`,
     }
 }
 
 export const getVoterRoute = (): IVoterRoutes => {
     const { voter } = routePrefixes
     return {
-        room: `${voter}room`,
+        election: `${voter}election`,
     }
 }

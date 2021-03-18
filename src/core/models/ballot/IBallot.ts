@@ -1,6 +1,6 @@
 import { BallotResultDisplay } from './BallotResultDisplay'
 import { BallotType } from './BallotType'
-import { ICandidate } from './ICandidate'
+import { ICandidate, ICandidateEntity } from './ICandidate'
 
 /** Represents a ballot  */
 export interface IBallot {
@@ -12,7 +12,7 @@ export interface IBallot {
     displayResultCount: boolean
     resultDisplayTypeCount: number
     order: number
-    candidates: Array<ICandidate>
+    candidates: Array<ICandidateEntity | ICandidate>
 }
 
 export interface IBallotInList extends IBallot {

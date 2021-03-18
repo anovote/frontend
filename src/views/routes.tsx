@@ -1,3 +1,6 @@
+import AdminRoutes from 'core/routes/AdminRoutes'
+import { getBaseRoute, getPublicRoute } from 'core/routes/siteRoutes'
+import VoterRoutes from 'core/routes/VoterRoutes'
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import NotFound from '../components/routeDefaults/NotFound'
@@ -7,9 +10,8 @@ import { useAppState } from '../core/state/app/AppStateContext'
 import Home from './home'
 import LoginView from './login'
 import RegisterView from './register'
-import AdminRoutes from 'core/routes/AdminRoutes'
-import VoterRoutes from 'core/routes/VoterRoutes'
-import { getBaseRoute, getPublicRoute } from 'core/routes/siteRoutes'
+import VerifyVoterView from './voter/verify'
+import VoterLoginView from './voter/login/VoterLoginView'
 
 /**
  * Router view
@@ -31,6 +33,9 @@ export default function RouterView(): React.ReactElement {
                 <Route path={getPublicRoute().login}>
                     <LoginView />
                 </Route>
+                <Route path={getPublicRoute().verifyVoter}>
+                    <VerifyVoterView />
+                </Route>
                 <ProtectedRoute
                     // Added as example
                     isLoggedIn={isLoggedIn}
@@ -48,6 +53,9 @@ export default function RouterView(): React.ReactElement {
                 >
                     <VoterRoutes />
                 </ProtectedRoute>
+                <Route path={getPublicRoute().joinElection}>
+                    <VoterLoginView />
+                </Route>
                 <Route>
                     <NotFound />
                 </Route>

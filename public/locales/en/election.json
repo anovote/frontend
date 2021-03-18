@@ -7,6 +7,10 @@
     "Election open": "Election open",
     "Finished": "Finished",
     "In progress": "In progress",
+    "Election opens": "Election opens {{date}}",
+    "Election starts": "Election starts {{date}}",
+    "Waiting for": "Waiting for {{what}}",
+    "Election has not started yet": "The election has not started yet",
     "Time elapsed": "Time elapsed",
     "To be held": "To be held"
 }
