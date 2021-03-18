@@ -50,7 +50,7 @@ export const Events = {
             action: {
                 mail: 'awaiting_mail_action',
             },
-            verified: 'voter_verified',
+            voterVerified: 'voter_verified',
             joinVerified: 'join_verified',
         },
         vote: {

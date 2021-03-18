@@ -46,12 +46,12 @@ function VoterLoginView(): ReactElement {
         socket.connect()
         socket.on(Events.standard.socket.connect, connectEvent)
         socket.on(Events.standard.socket.connectError, connectErrorEvent)
-        socket.once(Events.server.auth.verified, verifiedEvent)
+        socket.once(Events.server.auth.voterVerified, verifiedEvent)
 
         return () => {
             socket.removeListener(Events.standard.socket.connect, connectEvent)
             socket.removeListener(Events.standard.socket.connectError, connectErrorEvent)
-            socket.removeListener(Events.server.auth.verified, verifiedEvent)
+            socket.removeListener(Events.server.auth.voterVerified, verifiedEvent)
         }
     }, [])
 
