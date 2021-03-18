@@ -8,6 +8,7 @@ import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { BallotVoteStats } from 'core/models/ballot/BallotVoteStats'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Bar } from '@ant-design/charts'
 
 export default function BallotModal({
     showModal,
@@ -44,6 +45,16 @@ export default function BallotModal({
         { title: t('common:Blank'), value: blank },
     ]
 
+    const config = {
+        data: candidates,
+        width: 600,
+        height: 400,
+        autoFit: false,
+        xField: 'votes',
+        yField: 'candidate',
+        seriesField: 'candidate',
+    }
+
     return (
         <>
             <Modal
@@ -63,14 +74,7 @@ export default function BallotModal({
                         </div>
                     </Col>
                     <Col span={24}>
-                        {/*This mapping is for representation til we have a graph library */}
-                        {candidates.map((candidate, index) => {
-                            return (
-                                <div key={index}>
-                                    Name: {candidate.candidate} Votes: {candidate.votes}
-                                </div>
-                            )
-                        })}
+                        <Bar {...config} />
                     </Col>
                 </Row>
             </Modal>

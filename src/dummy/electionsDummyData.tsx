@@ -10,7 +10,7 @@ export const elections: IElection[] = [
         description: 'Very nice voting',
         title: 'My election',
         isAutomatic: false,
-        status: ElectionStatus.NotStarted,
+        status: ElectionStatus.Started,
         isLocked: false,
         password: 'get it done',
         ballots: [
