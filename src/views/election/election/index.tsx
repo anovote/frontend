@@ -49,10 +49,20 @@ export default function ElectionView(): React.ReactElement {
             })
     }
 
+    const onElectionChangeHandler = (election: IElection) => {
+        console.log('todo Handle election change')
+        console.log(election)
+    }
+
     const renderElectionView = (election: IElection) => {
         switch (election.status) {
             case ElectionStatus.NotStarted:
-                return <CreateElectionView initialElection={election} />
+                return (
+                    <ElectionNotStarted
+                        election={election}
+                        onElectionChange={(election) => onElectionChangeHandler(election)}
+                    />
+                )
             case ElectionStatus.Started:
                 return <ElectionInProgressView election={election} />
             case ElectionStatus.Finished:
