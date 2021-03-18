@@ -1,9 +1,9 @@
 import { BallotResultDisplay } from 'core/models/ballot/BallotResultDisplay'
 import { BallotType } from 'core/models/ballot/BallotType'
-import { ElectionStatus } from 'core/models/ElectionStatus'
-import { IElection } from 'core/models/IElection'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 
-export const elections: IElection[] = [
+export const elections: IElectionEntity[] = [
     {
         id: 1,
         electionOrganizer: 1,
