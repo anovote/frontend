@@ -1,3 +1,4 @@
+import { Spin } from 'antd'
 import { ElectionFinished } from 'components/election/ElectionFinished'
 import { ElectionInProgressView } from 'components/election/ElectionInProgress'
 import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
@@ -10,8 +11,6 @@ import * as React from 'react'
 import { useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
-import { ElectionInProgressView } from 'components/election/ElectionInProgress'
-import { ElectionFinished } from 'components/election/ElectionFinished'
 
 /**
  * The main view used for creating an election
@@ -37,15 +36,18 @@ export default function ElectionView(): React.ReactElement {
 
     const fetchElection = (electionId: string) => {
         dispatch({ type: 'fetchingElection' })
-        new ElectionService(BackendAPI)
-            .getElection(Number.parseInt(electionId))
-            .then((response) => {
-                console.log(response)
-                dispatch({ type: 'gotElection', election: response })
-            })
-            .catch((reason) => {
-                dispatch({ type: 'error', message: reason })
-            })
+        setTimeout(() => {
+            // todo remove only here to demonstrate loading
+            new ElectionService(BackendAPI)
+                .getElection(Number.parseInt(electionId))
+                .then((response) => {
+                    console.log(response)
+                    dispatch({ type: 'gotElection', election: response })
+                })
+                .catch((reason) => {
+                    dispatch({ type: 'error', message: reason })
+                })
+        }, 3000)
     }
 
     const onElectionChangeHandler = (election: IElection) => {
@@ -72,28 +74,10 @@ export default function ElectionView(): React.ReactElement {
         }
     }
 
-    const cardTitle = <Title level={2}>{t('election:Connected voters')}</Title>
     return (
         <>
-            {!isLoading && election && (
-                <Row>
-                    <Col>
-                        <Space direction={'vertical'}>
-                            {election.status === ElectionStatus.Started ? (
-                                <>
-                                    <ElectionStatusCard election={elections[0]} />
-                                    <Card className={'info-card'} title={cardTitle}>
-                                        <div className="is-flex-column has-content-center-center">
-                                            <span className={'text-large'}>1337</span> {/* todo fetch real time*/}
-                                        </div>
-                                    </Card>
-                                </>
-                            ) : null}
-                        </Space>
-                    </Col>
-                    <Col span={16}>{renderElectionView(election)}</Col>
-                </Row>
-            )}
+            {isLoading && <Spin />}
+            {!isLoading && election && renderElectionView(election)}
         </>
     )
 }
