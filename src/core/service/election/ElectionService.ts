@@ -2,7 +2,7 @@ import { AxiosError, AxiosInstance } from 'axios'
 import { StatusCodes } from 'http-status-codes'
 import { apiRoute } from 'core/routes/apiRoutes'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
-import { IElectionDetails } from 'core/models/election/IElection'
+import { IElection } from 'core/models/election/IElection'
 
 export class ElectionService {
     private httpClient: AxiosInstance
@@ -21,7 +21,7 @@ export class ElectionService {
         status,
         isLocked,
         isAutomatic,
-    }: IElectionDetails): Promise<void> {
+    }: IElection): Promise<void> {
         try {
             await this.httpClient.post(apiRoute.createElection, {
                 title,

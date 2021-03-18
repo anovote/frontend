@@ -9,7 +9,7 @@ import { IAppStateDispatcher } from 'core/state/app/AppStateContext'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import * as H from 'history'
 import { TFunction } from 'react-i18next'
-import { VoterLoginAction } from './VoterLoginState'
+import { VoterLoginAction } from 'core/state/login/VoterLoginState'
 
 export const joinConnectEvent = (dispatch: (value: VoterLoginAction) => void): (() => void) => {
     return function connectEvent() {
