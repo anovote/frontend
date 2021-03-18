@@ -22,21 +22,32 @@ export default function ElectionView(): React.ReactElement {
     const [{ isLoading, election }, dispatch] = useReducer(reducer, initialState)
 
     const { electionId } = useParams<ElectionParams>()
+    const electionService = new ElectionService(BackendAPI)
 
-    // fetch data
     useEffect(() => {
         if (!electionId) {
             // todo
             throw new Error('missing ID')
         }
+
         fetchElection(electionId)
     }, [])
+
+    const updateElection = async (election: IElection) => {
+        try {
+            const updatedElection = await electionService.updateElection(election)
+            dispatch({ type: 'updateSuccess', election: updatedElection })
+        } catch (err) {
+            console.log(err)
+            dispatch({ type: 'error', message: err.message })
+        }
+    }
 
     const fetchElection = (electionId: string) => {
         dispatch({ type: 'fetchingElection' })
         setTimeout(() => {
             // todo remove only here to demonstrate loading
-            new ElectionService(BackendAPI)
+            electionService
                 .getElection(Number.parseInt(electionId))
                 .then((response) => {
                     console.log(response)
@@ -49,8 +60,8 @@ export default function ElectionView(): React.ReactElement {
     }
 
     const onElectionChangeHandler = (election: IElection) => {
-        console.log('todo Handle election change')
-        console.log(election)
+        dispatch({ type: 'updateElectionStatus', election })
+        updateElection(election)
     }
 
     const renderElectionView = (election: IElection) => {
@@ -94,12 +105,16 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
             console.error(action.message)
             // todo #131 redirect if election with id does not exist
             return { ...state, isLoading: false }
+        case 'updateElectionStatus':
+            return { ...state, election: action.election, isLoading: true }
+        case 'updateSuccess':
+            return { ...state, election: action.election, isLoading: false }
         default:
             return state
     }
 }
 
 type ElectionViewActions =
-    | { type: 'fetchingElection' }
-    | { type: 'gotElection'; election: IElection }
+    | { type: 'fetchingElection' | 'success' }
+    | { type: 'gotElection' | 'updateElectionStatus' | 'updateSuccess'; election: IElection }
     | { type: 'error'; message: string }
