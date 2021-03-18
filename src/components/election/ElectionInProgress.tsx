@@ -10,7 +10,7 @@ import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 
 export function ElectionInProgressView({ election }: { election: IElection }): ReactElement {
     const [socket] = useSocket()
-    const [t] = useTranslation('common')
+    const [t] = useTranslation(['common', 'election'])
 
     useEffect(() => {
         socket.connect()
