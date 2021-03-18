@@ -19,14 +19,14 @@ type Action = { type: 'select' } | { type: 'deselect' } | { type: 'reset' }
 const reducer = (state: State, action: Action): State => {
     switch (action.type) {
         case 'select':
-            return { selected: state.selected + 1 }
+            return { ...state, selected: state.selected + 1 }
         case 'deselect':
-            return { selected: state.selected - 1 }
+            return { ...state, selected: state.selected - 1 }
         case 'reset':
-            return { selected: 0 }
+            return { ...state, selected: 0 }
         default:
     }
-    return { selected: state.selected }
+    return { ...state, selected: state.selected }
 }
 
 const initialState = { selected: 0 }
