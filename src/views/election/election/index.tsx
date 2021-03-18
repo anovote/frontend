@@ -101,7 +101,7 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
             return { ...state, isLoading: false, election: action.election }
         case 'error':
             console.error(action.message)
-            // todo redirect if election with id does not exist
+            // todo #131 redirect if election with id does not exist
             return { ...state, isLoading: false }
         default:
             return state
