@@ -19,7 +19,6 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
     const { electionId } = useParams<ElectionParams>()
-    console.log(electionId)
 
     const electionEventService: ElectionEventService = new ElectionEventService(socket)
     const [isLoading, setIsLoading] = useState(false)
