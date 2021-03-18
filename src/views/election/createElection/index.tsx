@@ -19,6 +19,7 @@ import { IElectionDetails } from 'core/service/election/IElectionDetails'
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import Title from 'antd/lib/typography/Title'
 
 /**
  * The main view used for creating and updating an election
@@ -72,7 +73,9 @@ export default function CreateElectionView({ initialElection }: { initialElectio
         <Content>
             <Row>
                 <Col span={12} className="election-information-input">
-                    <h1>{initialElection ? t('election:Edit election') : t('common:Create new election')}</h1>
+                    <Title level={1}>
+                        {initialElection ? t('election:Edit election') : t('common:Create new election')}
+                    </Title>
                     <Form
                         className="is-flex-column"
                         layout="vertical"
@@ -82,14 +85,14 @@ export default function CreateElectionView({ initialElection }: { initialElectio
                     >
                         <ElectionTitleInput />
                         <ElectionDescriptionInput />
-                        <h2>{t('common:Schedule')}</h2>
+                        <Title level={2}>{t('common:Schedule')}</Title>
                         <Row>
                             <Col span={12}>
-                                <h3>{t('common:Open')}</h3>
+                                <Title level={3}>{t('common:Open')}</Title>
                                 <OpenDateInput />
                             </Col>
                             <Col span={12}>
-                                <h3>{t('common:Close')}</h3>
+                                <Title level={3}>{t('common:Close')}</Title>
                                 <CloseDateInput />
                             </Col>
                         </Row>
@@ -97,7 +100,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
                             initialVoters={election?.eligibleVoters}
                             onUpload={uploadEligibleVotersCallback}
                         />
-                        <h2>{t('common:Verification')}</h2>
+                        <Title level={2}>{t('common:Verification')}</Title>
                         <Row>
                             <Col>
                                 <ElectionPasswordInput />
@@ -108,7 +111,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
-                    <h2>{t('common:Ballots')}</h2>
+                    <Title level={2}>{t('common:Ballots')}</Title>
                     <PreviewList initialElection={initialElection} />
                 </Col>
             </Row>
