@@ -13,7 +13,7 @@ export default function IconButton({
     reverse?: boolean
     text: string
     classId?: string
-    tabIndex: number
+    tabIndex?: number
     disabled?: boolean
     color?: 'red' | 'green'
     icon: ReactElement
