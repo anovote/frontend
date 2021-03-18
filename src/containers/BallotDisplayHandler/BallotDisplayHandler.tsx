@@ -49,8 +49,11 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
     /**
      * Dispatches the correct update of state when
-     * a multiple selection is fired. It will either increment or decrement the selected count of the stater
-     * and the selection
+     * a multiple selection is fired. It will either increment or decrement the selected count of the state
+     * and the selection according to the provided checked elements.
+     * If the length of the checked elements are greater than the current selected candidates, it will
+     * dispatch a select action to the state. If it is less, it will deselect
+     * @param checked the checked elements of candidates
      */
     const onSelectionMultiple = (checked: number[]) => {
         if (checked.length > selected) {
