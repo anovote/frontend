@@ -15,7 +15,6 @@ export function PasswordShowHide({ password }: { password: string }): ReactEleme
     const hiddenPassword = '••••••••'
 
     const toggleHide = () => {
-        //setHide(!hide)
         setToggleHideOn(!toggleHideOn)
     }
 

@@ -23,6 +23,7 @@ import { PasswordShowHide } from './PasswordShowHide'
  */
 export function ElectionStatusCard({ election }: { election: IElection }): ReactElement {
     const [t] = useTranslation(['common'])
+    console.log(election)
 
     const header = (
         <div className="spread align-items-center">
@@ -79,8 +80,9 @@ export function ElectionStatusCard({ election }: { election: IElection }): React
             colorClass: 'main-light',
             title: t('common:Password'),
             text: election.password ? <PasswordShowHide password={election.password} /> : <span>----</span>,
+            // todo #135 password is not returned by the server. Do we need it to?
         },
     ]
 
-    return <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)}></CardList>
+    return <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)} />
 }
