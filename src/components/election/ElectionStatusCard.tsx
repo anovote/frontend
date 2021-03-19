@@ -37,7 +37,7 @@ export function ElectionStatusCard({ election }: { election: IElection }): React
             colorClass: 'success-light',
             title: t('election:Election open'),
             text: election.openDate ? (
-                election.openDate.toLocaleDateString
+                new Date(election.openDate).toLocaleDateString()
             ) : (
                 <span className="field-not-relevant"> {new Date().toLocaleDateString()}</span>
             ),
@@ -47,7 +47,7 @@ export function ElectionStatusCard({ election }: { election: IElection }): React
             colorClass: 'danger-light',
             title: t('election:Election close'),
             text: election.closeDate ? (
-                election.closeDate
+                new Date(election.closeDate).toLocaleDateString()
             ) : (
                 <span className="field-not-relevant"> {new Date().toLocaleDateString()}</span>
             ),
