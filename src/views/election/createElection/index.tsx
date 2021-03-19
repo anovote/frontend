@@ -12,6 +12,7 @@ import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
+import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionDetails } from 'core/models/election/IElection'
@@ -32,7 +33,9 @@ export default function CreateElectionView({
     const [t] = useTranslation(['translation', 'common', 'election'])
     const [alertProps, setAlertProps] = useState<AlertProps>()
     const [eligibleVoters, setEligibleVoters] = useState<IEligibleVoter[]>([])
-    const [election] = useState<IElection | undefined>(initialElection)
+    const [election, setElection] = useState<IElection | undefined>(
+        initialElection ? initialElection : ({} as IElection),
+    )
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
@@ -43,6 +46,9 @@ export default function CreateElectionView({
             form.status = ElectionStatus.NotStarted
             form.isLocked = false
             form.eligibleVoters = eligibleVoters
+            if (election && election.ballots) {
+                form.ballots = election?.ballots
+            }
             await electionService.createElection(form)
             const newAlertProps: AlertProps = {
                 message: 'Election created',
@@ -72,6 +78,27 @@ export default function CreateElectionView({
         setEligibleVoters(eligibleVoters)
     }
 
+    const onBallotsChangeHandler = (ballots: IBallot[]) => {
+        if (ballots.length < 1) return
+        if (!election) {
+            throw new Error('no election')
+        }
+        setElection({ ...election, ballots })
+    }
+
+    const onFinishedHandler = async (form: IElectionDetails) => {
+        if (initialElection && onUpdate) {
+            const { id, electionOrganizer } = initialElection
+            const updateElection: IElection = { ...form, id, electionOrganizer }
+            if (election && election.ballots) {
+                updateElection.ballots = election.ballots
+            }
+            onUpdate(updateElection)
+        } else {
+            formValidated(form)
+        }
+    }
+
     // todo #134 the form cant be populated with election containing dates. This is due to how antd handles dates. We should switch to momentJs for dates.
     return (
         <Content>
@@ -84,7 +111,7 @@ export default function CreateElectionView({
                         className="is-flex-column"
                         layout="vertical"
                         name="description-form"
-                        onFinish={initialElection ? onUpdate : formValidated}
+                        onFinish={onFinishedHandler}
                         initialValues={initialElection}
                     >
                         <ElectionTitleInput />
@@ -116,7 +143,7 @@ export default function CreateElectionView({
                 </Col>
                 <Col span={12} className="ballot-section">
                     <Title level={2}>{t('common:Ballots')}</Title>
-                    <PreviewList initialElection={initialElection} />
+                    <PreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
                 </Col>
             </Row>
             <div className="alert-field">

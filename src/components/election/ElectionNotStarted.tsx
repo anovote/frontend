@@ -1,14 +1,15 @@
 import { DeleteOutlined, EditOutlined, PlayCircleFilled } from '@ant-design/icons'
 import { Col, List, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
-import BallotsQueue from 'components/queue/BallotsQueue'
+import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
+import PreviewList from 'components/previewList/PreviewList'
 import IconButton from 'containers/button/IconButton'
+import { IBallot } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
+import { IElection } from 'core/models/election/IElectionEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
-import { IElection } from 'core/models/election/IElectionEntity'
-import { ElectionStatus } from 'core/models/election/ElectionStatus'
 
 export const ElectionNotStarted = ({
     election,
@@ -25,6 +26,8 @@ export const ElectionNotStarted = ({
         console.log('handle click')
     }
 
+    let timerId: NodeJS.Timeout | undefined = undefined
+
     const changeElectionToStarted = () => {
         const newElection: IElection = { ...election, status: ElectionStatus.Started }
         onElectionChange(newElection)
@@ -32,6 +35,26 @@ export const ElectionNotStarted = ({
 
     const editElection = () => {
         onElectionEdit()
+    }
+
+    const onChangeHandler = (ballots: IBallot[]) => {
+        const newElection: IElection = { ...election, ballots }
+        if (timerId) {
+            console.log('clear timeout')
+            clearTimeout(timerId)
+        }
+        timerId = setTimeout(async () => {
+            console.log('update on server')
+            timerId = undefined
+            onElectionChange(newElection)
+            //try {
+            //    await new ElectionService(BackendAPI).updateElection(newElection)
+            //} catch (err) {
+            //    console.log(err)
+            //}
+        }, 3000)
+        // todo when to upload to server
+        //onElectionChange(election)
     }
 
     const ballots = election.ballots
@@ -77,7 +100,11 @@ export const ElectionNotStarted = ({
                 </Col>
                 <Col span={12}>
                     <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballots.length > 0 ? <BallotsQueue dataSource={ballots} /> : <div>{t('common:no-ballots')}</div>}
+                    {ballots.length > 0 ? (
+                        <PreviewList initialElection={election} onChange={onChangeHandler} />
+                    ) : (
+                        <div>{t('common:no-ballots')}</div>
+                    )}
                 </Col>
             </Row>
         </>
