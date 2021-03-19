@@ -31,7 +31,6 @@ export default function ElectionView(): React.ReactElement {
             // todo
             throw new Error('missing ID')
         }
-
         fetchElection(electionId)
     }, [])
 
@@ -52,7 +51,7 @@ export default function ElectionView(): React.ReactElement {
     const fetchElection = (electionId: string) => {
         dispatch({ type: 'fetchingElection' })
         setTimeout(() => {
-            // todo remove only here to demonstrate loading
+            // todo remove timeout. only here to demonstrate loading
             electionService
                 .getElection(Number.parseInt(electionId))
                 .then((response) => {
