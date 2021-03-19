@@ -14,5 +14,7 @@
     "Time elapsed": "Time elapsed",
     "To be held": "To be held",
     "Waiting for": "Waiting for {{what}}",
+    "update-election": "Update Election",
+    "create-election": "Create Election",
     "please fill in a description": "Please fill in a description"
 }

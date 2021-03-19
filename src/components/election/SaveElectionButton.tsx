@@ -1,8 +1,11 @@
 import * as React from 'react'
 import { Button, Form } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
+import { useTranslation } from 'react-i18next'
 
 export default function SaveElectionButton({ hasInitial = false }: { hasInitial?: boolean }): React.ReactElement {
+    const [t] = useTranslation('election')
+
     return (
         <div>
             <Form.Item>
@@ -14,7 +17,7 @@ export default function SaveElectionButton({ hasInitial = false }: { hasInitial?
                     size="large"
                     htmlType="submit"
                 >
-                    {!hasInitial ? 'Create election!' : 'Update Election'}
+                    {!hasInitial ? t('election:create-election') : t('election:update-election')}
                 </Button>
             </Form.Item>
         </div>
