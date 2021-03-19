@@ -3,7 +3,7 @@ import CreateBallotModal from 'containers/modal/CreateBallotModal'
 import { BackendAPI } from 'core/api'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { IElectionDetails } from 'core/models/election/IElection'
+import { IElection } from 'core/models/election/IElection'
 import BallotService from 'core/service/ballot/BallotService'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
@@ -21,7 +21,7 @@ export default function PreviewList({
     initialElection,
 }: {
     electionId?: number
-    initialElection?: IElectionDetails
+    initialElection?: IElection
 }): React.ReactElement {
     const [ballotsState, setBallotsState] = useState<IBallot[]>(
         initialElection && initialElection.ballots ? initialElection.ballots : new Array<IBallot>(),

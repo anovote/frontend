@@ -12,13 +12,13 @@ import { Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import CountUpTimer from 'components/countUpTimer/countUpTimer'
-import { IElection } from 'core/models/election/IElectionEntity'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IStatusDetail } from 'views/election/election/IStatusDetail'
 import StatusListItem from 'views/election/election/StatusListItem'
 
-export function ElectionStatusCard({ election }: { election: IElection }): ReactElement {
+export function ElectionStatusCard({ election }: { election: IElectionEntity }): ReactElement {
     const [t] = useTranslation(['common'])
 
     const header = (

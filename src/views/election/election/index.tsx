@@ -5,7 +5,7 @@ import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
 import { ElectionParams } from 'components/queue/ElectionParams'
 import { BackendAPI } from 'core/api'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
-import { IElection } from 'core/models/election/IElectionEntity'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { ElectionService } from 'core/service/election/ElectionService'
 import * as React from 'react'
 import { useEffect, useReducer } from 'react'
@@ -35,7 +35,7 @@ export default function ElectionView(): React.ReactElement {
         fetchElection(electionId)
     }, [])
 
-    const updateElection = async (election: IElection) => {
+    const updateElection = async (election: IElectionEntity) => {
         try {
             const updatedElection = await electionService.updateElection(election)
             dispatch({ type: 'updateSuccess', election: updatedElection })
@@ -61,12 +61,12 @@ export default function ElectionView(): React.ReactElement {
         }, 3000)
     }
 
-    const onElectionChangeHandler = (election: IElection) => {
+    const onElectionChangeHandler = (election: IElectionEntity) => {
         dispatch({ type: 'updateElectionStatus', election })
         updateElection(election)
     }
 
-    const renderElectionView = (election: IElection) => {
+    const renderElectionView = (election: IElectionEntity) => {
         if (edit) {
             return <CreateElectionView initialElection={election} />
         }
@@ -99,7 +99,7 @@ export default function ElectionView(): React.ReactElement {
 
 type ElectionViewState = {
     isLoading: boolean
-    election?: IElection
+    election?: IElectionEntity
     edit: boolean
 }
 
@@ -127,5 +127,5 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
 
 type ElectionViewActions =
     | { type: 'fetchingElection' | 'success' | 'edit' }
-    | { type: 'gotElection' | 'updateElectionStatus' | 'updateSuccess'; election: IElection }
+    | { type: 'gotElection' | 'updateElectionStatus' | 'updateSuccess'; election: IElectionEntity }
     | { type: 'error'; message: string }

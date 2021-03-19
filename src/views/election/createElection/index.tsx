@@ -14,8 +14,8 @@ import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
-import { IElectionDetails } from 'core/models/election/IElection'
-import { IElection } from 'core/models/election/IElectionEntity'
+import { IElection } from 'core/models/election/IElection'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { ElectionService } from 'core/service/election/ElectionService'
 import * as React from 'react'
 import { useState } from 'react'
@@ -24,18 +24,22 @@ import { useTranslation } from 'react-i18next'
 /**
  * The main view used for creating and updating an election
  */
-export default function CreateElectionView({ initialElection }: { initialElection?: IElection }): React.ReactElement {
+export default function CreateElectionView({
+    initialElection,
+}: {
+    initialElection?: IElectionEntity
+}): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'election'])
     const [alertProps, setAlertProps] = useState<AlertProps>()
     const [eligibleVoters, setEligibleVoters] = useState<IEligibleVoter[]>([])
-    const [election] = useState<IElection | undefined>(initialElection)
+    const [election] = useState<IElectionEntity | undefined>(initialElection)
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
      * @param form The form we want to validate
      */
-    const formValidated = async (form: IElectionDetails) => {
+    const formValidated = async (form: IElection) => {
         try {
             form.status = ElectionStatus.NotStarted
             form.isLocked = false

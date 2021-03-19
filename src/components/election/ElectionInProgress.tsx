@@ -1,14 +1,14 @@
 import { Card, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
+import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import BallotsQueue from 'components/queue/BallotsQueue'
+import { useSocket } from 'core/hooks/useSocket'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { ReactElement, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
-import { useSocket } from 'core/hooks/useSocket'
-import { IElection } from 'core/models/election/IElectionEntity'
 
-export function ElectionInProgressView({ election }: { election: IElection }): ReactElement {
+export function ElectionInProgressView({ election }: { election: IElectionEntity }): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['common', 'election'])
 

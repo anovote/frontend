@@ -1,9 +1,9 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { StatusCodes } from 'http-status-codes'
-import { apiRoute } from 'core/routes/apiRoutes'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
-import { IElectionDetails } from 'core/models/election/IElection'
-import { IElection } from 'core/models/election/IElectionEntity'
+import { IElection } from 'core/models/election/IElection'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { apiRoute } from 'core/routes/apiRoutes'
+import { StatusCodes } from 'http-status-codes'
 
 export class ElectionService {
     private httpClient: AxiosInstance
@@ -23,7 +23,7 @@ export class ElectionService {
         isLocked,
         isAutomatic,
         ballots,
-    }: IElectionDetails): Promise<void> {
+    }: IElection): Promise<void> {
         try {
             await this.httpClient.post(apiRoute.createElection, {
                 title,
@@ -52,7 +52,7 @@ export class ElectionService {
         }
     }
 
-    public async getElection(electionId: number): Promise<IElection> {
+    public async getElection(electionId: number): Promise<IElectionEntity> {
         try {
             return (await this.httpClient.get(`${apiRoute.getElection}${electionId}`)).data
         } catch (error) {
@@ -69,10 +69,11 @@ export class ElectionService {
         }
     }
 
-    public async updateElection(election: IElection): Promise<IElection> {
+    public async updateElection(election: IElectionEntity): Promise<IElectionEntity> {
         console.log(election)
         try {
-            return (await this.httpClient.put<IElection>(`${apiRoute.getElection}${election.id}`, { election })).data
+            return (await this.httpClient.put<IElectionEntity>(`${apiRoute.getElection}${election.id}`, { election }))
+                .data
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error

@@ -1,22 +1,22 @@
 import { DeleteOutlined, EditOutlined, PlayCircleFilled } from '@ant-design/icons'
 import { Col, List, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
+import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import IconButton from 'containers/button/IconButton'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
-import { IElection } from 'core/models/election/IElectionEntity'
-import { ElectionStatus } from 'core/models/election/ElectionStatus'
 
 export const ElectionNotStarted = ({
     election,
     onElectionChange,
     onElectionEdit,
 }: {
-    election: IElection
-    onElectionChange: (election: IElection) => void
+    election: IElectionEntity
+    onElectionChange: (election: IElectionEntity) => void
     onElectionEdit: () => void
 }): ReactElement => {
     const [t] = useTranslation('common')
@@ -26,7 +26,7 @@ export const ElectionNotStarted = ({
     }
 
     const changeElectionToStarted = () => {
-        const newElection: IElection = { ...election, status: ElectionStatus.Started }
+        const newElection: IElectionEntity = { ...election, status: ElectionStatus.Started }
         onElectionChange(newElection)
     }
 
