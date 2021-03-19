@@ -20,7 +20,7 @@ export default function AdminRoutes(): ReactElement {
                         <ElectionView />
                     </Route>
                     <Route exact path={adminRoute.elections.create}>
-                        <CreateElectionView />
+                        <CreateElectionView initialElection={undefined} />
                     </Route>
                 </div>
             }

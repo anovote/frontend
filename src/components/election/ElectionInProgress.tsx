@@ -41,7 +41,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
                         </Card>
                     </Space>
                 </Col>
-                <Col>
+                <Col span={12}>
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballots.length > 0 ? (
                         <BallotsQueue dataSource={ballots} />
