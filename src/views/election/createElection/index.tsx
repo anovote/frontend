@@ -24,7 +24,10 @@ import { useTranslation } from 'react-i18next'
 /**
  * The main view used for creating and updating an election
  */
-export default function CreateElectionView({ initialElection }: { initialElection?: IElection }): React.ReactElement {
+export default function CreateElectionView({
+    initialElection = undefined,
+    onUpdate,
+}: CreateElectionProps): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'election'])
     const [alertProps, setAlertProps] = useState<AlertProps>()
@@ -69,6 +72,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
         setEligibleVoters(eligibleVoters)
     }
 
+    // todo #134 the form cant be populated with election containing dates. This is due to how antd handles dates. We should switch to momentJs for dates.
     return (
         <Content>
             <Row>
@@ -80,7 +84,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
                         className="is-flex-column"
                         layout="vertical"
                         name="description-form"
-                        onFinish={formValidated}
+                        onFinish={initialElection ? onUpdate : formValidated}
                         initialValues={initialElection}
                     >
                         <ElectionTitleInput />
@@ -129,3 +133,7 @@ export default function CreateElectionView({ initialElection }: { initialElectio
         </Content>
     )
 }
+
+type CreateElectionProps =
+    | { initialElection: IElection; onUpdate: (election: IElection) => void }
+    | { initialElection: undefined; onUpdate?: never }
