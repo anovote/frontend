@@ -7,6 +7,7 @@ import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
 import { IElection } from 'core/models/election/IElectionEntity'
+import { getAdminRoute } from 'core/routes/siteRoutes'
 
 export default function ElectionEntry({ election }: { election: IElection }): ReactElement {
     const [t] = useTranslation(['common', 'translation', 'election'])
@@ -22,7 +23,10 @@ export default function ElectionEntry({ election }: { election: IElection }): Re
         dateString = t('election:Ended on ') + election.closeDate?.toDateString()
 
     return (
-        <Link to="test" className={'election-entry ' + colors.get(election.status)}>
+        <Link
+            to={`${getAdminRoute().elections.view}/${election.id}`}
+            className={'election-entry ' + colors.get(election.status)}
+        >
             <Title level={5}>{election.title}</Title>
             <Space align="center">
                 <CalendarOutlined />
