@@ -64,7 +64,7 @@ export const ElectionNotStarted = ({
                             <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
                         </Col>
                     </Row>
-                    <Space>
+                    <Space align="start">
                         <ElectionStatusCard {...{ election }} />
                         <div>{election.description}</div>
                     </Space>
