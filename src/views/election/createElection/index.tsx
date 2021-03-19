@@ -134,6 +134,7 @@ export default function CreateElectionView({
     )
 }
 
+// inspired by https://www.benmvp.com/blog/conditional-react-props-typescript/
 type CreateElectionProps =
     | { initialElection: IElection; onUpdate: (election: IElection) => void }
     | { initialElection: undefined; onUpdate?: never }
