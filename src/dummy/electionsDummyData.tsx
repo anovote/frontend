@@ -1,9 +1,9 @@
 import { BallotResultDisplay } from 'core/models/ballot/BallotResultDisplay'
 import { BallotType } from 'core/models/ballot/BallotType'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
-import { IElection } from 'core/models/election/IElectionEntity'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 
-export const elections: IElection[] = [
+export const elections: IElectionEntity[] = [
     {
         id: 1,
         electionOrganizer: 1,
@@ -33,6 +33,8 @@ export const elections: IElection[] = [
                 resultDisplayTypeCount: 1,
             },
         ],
+        createdAt: new Date(),
+        updatedAt: new Date(),
         eligibleVoters: [
             { identification: 'my@email.com' },
             { identification: 'new@email.com' },

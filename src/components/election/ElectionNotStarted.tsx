@@ -7,7 +7,7 @@ import IconButton from 'containers/button/IconButton'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
-import { IElection } from 'core/models/election/IElectionEntity'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -16,8 +16,8 @@ export const ElectionNotStarted = ({
     onElectionChange,
     onElectionEdit,
 }: {
-    election: IElection
-    onElectionChange: (election: IElection) => void
+    election: IElectionEntity
+    onElectionChange: (election: IElectionEntity) => void
     onElectionEdit: () => void
 }): ReactElement => {
     const [t] = useTranslation('common')
@@ -29,7 +29,7 @@ export const ElectionNotStarted = ({
     let timerId: NodeJS.Timeout | undefined = undefined
 
     const changeElectionToStarted = () => {
-        const newElection: IElection = { ...election, status: ElectionStatus.Started }
+        const newElection: IElectionEntity = { ...election, status: ElectionStatus.Started }
         onElectionChange(newElection)
     }
 
@@ -38,7 +38,7 @@ export const ElectionNotStarted = ({
     }
 
     const onChangeHandler = (ballots: IBallot[]) => {
-        const newElection: IElection = { ...election, ballots }
+        const newElection: IElectionEntity = { ...election, ballots }
         if (timerId) {
             console.log('clear timeout')
             clearTimeout(timerId)

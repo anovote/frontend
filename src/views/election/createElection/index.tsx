@@ -15,8 +15,8 @@ import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
-import { IElectionDetails } from 'core/models/election/IElection'
-import { IElection } from 'core/models/election/IElectionEntity'
+import { IElection } from 'core/models/election/IElection'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { ElectionService } from 'core/service/election/ElectionService'
 import * as React from 'react'
 import { useState } from 'react'
@@ -41,7 +41,7 @@ export default function CreateElectionView({
      * Validates a form and returns an error if the form is not filled out correctly
      * @param form The form we want to validate
      */
-    const formValidated = async (form: IElectionDetails) => {
+    const formValidated = async (form: IElection) => {
         try {
             form.status = ElectionStatus.NotStarted
             form.isLocked = false
@@ -86,10 +86,10 @@ export default function CreateElectionView({
         setElection({ ...election, ballots })
     }
 
-    const onFinishedHandler = async (form: IElectionDetails) => {
+    const onFinishedHandler = async (form: IElection) => {
         if (initialElection && onUpdate) {
-            const { id, electionOrganizer } = initialElection
-            const updateElection: IElection = { ...form, id, electionOrganizer }
+            const { id, electionOrganizer, createdAt, updatedAt } = initialElection
+            const updateElection: IElectionEntity = { ...form, id, electionOrganizer, createdAt, updatedAt }
             if (election && election.ballots) {
                 updateElection.ballots = election.ballots
             }
@@ -163,5 +163,5 @@ export default function CreateElectionView({
 
 // inspired by https://www.benmvp.com/blog/conditional-react-props-typescript/
 type CreateElectionProps =
-    | { initialElection: IElection; onUpdate: (election: IElection) => void }
+    | { initialElection: IElectionEntity; onUpdate: (election: IElectionEntity) => void }
     | { initialElection: undefined; onUpdate?: never }

@@ -9,7 +9,7 @@ import {
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import CountUpTimer from 'components/countUpTimer/countUpTimer'
-import { IElection } from 'core/models/election/IElectionEntity'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IStatusDetail } from 'views/election/election/IStatusDetail'
@@ -21,7 +21,7 @@ import { PasswordShowHide } from './PasswordShowHide'
  * @param props An object containing the election
  * @returns An election status card
  */
-export function ElectionStatusCard({ election }: { election: IElection }): ReactElement {
+export function ElectionStatusCard({ election }: { election: IElectionEntity }): ReactElement {
     const [t] = useTranslation(['common'])
     console.log(election)
 

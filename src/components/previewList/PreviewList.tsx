@@ -3,7 +3,7 @@ import CreateBallotModal from 'containers/modal/CreateBallotModal'
 import useChangedStateEffect from 'core/hooks/useChangedStateEffect'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { IElectionDetails } from 'core/models/election/IElection'
+import { IElection } from 'core/models/election/IElection'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -19,7 +19,7 @@ export default function PreviewList({
     initialElection,
     onChange,
 }: {
-    initialElection?: IElectionDetails
+    initialElection?: IElection
     onChange: (ballots: IBallot[]) => void
 }): React.ReactElement {
     const [ballotsState, setBallotsState] = useState<IBallot[]>(
