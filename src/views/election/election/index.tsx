@@ -36,6 +36,10 @@ export default function ElectionView(): React.ReactElement {
     }, [])
 
     const updateElection = async (election: IElection) => {
+        if (!electionId) {
+            throw new Error('No election ID')
+        }
+        election.id = Number.parseInt(electionId)
         try {
             const updatedElection = await electionService.updateElection(election)
             dispatch({ type: 'updateSuccess', election: updatedElection })
@@ -58,7 +62,7 @@ export default function ElectionView(): React.ReactElement {
                 .catch((reason) => {
                     dispatch({ type: 'error', message: reason })
                 })
-        }, 3000)
+        }, 1000)
     }
 
     const onElectionChangeHandler = (election: IElection) => {
@@ -66,9 +70,15 @@ export default function ElectionView(): React.ReactElement {
         updateElection(election)
     }
 
+    const onUpdateHandler = (election: IElection) => {
+        election.status = ElectionStatus.NotStarted
+        dispatch({ type: 'updateElection', election })
+        updateElection(election)
+    }
+
     const renderElectionView = (election: IElection) => {
         if (edit) {
-            return <CreateElectionView initialElection={election} />
+            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} />
         }
         switch (election.status) {
             case ElectionStatus.NotStarted:
@@ -85,6 +95,7 @@ export default function ElectionView(): React.ReactElement {
                 // todo create view when results are finished
                 return <ElectionFinished />
             default:
+                console.error('status not set')
                 return null
         }
     }
@@ -115,11 +126,12 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
         case 'error':
             console.error(action.message)
             // todo #131 redirect if election with id does not exist
-            return { ...state, isLoading: false }
+            return { ...state, isLoading: false, edit: false }
         case 'updateElectionStatus':
+        case 'updateElection':
             return { ...state, election: action.election, isLoading: true }
         case 'updateSuccess':
-            return { ...state, election: action.election, isLoading: false }
+            return { ...state, election: action.election, isLoading: false, edit: false }
         default:
             return state
     }
@@ -127,5 +139,5 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
 
 type ElectionViewActions =
     | { type: 'fetchingElection' | 'success' | 'edit' }
-    | { type: 'gotElection' | 'updateElectionStatus' | 'updateSuccess'; election: IElection }
+    | { type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess'; election: IElection }
     | { type: 'error'; message: string }
