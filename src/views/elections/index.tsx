@@ -4,8 +4,10 @@ import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
+import { BackendAPI } from 'core/api'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { ElectionService } from 'core/service/election/ElectionService'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -14,60 +16,7 @@ export default function ElectionsView(): React.ReactElement {
     const [upcoming, setUpcoming] = useState([] as IElectionEntity[])
     const [inProgress, setInProgress] = useState([] as IElectionEntity[])
     const [finished, setFinished] = useState([] as IElectionEntity[])
-    const data: IElectionEntity[] = [
-        {
-            id: 1,
-            electionOrganizer: 1,
-            description: 'This is a election description',
-            title: 'My first election',
-            isAutomatic: false,
-            isLocked: true,
-            status: ElectionStatus.NotStarted,
-            openDate: new Date(2021, 3, 1, 10, 0),
-            closeDate: new Date(2021, 5, 1, 10, 0),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        },
-        {
-            id: 2,
-            electionOrganizer: 1,
-            description: 'This is a election description',
-            title: 'My first election',
-            isAutomatic: false,
-            isLocked: true,
-            status: ElectionStatus.Finished,
-            openDate: new Date(2021, 3, 1, 10, 0),
-            closeDate: new Date(2021, 5, 1, 10, 0),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        },
-        {
-            id: 3,
-            electionOrganizer: 1,
-            description: 'This is a election description',
-            title: 'My second election',
-            isAutomatic: false,
-            isLocked: true,
-            status: ElectionStatus.Started,
-            openDate: new Date(2021, 3, 1, 10, 0),
-            closeDate: new Date(2021, 5, 1, 10, 0),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        },
-        {
-            id: 4,
-            electionOrganizer: 1,
-            description: 'This is a election description',
-            title: 'My third election',
-            isAutomatic: false,
-            isLocked: true,
-            status: ElectionStatus.NotStarted,
-            openDate: new Date(2021, 3, 1, 10, 0),
-            closeDate: new Date(2021, 5, 1, 10, 0),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-        },
-    ]
+
     useEffect(() => {
         new ElectionService(BackendAPI)
             .getAllElection()
