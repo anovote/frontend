@@ -18,6 +18,11 @@ import { useTranslation } from 'react-i18next'
 import { IStatusDetail } from 'views/election/election/IStatusDetail'
 import StatusListItem from 'views/election/election/StatusListItem'
 
+/**
+ * Creates and populates a status card with key properties of an election
+ * @param props An object containing the election
+ * @returns An election status card
+ */
 export function ElectionStatusCard({ election }: { election: IElection }): ReactElement {
     const [t] = useTranslation(['common'])
 
