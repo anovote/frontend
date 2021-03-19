@@ -1,6 +1,6 @@
 import { IBallot } from 'core/models/ballot/IBallot'
-import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 
 /**
  * Different display actions that can occur in an election

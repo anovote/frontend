@@ -1,10 +1,9 @@
 /* eslint-disable react/display-name */
 import CreateBallotModal from 'containers/modal/CreateBallotModal'
-import { BackendAPI } from 'core/api'
+import useChangedStateEffect from 'core/hooks/useChangedStateEffect'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import BallotService from 'core/service/ballot/BallotService'
-import { freshBallots } from 'dummy/ballotsDummyData'
+import { IElection } from 'core/models/election/IElection'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -12,16 +11,47 @@ import AddPreviewButton from './AddPreviewButton'
 import PreviewItem from './PreviewItem'
 
 /**
- * Inspired by https://codesandbox.io/s/zqwz5n5p9x?file=/src/index.js
+ * The drag and drop is inspired by https://codesandbox.io/s/zqwz5n5p9x?file=/src/index.js
  * and https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
  */
 
-export default function PreviewList({ electionId }: { electionId?: number }): React.ReactElement {
-    const [ballotsState, setBallotsState] = useState<IBallot[]>(freshBallots)
+export default function PreviewList({
+    initialElection,
+    onChange,
+}: {
+    initialElection?: IElection
+    onChange: (ballots: IBallot[]) => void
+}): React.ReactElement {
+    const [ballotsState, setBallotsState] = useState<IBallot[]>(
+        initialElection && initialElection.ballots ? initialElection.ballots : new Array<IBallot>(),
+    )
     const [createBallotModalState, setCreateBallotModalState] = useState<CreateBallotModalState>({
         show: false,
         initialBallot: undefined,
     })
+
+    const onDragEndHandler = useCallback(
+        (result) => {
+            const { destination, source } = result
+
+            // Not dropped in drop context or not moved
+            if (
+                !destination ||
+                (destination.index === source.index && destination.droppableId === source.droppableId)
+            ) {
+                return
+            }
+
+            const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
+
+            setBallotsState(setOrderOnBallots(newBallots))
+        },
+        [ballotsState],
+    )
+
+    useChangedStateEffect(() => {
+        onChange(ballotsState)
+    }, [ballotsState])
 
     const closeModalHandler = () => {
         setCreateBallotModalState({ show: false, initialBallot: undefined })
@@ -42,8 +72,19 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
         } else {
             newState.push(ballot)
         }
-        setBallotsState(newState)
+        const orderedBallots = setOrderOnBallots(newState)
+        setBallotsState(orderedBallots)
         closeModalHandler()
+    }
+
+    /**
+     * Setting the order on the ballot object
+     */
+    const setOrderOnBallots = (unOrderedBallots: IBallot[]): IBallot[] => {
+        return unOrderedBallots.map((value, index) => {
+            value.order = index
+            return value
+        })
     }
 
     const reorder = (list: Array<IBallot>, startIndex: number, endIndex: number) => {
@@ -53,33 +94,6 @@ export default function PreviewList({ electionId }: { electionId?: number }): Re
 
         return result
     }
-
-    const updateOnServer = async (electionId: number) => {
-        new BallotService(BackendAPI).updateBallots(electionId, ballotsState)
-    }
-
-    const onDragEndHandler = useCallback(
-        (result) => {
-            const { destination, source } = result
-
-            // Not dropped in drop context or not moved
-            if (
-                !destination ||
-                (destination.index === source.index && destination.droppableId === source.droppableId)
-            ) {
-                return
-            }
-
-            const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
-            setBallotsState(newBallots)
-
-            // only update on server if election exists
-            if (electionId) {
-                updateOnServer(electionId)
-            }
-        },
-        [ballotsState],
-    )
 
     const onDeleteHandler = (index: number) => {
         const newState = Array.from(ballotsState)

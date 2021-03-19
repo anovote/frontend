@@ -4,8 +4,8 @@ import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
-import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -25,7 +25,8 @@ export default function ElectionsView(): React.ReactElement {
             status: ElectionStatus.NotStarted,
             openDate: new Date(2021, 3, 1, 10, 0),
             closeDate: new Date(2021, 5, 1, 10, 0),
-            image: 'image.png',
+            createdAt: new Date(),
+            updatedAt: new Date(),
         },
         {
             id: 2,
@@ -37,7 +38,8 @@ export default function ElectionsView(): React.ReactElement {
             status: ElectionStatus.Finished,
             openDate: new Date(2021, 3, 1, 10, 0),
             closeDate: new Date(2021, 5, 1, 10, 0),
-            image: 'image.png',
+            createdAt: new Date(),
+            updatedAt: new Date(),
         },
         {
             id: 3,
@@ -49,7 +51,8 @@ export default function ElectionsView(): React.ReactElement {
             status: ElectionStatus.Started,
             openDate: new Date(2021, 3, 1, 10, 0),
             closeDate: new Date(2021, 5, 1, 10, 0),
-            image: 'image.png',
+            createdAt: new Date(),
+            updatedAt: new Date(),
         },
         {
             id: 4,
@@ -61,7 +64,8 @@ export default function ElectionsView(): React.ReactElement {
             status: ElectionStatus.NotStarted,
             openDate: new Date(2021, 3, 1, 10, 0),
             closeDate: new Date(2021, 5, 1, 10, 0),
-            image: 'image.png',
+            createdAt: new Date(),
+            updatedAt: new Date(),
         },
     ]
     useEffect(() => {
