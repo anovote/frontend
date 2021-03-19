@@ -4,7 +4,6 @@ import useChangedStateEffect from 'core/hooks/useChangedStateEffect'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IElectionDetails } from 'core/models/election/IElection'
-import BallotService from 'core/service/ballot/BallotService'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
@@ -17,11 +16,11 @@ import PreviewItem from './PreviewItem'
  */
 
 export default function PreviewList({
-    electionId,
     initialElection,
+    onChange,
 }: {
-    electionId?: number
     initialElection?: IElectionDetails
+    onChange: (ballots: IBallot[]) => void
 }): React.ReactElement {
     const [ballotsState, setBallotsState] = useState<IBallot[]>(
         initialElection && initialElection.ballots ? initialElection.ballots : new Array<IBallot>(),
@@ -54,8 +53,19 @@ export default function PreviewList({
         } else {
             newState.push(ballot)
         }
-        setBallotsState(newState)
+        const orderedBallots = setOrderOnBallots(newState)
+        setBallotsState(orderedBallots)
         closeModalHandler()
+    }
+
+    /**
+     * Setting the order on the ballot object
+     */
+    const setOrderOnBallots = (unOrderedBallots: IBallot[]): IBallot[] => {
+        return unOrderedBallots.map((value, index) => {
+            value.order = index
+            return value
+        })
     }
 
     const reorder = (list: Array<IBallot>, startIndex: number, endIndex: number) => {
@@ -66,11 +76,8 @@ export default function PreviewList({
         return result
     }
 
-    const updateOnServer = async (electionId: number) => {
-        new BallotService(BackendAPI).updateBallots(electionId, ballotsState)
-    }
-
     const onDragEndHandler = useCallback(
+        // todo move to top of file
         (result) => {
             const { destination, source } = result
 
@@ -83,12 +90,8 @@ export default function PreviewList({
             }
 
             const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
-            setBallotsState(newBallots)
 
-            // only update on server if election exists
-            if (electionId) {
-                updateOnServer(electionId)
-            }
+            setBallotsState(setOrderOnBallots(newBallots))
         },
         [ballotsState],
     )
