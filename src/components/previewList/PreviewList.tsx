@@ -30,6 +30,25 @@ export default function PreviewList({
         initialBallot: undefined,
     })
 
+    const onDragEndHandler = useCallback(
+        (result) => {
+            const { destination, source } = result
+
+            // Not dropped in drop context or not moved
+            if (
+                !destination ||
+                (destination.index === source.index && destination.droppableId === source.droppableId)
+            ) {
+                return
+            }
+
+            const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
+
+            setBallotsState(setOrderOnBallots(newBallots))
+        },
+        [ballotsState],
+    )
+
     useChangedStateEffect(() => {
         onChange(ballotsState)
     }, [ballotsState])
@@ -75,26 +94,6 @@ export default function PreviewList({
 
         return result
     }
-
-    const onDragEndHandler = useCallback(
-        // todo move to top of file
-        (result) => {
-            const { destination, source } = result
-
-            // Not dropped in drop context or not moved
-            if (
-                !destination ||
-                (destination.index === source.index && destination.droppableId === source.droppableId)
-            ) {
-                return
-            }
-
-            const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
-
-            setBallotsState(setOrderOnBallots(newBallots))
-        },
-        [ballotsState],
-    )
 
     const onDeleteHandler = (index: number) => {
         const newState = Array.from(ballotsState)
