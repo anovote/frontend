@@ -1,22 +1,20 @@
 import {
     ClockCircleOutlined,
-    EyeInvisibleOutlined,
-    EyeOutlined,
     ForwardOutlined,
     LockOutlined,
     SafetyOutlined,
     SecurityScanOutlined,
     UnlockOutlined,
 } from '@ant-design/icons'
-import { Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import CountUpTimer from 'components/countUpTimer/countUpTimer'
 import { IElection } from 'core/models/election/IElectionEntity'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IStatusDetail } from 'views/election/election/IStatusDetail'
 import StatusListItem from 'views/election/election/StatusListItem'
+import { PasswordShowHide } from './PasswordShowHide'
 
 /**
  * Creates and populates a status card with key properties of an election
@@ -85,27 +83,4 @@ export function ElectionStatusCard({ election }: { election: IElection }): React
     ]
 
     return <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)}></CardList>
-}
-
-export function PasswordShowHide({ password }: { password: string }): ReactElement {
-    const [hide, setHide] = useState(true)
-    const [toggleHideOn, setToggleHideOn] = useState(false)
-
-    const hiddenPassword = '••••••••'
-
-    const toggleHide = () => {
-        //setHide(!hide)
-        setToggleHideOn(!toggleHideOn)
-    }
-
-    return (
-        <>
-            <Space>
-                <text onClick={toggleHide} onMouseEnter={() => setHide(false)} onMouseLeave={() => setHide(true)}>
-                    {hide && !toggleHideOn ? hiddenPassword : password}
-                </text>
-                <span onClick={toggleHide}>{!toggleHideOn ? <EyeInvisibleOutlined /> : <EyeOutlined />}</span>
-            </Space>
-        </>
-    )
 }
