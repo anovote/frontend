@@ -69,18 +69,26 @@ export default function ElectionsView(): React.ReactElement {
         },
     ]
     useEffect(() => {
-        const upcoming: IElectionEntity[] = []
-        const started: IElectionEntity[] = []
-        const finished: IElectionEntity[] = []
-        for (const election of data) {
-            if (election.status == ElectionStatus.NotStarted) upcoming.push(election)
-            if (election.status == ElectionStatus.Started) started.push(election)
-            if (election.status == ElectionStatus.Finished) finished.push(election)
-        }
+        new ElectionService(BackendAPI)
+            .getAllElection()
+            .then((response) => {
+                const upcoming: IElectionEntity[] = []
+                const started: IElectionEntity[] = []
+                const finished: IElectionEntity[] = []
 
-        setUpcoming(upcoming)
-        setInProgress(started)
-        setFinished(finished)
+                for (const election of response) {
+                    if (election.status == ElectionStatus.NotStarted) upcoming.push(election)
+                    if (election.status == ElectionStatus.Started) started.push(election)
+                    if (election.status == ElectionStatus.Finished) finished.push(election)
+                }
+
+                setUpcoming(upcoming)
+                setInProgress(started)
+                setFinished(finished)
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     }, [])
 
     /**
