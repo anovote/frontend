@@ -2,6 +2,7 @@
 import { useEffect, useRef } from 'react'
 
 // https://stackoverflow.com/questions/53253940/make-react-useeffect-hook-not-run-on-initial-render
+// eslint-disable-next-line
 const useDidMountEffect = (func: () => void, deps: Array<any>) => {
     const didMount = useRef(false)
 
