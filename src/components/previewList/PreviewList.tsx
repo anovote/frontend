@@ -1,6 +1,6 @@
 /* eslint-disable react/display-name */
 import CreateBallotModal from 'containers/modal/CreateBallotModal'
-import { BackendAPI } from 'core/api'
+import useChangedStateEffect from 'core/hooks/useChangedStateEffect'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IElectionDetails } from 'core/models/election/IElection'
@@ -30,6 +30,10 @@ export default function PreviewList({
         show: false,
         initialBallot: undefined,
     })
+
+    useChangedStateEffect(() => {
+        onChange(ballotsState)
+    }, [ballotsState])
 
     const closeModalHandler = () => {
         setCreateBallotModalState({ show: false, initialBallot: undefined })
