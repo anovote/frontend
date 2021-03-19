@@ -47,14 +47,7 @@ export const ElectionNotStarted = ({
             console.log('update on server')
             timerId = undefined
             onElectionChange(newElection)
-            //try {
-            //    await new ElectionService(BackendAPI).updateElection(newElection)
-            //} catch (err) {
-            //    console.log(err)
-            //}
         }, 3000)
-        // todo when to upload to server
-        //onElectionChange(election)
     }
 
     const ballots = election.ballots
