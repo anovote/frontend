@@ -1,4 +1,4 @@
-import { Button, Space } from 'antd'
+import { AlertProps, Button, Space, Alert } from 'antd'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import { RadioChangeEvent } from 'antd/lib/radio'
 import Title from 'antd/lib/typography/Title'
@@ -8,7 +8,7 @@ import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
-import React, { ReactElement, useReducer } from 'react'
+import React, { ReactElement, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useSocket } from 'core/state/websocket/useSocketHook'
 import { Events } from 'core/events'
@@ -26,6 +26,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
+    const [alertProps, setAlertProps] = useState<AlertProps>()
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -80,18 +81,31 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
         switch (ballot.type) {
             case BallotType.SINGLE: {
-                socket.emit(
-                    Events.client.vote.submit,
-                    {
-                        candidate: selection.single,
-                        submitted: new Date(),
-                        voter: 1,
-                        ballot: ballot,
-                    },
-                    () => {
-                        console.log('Callback handled here')
-                    },
-                )
+                if (selected === 0) {
+                    const newAlertProps: AlertProps = {
+                        message: t('You need to select a candidate'),
+                        type: 'error',
+                    }
+                    setAlertProps(newAlertProps)
+                } else {
+                    socket.emit(
+                        Events.client.vote.submit,
+                        {
+                            candidate: selection.single,
+                            submitted: new Date(),
+                            voter: 1,
+                            ballot: ballot,
+                        },
+                        () => {
+                            console.log('Callback handled here')
+                        },
+                    )
+                    const newAlertProps: AlertProps = {
+                        message: t('Your vote was submitted!'),
+                        type: 'success',
+                    }
+                    setAlertProps(newAlertProps)
+                }
                 break
             }
             // TODO add submit vote handling for the different ballot types
@@ -123,7 +137,17 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
             <Button type="primary" shape="round" onClick={submitVote}>
                 Submit vote
             </Button>
-            {console.log(selection)}
+            <div className="alert-field">
+                {!!alertProps && (
+                    <Alert
+                        message={alertProps?.message}
+                        description={alertProps?.description}
+                        type={alertProps?.type}
+                        showIcon
+                        closable
+                    />
+                )}
+            </div>
         </div>
     )
 }
