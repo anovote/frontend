@@ -6,6 +6,12 @@
     @include is-flex-row;
     @include has-content-space-between-center;
     @include is-rounded-large;
+    transition: all 0.3s ease-in;
+
+    &:hover {
+        cursor: pointer;
+        transform: skew(-2deg, 0);
+    }
 
     .stat {
         margin: 0 1.5rem;

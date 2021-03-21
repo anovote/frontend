@@ -1,7 +1,5 @@
-import { BallotVoteStats } from 'core/models/ballot/BallotVoteStats'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { ICandidateStats } from 'core/models/ballot/ICandidateStats'
-import { freshBallots } from './ballotsDummyData'
 
 const candidateStatsUno: ICandidateStats = {
     candidate: 'Bjarne Andersen',
