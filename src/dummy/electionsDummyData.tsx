@@ -32,6 +32,15 @@ export const elections: IElectionEntity[] = [
                 candidates: [{ candidate: 'Sander' }, { candidate: 'Marit' }],
                 resultDisplayTypeCount: 1,
             },
+            {
+                title: 'I am the man',
+                displayResultCount: false,
+                order: 3,
+                type: BallotType.SINGLE,
+                resultDisplayType: BallotResultDisplay.SINGLE,
+                candidates: [{ candidate: 'Sander' }, { candidate: 'Marit' }],
+                resultDisplayTypeCount: 1,
+            },
         ],
         eligibleVoters: [
             { identification: 'my@email.com' },

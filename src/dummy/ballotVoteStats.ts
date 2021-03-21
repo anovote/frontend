@@ -19,4 +19,26 @@ const ballotStats: IBallotStats = {
     candidates: [candidateStatsUno, candidateStatsDos],
 }
 
-export const voteStats = new BallotVoteStats(freshBallots[0].id, ballotStats)
+export const voteStats: IBallotStats[] = [
+    {
+        total: 91,
+        votes: 89,
+        blank: 2,
+        candidates: [candidateStatsUno, candidateStatsDos],
+    },
+    {
+        total: 191,
+        votes: 179,
+        blank: 12,
+        candidates: [
+            {
+                candidate: 'Tom Petty',
+                votes: 145,
+            },
+            {
+                candidate: 'John Peter',
+                votes: 46,
+            },
+        ],
+    },
+]
