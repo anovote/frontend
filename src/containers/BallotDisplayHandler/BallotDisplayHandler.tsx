@@ -76,16 +76,22 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     }
 
     const submitVote = () => {
+        socket.connect()
+
         switch (ballot.type) {
             case BallotType.SINGLE: {
-                socket.emit(Events.client.vote.submit, {
-                    candidate: selection.single,
-                    submitted: new Date(),
-                    voter: 1,
-                    ballot: ballot,
-                })
-                console.log('vote submitted')
-
+                socket.emit(
+                    Events.client.vote.submit,
+                    {
+                        candidate: selection.single,
+                        submitted: new Date(),
+                        voter: 1,
+                        ballot: ballot,
+                    },
+                    () => {
+                        console.log('Callback handled here')
+                    },
+                )
                 break
             }
             // TODO add submit vote handling for the different ballot types
