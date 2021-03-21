@@ -4,20 +4,25 @@ import BallotModal from 'containers/modal/BallotModal'
 import { useSocket } from 'core/hooks/useSocket'
 import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElection } from 'core/models/election/IElection'
-import { voteStats } from 'dummy/ballotVoteStats'
 import React, { ReactElement, useEffect, useState } from 'react'
 
 export function ElectionInProgressView({ election }: { election: IElection }): ReactElement {
     const [socket] = useSocket()
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState(0)
+    const [stats, setStats] = useState([] as IBallotStats[])
 
     useEffect(() => {
         socket.connect()
 
         socket.on('connection', () => {
             console.log(socket.id)
+        })
+
+        socket.on('updated_result', (data: IBallotStats[]) => {
+            setStats(data)
         })
         return () => {
             socket.disconnect()
@@ -53,11 +58,11 @@ export function ElectionInProgressView({ election }: { election: IElection }): R
     return (
         <>
             <Title level={1}>{election.title}</Title>
-            <BallotsQueue dataSource={ballots} stats={voteStats} expandBallot={showModal} />
+            <BallotsQueue dataSource={ballots} stats={stats} expandBallot={showModal} />
             <BallotModal
                 showModal={modal}
                 ballotEntity={new BallotEntity(ballots[active])}
-                ballotStats={voteStats[active]}
+                ballotStats={stats[active]}
                 close={closeModal}
                 controls={{
                     next: () => {

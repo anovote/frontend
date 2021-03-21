@@ -27,6 +27,11 @@ export default function BallotModal({
     const [t] = useTranslation(['translation', 'common'])
     const { previous, next } = controls
 
+    // cross reference stats with a candidate
+    const diagramStats = ballotStats?.candidates.map((stat, index) => {
+        return { ...stat, candidate: ballotEntity.candidates[index].candidate }
+    })
+
     const config = {
         width: 600,
         height: 400,
@@ -73,7 +78,7 @@ export default function BallotModal({
                         <Title level={2}>{ballotEntity.title}</Title>
                         <div>{ballotStats && <StatCard stats={appendStats(ballotStats)} />}</div>
                     </Col>
-                    <Col span={24}>{ballotStats && <Bar data={ballotStats?.candidates} {...config} />}</Col>
+                    <Col span={24}>{diagramStats && <Bar data={diagramStats} {...config} />}</Col>
                 </Row>
             </Modal>
         </>

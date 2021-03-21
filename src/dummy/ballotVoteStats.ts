@@ -2,11 +2,11 @@ import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { ICandidateStats } from 'core/models/ballot/ICandidateStats'
 
 const candidateStatsUno: ICandidateStats = {
-    candidate: 'Bjarne Andersen',
+    id: 1,
     votes: 13,
 }
 const candidateStatsDos: ICandidateStats = {
-    candidate: 'Finn Torgersen',
+    id: 2,
     votes: 76,
 }
 
@@ -30,11 +30,11 @@ export const voteStats: IBallotStats[] = [
         blank: 12,
         candidates: [
             {
-                candidate: 'Tom Petty',
+                id: 1,
                 votes: 145,
             },
             {
-                candidate: 'John Peter',
+                id: 2,
                 votes: 46,
             },
         ],
