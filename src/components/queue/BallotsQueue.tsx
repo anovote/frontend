@@ -10,10 +10,20 @@ import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import QueueDescription from './QueueDescription'
+import { IBallotStats } from 'core/models/ballot/IBallotStats'
+import { IStatValue } from 'components/statCard/IStatValue'
 
 const { Step } = Steps
 
-export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity[] }): ReactElement {
+export default function BallotsQueue({
+    dataSource,
+    stats,
+    expandBallot,
+}: {
+    dataSource: IBallotEntity[]
+    stats?: IBallotStats[]
+    expandBallot?: (id: number) => void
+}): ReactElement {
     const [current, setCurrent] = useState(0)
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
@@ -25,12 +35,13 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
 
     const queue = []
 
-    const stats = [
-        { title: t('common:Total'), value: 143 },
-        { title: t('common:Issues'), value: 23 },
-        { title: t('Votes'), value: 94 },
-    ]
-
+    const appendStats = (stats: IBallotStats): IStatValue[] => {
+        return [
+            { title: t('common:Total'), value: stats.total },
+            { title: t('Votes'), value: stats.votes },
+            { title: t('common:Blank'), value: stats.blank },
+        ]
+    }
     async function pushBallot(id: number) {
         setIsLoading(true)
         // todo #127 pushing a ballot should change some state on the ballot on the server to indicate that it has been published
@@ -45,6 +56,10 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
         }
     }
 
+    const handleClick = (id: number) => {
+        if (expandBallot) expandBallot(id)
+    }
+
     // render all ballots
     for (const ballot of dataSource) {
         queue.push(
@@ -55,7 +70,10 @@ export default function BallotsQueue({ dataSource }: { dataSource: IBallotEntity
                 subTitle={<QueueDescription winner="John Doe" />}
                 description={
                     <>
-                        <StatCard stats={stats} />
+                        {stats && stats[ballot.id] && (
+                            <StatCard stats={appendStats(stats[ballot.id])} onClick={() => handleClick(ballot.id)} />
+                        )}
+
                         <SquareIconButton
                             text={t('common:Push ballot')}
                             tabIndex={0}

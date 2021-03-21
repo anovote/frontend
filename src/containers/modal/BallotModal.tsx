@@ -1,14 +1,15 @@
+import { Bar } from '@ant-design/charts'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Col, Row } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
+import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
 import { IControl } from 'core/helpers/IControl'
 import { BallotEntity } from 'core/models/ballot/BallotEntity'
-import { BallotVoteStats } from 'core/models/ballot/BallotVoteStats'
+import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Bar } from '@ant-design/charts'
 
 export default function BallotModal({
     showModal,
@@ -20,12 +21,29 @@ export default function BallotModal({
     showModal: boolean
     close: () => void
     controls: IControl
-    ballotStats: BallotVoteStats
+    ballotStats?: IBallotStats
     ballotEntity: BallotEntity
 }): ReactElement {
     const [t] = useTranslation(['translation', 'common'])
     const { previous, next } = controls
-    const { total, votes, blank, candidates } = ballotStats
+
+    const config = {
+        width: 600,
+        height: 400,
+        autoFit: false,
+        xField: 'votes',
+        yField: 'candidate',
+        seriesField: 'candidate',
+    }
+
+    const appendStats = (stats: IBallotStats): IStatValue[] => {
+        return [
+            { title: t('common:Total'), value: stats.total },
+            { title: t('common:Votes'), value: stats.votes },
+            { title: t('common:Blank'), value: stats.blank },
+        ]
+    }
+
     const footer = (
         <div className="spread">
             <button onClick={previous} className="inline-icon text-label button-no-style">
@@ -39,28 +57,12 @@ export default function BallotModal({
         </div>
     )
 
-    const voteStats = [
-        { title: t('common:Total'), value: total },
-        { title: t('common:Vote_plural'), value: votes },
-        { title: t('common:Blank'), value: blank },
-    ]
-
-    const config = {
-        data: candidates,
-        width: 600,
-        height: 400,
-        autoFit: false,
-        xField: 'votes',
-        yField: 'candidate',
-        seriesField: 'candidate',
-    }
-
     return (
         <>
             <Modal
                 width={'100vw'}
                 // TODO Add status ICON implementation here when merged
-                title={ballotEntity.status}
+                title={ballotEntity.status == 1 ? 'IN PROGRESS' : 'NOT STARTED'}
                 footer={footer}
                 visible={showModal}
                 onCancel={close}
@@ -69,13 +71,9 @@ export default function BallotModal({
                 <Row>
                     <Col span={24}>
                         <Title level={2}>{ballotEntity.title}</Title>
-                        <div>
-                            <StatCard stats={voteStats} inverseColors={true} />
-                        </div>
+                        <div>{ballotStats && <StatCard stats={appendStats(ballotStats)} />}</div>
                     </Col>
-                    <Col span={24}>
-                        <Bar {...config} />
-                    </Col>
+                    <Col span={24}>{ballotStats && <Bar data={ballotStats?.candidates} {...config} />}</Col>
                 </Row>
             </Modal>
         </>

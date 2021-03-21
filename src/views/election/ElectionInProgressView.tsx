@@ -2,15 +2,16 @@ import Title from 'antd/lib/typography/Title'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import BallotModal from 'containers/modal/BallotModal'
 import { useSocket } from 'core/hooks/useSocket'
+import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IElection } from 'core/models/election/IElection'
-import { ballotInstance } from 'dummy/ballotEntity'
 import { voteStats } from 'dummy/ballotVoteStats'
 import React, { ReactElement, useEffect, useState } from 'react'
 
 export function ElectionInProgressView({ election }: { election: IElection }): ReactElement {
     const [socket] = useSocket()
-    const [stats, setStats] = useState(voteStats)
+    const [modal, setModal] = useState(false)
+    const [active, setActive] = useState(0)
 
     useEffect(() => {
         socket.connect()
@@ -27,21 +28,43 @@ export function ElectionInProgressView({ election }: { election: IElection }): R
         ? election.ballots.map((ballot, index) => ({ id: index, ...ballot } as IBallotEntity))
         : new Array<IBallotEntity>()
 
+    const showModal = (id: number) => {
+        setModal(true)
+        console.log(id)
+        setActive(id)
+    }
+
+    const closeModal = () => {
+        setModal(false)
+    }
+
+    const hasNext = () => {
+        if (ballots[active + 1]) {
+            setActive(active + 1)
+        }
+    }
+
+    const hasPrevious = () => {
+        if (ballots[active - 1]) {
+            setActive(active - 1)
+        }
+    }
+
     return (
         <>
             <Title level={1}>{election.title}</Title>
-            <BallotsQueue dataSource={ballots} />
+            <BallotsQueue dataSource={ballots} stats={voteStats} expandBallot={showModal} />
             <BallotModal
-                showModal={true}
-                ballotEntity={ballotInstance}
-                ballotStats={stats}
-                close={() => console.log('close clicked')}
+                showModal={modal}
+                ballotEntity={new BallotEntity(ballots[active])}
+                ballotStats={voteStats[active]}
+                close={closeModal}
                 controls={{
                     next: () => {
-                        console.log('next clicked')
+                        hasNext()
                     },
                     previous: () => {
-                        console.log('previous clicked')
+                        hasPrevious()
                     },
                 }}
             />
