@@ -10,6 +10,8 @@ import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
 import React, { ReactElement, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useSocket } from 'core/state/websocket/useSocketHook'
+import { Events } from 'core/events'
 
 const initialState = {
     selected: 0,
@@ -23,6 +25,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
     const [t] = useTranslation(['common'])
+    const [socket] = useSocket()
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -72,6 +75,25 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
         dispatch({ type: 'reset', payload: { single: 0, multiple: [] } })
     }
 
+    const submitVote = () => {
+        switch (ballot.type) {
+            case BallotType.SINGLE: {
+                socket.emit(Events.client.vote.submit, {
+                    candidate: selection.single,
+                    submitted: new Date(),
+                    voter: 1,
+                    ballot: ballot,
+                })
+                console.log('vote submitted')
+
+                break
+            }
+            // TODO add submit vote handling for the different ballot types
+            default:
+                console.error('The vote could not be submitted...')
+        }
+    }
+
     return (
         <div className="voter-display">
             <BallotTypeDisplay type={ballot.type} />
@@ -92,6 +114,10 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 onChange={onChange}
                 selection={ballot.type == BallotType.SINGLE ? selection.single : selection.multiple}
             />
+            <Button type="primary" shape="round" onClick={submitVote}>
+                Submit vote
+            </Button>
+            {console.log(selection)}
         </div>
     )
 }
