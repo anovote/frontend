@@ -1,10 +1,10 @@
 import Skeleton from 'components/Skeleton'
 import React, { ReactElement } from 'react'
-import { Route } from 'react-router-dom'
+import { Redirect, Route } from 'react-router-dom'
 import CreateElectionView from 'views/election/createElection'
 import ElectionView from 'views/election/election'
 import ElectionsView from 'views/elections'
-import { getAdminRoute } from './siteRoutes'
+import { getAdminRoute, getBaseRoute } from './siteRoutes'
 
 export default function AdminRoutes(): ReactElement {
     const adminRoute = getAdminRoute()
@@ -13,6 +13,9 @@ export default function AdminRoutes(): ReactElement {
         <Skeleton
             content={
                 <div className="is-fullscreen">
+                    <Route exact path={getBaseRoute().admin}>
+                        <Redirect to={adminRoute.elections.view} />
+                    </Route>
                     <Route exact path={adminRoute.elections.view}>
                         <ElectionsView />
                     </Route>

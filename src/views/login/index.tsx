@@ -1,15 +1,17 @@
-import { Alert, Button, Form, Input } from 'antd'
+import { Alert, Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { BackendAPI } from 'core/api'
+import { CredentialError } from 'core/errors/CredentialsError'
+import { getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationDetails } from 'core/service/authentication/AuthenticationDetails'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
-import { CredentialError } from 'core/errors/CredentialsError'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import * as React from 'react'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 
 /**
  * Logins view
@@ -21,12 +23,18 @@ export default function LoginView(): React.ReactElement {
     const [errorMessage, setErrorMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory()
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false)
+
+    useEffect(() => {
+        setIsLoggedIn(authService.tryLoginWithToken())
+    }, [isLoggedIn])
+
     const formValidated = async (form: AuthenticationDetails) => {
         setErrorMessage('')
         try {
             await authService.authenticateOrganizer(form)
             appDispatcher.setLoginState(AuthLevel.organizer)
-            history.replace('/protected/elections')
+            history.replace('/admin')
         } catch (error) {
             if (error instanceof CredentialError) {
                 setErrorMessage(t('form:Wrong email password'))
@@ -36,7 +44,9 @@ export default function LoginView(): React.ReactElement {
         }
     }
 
-    return (
+    return isLoggedIn ? (
+        <Redirect to="/admin" />
+    ) : (
         <Layout className="layout">
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>{t('common:Welcome to Anovote')}</h1>
@@ -60,9 +70,14 @@ export default function LoginView(): React.ReactElement {
                             <Input.Password />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                {t('common:Log In')}
-                            </Button>
+                            <Space>
+                                <Button type="primary" htmlType="submit">
+                                    {t('common:Log In')}
+                                </Button>
+                                <Button>
+                                    <Link to={getPublicRoute().register}>{t('form:Register')}</Link>
+                                </Button>
+                            </Space>
                         </Form.Item>
                     </Form>
                 </div>
