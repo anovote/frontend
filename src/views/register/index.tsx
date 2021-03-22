@@ -1,15 +1,16 @@
-import { Alert, Button, Form, Input } from 'antd'
+import { Alert, Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next/'
-import { useHistory } from 'react-router-dom'
+import { Link, Redirect, useHistory } from 'react-router-dom'
 import { BackendAPI } from 'core/api'
-import { getAdminRoute } from 'core/routes/siteRoutes'
+import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { CredentialError } from 'core/errors/CredentialsError'
 import { RegistrationDetails } from 'core/service/registration/RegistrationDetails'
 import { RegistrationService } from 'core/service/registration/RegistrationService'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
+import { useIsLoggedIn } from 'core/hooks/useIsLoggedIn'
 
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
@@ -19,6 +20,7 @@ export default function RegisterView(): React.ReactElement {
     const [successMessage, setSuccessMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory()
+    const [isLoggedIn] = useIsLoggedIn()
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
@@ -41,7 +43,9 @@ export default function RegisterView(): React.ReactElement {
         }
     }
 
-    return (
+    return isLoggedIn ? (
+        <Redirect to={getAdminRoute().elections.view} />
+    ) : (
         <Layout className="layout">
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>ANOVOTE</h1>
@@ -87,9 +91,14 @@ export default function RegisterView(): React.ReactElement {
                             <Input.Password />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                {t('form:Register')}
-                            </Button>
+                            <Space>
+                                <Button type="primary" htmlType="submit">
+                                    {t('form:Register')}
+                                </Button>
+                                <Button>
+                                    <Link to={getPublicRoute().login}>Go to Login</Link>
+                                </Button>
+                            </Space>
                         </Form.Item>
                     </Form>
                 </div>
