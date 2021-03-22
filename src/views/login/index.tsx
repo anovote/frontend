@@ -2,6 +2,7 @@ import { Alert, Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { useIsLoggedIn } from 'core/hooks/useIsLoggedIn'
 import { getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationDetails } from 'core/service/authentication/AuthenticationDetails'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
@@ -23,11 +24,7 @@ export default function LoginView(): React.ReactElement {
     const [errorMessage, setErrorMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory()
-    const [isLoggedIn, setIsLoggedIn] = React.useState(false)
-
-    useEffect(() => {
-        setIsLoggedIn(authService.tryLoginWithToken())
-    }, [isLoggedIn])
+    const [isLoggedIn] = useIsLoggedIn()
 
     const formValidated = async (form: AuthenticationDetails) => {
         setErrorMessage('')
