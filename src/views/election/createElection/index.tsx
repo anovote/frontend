@@ -19,11 +19,11 @@ import { IElection } from 'core/models/election/IElection'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { getAdminRoute } from 'core/routes/siteRoutes'
 import { ElectionService } from 'core/service/election/ElectionService'
+import { AlertState } from 'core/state/AlertState'
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import { AlertState } from 'views/elections'
 
 /**
  * The main view used for creating and updating an election

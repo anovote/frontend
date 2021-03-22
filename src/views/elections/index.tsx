@@ -9,6 +9,7 @@ import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router'
+import { AlertState } from '../../core/state/AlertState'
 
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common', 'election'])
@@ -166,5 +167,3 @@ export default function ElectionsView(): React.ReactElement {
         </>
     )
 }
-
-export type AlertState = { alertProps: AlertProps | undefined }
