@@ -75,7 +75,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                             <ProfileRoundIcon />
                         </LargeIconButton>
                         <LogoutButton />
-                        {// todo #146 implement settings}
+                        {/* todo #146 implement settings */}
                         {/*<Menu.Item key={settings} icon={<SettingFilled />} id="settings">*/}
                         {/*<Link to={settings} tabIndex={7}>
                                 {t('Settings')}
