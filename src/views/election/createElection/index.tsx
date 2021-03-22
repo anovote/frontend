@@ -23,7 +23,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
-import { LocationState } from 'views/elections'
+import { AlertState } from 'views/elections'
 
 /**
  * The main view used for creating and updating an election
@@ -40,7 +40,7 @@ export default function CreateElectionView({
         initialElection ? initialElection : ({} as IElection),
     )
 
-    const history = useHistory<LocationState>()
+    const history = useHistory<AlertState>()
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly

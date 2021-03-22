@@ -1,4 +1,4 @@
-import { Alert, Button, Form, Input, Space } from 'antd'
+import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
@@ -11,6 +11,7 @@ import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next/'
 import { Redirect, useHistory } from 'react-router-dom'
+import { AlertState } from 'views/elections'
 
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
@@ -19,7 +20,7 @@ export default function RegisterView(): React.ReactElement {
     const [errorMessage, setErrorMessage] = React.useState('')
     const [successMessage, setSuccessMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
-    const history = useHistory()
+    const history = useHistory<AlertState>()
     const [isLoggedIn] = useIsLoggedIn()
 
     const formValidated = async (form: RegistrationDetails) => {
@@ -30,7 +31,8 @@ export default function RegisterView(): React.ReactElement {
                 setSuccessMessage(t('form:User was registered'))
 
                 appDispatcher.setLoginState(AuthLevel.organizer)
-                history.replace(getAdminRoute().elections.view)
+                const alertProps: AlertProps = { message: successMessage }
+                history.replace(getAdminRoute().elections.view, { alertProps })
             } catch (error) {
                 if (error instanceof CredentialError) {
                     setErrorMessage(t('form:Error in form'))

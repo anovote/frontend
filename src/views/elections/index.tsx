@@ -16,7 +16,7 @@ export default function ElectionsView(): React.ReactElement {
     const [inProgress, setInProgress] = useState([] as IElectionEntity[])
     const [finished, setFinished] = useState([] as IElectionEntity[])
     const [alert, setAlert] = useState<AlertProps>()
-    const location = useLocation<LocationState>()
+    const location = useLocation<AlertState>()
 
     const data: IElectionEntity[] = [
         {
@@ -156,4 +156,4 @@ export default function ElectionsView(): React.ReactElement {
     )
 }
 
-export type LocationState = { alertProps: AlertProps }
+export type AlertState = { alertProps: AlertProps | undefined }
