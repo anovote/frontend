@@ -8,7 +8,7 @@ import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useLocation } from 'react-router'
+import { useHistory, useLocation } from 'react-router'
 
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common', 'election'])
@@ -17,6 +17,7 @@ export default function ElectionsView(): React.ReactElement {
     const [finished, setFinished] = useState([] as IElectionEntity[])
     const [alert, setAlert] = useState<AlertProps>()
     const location = useLocation<AlertState>()
+    const history = useHistory<AlertState>()
 
     const data: IElectionEntity[] = [
         {
@@ -88,8 +89,18 @@ export default function ElectionsView(): React.ReactElement {
 
         if (location.state) {
             setAlert(location.state.alertProps)
+            resetHistoryState()
         }
     }, [])
+
+    /**
+     * Resets the history state
+     * The history location should stay intact
+     */
+    const resetHistoryState = () => {
+        const state: AlertState = { alertProps: undefined }
+        history.replace({ ...history.location, state })
+    }
 
     /**
      * Generates the list entry with correct elements.
