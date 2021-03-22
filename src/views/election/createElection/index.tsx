@@ -17,10 +17,13 @@ import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElection } from 'core/models/election/IElection'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { getAdminRoute } from 'core/routes/siteRoutes'
 import { ElectionService } from 'core/service/election/ElectionService'
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory } from 'react-router'
+import { LocationState } from 'views/elections'
 
 /**
  * The main view used for creating and updating an election
@@ -37,6 +40,8 @@ export default function CreateElectionView({
         initialElection ? initialElection : ({} as IElection),
     )
 
+    const history = useHistory<LocationState>()
+
     /**
      * Validates a form and returns an error if the form is not filled out correctly
      * @param form The form we want to validate
@@ -50,12 +55,13 @@ export default function CreateElectionView({
                 form.ballots = election?.ballots
             }
             await electionService.createElection(form)
-            const newAlertProps: AlertProps = {
+            const alertProps: AlertProps = {
                 message: 'Election created',
                 description: 'The election was created successfully',
                 type: 'success',
+                closable: true,
             }
-            setAlertProps(newAlertProps)
+            history.push(getAdminRoute().elections.view, { alertProps })
         } catch (error) {
             const newAlertProps: AlertProps = {
                 message: '',
