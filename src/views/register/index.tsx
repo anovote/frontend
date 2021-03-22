@@ -1,16 +1,16 @@
 import { Alert, Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
-import * as React from 'react'
-import { useTranslation } from 'react-i18next/'
-import { Link, Redirect, useHistory } from 'react-router-dom'
 import { BackendAPI } from 'core/api'
+import { CredentialError } from 'core/errors/CredentialsError'
+import { useIsLoggedIn } from 'core/hooks/useIsLoggedIn'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
-import { CredentialError } from 'core/errors/CredentialsError'
 import { RegistrationDetails } from 'core/service/registration/RegistrationDetails'
 import { RegistrationService } from 'core/service/registration/RegistrationService'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
-import { useIsLoggedIn } from 'core/hooks/useIsLoggedIn'
+import * as React from 'react'
+import { useTranslation } from 'react-i18next/'
+import { Redirect, useHistory } from 'react-router-dom'
 
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
@@ -48,7 +48,7 @@ export default function RegisterView(): React.ReactElement {
     ) : (
         <Layout className="layout">
             <Content className="is-fullscreen is-flex-column has-content-center-center">
-                <h1>ANOVOTE</h1>
+                <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="register-form">
                     <div className="alert-field">
                         {!!successMessage && <Alert message={successMessage} type={'success'} showIcon closable />}
@@ -95,8 +95,12 @@ export default function RegisterView(): React.ReactElement {
                                 <Button type="primary" htmlType="submit">
                                     {t('form:Register')}
                                 </Button>
-                                <Button>
-                                    <Link to={getPublicRoute().login}>Go to Login</Link>
+                                <Button
+                                    onClick={() => {
+                                        history.push(getPublicRoute().login)
+                                    }}
+                                >
+                                    {t('form:go-to-login')}
                                 </Button>
                             </Space>
                         </Form.Item>

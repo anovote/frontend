@@ -10,9 +10,8 @@ import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import * as React from 'react'
-import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Link, Redirect, useHistory } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 /**
  * Logins view
@@ -71,8 +70,12 @@ export default function LoginView(): React.ReactElement {
                                 <Button type="primary" htmlType="submit">
                                     {t('common:Log In')}
                                 </Button>
-                                <Button>
-                                    <Link to={getPublicRoute().register}>{t('form:Register')}</Link>
+                                <Button
+                                    onClick={() => {
+                                        history.push(getPublicRoute().register)
+                                    }}
+                                >
+                                    {t('form:Register')}
                                 </Button>
                             </Space>
                         </Form.Item>
