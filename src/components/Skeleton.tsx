@@ -1,4 +1,4 @@
-import { EyeFilled, HomeFilled, ProjectFilled, SettingFilled } from '@ant-design/icons'
+import { EyeFilled, HomeFilled, ProjectFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import Search from 'antd/lib/input/Search'
 import { LogoutButton } from 'containers/modal/LogoutButton'
@@ -24,7 +24,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
 
-    const { dashboard, elections, customize, settings } = getAdminRoute()
+    const { dashboard, elections, customize /*, settings*/ } = getAdminRoute()
 
     function createElection() {
         history.push(elections.create)
