@@ -1,8 +1,12 @@
 .skeleton-header {
     height: $header-height;
+    position: fixed;
+    left: $sidebar-width;
+    z-index: 10;
+    width: calc(100vw - #{$sidebar-width});
     background-color: $white !important;
     @include is-flex-column();
-    padding-left: calc(#{$sidebar-width} + 2.5 * #{$bu});
+    padding-left: 4rem;
     justify-content: center;
 
     .ant-input-group {
