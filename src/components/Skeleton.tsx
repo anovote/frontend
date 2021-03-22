@@ -1,6 +1,7 @@
 import { EyeFilled, HomeFilled, ProjectFilled, SettingFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import Search from 'antd/lib/input/Search'
+import { LogoutButton } from 'containers/modal/LogoutButton'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { getAdminRoute } from 'core/routes/siteRoutes'
 import React, { ReactElement, useState } from 'react'
@@ -73,11 +74,13 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                         >
                             <ProfileRoundIcon />
                         </LargeIconButton>
-                        <Menu.Item key={settings} icon={<SettingFilled />} id="settings">
-                            <Link to={settings} tabIndex={7}>
+                        <LogoutButton />
+                        {// todo #146 implement settings}
+                        {/*<Menu.Item key={settings} icon={<SettingFilled />} id="settings">*/}
+                        {/*<Link to={settings} tabIndex={7}>
                                 {t('Settings')}
-                            </Link>
-                        </Menu.Item>
+                            </Link>*/}
+                        {/*</Menu.Item>*/}
                     </Menu>
                 </Sider>
                 <Layout id="content">
