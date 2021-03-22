@@ -23,7 +23,6 @@ import { PasswordShowHide } from './PasswordShowHide'
  */
 export function ElectionStatusCard({ election }: { election: IElectionEntity }): ReactElement {
     const [t] = useTranslation(['common'])
-    console.log(election)
 
     const header = (
         <div className="spread align-items-center">

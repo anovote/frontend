@@ -55,7 +55,6 @@ export default function ElectionView(): React.ReactElement {
             electionService
                 .getElection(Number.parseInt(electionId))
                 .then((response) => {
-                    console.log(response)
                     dispatch({ type: 'gotElection', election: response })
                 })
                 .catch((reason) => {
