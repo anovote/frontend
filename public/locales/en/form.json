@@ -1,5 +1,5 @@
 {
-    "Wrong email/password": "Wrong email/password",
+    "go-to-login": "Go to Login",
     "Email is not valid": "Email is not valid",
     "Error in form": "Error in form",
     "Is required": "Field is required",
@@ -25,5 +25,6 @@
     "Remember to rewrite password": "Remember to rewrite password",
     "Something went wrong": "Something went wrong",
     "User was registered": "User was registered",
-    "Wrong email password": "Wrong email/password"
+    "Wrong email password": "Wrong email/password",
+    "Wrong email/password": "Wrong email/password"
 }
