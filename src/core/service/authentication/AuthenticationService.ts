@@ -12,6 +12,8 @@ export class AuthenticationService {
     private _httpClient: AxiosInstance
     private _storageService: IStorage<StorageKeys>
 
+    private readonly ACCESS_TOKEN = 'ACCESS_TOKEN'
+
     constructor(httpClient: AxiosInstance, storage: IStorage<StorageKeys>) {
         this._httpClient = httpClient
         this._storageService = storage
@@ -28,7 +30,7 @@ export class AuthenticationService {
             })
             const token = response.data.token
             if (!token) throw new Error('Token not present')
-            this._storageService.setItem('ACCESS_TOKEN', token)
+            this._storageService.setItem(this.ACCESS_TOKEN, token)
             this.setAuthorization(token)
         } catch (error) {
             if (error.isAxiosError) {
@@ -53,7 +55,7 @@ export class AuthenticationService {
      */
     public tryLoginWithToken(): boolean {
         if (this.hasValidAuthorizationToken()) {
-            const token = this._storageService.getItem('ACCESS_TOKEN')
+            const token = this._storageService.getItem(this.ACCESS_TOKEN)
             if (token) {
                 this.setAuthorization(token)
                 return true
@@ -66,7 +68,7 @@ export class AuthenticationService {
      * Returns the decoded token data if a token exists, else undefined
      */
     public getDecodedToken(): IToken | undefined {
-        const token = this._storageService.getItem('ACCESS_TOKEN')
+        const token = this._storageService.getItem(this.ACCESS_TOKEN)
         if (token) {
             return jwt<IToken>(token)
         }
@@ -86,8 +88,7 @@ export class AuthenticationService {
         return isValid
     }
 
-    // !TODO Implement
     public logout(): void {
-        return
+        localStorage.removeItem(this.ACCESS_TOKEN)
     }
 }
