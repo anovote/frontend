@@ -113,6 +113,13 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 }
                 break
             }
+            case BallotType.MULTIPLE: {
+                break
+            }
+
+            case BallotType.RANKED: {
+                break
+            }
             // TODO add submit vote handling for the different ballot types
             default:
                 console.error('The vote could not be submitted...')
