@@ -56,7 +56,7 @@ export const ElectionNotStarted = ({
 
     return (
         <>
-            <Row gutter={[16, 32]} align="top">
+            <Row gutter={[32, 16]} align="top">
                 <Col span={12}>
                     <Title>{election.title}</Title>
                     <Row justify="space-between">
@@ -80,7 +80,7 @@ export const ElectionNotStarted = ({
                             <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
                         </Col>
                     </Row>
-                    <Space align="start">
+                    <Space align="start" wrap={true}>
                         <ElectionStatusCard {...{ election }} />
                         <div>{election.description}</div>
                     </Space>
