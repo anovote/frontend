@@ -81,7 +81,13 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
         switch (ballot.type) {
             case BallotType.SINGLE: {
-                if (selected === 0) {
+                if (!socket.connected) {
+                    const newAlertProps: AlertProps = {
+                        message: t('Could not connect to the server'),
+                        type: 'error',
+                    }
+                    setAlertProps(newAlertProps)
+                } else if (selected === 0) {
                     const newAlertProps: AlertProps = {
                         message: t('You need to select a candidate'),
                         type: 'error',
