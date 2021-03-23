@@ -135,7 +135,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 selection={ballot.type == BallotType.SINGLE ? selection.single : selection.multiple}
             />
             <Button type="primary" shape="round" onClick={submitVote}>
-                Submit vote
+                {t('common:Submit vote')}
             </Button>
             <div className="alert-field">
                 {!!alertProps && (

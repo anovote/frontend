@@ -60,5 +60,8 @@
   "Vote": "Vote",
   "Vote_plural": "Votes",
   "Votes": "Votes",
-  "Welcome to Anovote": "Welcome to Anovote"
+  "Welcome to Anovote": "Welcome to Anovote",
+  "Submit vote": "Submit vote",
+  "You need to select a candidate": "You need to select a candidate",
+  "Your vote was submitted!": "Your vote was submitted!"
 }
