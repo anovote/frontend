@@ -1,3 +1,4 @@
+import { LogoutOutlined } from '@ant-design/icons'
 import { AlertProps, Button } from 'antd'
 import { BackendAPI } from 'core/api'
 import { getPublicRoute } from 'core/routes/siteRoutes'
@@ -13,13 +14,13 @@ export function LogoutButton(): ReactElement {
 
     const [t] = useTranslation()
     const logoutHandler = () => {
-        console.log('')
         new AuthenticationService(BackendAPI, new LocalStorageService()).logout()
         const alert: AlertProps = { message: 'You where logged out', closable: true, type: 'info', showIcon: true }
         history.push(getPublicRoute().login, { alertProps: alert })
     }
     return (
         <Button className="logout-btn" onClick={logoutHandler}>
+            <LogoutOutlined />
             {t('common:Log out')}
         </Button>
     )
