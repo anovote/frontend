@@ -92,7 +92,6 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                         Events.client.vote.submit,
                         {
                             candidate: selection.single,
-                            submitted: new Date(),
                             voter: 1,
                             ballot: ballot,
                         },
