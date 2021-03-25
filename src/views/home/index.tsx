@@ -5,5 +5,5 @@ import React from 'react'
  * @returns the landing page view
  */
 export default function Home(): React.ReactElement {
-    return <div>Landing....</div>
+    return <div>Landing page...</div>
 }
