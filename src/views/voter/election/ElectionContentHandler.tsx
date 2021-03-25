@@ -4,7 +4,7 @@ import BallotDisplayHandler from 'containers/BallotDisplayHandler/BallotDisplayH
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DisplayAction, ElectionState } from './electionReducer'
+import { DisplayAction, ElectionState } from 'core/state/election/electionReducer'
 
 /**
  * This modules is responsible for providing the correct components for an election based on the state

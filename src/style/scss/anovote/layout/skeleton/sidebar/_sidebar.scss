@@ -1,13 +1,17 @@
 @import './menuItem';
 
 .skeleton-sidebar {
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    left: 0;
     background-color: $white;
-    height: calc(100vh - #{$header-height});
     width: $sidebar-width !important;
     min-width: $sidebar-width !important;
     max-width: $sidebar-width !important;
     flex: 0 0 $sidebar-width !important;
     padding: 2 * $bu 2.5 * $bu;
+    z-index: 15;
 
     .ant-layout-sider-children {
         @include is-flex-column;
@@ -16,7 +20,6 @@
 }
 
 #logo {
-    margin-top: -3 * $bu;
     margin-bottom: 3 * $bu;
 }
 

@@ -1,11 +1,11 @@
 import { Alert, Button, Form, Input } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { Events } from 'core/events'
-import { useSocket } from 'core/state/websocket/useSocketHook'
+import { useSocket } from 'core/hooks/useSocket'
 import { StatusCodes } from 'http-status-codes'
 import React, { ReactElement, useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
-import { VoterLoginState, voterLoginReducer } from './VoterLoginState'
+import { VoterLoginState, voterLoginReducer } from 'core/state/login/VoterLoginState'
 
 /**
  * A view for a voter to give email and election code in order to join an election

@@ -1,9 +1,8 @@
 import axios, { AxiosInstance } from 'axios'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
-import { IStorage } from '../storage/IStorage'
-import { StorageKeys } from '../storage/StorageKeys'
+import { CredentialError } from 'core/errors/CredentialsError'
+import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { AuthenticationService } from './AuthenticationService'
-import { CredentialError } from './CredentialsError'
 const axiosMock: jest.Mocked<AxiosInstance> = (axios as unknown) as jest.Mocked<AxiosInstance>
 const localStorageMock: jest.Mocked<LocalStorageService<StorageKeys>> = new LocalStorageService() as jest.Mocked<
     LocalStorageService<StorageKeys>

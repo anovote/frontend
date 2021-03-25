@@ -1,0 +1,30 @@
+.anovote-button-style.icon-button {
+    width: auto;
+    padding: 1rem;
+
+    &[disabled] {
+        opacity: 0.3;
+        :hover {
+            cursor: not-allowed;
+        }
+    }
+    .anticon {
+        color: $main-contrasting;
+    }
+
+    &.green {
+        background-color: $success-light;
+
+        .anticon {
+            color: $success-contrasting;
+            font-size: 1.5rem;
+        }
+    }
+    &.red {
+        background-color: $danger-light;
+        .anticon {
+            color: $danger-contrasting;
+            font-size: 1.5rem;
+        }
+    }
+}
