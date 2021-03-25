@@ -46,7 +46,6 @@ export default function VerifyVoterView(): ReactElement {
         if (codeToVerify) {
             const storageService = new LocalStorageService()
             const upgradeTimeout = new Timeout(2000, () => {
-                console.log('upgrade')
                 socket.emit(
                     Events.client.auth.upgradeVerificationToJoin,
                     {},
