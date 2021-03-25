@@ -185,9 +185,10 @@ export default function CreateBallotModal({
                             label={t('ballot:Result type')}
                             initialValue={initialBallot?.resultDisplayType}
                         />
+                        {/* todo #157 implement logic to make displaying vote count toggle-able
                         <Form.Item label={t('ballot:Display vote count')}>
                             <Switch defaultChecked={initialBallot?.displayResultCount}></Switch>
-                        </Form.Item>
+                        </Form.Item>*/}
                         <Button type="primary" htmlType="submit">
                             {t('common:Save')}
                         </Button>

@@ -15,7 +15,8 @@ export default function ElectionHeader({
 }): ReactElement {
     let info = (
         <Space className="col-position" align="center">
-            <Button id="card-add-btn" type="primary" icon={<PlusOutlined />} size="small" />
+            {/* todo #153 the plus button on the card should add new election */}
+            {/*<Button id="card-add-btn" type="primary" icon={<PlusOutlined />} size="small" />*/}
             <span className="card-total-count">{count}</span>
         </Space>
     )

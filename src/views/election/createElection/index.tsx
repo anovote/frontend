@@ -133,6 +133,7 @@ export default function CreateElectionView({
                                 <CloseDateInput />
                             </Col>
                         </Row>
+                        {/* todo #159 allow manual adding of voters */}
                         <EligibleVotersTable
                             initialVoters={election?.eligibleVoters}
                             onUpload={uploadEligibleVotersCallback}
@@ -143,8 +144,10 @@ export default function CreateElectionView({
                                 <ElectionPasswordInput />
                             </Col>
                         </Row>
-                        <IsAutomaticCheckbox />
+                        {/* todo #160 implement logic to toggle is automatic
+                        <IsAutomaticCheckbox />*/}
                         <SaveElectionButton hasInitial={initialElection ? true : false} />
+                        {/* todo #154 There should be a cancel button*/}
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
