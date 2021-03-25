@@ -108,8 +108,8 @@ export default function CreateElectionView({
     // todo #134 the form cant be populated with election containing dates. This is due to how antd handles dates. We should switch to momentJs for dates.
     return (
         <Content>
-            <Row>
-                <Col span={12} className="election-information-input">
+            <Row gutter={[32, 0]}>
+                <Col span={12}>
                     <Title level={1}>
                         {initialElection ? t('election:Edit election') : t('common:Create new election')}
                     </Title>

@@ -32,12 +32,13 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     function onSearch() {
         console.log('Tried to search')
     }
+
     return (
         <Layout>
             <Header className="skeleton-header">
                 <Search placeholder="Search something.." allowClear size="middle" onSearch={onSearch} tabIndex={1} />
             </Header>
-            <Layout>
+            <Layout className="skeleton-layout">
                 <ProfileSettingsModal showModal={showProfileModal} close={closeProfileModalHandler} />
                 <Sider className="skeleton-sidebar">
                     <AnovoteLogo id="logo" />
