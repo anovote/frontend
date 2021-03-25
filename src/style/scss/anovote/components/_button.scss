@@ -79,3 +79,15 @@ button {
         text-align: center;
     }
 }
+
+.logout-btn {
+    margin-top: 1rem;
+    background-color: $danger-light;
+    color: $danger-contrasting;
+
+    &:hover {
+        background-color: $danger-contrasting;
+        color: $danger-light;
+        border-color: $danger-light;
+    }
+}

@@ -86,8 +86,7 @@ export class AuthenticationService {
         return isValid
     }
 
-    // !TODO Implement
     public logout(): void {
-        return
+        localStorage.removeItem('ACCESS_TOKEN')
     }
 }

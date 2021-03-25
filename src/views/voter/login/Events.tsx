@@ -6,10 +6,10 @@ import { IStorage } from 'core/service/storage/IStorage'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { EventExecutor, WebsocketEvent } from 'core/socket/EventHandler'
 import { IAppStateDispatcher } from 'core/state/app/AppStateContext'
+import { VoterLoginAction } from 'core/state/login/VoterLoginState'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import * as H from 'history'
 import { TFunction } from 'react-i18next'
-import { VoterLoginAction } from 'core/state/login/VoterLoginState'
 
 export const joinConnectEvent = (dispatch: (value: VoterLoginAction) => void): (() => void) => {
     return function connectEvent() {

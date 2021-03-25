@@ -1,9 +1,8 @@
 /* eslint-disable react/display-name */
 import CreateBallotModal from 'containers/modal/CreateBallotModal'
-import { BackendAPI } from 'core/api'
+import useChangedStateEffect from 'core/hooks/useChangedStateEffect'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import BallotService from 'core/service/ballot/BallotService'
 import { IElection } from 'core/models/election/IElection'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
@@ -17,11 +16,12 @@ import PreviewItem from './PreviewItem'
  */
 
 export default function PreviewList({
-    electionId,
     initialElection,
+    onChange,
 }: {
     electionId?: number
     initialElection?: IElection
+    onChange: (ballots: IBallot[]) => void
 }): React.ReactElement {
     const [ballotsState, setBallotsState] = useState<IBallot[]>(
         initialElection && initialElection.ballots ? initialElection.ballots : new Array<IBallot>(),
@@ -30,6 +30,29 @@ export default function PreviewList({
         show: false,
         initialBallot: undefined,
     })
+
+    const onDragEndHandler = useCallback(
+        (result) => {
+            const { destination, source } = result
+
+            // Not dropped in drop context or not moved
+            if (
+                !destination ||
+                (destination.index === source.index && destination.droppableId === source.droppableId)
+            ) {
+                return
+            }
+
+            const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
+
+            setBallotsState(setOrderOnBallots(newBallots))
+        },
+        [ballotsState],
+    )
+
+    useChangedStateEffect(() => {
+        onChange(ballotsState)
+    }, [ballotsState])
 
     const closeModalHandler = () => {
         setCreateBallotModalState({ show: false, initialBallot: undefined })
@@ -50,8 +73,19 @@ export default function PreviewList({
         } else {
             newState.push(ballot)
         }
-        setBallotsState(newState)
+        const orderedBallots = setOrderOnBallots(newState)
+        setBallotsState(orderedBallots)
         closeModalHandler()
+    }
+
+    /**
+     * Setting the order on the ballot object
+     */
+    const setOrderOnBallots = (unOrderedBallots: IBallot[]): IBallot[] => {
+        return unOrderedBallots.map((value, index) => {
+            value.order = index
+            return value
+        })
     }
 
     const reorder = (list: Array<IBallot>, startIndex: number, endIndex: number) => {
@@ -61,33 +95,6 @@ export default function PreviewList({
 
         return result
     }
-
-    const updateOnServer = async (electionId: number) => {
-        new BallotService(BackendAPI).updateBallots(electionId, ballotsState)
-    }
-
-    const onDragEndHandler = useCallback(
-        (result) => {
-            const { destination, source } = result
-
-            // Not dropped in drop context or not moved
-            if (
-                !destination ||
-                (destination.index === source.index && destination.droppableId === source.droppableId)
-            ) {
-                return
-            }
-
-            const newBallots = reorder(ballotsState, source.index, destination.index) as IBallotEntity[]
-            setBallotsState(newBallots)
-
-            // only update on server if election exists
-            if (electionId) {
-                updateOnServer(electionId)
-            }
-        },
-        [ballotsState],
-    )
 
     const onDeleteHandler = (index: number) => {
         const newState = Array.from(ballotsState)

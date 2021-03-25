@@ -29,6 +29,7 @@
     "Issues": "Issues",
     "Last name": "Last name",
     "Log In": "Log In",
+    "Log out": "Log out",
     "New password": "New password",
     "Next": "Next",
     "None": "None",
@@ -54,12 +55,17 @@
     "Title": "Title",
     "Total": "Total",
     "Try again later": "Try again later",
-    "Unable to connect to server": "Unable to connect to server",
     "Unexpected error": "An unexpected error ocurred",
     "Update": "Update {{value}}",
     "Verification": "Verification",
     "Vote": "Vote",
     "Vote_plural": "Votes",
     "Votes": "Votes",
-    "Welcome to Anovote": "Welcome to Anovote"
+    "Unable to connect to server": "Unable to connect to server",
+    "Welcome to Anovote": "Welcome to Anovote",
+    "no-ballots": "No ballots",
+    "Submit vote": "Submit vote",
+    "You need to select a candidate": "You need to select a candidate",
+    "Your vote was submitted!": "Your vote was submitted!",
+    "Could not connect to the server": "Could not connect to the server"
 }

@@ -33,7 +33,4 @@ it('Display error on empty fields after create election is clicked', async () =>
     const list = [...container.querySelectorAll('.ant-form-item-explain')]
     expect(list[0]).toBeTruthy()
     expect(list[1]).toBeTruthy()
-    expect(list[2]).toBeTruthy()
-    expect(list[3]).toBeTruthy()
-    expect(list[4]).toBeTruthy()
 })

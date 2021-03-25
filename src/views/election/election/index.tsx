@@ -1,49 +1,141 @@
-import { Card, Col, Row, Space } from 'antd'
-import Title from 'antd/lib/typography/Title'
+import { Spin } from 'antd'
+import { ElectionFinished } from 'components/election/ElectionFinished'
+import { ElectionInProgressView } from 'components/election/ElectionInProgress'
+import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
+import { ElectionParams } from 'components/queue/ElectionParams'
+import { BackendAPI } from 'core/api'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { ElectionService } from 'core/service/election/ElectionService'
 import * as React from 'react'
-import { useTranslation } from 'react-i18next'
+import { useEffect, useReducer } from 'react'
+import { useParams } from 'react-router-dom'
 import CreateElectionView from '../createElection'
-import { ElectionInProgressView } from '../ElectionInProgressView'
-import { elections } from '../../../dummy/electionsDummyData'
-import { ElectionStatusCard } from './ElectionStatusCard'
 
 /**
  * The main view used for creating an election
  */
 export default function ElectionView(): React.ReactElement {
-    const [t] = useTranslation(['translation', 'common', 'election'])
-    const election = elections[0]
+    const initialState: ElectionViewState = {
+        isLoading: false,
+        election: undefined,
+        edit: false,
+    }
+    const [{ isLoading, election, edit }, dispatch] = useReducer(reducer, initialState)
 
-    const renderElectionView = (electionStatus: ElectionStatus) => {
-        switch (electionStatus) {
+    const { electionId } = useParams<ElectionParams>()
+    const electionService = new ElectionService(BackendAPI)
+
+    useEffect(() => {
+        if (!electionId) {
+            // todo
+            throw new Error('missing ID')
+        }
+        fetchElection(electionId)
+    }, [])
+
+    const updateElection = async (election: IElectionEntity) => {
+        if (!electionId) {
+            throw new Error('No election ID')
+        }
+        election.id = Number.parseInt(electionId)
+        try {
+            const updatedElection = await electionService.updateElection(election)
+            dispatch({ type: 'updateSuccess', election: updatedElection })
+        } catch (err) {
+            console.log(err)
+            dispatch({ type: 'error', message: err.message })
+        }
+    }
+
+    const fetchElection = (electionId: string) => {
+        dispatch({ type: 'fetchingElection' })
+        setTimeout(() => {
+            // todo remove timeout. only here to demonstrate loading
+            electionService
+                .getElection(Number.parseInt(electionId))
+                .then((response) => {
+                    dispatch({ type: 'gotElection', election: response })
+                })
+                .catch((reason) => {
+                    dispatch({ type: 'error', message: reason })
+                })
+        }, 1000)
+    }
+
+    const onElectionChangeHandler = (election: IElectionEntity) => {
+        dispatch({ type: 'updateElectionStatus', election })
+        updateElection(election)
+    }
+
+    const onUpdateHandler = (election: IElectionEntity) => {
+        election.status = ElectionStatus.NotStarted
+        dispatch({ type: 'updateElection', election })
+        updateElection(election)
+    }
+
+    const renderElectionView = (election: IElectionEntity) => {
+        if (edit) {
+            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} />
+        }
+        switch (election.status) {
             case ElectionStatus.NotStarted:
-                return <CreateElectionView initialElection={election} />
+                return (
+                    <ElectionNotStarted
+                        election={election}
+                        onElectionChange={(election) => onElectionChangeHandler(election)}
+                        onElectionEdit={() => dispatch({ type: 'edit' })}
+                    />
+                )
             case ElectionStatus.Started:
                 return <ElectionInProgressView election={election} />
             case ElectionStatus.Finished:
-                return 'Election finished'
+                // todo create view when results are finished
+                return <ElectionFinished />
             default:
+                console.error('status not set')
                 return null
         }
     }
 
-    const cardTitle = <Title level={2}>{t('election:Connected voters')}</Title>
     return (
         <>
-            <Row>
-                <Col>
-                    <Space direction={'vertical'}>
-                        <ElectionStatusCard election={elections[0]} />
-                        <Card className={'info-card'} title={cardTitle}>
-                            <div className="is-flex-column has-content-center-center">
-                                <span className={'text-large'}>1337</span> {/* todo fetch real time*/}
-                            </div>
-                        </Card>
-                    </Space>
-                </Col>
-                <Col span={16}>{renderElectionView(election.status)}</Col>
-            </Row>
+            {isLoading && <Spin />}
+            {!isLoading && election && renderElectionView(election)}
         </>
     )
 }
+
+type ElectionViewState = {
+    isLoading: boolean
+    election?: IElectionEntity
+    edit: boolean
+}
+
+function reducer(state: ElectionViewState, action: ElectionViewActions): ElectionViewState {
+    switch (action.type) {
+        case 'edit': {
+            return { ...state, edit: true }
+        }
+        case 'fetchingElection':
+            return { ...state, isLoading: true }
+        case 'gotElection':
+            return { ...state, isLoading: false, election: action.election }
+        case 'error':
+            console.error(action.message)
+            // todo #131 redirect if election with id does not exist
+            return { ...state, isLoading: false, edit: false }
+        case 'updateElectionStatus':
+        case 'updateElection':
+            return { ...state, election: action.election, isLoading: true }
+        case 'updateSuccess':
+            return { ...state, election: action.election, isLoading: false, edit: false }
+        default:
+            return state
+    }
+}
+
+type ElectionViewActions =
+    | { type: 'fetchingElection' | 'success' | 'edit' }
+    | { type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess'; election: IElectionEntity }
+    | { type: 'error'; message: string }

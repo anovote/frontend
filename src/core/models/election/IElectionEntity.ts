@@ -1,15 +1,12 @@
-import { IElection } from 'core/models/election/IElection'
+import { IElection } from './IElection'
 
+/**
+ * Represents an election after it has been created.
+ * By adding additional fields as id, electionOrganizer and dates
+ */
 export interface IElectionEntity extends IElection {
     id: number
     electionOrganizer: number
-    //title: string
-    //description: string
-    //image?: string
-    //openDate?: Date
-    //closeDate?: Date
-    //password?: string
-    //status: ElectionStatus
-    //isLocked: boolean
-    //isAutomatic: boolean
+    createdAt: Date
+    updatedAt: Date
 }

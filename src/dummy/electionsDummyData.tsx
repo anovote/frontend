@@ -42,6 +42,8 @@ export const elections: IElectionEntity[] = [
                 resultDisplayTypeCount: 1,
             },
         ],
+        createdAt: new Date(),
+        updatedAt: new Date(),
         eligibleVoters: [
             { identification: 'my@email.com' },
             { identification: 'new@email.com' },

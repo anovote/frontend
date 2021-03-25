@@ -9,6 +9,7 @@ import { useSocket } from 'core/hooks/useSocket'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
+import { ElectionParams } from './ElectionParams'
 import QueueDescription from './QueueDescription'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IStatValue } from 'components/statCard/IStatValue'
@@ -94,8 +95,4 @@ export default function BallotsQueue({
             </Steps>
         </div>
     )
-}
-
-interface ElectionParams {
-    electionId?: string
 }

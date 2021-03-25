@@ -1,15 +1,16 @@
-import { Alert, Button, Form, Input } from 'antd'
+import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
-import * as React from 'react'
-import { useTranslation } from 'react-i18next/'
-import { useHistory } from 'react-router-dom'
 import { BackendAPI } from 'core/api'
-import { getAdminRoute } from 'core/routes/siteRoutes'
-import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
+import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { RegistrationDetails } from 'core/service/registration/RegistrationDetails'
 import { RegistrationService } from 'core/service/registration/RegistrationService'
-import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
+import { AlertState } from 'core/state/AlertState'
+import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateContext'
+import * as React from 'react'
+import { useTranslation } from 'react-i18next/'
+import { Redirect, useHistory } from 'react-router-dom'
 
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
@@ -18,7 +19,8 @@ export default function RegisterView(): React.ReactElement {
     const [errorMessage, setErrorMessage] = React.useState('')
     const [successMessage, setSuccessMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
-    const history = useHistory()
+    const history = useHistory<AlertState>()
+    const { isLoggedIn } = useAppState()
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
@@ -28,7 +30,8 @@ export default function RegisterView(): React.ReactElement {
                 setSuccessMessage(t('form:User was registered'))
 
                 appDispatcher.setLoginState(AuthLevel.organizer)
-                history.replace(getAdminRoute().elections.view)
+                const alertProps: AlertProps = { message: successMessage }
+                history.replace(getAdminRoute().elections.view, { alertProps })
             } catch (error) {
                 if (error instanceof CredentialError) {
                     setErrorMessage(t('form:Error in form'))
@@ -41,10 +44,12 @@ export default function RegisterView(): React.ReactElement {
         }
     }
 
-    return (
+    return isLoggedIn ? (
+        <Redirect to={getAdminRoute().elections.view} />
+    ) : (
         <Layout className="layout">
             <Content className="is-fullscreen is-flex-column has-content-center-center">
-                <h1>ANOVOTE</h1>
+                <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="register-form">
                     <div className="alert-field">
                         {!!successMessage && <Alert message={successMessage} type={'success'} showIcon closable />}
@@ -87,9 +92,18 @@ export default function RegisterView(): React.ReactElement {
                             <Input.Password />
                         </Form.Item>
                         <Form.Item>
-                            <Button type="primary" htmlType="submit">
-                                {t('form:Register')}
-                            </Button>
+                            <Space>
+                                <Button type="primary" htmlType="submit">
+                                    {t('form:Register')}
+                                </Button>
+                                <Button
+                                    onClick={() => {
+                                        history.push(getPublicRoute().login)
+                                    }}
+                                >
+                                    {t('form:go-to-login')}
+                                </Button>
+                            </Space>
                         </Form.Item>
                     </Form>
                 </div>

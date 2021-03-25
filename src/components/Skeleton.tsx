@@ -1,6 +1,7 @@
-import { EyeFilled, HomeFilled, ProjectFilled, SettingFilled } from '@ant-design/icons'
+import { EyeFilled, HomeFilled, ProjectFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import Search from 'antd/lib/input/Search'
+import { LogoutButton } from 'containers/modal/LogoutButton'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { getAdminRoute } from 'core/routes/siteRoutes'
 import React, { ReactElement, useState } from 'react'
@@ -23,7 +24,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
 
-    const { dashboard, elections, customize, settings } = getAdminRoute()
+    const { dashboard, elections, customize /*, settings*/ } = getAdminRoute()
 
     function createElection() {
         history.push(elections.create)
@@ -31,12 +32,13 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     function onSearch() {
         console.log('Tried to search')
     }
+
     return (
         <Layout>
             <Header className="skeleton-header">
                 <Search placeholder="Search something.." allowClear size="middle" onSearch={onSearch} tabIndex={1} />
             </Header>
-            <Layout>
+            <Layout className="skeleton-layout">
                 <ProfileSettingsModal showModal={showProfileModal} close={closeProfileModalHandler} />
                 <Sider className="skeleton-sidebar">
                     <AnovoteLogo id="logo" />
@@ -73,11 +75,13 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                         >
                             <ProfileRoundIcon />
                         </LargeIconButton>
-                        <Menu.Item key={settings} icon={<SettingFilled />} id="settings">
-                            <Link to={settings} tabIndex={7}>
+                        <LogoutButton />
+                        {/* todo #146 implement settings */}
+                        {/*<Menu.Item key={settings} icon={<SettingFilled />} id="settings">*/}
+                        {/*<Link to={settings} tabIndex={7}>
                                 {t('Settings')}
-                            </Link>
-                        </Menu.Item>
+                            </Link>*/}
+                        {/*</Menu.Item>*/}
                     </Menu>
                 </Sider>
                 <Layout id="content">

@@ -38,11 +38,11 @@ export default function IconMessage({
                 ></Button>
             )}
             <SquareIconContainer icon={icon} label={label}></SquareIconContainer>
-            {(!!alertMessage && (
+            {!!alertMessage && (
                 <div className="mt-20 is-flex has-content-center-center">
                     <Alert type={alertLevel} showIcon={true} message={alertMessage}></Alert>
                 </div>
-            )) || <></>}
+            )}
         </div>
     )
 }

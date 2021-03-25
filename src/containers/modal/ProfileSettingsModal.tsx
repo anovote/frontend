@@ -5,6 +5,7 @@ import ChangeEmailFrom from 'containers/forms/profile/ChangeEmailForm'
 import ChangePasswordForm from 'containers/forms/profile/ChangePasswordForm'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
+import { LogoutButton } from './LogoutButton'
 
 export default function ProfileSettingsModal({
     showModal,
@@ -40,6 +41,11 @@ export default function ProfileSettingsModal({
                     <Col span={24}>
                         <Title level={3}>{t('profile:Change password')}</Title>
                         <ChangePasswordForm />
+                    </Col>
+                </Row>
+                <Row>
+                    <Col>
+                        <LogoutButton />
                     </Col>
                 </Row>
             </Modal>

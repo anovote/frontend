@@ -1,5 +1,6 @@
 import { PlusOutlined } from '@ant-design/icons'
 import { Alert, Button, Col, Dropdown, List, Menu, Row, Space, Upload } from 'antd'
+import Title from 'antd/lib/typography/Title'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
@@ -89,7 +90,7 @@ export default function EligibleVotersTable({
         <div>
             <Row>
                 <Col span={12}>
-                    <h2>{t('common:Eligible voters')}</h2>
+                    <Title level={2}>{t('common:Eligible voters')}</Title>
                 </Col>
                 <Col span={12}>
                     <Space align="end" direction="vertical" className="width-100">
