@@ -2,7 +2,9 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
+import { getAdminRoute } from 'core/routes/siteRoutes'
 import React, { ReactElement } from 'react'
+import { useHistory } from 'react-router-dom'
 
 export default function ElectionHeader({
     status,
@@ -13,10 +15,18 @@ export default function ElectionHeader({
     title: string
     count: number | undefined
 }): ReactElement {
+    const history = useHistory()
+
+    /**
+     * Redirect to create election
+     */
+    const addNewElection = () => {
+        history.push(getAdminRoute().elections.create)
+    }
+
     let info = (
         <Space className="col-position" align="center">
-            {/* todo #153 the plus button on the card should add new election */}
-            {/*<Button id="card-add-btn" type="primary" icon={<PlusOutlined />} size="small" />*/}
+            <Button id="card-add-btn" onClick={addNewElection} type="primary" icon={<PlusOutlined />} size="small" />
             <span className="card-total-count">{count}</span>
         </Space>
     )
