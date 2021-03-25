@@ -1,6 +1,7 @@
 import Title from 'antd/lib/typography/Title'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import BallotModal from 'containers/modal/BallotModal'
+import { Events } from 'core/events'
 import { useSocket } from 'core/hooks/useSocket'
 import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
@@ -17,12 +18,15 @@ export function ElectionInProgressView({ election }: { election: IElection }): R
     useEffect(() => {
         socket.connect()
 
-        socket.on('connection', () => {
+        socket.on(Events.standard.socket.connect, () => {
             console.log(socket.id)
         })
 
-        socket.on('updated_result', (data: IBallotStats[]) => {
-            setStats(data)
+        socket.on(Events.server.vote.newVote, (data: IBallotStats) => {
+            const newState = [...stats]
+            newState[data.ballotId] = data
+            console.log(newState)
+            setStats(newState)
         })
         return () => {
             socket.disconnect()
