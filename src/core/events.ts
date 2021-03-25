@@ -30,6 +30,8 @@ export const Events = {
             verify: {
                 voterIntegrity: 'verify_voter_integrity',
             },
+            voterVerifiedReceived: 'voter_verification_received',
+            upgradeVerificationToJoin: 'upgrade_verification_to_join',
         },
         election: {
             start: 'start_election',
@@ -48,6 +50,8 @@ export const Events = {
             action: {
                 mail: 'awaiting_mail_action',
             },
+            voterVerified: 'voter_verified',
+            joinVerified: 'join_verified',
         },
         vote: {
             error: 'vote_error',

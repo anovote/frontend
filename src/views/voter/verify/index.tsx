@@ -1,96 +1,79 @@
-import { CheckOutlined, FrownOutlined, LoadingOutlined } from '@ant-design/icons'
-import { Alert, AlertProps, Layout } from 'antd'
+import { Layout } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import CenterView from 'components/centerView/CenterView'
-import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
+import IconMessage from 'components/iconMessage/IconMessage'
+import { IIconMessage } from 'components/iconMessage/IIconMessage'
+import useIconMessageState from 'components/iconMessage/UseIconMessage'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
 import { Events } from 'core/events'
+import { Timeout } from 'core/helpers/Timeout'
 import { useQuery } from 'core/hooks/useQuery'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
+import React, { ReactElement, useEffect } from 'react'
 import { useSocket } from 'core/hooks/useSocket'
-import { StatusCodes } from 'http-status-codes'
-import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-type ValidationCode = string
-
-interface IVerificationParams {
-    code: ValidationCode
-}
-interface IIntegrityVerification {
-    statusCode: StatusCodes
-}
-interface IVerificationState {
-    label: string
-    alert?: AlertProps
-    additionalInfo?: string
-    icon: ReactElement | ReactNode
-}
+import { useHistory } from 'react-router'
+import {
+    joinVerificationEvent,
+    verifyConnectErrorEvent,
+    verifyConnectEvent,
+    verifyUpgradeToJoinAck,
+    verifyVoterIntegrityAck,
+} from './Events'
+import { IVerificationPayload } from './IVerificationPayload'
 
 export default function VerifyVoterView(): ReactElement {
     const [socket] = useSocket()
-    const [t] = useTranslation(['voter', 'common'])
+    const [t] = useTranslation(['error', 'voter', 'common', 'election'])
+    const history = useHistory()
+    const appStateDispatcher = useAppStateDispatcher()
     const query = useQuery()
     const codeToVerify = query.get('code')
-
-    const initialVerificationState: IVerificationState = {
-        icon: <LoadingOutlined />,
+    const verificationMessage: IIconMessage = {
         label: t('voter:Verifying code'),
-        alert: {
-            message: t('voter:Please do not close this window'),
-            type: 'warning',
-        },
+        alertMessage: t('voter:Please do not close this window'),
+        alertLevel: 'warning',
     }
-    const [statusState, setStatusState] = useState(initialVerificationState)
-
-    const integrityVerifiedEvent = (data: IIntegrityVerification) => {
-        if (data.statusCode === StatusCodes.OK) {
-            setStatusState({
-                icon: <CheckOutlined className="color-success-contrasting scale-up-center" />,
-                label: t('voter:Voter verification succeeded'),
-                alert: {
-                    message: t('voter:This browser tab can ble closed'),
-                    type: 'success',
-                },
-            })
-        } else {
-            setStatusState({
-                icon: <FrownOutlined className="color-danger-contrasting scale-up-center" />,
-                label: t('voter:Voter verification failed'),
-                alert: {
-                    message: t('voter:Verification failed suggestion'),
-                    type: 'error',
-                },
-            })
-        }
+    const verificationCodeMissingMessage: IIconMessage = {
+        label: t('error:Verification code is missing'),
     }
+    const [statusState, setStatusState] = useIconMessageState(verificationMessage)
 
     useEffect(() => {
         if (codeToVerify) {
-            const verificationPayload: IVerificationParams = {
+            const storageService = new LocalStorageService()
+            const upgradeTimeout = new Timeout(2000, () => {
+                socket.emit(
+                    Events.client.auth.upgradeVerificationToJoin,
+                    {},
+                    verifyUpgradeToJoinAck(setStatusState, t, storageService, appStateDispatcher, history),
+                )
+            })
+            const verificationPayload: IVerificationPayload = {
                 code: codeToVerify,
             }
-            socket.on(Events.standard.socket.connectError, () => {
-                setStatusState({
-                    icon: <FrownOutlined className="color-danger-contrasting scale-up-center" />,
-                    label: t('voter:Voter verification failed'),
-                    alert: {
-                        message: t('common:Unexpected error'),
-                        type: 'error',
-                    },
-                })
-            })
-            socket.on(Events.standard.socket.connect, () => {
-                // Trigger this only once, as we do not need it after we get a response.
-                socket.emit(Events.client.auth.verify.voterIntegrity, verificationPayload, integrityVerifiedEvent)
-            })
+            const voterIntegrityAck = verifyVoterIntegrityAck(setStatusState, upgradeTimeout, t)
+            const connectEvent = verifyConnectEvent(socket, verificationPayload, upgradeTimeout, voterIntegrityAck)
+            const connectErrorEvent = verifyConnectErrorEvent(setStatusState, upgradeTimeout, t)
+            const verifiedEvent = joinVerificationEvent(setStatusState, upgradeTimeout, t)
+            socket.on(Events.standard.socket.connect, connectEvent)
+            socket.on(Events.standard.socket.connectError, connectErrorEvent)
+            // Join page successfully joined the election
+            socket.once(Events.server.auth.joinVerified, verifiedEvent)
             socket.connect()
+
+            return () => {
+                // Cleanup all events
+                socket.removeListener(Events.standard.socket.connect, connectEvent)
+                socket.removeListener(Events.standard.socket.connectError, connectErrorEvent)
+                // Join page successfully joined the election
+                socket.removeListener(Events.server.auth.joinVerified, verifiedEvent)
+            }
         } else {
-            setStatusState({
-                icon: <FrownOutlined className="color-danger-contrasting scale-up-center" />,
-                label: t('voter:Verification code is missing'),
-            })
+            setStatusState(verificationCodeMissingMessage)
         }
     }, [])
 
@@ -100,16 +83,12 @@ export default function VerifyVoterView(): ReactElement {
                 <VoterHeader slogan="Anovote" />
                 <Content className="voter-election-layout-content">
                     <VoterContent>
-                        <SquareIconContainer icon={statusState.icon} label={statusState.label}></SquareIconContainer>
-                        {(!!statusState.alert && (
-                            <div className="mt-20 is-flex has-content-center-center">
-                                <Alert
-                                    type={statusState.alert.type}
-                                    showIcon={true}
-                                    message={statusState.alert.message}
-                                ></Alert>
-                            </div>
-                        )) || <></>}
+                        <IconMessage
+                            label={statusState.label}
+                            alertLevel={statusState.alertLevel}
+                            alertMessage={statusState.alertMessage}
+                            icon={statusState.icon}
+                        />
                     </VoterContent>
                 </Content>
                 <VoterFooter />

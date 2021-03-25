@@ -7,3 +7,7 @@ export interface IToken {
     iat: number
     exp: number
 }
+
+export interface IVoterToken extends IToken {
+    electionId: number
+}

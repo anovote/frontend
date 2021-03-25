@@ -8,7 +8,7 @@ import { appState, IAppState } from './appState'
 /**
  * Describes methods that is responsible for altering the global application state.
  */
-interface IAppStateDispatcher {
+export interface IAppStateDispatcher {
     /**
      * Updates application state to logged in,
      * and set the provided auth level

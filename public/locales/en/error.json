@@ -1,0 +1,14 @@
+{
+    "Unexpected": "An unexpected error occurred",
+    "Voter identification is missing": "Please provide an identification",
+    "Verification code is missing": "Could not join, the verification code is missing",
+    "Verification code is invalid": "The verification code is invalid",
+    "Voter verification failed": "The verification failed, please try again",
+    "Already verified": "You are already verified on a device",
+    "Identification not exist for election": "The identification do not exist for the election",
+    "Missing election code": "Could not join, missing election code",
+    "Missing identification": "Could not join, missing identification",
+    "Election is finished": "The election is finished or closed",
+    "Election do not exist": "The election do not exist",
+    "Upgrading verification": "We have trouble reaching the join page, this window will be upgraded to join the election instead"
+}
