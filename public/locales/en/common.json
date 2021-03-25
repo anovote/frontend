@@ -61,9 +61,9 @@
     "Vote_plural": "Votes",
     "Votes": "Votes",
     "Welcome to Anovote": "Welcome to Anovote",
-    "no-ballots": "No ballots"
-  "Submit vote": "Submit vote",
-  "You need to select a candidate": "You need to select a candidate",
-  "Your vote was submitted!": "Your vote was submitted!",
-  "Could not connect to the server": "Could not connect to the server"
+    "no-ballots": "No ballots",
+    "Submit vote": "Submit vote",
+    "You need to select a candidate": "You need to select a candidate",
+    "Your vote was submitted!": "Your vote was submitted!",
+    "Could not connect to the server": "Could not connect to the server"
 }

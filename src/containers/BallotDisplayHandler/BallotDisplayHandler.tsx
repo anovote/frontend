@@ -10,8 +10,9 @@ import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
 import React, { ReactElement, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSocket } from 'core/state/websocket/useSocketHook'
+
 import { Events } from 'core/events'
+import { useSocket } from 'core/hooks/useSocket'
 
 const initialState = {
     selected: 0,
