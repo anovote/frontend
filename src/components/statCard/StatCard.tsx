@@ -17,6 +17,7 @@ export default function StatCard(
     if (stats.length == 0) {
         stats.push({ title: '_', value: 0 })
     }
+
     return (
         <div className={`stats-card ${inverseColorsClass}`} onClick={onClick}>
             {stats.map((stat, index) => {

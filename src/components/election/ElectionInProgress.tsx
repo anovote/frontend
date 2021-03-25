@@ -30,9 +30,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState(0)
-    const [stats, setStats] = useState([
-        { ballotId: 0, stats: { blank: 0, votes: 0, total: 0, candidates: [] } },
-    ] as IBallotStats[])
+    const [stats, setStats] = useState([] as IBallotStats[])
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -48,12 +46,9 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         })
 
         socket.on(Events.server.vote.newVote, (data: IBallotStats) => {
-            console.log(data)
-
             const newState = [...stats]
             newState[data.ballotId] = data
 
-            console.log(newState)
             setStats(newState)
         })
         return () => {
@@ -62,7 +57,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     }, [])
 
     const ballots = election.ballots
-        ? election.ballots.map((ballot, index) => ({ id: index, ...ballot } as IBallotEntity))
+        ? election.ballots.map((ballot) => ({ ...ballot } as IBallotEntity))
         : new Array<IBallotEntity>()
 
     const showModal = (id: number) => {
@@ -85,6 +80,12 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         if (ballots[active - 1]) {
             setActive(active - 1)
         }
+    }
+
+    const findBallotWithId = (id: number) => {
+        const ballot = ballots.find((ballot) => ballot.id === id)
+        if (!ballot) return undefined
+        return new BallotEntity(ballot)
     }
 
     function wt() {
@@ -124,11 +125,12 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
                             <BallotsQueue dataSource={ballots} stats={stats} expandBallot={showModal} />
                             <BallotModal
                                 showModal={modal}
-                                ballotEntity={new BallotEntity(ballots[active])}
+                                ballotEntity={findBallotWithId(active)}
                                 ballotStats={stats[active]}
                                 close={closeModal}
                                 controls={{
                                     next: () => {
+                                        // todo fix these next/prev buttons
                                         hasNext()
                                     },
                                     previous: () => {

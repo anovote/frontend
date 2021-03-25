@@ -22,14 +22,14 @@ export default function BallotModal({
     close: () => void
     controls: IControl
     ballotStats?: IBallotStats
-    ballotEntity: BallotEntity
+    ballotEntity: BallotEntity | undefined
 }): ReactElement {
     const [t] = useTranslation(['translation', 'common'])
     const { previous, next } = controls
 
     // cross reference stats with a candidate
     const diagramStats = ballotStats?.stats.candidates.map((stat, index) => {
-        return { ...stat, candidate: ballotEntity.candidates[index].candidate }
+        return { ...stat, candidate: ballotEntity?.candidates[index].candidate }
     })
 
     const config = {
@@ -64,23 +64,25 @@ export default function BallotModal({
 
     return (
         <>
-            <Modal
-                width={'100vw'}
-                // TODO Add status ICON implementation here when merged
-                title={ballotEntity.status == 1 ? 'IN PROGRESS' : 'NOT STARTED'}
-                footer={footer}
-                visible={showModal}
-                onCancel={close}
-                className="modal-display-small"
-            >
-                <Row>
-                    <Col span={24}>
-                        <Title level={2}>{ballotEntity.title}</Title>
-                        <div>{ballotStats && <StatCard stats={appendStats(ballotStats)} />}</div>
-                    </Col>
-                    <Col span={24}>{diagramStats && <Bar data={diagramStats} {...config} />}</Col>
-                </Row>
-            </Modal>
+            {ballotEntity && (
+                <Modal
+                    width={'100vw'}
+                    // TODO Add status ICON implementation here when merged
+                    title={ballotEntity.status == 1 ? 'IN PROGRESS' : 'NOT STARTED'}
+                    footer={footer}
+                    visible={showModal}
+                    onCancel={close}
+                    className="modal-display-small"
+                >
+                    <Row>
+                        <Col span={24}>
+                            <Title level={2}>{ballotEntity.title}</Title>
+                            <div>{ballotStats && <StatCard stats={appendStats(ballotStats)} />}</div>
+                        </Col>
+                        <Col span={24}>{diagramStats && <Bar data={diagramStats} {...config} />}</Col>
+                    </Row>
+                </Modal>
+            )}
         </>
     )
 }

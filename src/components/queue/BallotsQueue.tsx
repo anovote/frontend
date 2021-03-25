@@ -35,13 +35,18 @@ export default function BallotsQueue({
 
     const queue = []
 
-    const appendStats = ({ stats }: IBallotStats): IStatValue[] => {
-        return [
-            { title: t('common:Total'), value: stats.total },
-            { title: t('Votes'), value: stats.votes },
-            { title: t('common:Blank'), value: stats.blank },
-        ]
+    const appendStats = (stats: IBallotStats | undefined): IStatValue[] | [] => {
+        if (stats) {
+            return [
+                { title: t('common:Total'), value: stats.stats.total },
+                { title: t('Votes'), value: stats.stats.votes },
+                { title: t('common:Blank'), value: stats.stats.blank },
+            ]
+        }
+
+        return []
     }
+
     async function pushBallot(id: number) {
         setIsLoading(true)
         // todo #127 pushing a ballot should change some state on the ballot on the server to indicate that it has been published
