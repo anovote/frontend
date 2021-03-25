@@ -1,0 +1,38 @@
+.voter-display {
+    .ballot-candidate {
+        @include is-rounded-large;
+
+        min-height: 4rem;
+        padding: 0 1rem;
+
+        background: $white;
+        @include has-shadow;
+
+        @include is-flex;
+        flex-direction: row-reverse;
+        justify-content: space-between;
+        align-items: center;
+
+        margin-bottom: 1rem;
+
+        .candidate-title {
+            @include text;
+            font-weight: $bold;
+        }
+
+        .candidate-id {
+            @include label;
+            font-size: 1rem;
+            letter-spacing: 0.02rem;
+        }
+    }
+
+    .ant-checkbox-wrapper,
+    .ant-radio-wrapper {
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .ballot:last-child {
+        margin-bottom: 0 !important;
+    }
+}

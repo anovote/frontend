@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Text from 'antd/lib/typography/Text'
-import { ElectionStatus } from '../core/models/ElectionStatus'
 import { useTranslation } from 'react-i18next'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 
 export default function ElectionStatusLabel({ status }: { status: ElectionStatus }): React.ReactElement {
     const [className, setClassName] = React.useState<string>('')

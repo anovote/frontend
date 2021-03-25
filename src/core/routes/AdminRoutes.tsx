@@ -12,15 +12,15 @@ export default function AdminRoutes(): ReactElement {
     return (
         <Skeleton
             content={
-                <div className="is-fullscreen">
-                    <Route path={adminRoute.elections.view}>
+                <div className="skeleton-admin">
+                    <Route exact path={adminRoute.elections.view}>
                         <ElectionsView />
                     </Route>
-                    <Route path={adminRoute.elections.viewId}>
+                    <Route exact path={adminRoute.elections.viewId}>
                         <ElectionView />
                     </Route>
-                    <Route path={adminRoute.elections.create}>
-                        <CreateElectionView />
+                    <Route exact path={adminRoute.elections.create}>
+                        <CreateElectionView initialElection={undefined} />
                     </Route>
                 </div>
             }

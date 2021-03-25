@@ -44,3 +44,8 @@
         border-left: 3px solid $danger-contrasting;
     }
 }
+
+.field-not-relevant {
+    text-decoration: line-through;
+    color: $soft-text-color;
+}

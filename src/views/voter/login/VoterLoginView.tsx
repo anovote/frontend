@@ -11,12 +11,12 @@ import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { AsyncEmit } from 'core/socket/AsyncEmit'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
-import { useSocket } from 'core/state/websocket/useSocketHook'
 import React, { ReactElement, useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { joinAckEvent, joinConnectErrorEvent, joinConnectEvent, joinVerifiedEvent } from './Events'
-import { voterLoginReducer, VoterLoginState } from './VoterLoginState'
+import { useSocket } from 'core/hooks/useSocket'
+import { VoterLoginState, voterLoginReducer } from 'core/state/login/VoterLoginState'
 /**
  * A view for a voter to give email and election code in order to join an election
  * Sends events via socketIO to the server

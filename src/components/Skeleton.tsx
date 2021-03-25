@@ -36,53 +36,51 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
             <Header className="skeleton-header">
                 <Search placeholder="Search something.." allowClear size="middle" onSearch={onSearch} tabIndex={1} />
             </Header>
-            <Layout>
+            <Sider className="skeleton-sidebar">
+                <AnovoteLogo id="logo" />
+                <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={[history.location.pathname]}>
+                    <LargeIconButton
+                        text={t('Create election')}
+                        onClick={createElection}
+                        tabIndex={2}
+                        classId="create-election"
+                    >
+                        <CirclePlusIcon />
+                    </LargeIconButton>
+                    <Menu.Item key={dashboard} icon={<HomeFilled />}>
+                        <Link to={dashboard} tabIndex={3} id="dashboard">
+                            {t('Dashboard')}
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key={elections.view} icon={<ProjectFilled />}>
+                        <Link to={elections.view} tabIndex={4} id="elections">
+                            {t('Elections')}
+                        </Link>
+                    </Menu.Item>
+                    <Menu.Item key={customize} icon={<EyeFilled />}>
+                        <Link to={customize} tabIndex={5}>
+                            {t('Customize')}
+                        </Link>
+                    </Menu.Item>
+                    <LargeIconButton
+                        classId="view-profile"
+                        text="Name for you"
+                        reverse={true}
+                        onClick={openProfileModal}
+                        tabIndex={6}
+                    >
+                        <ProfileRoundIcon />
+                    </LargeIconButton>
+                    <Menu.Item key={settings} icon={<SettingFilled />} id="settings">
+                        <Link to={settings} tabIndex={7}>
+                            {t('Settings')}
+                        </Link>
+                    </Menu.Item>
+                </Menu>
+            </Sider>
+            <Layout className="skeleton-layout">
                 <ProfileSettingsModal showModal={showProfileModal} close={closeProfileModalHandler} />
-                <Sider className="skeleton-sidebar">
-                    <AnovoteLogo id="logo" />
-                    <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={[history.location.pathname]}>
-                        <LargeIconButton
-                            text={t('Create election')}
-                            onClick={createElection}
-                            tabIndex={2}
-                            classId="create-election"
-                        >
-                            <CirclePlusIcon />
-                        </LargeIconButton>
-                        <Menu.Item key={dashboard} icon={<HomeFilled />}>
-                            <Link to={dashboard} tabIndex={3} id="dashboard">
-                                {t('Dashboard')}
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key={elections.view} icon={<ProjectFilled />}>
-                            <Link to={elections.view} tabIndex={4} id="elections">
-                                {t('Elections')}
-                            </Link>
-                        </Menu.Item>
-                        <Menu.Item key={customize} icon={<EyeFilled />}>
-                            <Link to={customize} tabIndex={5}>
-                                {t('Customize')}
-                            </Link>
-                        </Menu.Item>
-                        <LargeIconButton
-                            classId="view-profile"
-                            text="Name for you"
-                            reverse={true}
-                            onClick={openProfileModal}
-                            tabIndex={6}
-                        >
-                            <ProfileRoundIcon />
-                        </LargeIconButton>
-                        <Menu.Item key={settings} icon={<SettingFilled />} id="settings">
-                            <Link to={settings} tabIndex={7}>
-                                {t('Settings')}
-                            </Link>
-                        </Menu.Item>
-                    </Menu>
-                </Sider>
-                <Layout id="content">
-                    <Content className="site-layout-background">{props.content}</Content>
-                </Layout>
+                <Content className="site-layout-background">{props.content}</Content>
             </Layout>
         </Layout>
     )

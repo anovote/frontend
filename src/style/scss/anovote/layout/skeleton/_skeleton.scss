@@ -3,3 +3,15 @@
 // Components
 @import './header';
 @import './sidebar/sidebar';
+
+.skeleton-layout {
+    margin-left: $sidebar-width;
+
+    .site-layout-background {
+        overflow: initial;
+    }
+
+    .skeleton-admin {
+        padding: 5rem 3rem 2rem 3rem;
+    }
+}
