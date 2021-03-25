@@ -1,11 +1,9 @@
 import { Form, Radio } from 'antd'
-import * as React from 'react'
-import { ReactComponent as NoneIcon } from 'style/assets/none.svg'
-import { ReactComponent as SingleWinnerIcon } from 'style/assets/single.svg'
-import { ReactComponent as RankedIcon } from 'style/assets/ranked.svg'
 import Text from 'antd/lib/typography/Text'
-import { useTranslation } from 'react-i18next'
 import { BallotResultDisplay } from 'core/models/ballot/BallotResultDisplay'
+import * as React from 'react'
+import { useTranslation } from 'react-i18next'
+import { ReactComponent as SingleWinnerIcon } from 'style/assets/single.svg'
 
 export default function SelectResultType({
     label,

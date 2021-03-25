@@ -1,6 +1,5 @@
-import { EyeFilled, HomeFilled, ProjectFilled } from '@ant-design/icons'
+import { ProjectFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
-import Search from 'antd/lib/input/Search'
 import { LogoutButton } from 'containers/modal/LogoutButton'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { getAdminRoute } from 'core/routes/siteRoutes'

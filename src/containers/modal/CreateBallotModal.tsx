@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Alert, AlertProps, Button, Form, Input, List, Switch } from 'antd'
+import { Alert, AlertProps, Button, Form, Input, List } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
 import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotType'
