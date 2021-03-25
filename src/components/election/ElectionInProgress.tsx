@@ -62,14 +62,11 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
 
     /**
      * Display modal for a given ballot with id.
-     * Prevent modal for displaying if ballot is not in focus.
      * @param id the id to show modal for
      */
     const showModal = (id: number) => {
-        if (id === active) {
-            setModal(true)
-            console.log(id)
-        }
+        setModal(true)
+        console.log(id)
         setActive(id)
     }
 
