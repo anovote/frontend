@@ -13,6 +13,10 @@ import { useTranslation } from 'react-i18next'
 
 import { Events } from 'core/events'
 import { useSocket } from 'core/hooks/useSocket'
+import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
+import { BackendAPI } from 'core/api'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { StorageKeys } from 'core/service/storage/StorageKeys'
 
 const initialState = {
     selected: 0,
@@ -79,7 +83,8 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
     const submitVote = () => {
         socket.connect()
-
+        const storageService = new AuthenticationService(BackendAPI, new LocalStorageService<StorageKeys>())
+        const voter = storageService.getDecodedToken()
         switch (ballot.type) {
             case BallotType.SINGLE: {
                 if (!socket.connected) {
@@ -99,7 +104,9 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                         Events.client.vote.submit,
                         {
                             candidate: selection.single,
-                            ballot: ballot,
+                            ballot: ballot.id,
+                            voter: voter!.id,
+                            submitted: new Date(),
                         },
                         () => {
                             console.log('Callback handled here')

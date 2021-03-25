@@ -24,7 +24,7 @@ export class ElectionEventService {
         return await new Promise((resolve) => {
             this._socket.emit(
                 'pushBallot',
-                { ballot, electionRoom },
+                { ballotId: ballot.id, electionId: electionRoom },
                 (acknowledgeMessage: SocketEventAcknowledgement) => {
                     resolve(acknowledgeMessage)
                 },
