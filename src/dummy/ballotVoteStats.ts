@@ -11,32 +11,41 @@ const candidateStatsDos: ICandidateStats = {
 }
 
 const ballotStats: IBallotStats = {
-    total: 91,
-    votes: 89,
-    blank: 2,
-    candidates: [candidateStatsUno, candidateStatsDos],
-}
-
-export const voteStats: IBallotStats[] = [
-    {
+    ballotId: 1,
+    stats: {
         total: 91,
         votes: 89,
         blank: 2,
         candidates: [candidateStatsUno, candidateStatsDos],
     },
+}
+
+export const voteStats: IBallotStats[] = [
     {
-        total: 191,
-        votes: 179,
-        blank: 12,
-        candidates: [
-            {
-                id: 1,
-                votes: 145,
-            },
-            {
-                id: 2,
-                votes: 46,
-            },
-        ],
+        ballotId: 1,
+        stats: {
+            total: 91,
+            votes: 89,
+            blank: 2,
+            candidates: [candidateStatsUno, candidateStatsDos],
+        },
+    },
+    {
+        ballotId: 2,
+        stats: {
+            total: 191,
+            votes: 179,
+            blank: 12,
+            candidates: [
+                {
+                    id: 1,
+                    votes: 145,
+                },
+                {
+                    id: 2,
+                    votes: 46,
+                },
+            ],
+        },
     },
 ]

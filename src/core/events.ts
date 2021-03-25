@@ -55,6 +55,7 @@ export const Events = {
         },
         vote: {
             error: 'vote_error',
+            newVote: 'new_vote',
         },
         election: {
             push: 'push_election',

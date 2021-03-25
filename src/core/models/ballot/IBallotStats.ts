@@ -6,8 +6,11 @@ import { ICandidateStats } from './ICandidateStats'
  * blank votes and a list of all candidate stats
  */
 export interface IBallotStats {
-    total: number
-    votes: number
-    blank: number
-    candidates: Array<ICandidateStats>
+    ballotId: number
+    stats: {
+        total: number
+        votes: number
+        blank: number
+        candidates: Array<ICandidateStats>
+    }
 }
