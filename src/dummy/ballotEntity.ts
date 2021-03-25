@@ -16,10 +16,10 @@ export const ballotEntity: IBallotEntity = {
     type: BallotType.SINGLE,
     order: 1,
     candidates: [
-        { id: 1, candidate: 'Finn Torgersen' } as ICandidateEntity,
+        { id: 1, candidate: 'Finn Tom' } as ICandidateEntity,
         {
             id: 2,
-            candidate: 'Bjarne Andersen',
+            candidate: 'David Andersen',
         } as ICandidateEntity,
     ],
 }
