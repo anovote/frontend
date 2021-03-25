@@ -1,4 +1,4 @@
-import { Space } from 'antd'
+import { Alert, AlertProps, Space } from 'antd'
 import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
@@ -10,12 +10,17 @@ import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { ElectionService } from 'core/service/election/ElectionService'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory, useLocation } from 'react-router-dom'
+import { AlertState } from '../../core/state/AlertState'
 
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common', 'election'])
     const [upcoming, setUpcoming] = useState([] as IElectionEntity[])
     const [inProgress, setInProgress] = useState([] as IElectionEntity[])
     const [finished, setFinished] = useState([] as IElectionEntity[])
+    const [alert, setAlert] = useState<AlertProps>()
+    const location = useLocation<AlertState>()
+    const history = useHistory<AlertState>()
 
     useEffect(() => {
         new ElectionService(BackendAPI)
@@ -34,11 +39,25 @@ export default function ElectionsView(): React.ReactElement {
                 setUpcoming(upcoming)
                 setInProgress(started)
                 setFinished(finished)
+
+                if (location.state) {
+                    setAlert(location.state.alertProps)
+                    resetHistoryState()
+                }
             })
             .catch((error) => {
                 console.log(error)
             })
     }, [])
+
+    /**
+     * Resets the history state
+     * The history location should stay intact
+     */
+    const resetHistoryState = () => {
+        const state: AlertState = { alertProps: undefined }
+        history.replace({ ...history.location, state })
+    }
 
     /**
      * Generates the list entry with correct elements.
@@ -54,6 +73,14 @@ export default function ElectionsView(): React.ReactElement {
 
     return (
         <>
+            {alert && (
+                <Alert
+                    {...alert}
+                    onClose={() => {
+                        setAlert(undefined)
+                    }}
+                />
+            )}
             <Title>{t('common:Elections')}</Title>
             <Space align="start" wrap={true}>
                 <CardList
