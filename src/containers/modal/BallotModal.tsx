@@ -28,7 +28,7 @@ export default function BallotModal({
     const { previous, next } = controls
 
     // cross reference stats with a candidate
-    const diagramStats = ballotStats?.candidates.map((stat, index) => {
+    const diagramStats = ballotStats?.stats.candidates.map((stat, index) => {
         return { ...stat, candidate: ballotEntity.candidates[index].candidate }
     })
 
@@ -41,7 +41,7 @@ export default function BallotModal({
         seriesField: 'candidate',
     }
 
-    const appendStats = (stats: IBallotStats): IStatValue[] => {
+    const appendStats = ({ stats }: IBallotStats): IStatValue[] => {
         return [
             { title: t('common:Total'), value: stats.total },
             { title: t('common:Votes'), value: stats.votes },

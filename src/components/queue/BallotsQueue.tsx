@@ -34,7 +34,7 @@ export default function BallotsQueue({
 
     const queue = []
 
-    const appendStats = (stats: IBallotStats): IStatValue[] => {
+    const appendStats = ({ stats }: IBallotStats): IStatValue[] => {
         return [
             { title: t('common:Total'), value: stats.total },
             { title: t('Votes'), value: stats.votes },
