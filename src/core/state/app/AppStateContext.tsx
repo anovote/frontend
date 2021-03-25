@@ -51,6 +51,8 @@ function ProvideAppContext({ children }: { children: Array<ReactElement> | React
             setState({ ...state, isLoggedIn: true, authLevel })
         },
         setLogoutState: () => {
+            new AuthenticationService(BackendAPI, new LocalStorageService()).logout()
+
             setState({ ...state, isLoggedIn: false, authLevel: AuthLevel.none })
         },
     }
