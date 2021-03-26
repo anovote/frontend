@@ -93,26 +93,10 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         return new BallotEntity(ballot)
     }
 
-    function wt() {
-        socket.emit(
-            Events.client.vote.submit,
-            {
-                candidate: null,
-                submitted: new Date(),
-                voter: 1,
-                ballot: ballots[0].id,
-            },
-            (e: SocketEventAcknowledgement) => {
-                console.log(e)
-            },
-        )
-    }
-
     return (
         <>
             <Row gutter={16}>
                 <Col>
-                    <button onClick={wt}>click</button>
                     <Space direction="vertical">
                         <Title level={1}>{election.title}</Title>
                         <ElectionStatusCard election={election} />
