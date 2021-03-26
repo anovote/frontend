@@ -10,7 +10,7 @@ import LargeIconButton from '../containers/button/LargeIconbutton'
 import { ReactComponent as AnovoteLogo } from '../style/assets/anovote-logo.svg'
 import CirclePlusIcon from './icons/CirclePlusIcon'
 import ProfileRoundIcon from './icons/ProfileRoundIcon'
-const { Header, Content, Sider } = Layout
+const { Content, Sider } = Layout
 
 /**
  * Skeleton component for application
@@ -23,14 +23,14 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
 
-    const { dashboard, elections, customize /*, settings*/ } = getAdminRoute()
+    const { /* dashboard,*/ elections /*, customize, settings*/ } = getAdminRoute()
 
     function createElection() {
         history.push(elections.create)
     }
-    function onSearch() {
-        console.log('Tried to search')
-    }
+    //function onSearch() {
+    //    console.log('Tried to search')
+    //}
 
     return (
         <Layout>
