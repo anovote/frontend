@@ -28,6 +28,7 @@ export default function ProfileSettingsModal({
             >
                 <Row>
                     <Col span={24}>
+                        {/* todo #150 get user details */}
                         <Title level={2}>Name of person</Title>
                     </Col>
                 </Row>

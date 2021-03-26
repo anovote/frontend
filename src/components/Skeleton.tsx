@@ -1,6 +1,5 @@
-import { EyeFilled, HomeFilled, ProjectFilled } from '@ant-design/icons'
+import { ProjectFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
-import Search from 'antd/lib/input/Search'
 import { LogoutButton } from 'containers/modal/LogoutButton'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { getAdminRoute } from 'core/routes/siteRoutes'
@@ -11,7 +10,7 @@ import LargeIconButton from '../containers/button/LargeIconbutton'
 import { ReactComponent as AnovoteLogo } from '../style/assets/anovote-logo.svg'
 import CirclePlusIcon from './icons/CirclePlusIcon'
 import ProfileRoundIcon from './icons/ProfileRoundIcon'
-const { Header, Content, Sider } = Layout
+const { Content, Sider } = Layout
 
 /**
  * Skeleton component for application
@@ -24,20 +23,21 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
 
-    const { dashboard, elections, customize /*, settings*/ } = getAdminRoute()
+    const { /* dashboard,*/ elections /*, customize, settings*/ } = getAdminRoute()
 
     function createElection() {
         history.push(elections.create)
     }
-    function onSearch() {
-        console.log('Tried to search')
-    }
+    //function onSearch() {
+    //    console.log('Tried to search')
+    //}
 
     return (
         <Layout>
-            <Header className="skeleton-header">
-                <Search placeholder="Search something.." allowClear size="middle" onSearch={onSearch} tabIndex={1} />
-            </Header>
+            {/*<Header className="skeleton-header">*/}
+            {/* TODO #161 make search do something
+                <Search placeholder="Search something.." allowClear size="middle" onSearch={onSearch} tabIndex={1} />*/}
+            {/*</Header>*/}
             <Layout className="skeleton-layout">
                 <ProfileSettingsModal showModal={showProfileModal} close={closeProfileModalHandler} />
                 <Sider className="skeleton-sidebar">
@@ -51,21 +51,22 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                         >
                             <CirclePlusIcon />
                         </LargeIconButton>
-                        <Menu.Item key={dashboard} icon={<HomeFilled />}>
+                        {/* todo #151 implement missing links */}
+                        {/*<Menu.Item key={dashboard} icon={<HomeFilled />}>
                             <Link to={dashboard} tabIndex={3} id="dashboard">
                                 {t('Dashboard')}
                             </Link>
-                        </Menu.Item>
+                        </Menu.Item>*/}
                         <Menu.Item key={elections.view} icon={<ProjectFilled />}>
                             <Link to={elections.view} tabIndex={4} id="elections">
                                 {t('Elections')}
                             </Link>
                         </Menu.Item>
-                        <Menu.Item key={customize} icon={<EyeFilled />}>
+                        {/*<Menu.Item key={customize} icon={<EyeFilled />}>
                             <Link to={customize} tabIndex={5}>
                                 {t('Customize')}
                             </Link>
-                        </Menu.Item>
+                        </Menu.Item>*/}
                         <LargeIconButton
                             classId="view-profile"
                             text="Name for you"

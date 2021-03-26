@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Alert, AlertProps, Button, Form, Input, List, Switch } from 'antd'
+import { Alert, AlertProps, Button, Form, Input, List } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
 import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotType'
@@ -185,9 +185,10 @@ export default function CreateBallotModal({
                             label={t('ballot:Result type')}
                             initialValue={initialBallot?.resultDisplayType}
                         />
+                        {/* todo #157 implement logic to make displaying vote count toggle-able
                         <Form.Item label={t('ballot:Display vote count')}>
                             <Switch defaultChecked={initialBallot?.displayResultCount}></Switch>
-                        </Form.Item>
+                        </Form.Item>*/}
                         <Button type="primary" htmlType="submit">
                             {t('common:Save')}
                         </Button>

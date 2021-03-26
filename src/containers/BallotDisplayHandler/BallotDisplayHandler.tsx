@@ -113,7 +113,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                         },
                     )
                     const newAlertProps: AlertProps = {
-                        message: t('Your vote was submitted!'),
+                        message: t('Your vote was submitted'),
                         type: 'success',
                     }
                     setAlertProps(newAlertProps)
