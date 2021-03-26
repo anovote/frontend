@@ -9,6 +9,7 @@ import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { SocketEventAcknowledgement } from 'core/service/election/SocketEventAcknowledgement'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
@@ -101,7 +102,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
                 voter: 1,
                 ballot: ballots[0].id,
             },
-            (e: any) => {
+            (e: SocketEventAcknowledgement) => {
                 console.log(e)
             },
         )
@@ -111,7 +112,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         <>
             <Row gutter={16}>
                 <Col>
-                    <button onClick={wt}>eewrjj</button>
+                    <button onClick={wt}>click</button>
                     <Space direction="vertical">
                         <Title level={1}>{election.title}</Title>
                         <ElectionStatusCard election={election} />

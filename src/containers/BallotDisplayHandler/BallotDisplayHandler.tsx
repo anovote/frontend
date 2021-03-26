@@ -105,7 +105,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                         {
                             candidate: selection.single,
                             ballot: ballot.id,
-                            voter: voter!.id,
+                            voter: voter?.id,
                             submitted: new Date(),
                         },
                         () => {
