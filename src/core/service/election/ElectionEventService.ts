@@ -1,3 +1,4 @@
+import { Events } from 'core/events'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import { SocketEventAcknowledgement } from './SocketEventAcknowledgement'
@@ -23,7 +24,7 @@ export class ElectionEventService {
     broadcastBallot = async (ballot: IBallotEntity, electionRoom: number): Promise<SocketEventAcknowledgement> => {
         return await new Promise((resolve) => {
             this._socket.emit(
-                'pushBallot',
+                Events.client.ballot.push,
                 { ballotId: ballot.id, electionId: electionRoom },
                 (acknowledgeMessage: SocketEventAcknowledgement) => {
                     resolve(acknowledgeMessage)

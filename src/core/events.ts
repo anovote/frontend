@@ -34,6 +34,7 @@ export const Events = {
             upgradeVerificationToJoin: 'upgrade_verification_to_join',
         },
         election: {
+            administrate: 'administrate_election',
             start: 'start_election',
             close: 'close_election',
         },

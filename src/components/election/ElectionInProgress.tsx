@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next'
 const authEvent = (socket: AnoSocket, electionId: number) => {
     return WebsocketEvent({
         dataHandler: () => {
-            socket.emit('join_election', { electionId: electionId })
+            socket.emit(Events.client.election.administrate, { electionId: electionId })
         },
         errorHandler: (error) => {
             console.log(error)
