@@ -7,7 +7,7 @@ import { StatusCodes } from 'http-status-codes'
 import jwt from 'jwt-decode'
 import { AuthenticationDetails } from './AuthenticationDetails'
 import { AuthenticationResponse } from './AuthenticationResponse'
-import { IToken } from './IToken'
+import { IToken, IVoterToken } from './IToken'
 export class AuthenticationService {
     private _httpClient: AxiosInstance
     private _storageService: IStorage<StorageKeys>
@@ -53,7 +53,7 @@ export class AuthenticationService {
      */
     public tryLoginWithToken(): boolean {
         if (this.hasValidAuthorizationToken()) {
-            const token = this._storageService.getItem('ACCESS_TOKEN')
+            const token = this.getAuthorizationToken()
             if (token) {
                 this.setAuthorization(token)
                 return true
@@ -65,13 +65,20 @@ export class AuthenticationService {
     /**
      * Returns the decoded token data if a token exists, else undefined
      */
-    public getDecodedToken(): IToken | undefined {
-        const token = this._storageService.getItem('ACCESS_TOKEN')
+    public getDecodedToken(): IToken | IVoterToken | undefined {
+        const token = this.getAuthorizationToken()
         if (token) {
             return jwt<IToken>(token)
         }
     }
 
+    /**
+     * Returns the authorization token or null
+     * @returns returns the authorization token or null
+     */
+    public getAuthorizationToken(): string | null {
+        return this._storageService.getItem('ACCESS_TOKEN')
+    }
     /**
      * Validates if we have a stored token, and the token is not expired
      */
