@@ -47,7 +47,9 @@ const publicRoute = () => {
     function create(path: string) {
         return `/${publicPrefix}/${path}`
     }
-    return {}
+    return {
+        auth: { join: create('join') },
+    }
 }
 
 export const apiRoutes = {
