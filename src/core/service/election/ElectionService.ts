@@ -1,8 +1,9 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { IElection } from 'core/models/election/IElection'
+import { IElectionBase } from 'core/models/election/IElectionBase'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
-import { apiRoute } from 'core/routes/apiRoutes'
+import { apiRoute, apiRoutes } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
 
 export class ElectionService {
@@ -99,6 +100,29 @@ export class ElectionService {
                 }
                 if (axiosError.response?.status === StatusCodes.INTERNAL_SERVER_ERROR) {
                     throw new Error('Error at the server, drink some Tea and wait')
+                }
+            }
+            throw error
+        }
+    }
+
+    /**
+     * Tries to fetch the election base details for the given election id and returns it.
+     * If it fails an error is thrown
+     * @param electionId the id of the election to get details from
+     * @returns returns election data or throws error
+     */
+    public async getElectionForVoter(electionId: number): Promise<IElectionBase> {
+        try {
+            return (await this.httpClient.get<IElectionBase>(apiRoutes.voter.elections.getById(electionId))).data
+        } catch (error) {
+            if (error.isAxiosError) {
+                const axiosError: AxiosError = error
+                if (axiosError.response?.status === StatusCodes.UNAUTHORIZED) {
+                    throw new AuthorizationError('You do not have a valid token to get details for this election')
+                }
+                if (axiosError.response?.status === StatusCodes.INTERNAL_SERVER_ERROR) {
+                    throw new Error('Server error, try again later')
                 }
             }
             throw error
