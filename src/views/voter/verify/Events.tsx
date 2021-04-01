@@ -8,6 +8,7 @@ import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { EventExecutor, WebsocketEvent } from 'core/socket/EventHandler'
 import { IAppStateDispatcher } from 'core/state/app/AppStateContext'
+import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import * as H from 'history'
 import { TFunction } from 'react-i18next'
 import { IVerificationPayload } from './IVerificationPayload'
@@ -105,6 +106,7 @@ export const verifyUpgradeToJoinAck = (
     storageService: LocalStorageService<StorageKeys>,
     appStateDispatcher: IAppStateDispatcher,
     history: H.History,
+    socket: AnoSocket,
 ): EventExecutor<IUpgradePayload> => {
     return WebsocketEvent({
         dataHandler: (data) => {
@@ -114,6 +116,7 @@ export const verifyUpgradeToJoinAck = (
                 alertMessage: t('voter:Please do not close this window'),
             })
 
+            socket.auth.authenticated = true
             storageService.setItem('ACCESS_TOKEN', data.token)
             appStateDispatcher.setLoginState(AuthLevel.voter)
 
@@ -136,7 +139,6 @@ export const verifyUpgradeToJoinAck = (
             const { code } = error
             const errorCodeResolver = new ErrorCodeResolver(t)
             const label = errorCodeResolver.resolve(code)
-            console.log('....')
 
             setStatusState({
                 label,

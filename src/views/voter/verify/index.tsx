@@ -49,7 +49,7 @@ export default function VerifyVoterView(): ReactElement {
                 socket.emit(
                     Events.client.auth.upgradeVerificationToJoin,
                     {},
-                    verifyUpgradeToJoinAck(setStatusState, t, storageService, appStateDispatcher, history),
+                    verifyUpgradeToJoinAck(setStatusState, t, storageService, appStateDispatcher, history, socket),
                 )
             })
             const verificationPayload: IVerificationPayload = {
