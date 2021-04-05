@@ -12,7 +12,7 @@ import * as H from 'history'
 import { TFunction } from 'react-i18next'
 
 export const joinConnectEvent = (dispatch: (value: VoterLoginAction) => void): (() => void) => {
-    return function connectEvent() {
+    return async function connectEvent() {
         dispatch({ type: 'isLoading', payload: false })
         dispatch({ type: 'hideMessage' })
     }
@@ -46,6 +46,7 @@ export const joinVerifiedEvent = (
             socket.emit(Events.client.auth.voterVerifiedReceived, data.verificationSocketId)
             storageService.setItem('ACCESS_TOKEN', data.token)
             appStateDispatcher.setLoginState(AuthLevel.voter)
+            socket.auth.authenticated = true
             history.replace(getVoterRoute().election)
         },
     })

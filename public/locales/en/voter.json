@@ -7,5 +7,7 @@
     "Verification link sent to your": "Verification link sent to your {{type}}",
     "Join election": "Join election",
     "Verification code is missing": "Verification code is missing",
-    "Voter verification failed": "The verification failed, please try again"
+    "Voter verification failed": "The verification failed, please try again",
+    "You are already part of an election": "You are already part of the election: {{election}}",
+    "Do you want to re-join": "Do you want to re-join the election?"
 }

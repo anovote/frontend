@@ -1,16 +1,14 @@
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
-import { ElectionStatus } from './ElectionStatus'
+import { IElectionBase } from './IElectionBase'
 
-export interface IElection {
-    title: string
-    description: string
-    openDate?: Date
-    closeDate?: Date
+/**
+ * Represents an election with eligible voters added, password and ballots.
+ * This implementation is sensitive, and should not be provided to other parties then
+ * the owner of the election
+ */
+export interface IElection extends IElectionBase {
     eligibleVoters?: IEligibleVoter[]
     password?: string
-    status: ElectionStatus
-    isLocked: boolean
-    isAutomatic: boolean
     ballots?: IBallot[]
 }
