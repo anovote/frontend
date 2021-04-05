@@ -1,6 +1,6 @@
-import React, { ReactElement } from 'react'
-import { DisplayAction, ElectionState } from 'core/state/election/electionReducer'
 import VoterTopInfo from 'components/voterContentInfo/VoterContentInfo'
+import { DisplayAction, ElectionState } from 'core/state/election/electionReducer'
+import React, { ReactElement } from 'react'
 
 /**
  * This modules is responsible for providing the correct information for the current state of the
