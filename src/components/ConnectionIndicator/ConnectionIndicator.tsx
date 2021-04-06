@@ -1,14 +1,15 @@
-import { DisconnectOutlined, RocketOutlined } from '@ant-design/icons'
+import { DisconnectOutlined, RocketFilled, RocketOutlined, WarningFilled } from '@ant-design/icons'
+import { Events } from 'core/events'
 import { useSocket } from 'core/hooks/useSocket'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 
 export default function ConnectionIndicator(): ReactElement {
     const [socket] = useSocket()
 
-    let renderIndicator = <RocketOutlined />
+    let renderIndicator = <DisconnectOutlined />
 
-    if (!socket.connected) {
-        renderIndicator = <DisconnectOutlined />
+    if (socket.connected) {
+        renderIndicator = <RocketOutlined />
     }
 
     return <div className="connection-indicator">{renderIndicator}</div>
