@@ -1,4 +1,5 @@
 import { Header } from 'antd/lib/layout/layout'
+import ConnectionIndicator from 'components/ConnectionIndicator/ConnectionIndicator'
 import React, { ReactElement } from 'react'
 import { ReactComponent as AnovoteLogo } from 'style/assets/logo-icon.svg'
 export default function VoterHeader({ slogan = '...' }: { slogan?: string }): ReactElement {
@@ -7,6 +8,7 @@ export default function VoterHeader({ slogan = '...' }: { slogan?: string }): Re
             <AnovoteLogo className={'voter-header-logo'} />
             <span className="text-label">/</span>
             <span className="header-slogan">{slogan}</span>
+            <ConnectionIndicator />
         </Header>
     )
 }
