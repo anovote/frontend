@@ -52,6 +52,22 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
 
             setStats(newState)
         })
+
+        socket.on(Events.server.election.voterConnected, (electionNum: number) => {
+            if (electionNum == election.id) {
+                let numConnectedVoters = connectedVoters
+                numConnectedVoters++
+                setConnectedVoters(numConnectedVoters)
+            }
+        })
+
+        socket.on(Events.server.election.voterDisconnected, (electionNum: number) => {
+            if (electionNum == election.id) {
+                let numConnectedVoters = connectedVoters
+                numConnectedVoters--
+                setConnectedVoters(numConnectedVoters)
+            }
+        })
         return () => {
             socket.disconnect()
         }
@@ -92,22 +108,6 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         if (!ballot) return undefined
         return new BallotEntity(ballot)
     }
-
-    socket.on(Events.server.election.voterConnected, (electionNum: number) => {
-        if (electionNum == election.id) {
-            let numConnectedVoters = connectedVoters
-            numConnectedVoters++
-            setConnectedVoters(numConnectedVoters)
-        }
-    })
-
-    socket.on(Events.server.election.voterDisconnected, (electionNum: number) => {
-        if (electionNum == election.id) {
-            let numConnectedVoters = connectedVoters
-            numConnectedVoters--
-            setConnectedVoters(numConnectedVoters)
-        }
-    })
 
     return (
         <>
