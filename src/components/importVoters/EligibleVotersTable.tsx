@@ -116,7 +116,11 @@ export default function EligibleVotersTable({
 
     const handleAddNewVoterByButtonClick = () => {
         const voterIdentification = formContext.getFieldValue('new_voter')
-        handleAddNewVoter(voterIdentification)
+        try {
+            handleAddNewVoter(voterIdentification)
+        } catch (err) {
+            console.log(err.message)
+        }
     }
 
     /**
