@@ -1,9 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Alert, Button, Col, Dropdown, List, Menu, Row, Space, Upload } from 'antd'
+import { Alert, Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Space, Upload } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
+import { isValidEmail } from 'core/helpers/validation'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createListOfEligibleVoters } from '../../core/helpers/eligibleVoter'
 import { FileParser } from './FileParser'
@@ -11,8 +13,10 @@ import { FileParser } from './FileParser'
 export default function EligibleVotersTable({
     onUpload,
     initialVoters,
+    formContext,
 }: {
     onUpload: (eligibleVoters: IEligibleVoter[]) => void
+    formContext: FormInstance
     initialVoters?: IEligibleVoter[]
 }): React.ReactElement {
     const [t] = useTranslation(['parsing'])
@@ -22,6 +26,8 @@ export default function EligibleVotersTable({
     const [voters, setVoters] = React.useState<IEligibleVoter[]>(
         initialVoters ? initialVoters : new Array<IEligibleVoter>(),
     )
+    const [addByManual, setAddByManual] = useState(false)
+
     const fileParser = new FileParser()
 
     /**
@@ -69,9 +75,80 @@ export default function EligibleVotersTable({
         }
     }
 
+    const addManualInputField = () => {
+        setAddByManual(true)
+    }
+
+    const handleAddNewVoterByEnter = (e: React.SyntheticEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        const voterIdentification = e.currentTarget.value
+        handleAddNewVoter(voterIdentification)
+    }
+
+    /**
+     * Adds a voter to the list if all checks pass.
+     * Display error if something is wrong
+     * @param voterIdentification
+     * @returns
+     */
+    const handleAddNewVoter = (voterIdentification: string) => {
+        if (!isValidEmail(voterIdentification)) {
+            throw new Error('not valid email')
+        }
+
+        const newVoter: IEligibleVoter = { identification: voterIdentification }
+        if (isDuplicate(newVoter)) {
+            const addNewInput = formContext.getFieldInstance('new_voter')
+            console.log(addNewInput.state.value)
+            formContext.setFields([{ name: 'new_voter', errors: ['Email is duplicate'] }])
+            throw new Error('duplicate email')
+        }
+
+        setVoters([...voters, newVoter])
+        formContext.resetFields(['new_voter'])
+    }
+
+    const isDuplicate = (newVoter: IEligibleVoter) => {
+        return voters.find((voter) => {
+            return voter.identification === newVoter.identification
+        })
+    }
+
+    const handleAddNewVoterByButtonClick = () => {
+        const voterIdentification = formContext.getFieldValue('new_voter')
+        handleAddNewVoter(voterIdentification)
+    }
+
+    /**
+     * Aims to close the input field.
+     * Will first handle the input values if there is any.
+     * @returns
+     */
+    const handleDone = async () => {
+        const addNewVoterInput = formContext.getFieldInstance('new_voter')
+        const voterIdentification = addNewVoterInput.state.value
+        if (!voterIdentification) {
+            setAddByManual(false)
+            return
+        }
+
+        try {
+            handleAddNewVoter(voterIdentification)
+            await formContext.validateFields(['new_voter'])
+            setAddByManual(false)
+        } catch (err) {
+            console.log(err.message) // this could be done silently as antd takes care of displaying the error
+        }
+    }
+
     const ImportFileMenu = (): React.ReactElement => {
         return (
             <Menu className="import-voters-menu">
+                <Menu.Item>
+                    <span className="manual-button" role="button" onClick={addManualInputField}>
+                        Manual
+                    </span>
+                </Menu.Item>
                 <Menu.Item>
                     <Upload className="upload-button" beforeUpload={parseFile} accept=".csv">
                         CSV
@@ -110,6 +187,19 @@ export default function EligibleVotersTable({
                 dataSource={voters}
                 renderItem={(item) => <List.Item>{item.identification}</List.Item>}
             />
+            {addByManual && (
+                <Row>
+                    <Form.Item
+                        name="new_voter"
+                        validateTrigger={['onBlur', 'onChange']}
+                        rules={[{ type: 'email', message: 'Not an valid email' }]}
+                    >
+                        <Input placeholder="add new email" onPressEnter={handleAddNewVoterByEnter}></Input>
+                    </Form.Item>
+                    <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
+                    <Button onClick={handleDone}>Done</Button>
+                </Row>
+            )}
             <div>
                 {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
                 {!!duplicateErrorMessage && (
