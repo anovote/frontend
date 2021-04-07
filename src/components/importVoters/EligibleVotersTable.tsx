@@ -5,17 +5,17 @@ import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createListOfEligibleVoters } from '../../core/helpers/eligibleVoter'
 import { FileParser } from './FileParser'
 
 export default function EligibleVotersTable({
-    onUpload,
+    onChange,
     initialVoters,
     formContext,
 }: {
-    onUpload: (eligibleVoters: IEligibleVoter[]) => void
+    onChange: (eligibleVoters: IEligibleVoter[]) => void
     formContext: FormInstance
     initialVoters?: IEligibleVoter[]
 }): React.ReactElement {
@@ -28,6 +28,10 @@ export default function EligibleVotersTable({
     )
     const [addByManual, setAddByManual] = useState(false)
 
+    useEffect(() => {
+        onChange(voters)
+    }, [voters])
+
     const fileParser = new FileParser()
 
     /**
@@ -35,6 +39,7 @@ export default function EligibleVotersTable({
      * needs to be in a specific "email" format.
      * @param file The file we want to parse
      */
+    // todo #183 make sure that if there already exists voters that there are no duplicates between existing list and uploaded list
     const parseFile = async (file: File): Promise<void> => {
         let arrays: { invalidEmails: string[]; noDuplicates: string[]; eligibleVoters: IEligibleVoter[] } = {
             invalidEmails: [],
@@ -57,8 +62,11 @@ export default function EligibleVotersTable({
             return
         }
         checkInputArrays(arrays)
-        setVoters(arrays.eligibleVoters)
-        onUpload(arrays.eligibleVoters)
+        const newEligibleVoters = arrays.eligibleVoters
+        const copyOfVoters = [...voters]
+        copyOfVoters.push(...newEligibleVoters)
+        setVoters(copyOfVoters)
+        onChange(copyOfVoters)
     }
 
     function checkInputArrays(arrays: {

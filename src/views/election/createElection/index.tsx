@@ -42,6 +42,8 @@ export default function CreateElectionView({
     const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()
 
+    // fixme updating and returning to edit results in eligible voters to be undefined
+
     /**
      * Validates a form and returns an error if the form is not filled out correctly
      * @param form The form we want to validate
@@ -82,6 +84,10 @@ export default function CreateElectionView({
 
     const uploadEligibleVotersCallback = (eligibleVoters: IEligibleVoter[]) => {
         setEligibleVoters(eligibleVoters)
+
+        if (election) {
+            setElection({ ...election, eligibleVoters })
+        }
     }
 
     const onBallotsChangeHandler = (ballots: IBallot[]) => {
@@ -95,7 +101,14 @@ export default function CreateElectionView({
     const onFinishedHandler = async (form: IElection) => {
         if (initialElection && onUpdate) {
             const { id, electionOrganizer, createdAt, updatedAt } = initialElection
-            const updateElection: IElectionEntity = { ...form, id, electionOrganizer, createdAt, updatedAt }
+            const updateElection: IElectionEntity = {
+                ...form,
+                id,
+                electionOrganizer,
+                createdAt,
+                updatedAt,
+                eligibleVoters,
+            }
             if (election && election.ballots) {
                 updateElection.ballots = election.ballots
             }
@@ -137,7 +150,7 @@ export default function CreateElectionView({
                         {/* todo #159 allow manual adding of voters */}
                         <EligibleVotersTable
                             initialVoters={election?.eligibleVoters}
-                            onUpload={uploadEligibleVotersCallback}
+                            onChange={uploadEligibleVotersCallback}
                             formContext={form}
                         />
                         <Title level={2}>{t('common:Verification')}</Title>
