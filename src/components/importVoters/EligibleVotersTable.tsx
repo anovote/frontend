@@ -146,7 +146,7 @@ export default function EligibleVotersTable({
             <Menu className="import-voters-menu">
                 <Menu.Item>
                     <span className="manual-button" role="button" onClick={addManualInputField}>
-                        Manual
+                        {t('form:add-manually')}
                     </span>
                 </Menu.Item>
                 <Menu.Item>
