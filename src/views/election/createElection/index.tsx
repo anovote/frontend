@@ -40,6 +40,7 @@ export default function CreateElectionView({
     )
 
     const history = useHistory<AlertState>()
+    const [form] = Form.useForm<IElection>()
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
@@ -113,6 +114,7 @@ export default function CreateElectionView({
                         {initialElection ? t('election:Edit election') : t('common:Create new election')}
                     </Title>
                     <Form
+                        form={form}
                         className="is-flex-column"
                         layout="vertical"
                         name="description-form"
@@ -136,6 +138,7 @@ export default function CreateElectionView({
                         <EligibleVotersTable
                             initialVoters={election?.eligibleVoters}
                             onUpload={uploadEligibleVotersCallback}
+                            formContext={form}
                         />
                         <Title level={2}>{t('common:Verification')}</Title>
                         <Row>
