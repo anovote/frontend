@@ -2,9 +2,9 @@ import { CoffeeOutlined, HourglassOutlined, LockOutlined } from '@ant-design/ico
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
 import BallotDisplayHandler from 'containers/BallotDisplayHandler/BallotDisplayHandler'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { DisplayAction, ElectionState } from 'core/state/election/electionReducer'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
-import { DisplayAction, ElectionState } from 'core/state/election/electionReducer'
 
 /**
  * This modules is responsible for providing the correct components for an election based on the state
