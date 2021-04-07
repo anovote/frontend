@@ -98,8 +98,6 @@ export default function EligibleVotersTable({
 
         const newVoter: IEligibleVoter = { identification: voterIdentification }
         if (isDuplicate(newVoter)) {
-            const addNewInput = formContext.getFieldInstance('new_voter')
-            console.log(addNewInput.state.value)
             formContext.setFields([{ name: 'new_voter', errors: ['Email is duplicate'] }])
             throw new Error('duplicate email')
         }
