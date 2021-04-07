@@ -42,8 +42,6 @@ export default function CreateElectionView({
     const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()
 
-    // fixme updating and returning to edit results in eligible voters to be undefined
-
     /**
      * Validates a form and returns an error if the form is not filled out correctly
      * @param form The form we want to validate
