@@ -54,19 +54,11 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         })
 
         socket.on(Events.server.election.voterConnected, (electionNum: number) => {
-            if (electionNum == election.id) {
-                let numConnectedVoters = connectedVoters
-                numConnectedVoters++
-                setConnectedVoters(numConnectedVoters)
-            }
+            setConnectedVoters(electionNum)
         })
 
         socket.on(Events.server.election.voterDisconnected, (electionNum: number) => {
-            if (electionNum == election.id) {
-                let numConnectedVoters = connectedVoters
-                numConnectedVoters--
-                setConnectedVoters(numConnectedVoters)
-            }
+            setConnectedVoters(electionNum)
         })
         return () => {
             socket.disconnect()
