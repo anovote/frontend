@@ -1,6 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { apiRoute } from 'core/routes/apiRoutes'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { apiRoutes } from 'core/routes/apiRoutes'
 import { RegistrationDetails } from './RegistrationDetails'
 import { RegistrationResponse } from './RegistrationResponse'
 
@@ -14,7 +14,7 @@ export class RegistrationService {
 
     public async registerOrganizer({ firstName, lastName, email, password }: RegistrationDetails): Promise<void> {
         try {
-            const response = await this.httpClient.post<RegistrationResponse>(apiRoute.registration, {
+            const response = await this.httpClient.post<RegistrationResponse>(apiRoutes.public.auth().register, {
                 firstName,
                 lastName,
                 email,
