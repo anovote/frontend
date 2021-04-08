@@ -1,13 +1,4 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-export const apiRoute = {
-    authentication: '/public/auth/login',
-    createElection: '/admin/elections', //
-    getElection: '/admin/elections/', //
-    electionOrganizer: '/admin/electionOrganizer', //
-    registration: '/public/auth/register',
-    ballots: '/ballots', //
-    joinElection: '/join',
-}
 
 /**
  * Creates a path string, and returns an append function

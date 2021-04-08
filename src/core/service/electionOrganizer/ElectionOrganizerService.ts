@@ -1,8 +1,8 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { apiRoute, apiRoutes } from 'core/routes/apiRoutes'
-import { StatusCodes } from 'http-status-codes'
-import { PasswordIsNotValidError, PasswordDoesNotMatchError } from 'core/errors/customErrors'
 import { ChangePasswordInterface } from 'containers/forms/profile/ChangePasswordForm'
+import { PasswordDoesNotMatchError, PasswordIsNotValidError } from 'core/errors/customErrors'
+import { apiRoutes } from 'core/routes/apiRoutes'
+import { StatusCodes } from 'http-status-codes'
 
 export class ElectionOrganizerService {
     private _httpClient: AxiosInstance
