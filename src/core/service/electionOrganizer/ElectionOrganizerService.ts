@@ -1,5 +1,5 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { apiRoute } from 'core/routes/apiRoutes'
+import { apiRoute, apiRoutes } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
 import { PasswordIsNotValidError, PasswordDoesNotMatchError } from 'core/errors/customErrors'
 import { ChangePasswordInterface } from 'containers/forms/profile/ChangePasswordForm'
@@ -25,7 +25,7 @@ export class ElectionOrganizerService {
 
     private async changePassword(newPassword: string) {
         try {
-            await this._httpClient.put(apiRoute.electionOrganizer, { newPassword })
+            await this._httpClient.put(apiRoutes.admin.organizer().changePassword, { newPassword })
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
