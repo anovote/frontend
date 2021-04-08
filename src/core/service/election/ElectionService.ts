@@ -114,7 +114,7 @@ export class ElectionService {
      */
     public async getElectionForVoter(electionId: number): Promise<IElectionBase> {
         try {
-            return (await this.httpClient.get<IElectionBase>(apiRoutes.voter.elections.getById(electionId))).data
+            return (await this.httpClient.get<IElectionBase>(apiRoutes.voter.election().byId(electionId).get)).data
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
