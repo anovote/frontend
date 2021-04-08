@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosResponse } from 'axios'
 import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { apiRoute } from 'core/routes/apiRoutes'
+import { apiRoutes } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
 
 export default class BallotService {
@@ -33,6 +33,6 @@ export default class BallotService {
     }
 
     private getBallotsUrl(electionId: number) {
-        return apiRoute.createElection + `/${electionId}` + apiRoute.ballots
+        return apiRoutes.admin.election().byId(electionId).ballots().get
     }
 }
