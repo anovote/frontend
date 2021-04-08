@@ -46,6 +46,7 @@ const adminRoute = () => {
             const electionPath = path.append('elections')
             return {
                 create: electionPath.get(),
+                get: electionPath.get(),
                 byId: (id: number) => {
                     const electionIdPath = electionPath.append(`${id}`)
                     return {

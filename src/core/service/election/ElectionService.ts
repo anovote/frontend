@@ -3,11 +3,12 @@ import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { IElection } from 'core/models/election/IElection'
 import { IElectionBase } from 'core/models/election/IElectionBase'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
-import { apiRoute, apiRoutes } from 'core/routes/apiRoutes'
+import { apiRoutes } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
 
 export class ElectionService {
     private httpClient: AxiosInstance
+    private electionRoute = apiRoutes.admin.election()
 
     constructor(httpClient: AxiosInstance) {
         this.httpClient = httpClient
@@ -26,7 +27,7 @@ export class ElectionService {
         ballots,
     }: IElection): Promise<void> {
         try {
-            await this.httpClient.post(apiRoute.createElection, {
+            await this.httpClient.post(this.electionRoute.create, {
                 title,
                 description,
                 openDate,
@@ -55,7 +56,7 @@ export class ElectionService {
 
     public async getAllElection(): Promise<IElectionEntity[]> {
         try {
-            return (await this.httpClient.get(apiRoute.getElection)).data
+            return (await this.httpClient.get(this.electionRoute.get)).data
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
@@ -72,7 +73,7 @@ export class ElectionService {
 
     public async getElection(electionId: number): Promise<IElectionEntity> {
         try {
-            return (await this.httpClient.get(`${apiRoute.getElection}${electionId}`)).data
+            return (await this.httpClient.get(this.electionRoute.byId(electionId).get)).data
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
@@ -90,8 +91,9 @@ export class ElectionService {
     public async updateElection(election: IElectionEntity): Promise<IElectionEntity> {
         console.log(election)
         try {
-            return (await this.httpClient.put<IElectionEntity>(`${apiRoute.getElection}${election.id}`, { election }))
-                .data
+            return (
+                await this.httpClient.put<IElectionEntity>(this.electionRoute.byId(election.id).update, { election })
+            ).data
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
