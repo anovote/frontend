@@ -67,6 +67,13 @@ export default function BallotsQueue({
 
     // render all ballots
     for (const ballot of dataSource) {
+        let ballotStat = null
+        if (stats) {
+            ballotStat = stats.find((stat) => {
+                return stat.ballotId === ballot.id
+            })
+        }
+
         queue.push(
             // todo make loading state follow the component
             <Step
@@ -75,8 +82,8 @@ export default function BallotsQueue({
                 subTitle={<QueueDescription winner="John Doe" />}
                 description={
                     <>
-                        {stats && stats[ballot.id] && (
-                            <StatCard stats={appendStats(stats[ballot.id])} onClick={() => handleClick(ballot.id)} />
+                        {ballotStat && (
+                            <StatCard stats={appendStats(ballotStat)} onClick={() => handleClick(ballot.id)} />
                         )}
 
                         <SquareIconButton
