@@ -31,6 +31,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState(0)
     const [stats, setStats] = useState([] as IBallotStats[])
+    const [connectedVoters, setConnectedVoters] = useState<number>(0)
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -50,6 +51,14 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
             newState[data.ballotId] = data
 
             setStats(newState)
+        })
+
+        socket.on(Events.server.election.voterConnected, (connectedCount: number) => {
+            setConnectedVoters(connectedCount)
+        })
+
+        socket.on(Events.server.election.voterDisconnected, (connectedCount: number) => {
+            setConnectedVoters(connectedCount)
         })
         return () => {
             socket.disconnect()
@@ -101,7 +110,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
                         <ElectionStatusCard election={election} />
                         <Card className={'info-card'} title={<Title level={2}>{t('election:Connected voters')}</Title>}>
                             <div className="is-flex-column has-content-center-center">
-                                <span className={'text-large'}>1337</span> {/* todo fetch real time*/}
+                                <span className={'text-large'}>{connectedVoters}</span>
                             </div>
                         </Card>
                     </Space>
