@@ -45,7 +45,6 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
 
         socket.connect()
 
-        console.log('in progress')
         socket.on(Events.standard.socket.connect, () => {
             socket.emit(
                 Events.client.auth.withToken,
@@ -75,7 +74,6 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
      */
     const showModal = (id: number) => {
         setModal(true)
-        console.log(id)
         setActive(id)
     }
 
@@ -102,7 +100,6 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     }
 
     const getBallotStats = (ballotId: number): IBallotStats | undefined => {
-        console.log(ballotId)
         return stats.find((stat) => stat.ballotId === ballotId)
     }
 
