@@ -19,7 +19,7 @@ export default function EligibleVotersTable({
     formContext: FormInstance
     initialVoters?: IEligibleVoter[]
 }): React.ReactElement {
-    const [t] = useTranslation(['parsing'])
+    const [t] = useTranslation(['parsing', 'error'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [duplicateErrorMessage, setDuplicateErrorMessage] = React.useState('')
     const [invalidEmailErrorMessage, setInvalidEmailErrorMessage] = React.useState('')
@@ -33,6 +33,8 @@ export default function EligibleVotersTable({
     }, [voters])
 
     const fileParser = new FileParser()
+
+    const NEW_VOTER = 'new_voter'
 
     /**
      * Parses a CSV or JSON file, where the CSV or JSON
@@ -51,14 +53,14 @@ export default function EligibleVotersTable({
                 const parsedCsv = await fileParser.parseCsv<string>(file)
                 arrays = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
             } catch (e) {
-                setErrorMessage(t('Something went wrong in the parsing'))
+                setErrorMessage(t('parsing:Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: { email: string }[] }>(file)
             const emails = parsedJson.emails.map((email) => email.email)
             arrays = createListOfEligibleVoters(emails)
         } else {
-            setErrorMessage(t('The file is not CSV or JSON!'))
+            setErrorMessage(t('error:The-file-is-not-CSV-or-JSON'))
             return
         }
         checkInputArrays(arrays)
@@ -75,11 +77,11 @@ export default function EligibleVotersTable({
         eligibleVoters: IEligibleVoter[]
     }): void {
         if (arrays.invalidEmails.length != 0) {
-            setInvalidEmailErrorMessage(t('Removed the following invalid emails') + ': ' + arrays.invalidEmails)
+            setInvalidEmailErrorMessage(t('parsing:Removed the following invalid emails') + ': ' + arrays.invalidEmails)
         }
 
         if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
-            setDuplicateErrorMessage(t('Removed duplicate entries'))
+            setDuplicateErrorMessage(t('parsing:Removed duplicate entries'))
         }
     }
 
@@ -101,17 +103,17 @@ export default function EligibleVotersTable({
      */
     const handleAddNewVoter = (voterIdentification: string) => {
         if (!isValidEmail(voterIdentification)) {
-            throw new Error('not valid email')
+            throw new Error(t('error:not-valid-email'))
         }
 
         const newVoter: IEligibleVoter = { identification: voterIdentification }
         if (isDuplicate(newVoter)) {
-            formContext.setFields([{ name: 'new_voter', errors: ['Email is duplicate'] }])
-            throw new Error('duplicate email')
+            formContext.setFields([{ name: NEW_VOTER, errors: [t('error:Email-is-duplicate')] }])
+            throw new Error(t('error:duplicate-email'))
         }
 
         setVoters([...voters, newVoter])
-        formContext.resetFields(['new_voter'])
+        formContext.resetFields([NEW_VOTER])
     }
 
     const isDuplicate = (newVoter: IEligibleVoter) => {
@@ -121,7 +123,7 @@ export default function EligibleVotersTable({
     }
 
     const handleAddNewVoterByButtonClick = () => {
-        const voterIdentification = formContext.getFieldValue('new_voter')
+        const voterIdentification = formContext.getFieldValue(NEW_VOTER)
         try {
             handleAddNewVoter(voterIdentification)
         } catch (err) {
@@ -135,7 +137,7 @@ export default function EligibleVotersTable({
      * @returns
      */
     const handleDone = async () => {
-        const addNewVoterInput = formContext.getFieldInstance('new_voter')
+        const addNewVoterInput = formContext.getFieldInstance(NEW_VOTER)
         const voterIdentification = addNewVoterInput.state.value
         if (!voterIdentification) {
             setAddByManual(false)
@@ -144,7 +146,7 @@ export default function EligibleVotersTable({
 
         try {
             handleAddNewVoter(voterIdentification)
-            await formContext.validateFields(['new_voter'])
+            await formContext.validateFields([NEW_VOTER])
             setAddByManual(false)
         } catch (err) {
             console.log(err.message) // this could be done silently as antd takes care of displaying the error

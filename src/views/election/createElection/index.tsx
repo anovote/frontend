@@ -145,7 +145,6 @@ export default function CreateElectionView({
                                 <CloseDateInput />
                             </Col>
                         </Row>
-                        {/* todo #159 allow manual adding of voters */}
                         <EligibleVotersTable
                             initialVoters={election?.eligibleVoters}
                             onChange={uploadEligibleVotersCallback}
