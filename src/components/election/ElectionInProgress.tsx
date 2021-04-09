@@ -15,6 +15,7 @@ import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 const authEvent = (socket: AnoSocket, electionId: number) => {
     return WebsocketEvent({
         dataHandler: () => {
@@ -30,10 +31,18 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState(0)
-    const [stats, setStats] = useState([] as IBallotStats[])
+    const [stats, setStats] = useState<IBallotStats[]>([])
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
+        fetchElectionStats(election.id)
+            .then((serverStats) => {
+                setStats(serverStats)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
         socket.connect()
 
         console.log('in progress')
@@ -92,6 +101,11 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         return new BallotEntity(ballot)
     }
 
+    const getBallotStats = (ballotId: number): IBallotStats | undefined => {
+        console.log(ballotId)
+        return stats.find((stat) => stat.ballotId === ballotId)
+    }
+
     return (
         <>
             <Row gutter={16}>
@@ -114,11 +128,11 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
                             <BallotModal
                                 showModal={modal}
                                 ballotEntity={findBallotWithId(active)}
-                                ballotStats={stats[active]}
+                                ballotStats={getBallotStats(active)}
                                 close={closeModal}
                                 controls={{
                                     next: () => {
-                                        // todo fix these next/prev buttons
+                                        // todo #189 fix these next/prev buttons
                                         hasNext()
                                     },
                                     previous: () => {
