@@ -7,6 +7,12 @@ import { Link } from 'react-router-dom'
  * @returns the landing page view
  */
 export default function Home(): React.ReactElement {
+    const [alert, alertDispatcher] = useAlert({
+        message: 'Very nice alert',
+        description: 'The very nice description',
+        type: 'error',
+    })
+
     return (
         <div className="is-flex has-content-center-center">
             <ul>
@@ -17,7 +23,24 @@ export default function Home(): React.ReactElement {
                     <Link to="/login">Create and manage elections</Link>
                 </li>
             </ul>
-            {useAlert({ message: 'Very nice alert', description: 'The very nice description', type: 'error' })}
+            <button
+                onClick={() => {
+                    alertDispatcher({
+                        type: 'show',
+                        alertProps: { message: 'test', description: 'kfodk', type: 'info' },
+                    })
+                }}
+            >
+                Alert
+            </button>
+            <button
+                onClick={() => {
+                    alertDispatcher({ type: 'close' })
+                }}
+            >
+                close
+            </button>
+            {alert}
         </div>
     )
 }

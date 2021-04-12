@@ -1,17 +1,23 @@
 import { AlertProps, Alert } from 'antd'
 import { useReducer, useEffect } from 'react'
 import * as React from 'react'
+import { Dispatch } from 'react'
 
 function alertReducer(state: AnovoteAlertState, action: AlertAction) {
-    switch (action) {
+    switch (action.type) {
         case 'show': {
             return {
                 ...state,
+                message: action.alertProps.message,
+                description: action.alertProps.description,
+                type: action.alertProps.type,
             }
         }
         case 'close': {
             return {
                 ...state,
+                message: '',
+                description: '',
             }
         }
         default:
@@ -19,8 +25,14 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction) {
     }
 }
 
-export function useAlert(initialState: AnovoteAlertState) {
-    const [state, dispatch] = useReducer(alertReducer, initialState)
+export function useAlert(initialState: AnovoteAlertState): [React.ReactElement, Dispatch<AlertAction>] {
+    const [alertState, alertDispatch] = useReducer(alertReducer, initialState)
+
+    const alert = (
+        <Alert message={alertState.message} description={alertState.description} type={alertState.type} showIcon />
+    )
+
+    return [alert, alertDispatch]
 }
 
 interface AnovoteAlertState {
@@ -31,4 +43,4 @@ interface AnovoteAlertState {
 
 type AlertType = 'error' | 'warning' | 'success' | 'info'
 
-type AlertAction = 'show' | 'close'
+export type AlertAction = { type: 'show'; alertProps: AnovoteAlertState } | { type: 'close' }
