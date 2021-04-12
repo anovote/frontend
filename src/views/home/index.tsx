@@ -1,3 +1,4 @@
+import { useAlert } from 'core/hooks/useAlert'
 import React from 'react'
 import { Link } from 'react-router-dom'
 
@@ -16,6 +17,7 @@ export default function Home(): React.ReactElement {
                     <Link to="/login">Create and manage elections</Link>
                 </li>
             </ul>
+            {useAlert({ message: 'Very nice alert', description: 'The very nice description', type: 'error' })}
         </div>
     )
 }
