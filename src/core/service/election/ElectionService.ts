@@ -88,7 +88,6 @@ export class ElectionService {
     }
 
     public async updateElection(election: IElectionEntity): Promise<IElectionEntity> {
-        console.log(election)
         try {
             return (await this.httpClient.put<IElectionEntity>(`${apiRoute.getElection}${election.id}`, { election }))
                 .data
