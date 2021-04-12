@@ -1,6 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { CredentialError } from 'core/errors/CredentialsError'
-import { apiRoute } from 'core/routes/apiRoutes'
+import { apiRoutes } from 'core/routes/apiRoutes'
 import { IStorage } from 'core/service/storage/IStorage'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { StatusCodes } from 'http-status-codes'
@@ -22,7 +22,7 @@ export class AuthenticationService {
      */
     public async authenticateOrganizer({ email, password }: AuthenticationDetails): Promise<void> {
         try {
-            const response = await this._httpClient.post<AuthenticationResponse>(apiRoute.authentication, {
+            const response = await this._httpClient.post<AuthenticationResponse>(apiRoutes.public.auth().login, {
                 email,
                 password,
             })
