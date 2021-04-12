@@ -1,21 +1,34 @@
 import { AlertProps, Alert } from 'antd'
-import { useState, useEffect } from 'react'
+import { useReducer, useEffect } from 'react'
 import * as React from 'react'
 
-export function useAlert(props: AnovoteAlertProp): React.ReactElement {
-    const [alertProps, setAlertProps] = useState<AlertProps>()
-
-    useEffect(() => {
-        setAlertProps({ message: props.message, description: props.description, type: props.type })
-    })
-
-    return <Alert message={alertProps?.message} description={alertProps?.description} type={alertProps?.type} />
+function alertReducer(state: AnovoteAlertState, action: AlertAction) {
+    switch (action) {
+        case 'show': {
+            return {
+                ...state,
+            }
+        }
+        case 'close': {
+            return {
+                ...state,
+            }
+        }
+        default:
+            return state
+    }
 }
 
-interface AnovoteAlertProp {
+export function useAlert(initialState: AnovoteAlertState) {
+    const [state, dispatch] = useReducer(alertReducer, initialState)
+}
+
+interface AnovoteAlertState {
     message: string
     description: string
     type: AlertType
 }
 
 type AlertType = 'error' | 'warning' | 'success' | 'info'
+
+type AlertAction = 'show' | 'close'
