@@ -10,7 +10,7 @@ export default function Home(): React.ReactElement {
     const [alert, alertDispatcher] = useAlert({
         message: 'Very nice alert',
         description: 'The very nice description',
-        type: 'error',
+        alertType: 'error',
     })
 
     return (
@@ -22,25 +22,29 @@ export default function Home(): React.ReactElement {
                 <li>
                     <Link to="/login">Create and manage elections</Link>
                 </li>
+                <button
+                    onClick={() => {
+                        alertDispatcher({
+                            type: 'show',
+                            showState: {
+                                message: 'sdiogsdpoig',
+                                description: 'poajgpo',
+                                alertType: 'info',
+                            },
+                        })
+                    }}
+                >
+                    show
+                </button>
+                <button
+                    onClick={() => {
+                        alertDispatcher({ type: 'close' })
+                    }}
+                >
+                    close
+                </button>
+                {alert}
             </ul>
-            <button
-                onClick={() => {
-                    alertDispatcher({
-                        type: 'show',
-                        alertProps: { message: 'test', description: 'kfodk', type: 'info' },
-                    })
-                }}
-            >
-                Alert
-            </button>
-            <button
-                onClick={() => {
-                    alertDispatcher({ type: 'close' })
-                }}
-            >
-                close
-            </button>
-            {alert}
         </div>
     )
 }

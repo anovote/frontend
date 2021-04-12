@@ -1,36 +1,42 @@
-import { AlertProps, Alert } from 'antd'
-import { useReducer, useEffect } from 'react'
+import { Alert } from 'antd'
+import { useReducer } from 'react'
 import * as React from 'react'
 import { Dispatch } from 'react'
 
-function alertReducer(state: AnovoteAlertState, action: AlertAction) {
+function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAlertState {
     switch (action.type) {
         case 'show': {
             return {
                 ...state,
-                message: action.alertProps.message,
-                description: action.alertProps.description,
-                type: action.alertProps.type,
+                message: action.showState.message,
+                description: action.showState.description,
+                alertType: action.showState.alertType,
+                alertComponent: (
+                    <Alert
+                        message={state.message}
+                        description={state.description}
+                        type={state.alertType}
+                        showIcon
+                        closable
+                    />
+                ),
             }
         }
         case 'close': {
             return {
                 ...state,
-                message: '',
-                description: '',
+                alertComponent: <></>,
             }
         }
         default:
-            return state
+            throw new Error()
     }
 }
 
-export function useAlert(initialState: AnovoteAlertState): [React.ReactElement, Dispatch<AlertAction>] {
+export function useAlert(initialState: AnovoteAlertState): [React.ReactElement | undefined, Dispatch<AlertAction>] {
     const [alertState, alertDispatch] = useReducer(alertReducer, initialState)
 
-    const alert = (
-        <Alert message={alertState.message} description={alertState.description} type={alertState.type} showIcon />
-    )
+    const alert: React.ReactElement | undefined = alertState.alertComponent
 
     return [alert, alertDispatch]
 }
@@ -38,9 +44,10 @@ export function useAlert(initialState: AnovoteAlertState): [React.ReactElement, 
 interface AnovoteAlertState {
     message: string
     description: string
-    type: AlertType
+    alertType: AlertType
+    alertComponent?: React.ReactElement
 }
 
 type AlertType = 'error' | 'warning' | 'success' | 'info'
 
-export type AlertAction = { type: 'show'; alertProps: AnovoteAlertState } | { type: 'close' }
+export type AlertAction = { type: 'show'; showState: AnovoteAlertState } | { type: 'close' }
