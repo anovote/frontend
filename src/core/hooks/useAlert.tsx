@@ -11,15 +11,6 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAle
                 message: state.message,
                 description: state.description,
                 alertType: state.alertType,
-                alertComponent: (
-                    <Alert
-                        message={state.message}
-                        description={state.description}
-                        type={state.alertType}
-                        showIcon
-                        closable
-                    />
-                ),
             }
         }
 
@@ -29,21 +20,11 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAle
                 message: action.newState.message,
                 description: action.newState.description,
                 alertType: action.newState.alertType,
-                alertComponent: (
-                    <Alert
-                        message={action.newState.message}
-                        description={action.newState.description}
-                        type={action.newState.alertType}
-                        showIcon
-                        closable
-                    />
-                ),
             }
         }
         case 'close': {
             return {
                 ...state,
-                alertComponent: <></>,
             }
         }
         default:
@@ -54,16 +35,17 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAle
 export function useAlert(initialState: AnovoteAlertState): [React.ReactElement | undefined, Dispatch<AlertAction>] {
     const [alertState, alertDispatch] = useReducer(alertReducer, initialState)
 
-    const alert: React.ReactElement | undefined = alertState.alertComponent
+    const alert: React.ReactElement | undefined = (
+        <Alert message={alertState.message} description={alertState.description} type={alertState.alertType} />
+    )
 
     return [alert, alertDispatch]
 }
 
 interface AnovoteAlertState {
-    message: string
-    description: string
+    message: string | undefined
+    description?: string
     alertType: AlertType
-    alertComponent?: React.ReactElement
 }
 
 type AlertType = 'error' | 'warning' | 'success' | 'info'
