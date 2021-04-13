@@ -41,34 +41,31 @@ export default function EligibleVotersTable({
      * needs to be in a specific "email" format.
      * @param file The file we want to parse
      */
-    // todo #183 make sure that if there already exists voters that there are no duplicates between existing list and uploaded list
     const parseFile = async (file: File): Promise<void> => {
-        let arrays: { invalidEmails: string[]; noDuplicates: string[]; eligibleVoters: IEligibleVoter[] } = {
-            invalidEmails: [],
-            noDuplicates: [],
-            eligibleVoters: [],
-        }
+        let parsedEmails: string[] = []
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
-                arrays = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
+                parsedEmails = convertTwoDimArrayToOneDimArray(parsedCsv)
             } catch (e) {
                 setErrorMessage(t('parsing:Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: { email: string }[] }>(file)
-            const emails = parsedJson.emails.map((email) => email.email)
-            arrays = createListOfEligibleVoters(emails)
+            parsedEmails = parsedJson.emails.map((email) => email.email)
         } else {
             setErrorMessage(t('error:The-file-is-not-CSV-or-JSON'))
             return
         }
-        checkInputArrays(arrays)
-        const newEligibleVoters = arrays.eligibleVoters
-        const copyOfVoters = [...voters]
-        copyOfVoters.push(...newEligibleVoters)
-        setVoters(copyOfVoters)
-        onChange(copyOfVoters)
+
+        const filteredVoters = createListOfEligibleVoters([
+            ...parsedEmails,
+            ...voters.map((voter) => voter.identification),
+        ])
+
+        checkInputArrays(filteredVoters)
+        setVoters(filteredVoters.eligibleVoters)
+        onChange(filteredVoters.eligibleVoters)
     }
 
     function checkInputArrays(arrays: {
@@ -77,7 +74,7 @@ export default function EligibleVotersTable({
         eligibleVoters: IEligibleVoter[]
     }): void {
         if (arrays.invalidEmails.length != 0) {
-            setInvalidEmailErrorMessage(t('parsing:Removed the following invalid emails') + ': ' + arrays.invalidEmails)
+            setInvalidEmailErrorMessage(`${t('parsing:Removed the following invalid emails')}: ${arrays.invalidEmails}`)
         }
 
         if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
