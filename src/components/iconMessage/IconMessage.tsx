@@ -1,9 +1,7 @@
 import { BulbOutlined, CheckOutlined, CloseCircleOutlined, ExclamationOutlined, FrownOutlined } from '@ant-design/icons'
 import { Alert, Button } from 'antd'
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
-import { useAlert } from 'core/hooks/useAlert'
 import React, { ReactElement } from 'react'
-import { useEffect } from 'react'
 import { IIconMessage } from './IIconMessage'
 
 export default function IconMessage({
@@ -13,13 +11,6 @@ export default function IconMessage({
     alertLevel = 'info',
     onClose,
 }: IIconMessage): ReactElement {
-    const [alert, alertDispatch] = useAlert({ message: alertMessage, alertType: alertLevel })
-
-    useEffect(() => {
-        if (typeof alertMessage === 'string') {
-            alertDispatch({ type: 'show' })
-        }
-    })
     if (!icon) {
         switch (alertLevel) {
             case 'warning':
@@ -47,7 +38,11 @@ export default function IconMessage({
                 ></Button>
             )}
             <SquareIconContainer icon={icon} label={label}></SquareIconContainer>
-            {!!alertMessage && <div className="mt-20 is-flex has-content-center-center">{alert}</div>}
+            {!!alertMessage && (
+                <div className="mt-20 is-flex has-content-center-center">
+                    {<Alert type={alertLevel} showIcon={true} message={alertMessage}></Alert>}
+                </div>
+            )}
         </div>
     )
 }

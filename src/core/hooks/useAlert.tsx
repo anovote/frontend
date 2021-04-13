@@ -13,7 +13,6 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAle
                 alertType: state.alertType,
             }
         }
-
         case 'new': {
             return {
                 ...state,
@@ -27,27 +26,76 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAle
                 ...state,
             }
         }
+        case 'error': {
+            return {
+                ...state,
+                message: action.message,
+                description: action.description,
+                alertType: 'warning',
+            }
+        }
+        case 'warning': {
+            return {
+                ...state,
+                message: action.message,
+                description: action.description,
+                alertType: 'warning',
+            }
+        }
+        case 'info': {
+            return {
+                ...state,
+                message: action.message,
+                description: action.description,
+                alertType: 'info',
+            }
+        }
+        case 'success': {
+            return {
+                ...state,
+                message: action.message,
+                description: action.description,
+                alertType: 'info',
+            }
+        }
         default:
             throw new Error()
     }
 }
 
-export function useAlert(initialState: AnovoteAlertState): [React.ReactElement | undefined, Dispatch<AlertAction>] {
+export function useAlert(initialState: AnovoteAlertState): [AnovoteAlertState, Dispatch<AlertAction>] {
     const [alertState, alertDispatch] = useReducer(alertReducer, initialState)
 
-    const alert: React.ReactElement | undefined = (
-        <Alert message={alertState.message} description={alertState.description} type={alertState.alertType} />
-    )
-
-    return [alert, alertDispatch]
+    return [alertState, alertDispatch]
 }
 
-interface AnovoteAlertState {
-    message: string | undefined
+export interface AnovoteAlertState {
+    message: string
     description?: string
     alertType: AlertType
 }
 
 type AlertType = 'error' | 'warning' | 'success' | 'info'
 
-export type AlertAction = { type: 'show' } | { type: 'new'; newState: AnovoteAlertState } | { type: 'close' }
+export type AlertAction =
+    | { type: 'show' }
+    | { type: 'new'; newState: AnovoteAlertState }
+    | { type: 'close' }
+    | { type: 'error'; message: string; description?: string }
+    | { type: 'warning'; message: string; description?: string }
+    | { type: 'info'; message: string; description?: string }
+    | { type: 'success'; message: string; description?: string }
+
+export function createAlertComponent(alertProps: AnovoteAlertState): React.ReactElement {
+    return (
+        <div>
+            <Alert
+                message={alertProps.message}
+                description={alertProps.description}
+                type={alertProps.alertType}
+                closable
+                showIcon
+            />
+        </div>
+    )
+}

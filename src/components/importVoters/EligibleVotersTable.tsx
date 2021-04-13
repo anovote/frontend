@@ -3,6 +3,7 @@ import { Alert, Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Ro
 import Title from 'antd/lib/typography/Title'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
+import { AnovoteAlertState, createAlertComponent, useAlert } from 'core/hooks/useAlert'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
@@ -27,11 +28,11 @@ export default function EligibleVotersTable({
         initialVoters ? initialVoters : new Array<IEligibleVoter>(),
     )
     const [addByManual, setAddByManual] = useState(false)
-
     useEffect(() => {
         onChange(voters)
     }, [voters])
 
+    const [alertState, alertDispatch] = useAlert({ message: '', description: '', alertType: 'info' })
     const fileParser = new FileParser()
 
     const NEW_VOTER = 'new_voter'
@@ -53,14 +54,16 @@ export default function EligibleVotersTable({
                 const parsedCsv = await fileParser.parseCsv<string>(file)
                 arrays = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
             } catch (e) {
-                setErrorMessage(t('parsing:Something went wrong in the parsing'))
+                alertDispatch({ type: 'error', message: 'Something went wrong in the parsing' })
+                //setErrorMessage(t('parsing:Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: { email: string }[] }>(file)
             const emails = parsedJson.emails.map((email) => email.email)
             arrays = createListOfEligibleVoters(emails)
         } else {
-            setErrorMessage(t('error:The-file-is-not-CSV-or-JSON'))
+            alertDispatch({ type: 'error', message: 'The-file-is-not-CSV-or-JSON' })
+            //setErrorMessage(t('error:The-file-is-not-CSV-or-JSON'))
             return
         }
         checkInputArrays(arrays)
@@ -77,11 +80,13 @@ export default function EligibleVotersTable({
         eligibleVoters: IEligibleVoter[]
     }): void {
         if (arrays.invalidEmails.length != 0) {
-            setInvalidEmailErrorMessage(t('parsing:Removed the following invalid emails') + ': ' + arrays.invalidEmails)
+            alertDispatch({ type: 'warning', message: 'Removed the following invalid emails' })
+            //setInvalidEmailErrorMessage(t('parsing:Removed the following invalid emails') + ': ' + arrays.invalidEmails)
         }
 
         if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
-            setDuplicateErrorMessage(t('parsing:Removed duplicate entries'))
+            alertDispatch({ type: 'warning', message: 'Removed duplicate entries' })
+            //setDuplicateErrorMessage(t('parsing:Removed duplicate entries'))
         }
     }
 
@@ -213,13 +218,14 @@ export default function EligibleVotersTable({
                 </Row>
             )}
             <div>
-                {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
+                {/*{!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
                 {!!duplicateErrorMessage && (
                     <Alert message={duplicateErrorMessage} type={'warning'} showIcon closable />
                 )}
                 {!!invalidEmailErrorMessage && (
                     <Alert message={invalidEmailErrorMessage} type={'warning'} showIcon closable />
-                )}
+                )}*/}
+                {createAlertComponent(alertState)}
             </div>
         </div>
     )
