@@ -26,15 +26,20 @@ export default function Home(): React.ReactElement {
                     onClick={() => {
                         alertDispatcher({
                             type: 'show',
-                            showState: {
-                                message: 'sdiogsdpoig',
-                                description: 'poajgpo',
-                                alertType: 'info',
-                            },
                         })
                     }}
                 >
                     show
+                </button>
+                <button
+                    onClick={() => {
+                        alertDispatcher({
+                            type: 'new',
+                            showState: { message: 'yes', description: 'walla', alertType: 'info' },
+                        })
+                    }}
+                >
+                    new
                 </button>
                 <button
                     onClick={() => {
