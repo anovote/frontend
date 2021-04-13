@@ -151,7 +151,14 @@ function VoterLoginView(): ReactElement {
                                 <Form.Item
                                     label={t('common:Email')}
                                     name="email"
-                                    rules={[{ type: 'email', required: true, message: t('form:Email is not valid') }]}
+                                    normalize={(val) => val.trim()}
+                                    rules={[
+                                        {
+                                            type: 'email',
+                                            required: true,
+                                            message: t('form:Email is not valid'),
+                                        },
+                                    ]}
                                 >
                                     <Input disabled={state.isLoading} placeholder="email@example.com" />
                                 </Form.Item>
