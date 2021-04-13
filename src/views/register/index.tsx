@@ -73,7 +73,11 @@ export default function RegisterView(): React.ReactElement {
                         <Form.Item
                             label={t('common:Email')}
                             name="email"
-                            rules={[{ required: true, message: t('form:Remember email') }]}
+                            rules={[
+                                { required: true, message: t('form:Remember email') },
+                                { type: 'email', message: t('form:Email is not valid') },
+                            ]}
+                            normalize={(val) => val.trim()}
                         >
                             <Input />
                         </Form.Item>
