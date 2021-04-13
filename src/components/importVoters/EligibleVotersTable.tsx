@@ -204,9 +204,10 @@ export default function EligibleVotersTable({
                     <Form.Item
                         name="new_voter"
                         validateTrigger={['onBlur', 'onChange']}
-                        rules={[{ type: 'email', message: 'Not an valid email' }]}
+                        rules={[{ type: 'email', message: t('error:not-valid-email') }]}
+                        normalize={(val) => val.trim()}
                     >
-                        <Input placeholder="add new email" onPressEnter={handleAddNewVoterByEnter}></Input>
+                        <Input placeholder={t('form:add-new-email')} onPressEnter={handleAddNewVoterByEnter}></Input>
                     </Form.Item>
                     <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
                     <Button onClick={handleDone}>Done</Button>
