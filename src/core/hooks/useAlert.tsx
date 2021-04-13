@@ -26,14 +26,14 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAle
         case 'new': {
             return {
                 ...state,
-                message: action.showState.message,
-                description: action.showState.description,
-                alertType: action.showState.alertType,
+                message: action.newState.message,
+                description: action.newState.description,
+                alertType: action.newState.alertType,
                 alertComponent: (
                     <Alert
-                        message={action.showState.message}
-                        description={action.showState.description}
-                        type={action.showState.alertType}
+                        message={action.newState.message}
+                        description={action.newState.description}
+                        type={action.newState.alertType}
                         showIcon
                         closable
                     />
@@ -68,4 +68,4 @@ interface AnovoteAlertState {
 
 type AlertType = 'error' | 'warning' | 'success' | 'info'
 
-export type AlertAction = { type: 'show' } | { type: 'new'; showState: AnovoteAlertState } | { type: 'close' }
+export type AlertAction = { type: 'show' } | { type: 'new'; newState: AnovoteAlertState } | { type: 'close' }
