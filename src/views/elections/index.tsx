@@ -5,8 +5,8 @@ import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
 import { BackendAPI } from 'core/api'
+import { ElectionEntity } from 'core/models/election/ElectionEntity'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
-import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { ElectionService } from 'core/service/election/ElectionService'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -15,9 +15,9 @@ import { AlertState } from '../../core/state/AlertState'
 
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common', 'election'])
-    const [upcoming, setUpcoming] = useState([] as IElectionEntity[])
-    const [inProgress, setInProgress] = useState([] as IElectionEntity[])
-    const [finished, setFinished] = useState([] as IElectionEntity[])
+    const [upcoming, setUpcoming] = useState([] as ElectionEntity[])
+    const [inProgress, setInProgress] = useState([] as ElectionEntity[])
+    const [finished, setFinished] = useState([] as ElectionEntity[])
     const [alert, setAlert] = useState<AlertProps>()
     const location = useLocation<AlertState>()
     const history = useHistory<AlertState>()
@@ -26,14 +26,15 @@ export default function ElectionsView(): React.ReactElement {
         new ElectionService(BackendAPI)
             .getAllElection()
             .then((response) => {
-                const upcoming: IElectionEntity[] = []
-                const started: IElectionEntity[] = []
-                const finished: IElectionEntity[] = []
+                const upcoming: ElectionEntity[] = []
+                const started: ElectionEntity[] = []
+                const finished: ElectionEntity[] = []
 
                 for (const election of response) {
-                    if (election.status == ElectionStatus.NotStarted) upcoming.push(election)
-                    if (election.status == ElectionStatus.Started) started.push(election)
-                    if (election.status == ElectionStatus.Finished) finished.push(election)
+                    const electionEntity = new ElectionEntity(election)
+                    if (election.status == ElectionStatus.NotStarted) upcoming.push(electionEntity)
+                    if (election.status == ElectionStatus.Started) started.push(electionEntity)
+                    if (election.status == ElectionStatus.Finished) finished.push(electionEntity)
                 }
 
                 setUpcoming(upcoming)
@@ -63,7 +64,7 @@ export default function ElectionsView(): React.ReactElement {
      * Generates the list entry with correct elements.
      * @param item the election object to render in list
      */
-    const render = (item: IElectionEntity) => {
+    const render = (item: ElectionEntity) => {
         return (
             <Item>
                 <ElectionEntry election={item} />

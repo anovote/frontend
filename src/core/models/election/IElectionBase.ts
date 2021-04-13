@@ -7,7 +7,7 @@ import { ElectionStatus } from './ElectionStatus'
  */
 export interface IElectionBase {
     title: string
-    description: string
+    description?: string
     openDate?: Date
     closeDate?: Date
     isLocked: boolean

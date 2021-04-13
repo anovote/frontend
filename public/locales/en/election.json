@@ -1,6 +1,7 @@
 {
     "Authentication method": "Authentication method",
     "Ballot proceed": "Ballot proceed",
+    "Closed on": "Closed on",
     "Connected voters": "Connected voters",
     "Edit election": "Edit election",
     "Election close": "Election close",
@@ -8,13 +9,15 @@
     "Election open": "Election open",
     "Election opens": "Election opens {{date}}",
     "Election starts": "Election starts {{date}}",
-    "Ended on ": "Ended on",
+    "Ended on": "Ended on",
     "Finished": "Finished",
     "In progress": "In progress",
+    "Opened on": "Opened on",
+    "Opens on": "Opens on",
+    "Please fill in a description": "Please fill in a description",
     "Time elapsed": "Time elapsed",
     "To be held": "To be held",
     "Waiting for": "Waiting for {{what}}",
-    "update-election": "Update Election",
     "create-election": "Create Election",
-    "Please fill in a description": "Please fill in a description"
+    "update-election": "Update Election"
 }
