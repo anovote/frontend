@@ -145,7 +145,6 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
      * @returns new list of candidate with a blank alternative
      */
     const addBlankCandidate = (candidates: ICandidate[]) => {
-        console.log('here')
         const blankCandidate: ICandidate = { candidate: 'blank' /*, id: candidates.length + 1*/ }
         if (checkForDuplicateBlank(candidates)) {
             return candidates
