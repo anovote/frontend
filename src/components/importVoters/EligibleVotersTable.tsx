@@ -54,7 +54,7 @@ export default function EligibleVotersTable({
             const parsedJson = await fileParser.parseJson<{ emails: { email: string }[] }>(file)
             parsedEmails = parsedJson.emails.map((email) => email.email)
         } else {
-            setErrorMessage(t('error:The-file-is-not-CSV-or-JSON'))
+            setErrorMessage(t('error:The file is not CSV or JSON'))
             return
         }
 
@@ -100,13 +100,13 @@ export default function EligibleVotersTable({
      */
     const handleAddNewVoter = (voterIdentification: string) => {
         if (!isValidEmail(voterIdentification)) {
-            throw new Error(t('error:not-valid-email'))
+            throw new Error(t('error:not valid email'))
         }
 
         const newVoter: IEligibleVoter = { identification: voterIdentification }
         if (isDuplicate(newVoter)) {
-            formContext.setFields([{ name: NEW_VOTER, errors: [t('error:Email-is-duplicate')] }])
-            throw new Error(t('error:duplicate-email'))
+            formContext.setFields([{ name: NEW_VOTER, errors: [t('error:Email is duplicate')] }])
+            throw new Error(t('error:duplicate email'))
         }
 
         setVoters([...voters, newVoter])
@@ -201,9 +201,10 @@ export default function EligibleVotersTable({
                     <Form.Item
                         name="new_voter"
                         validateTrigger={['onBlur', 'onChange']}
-                        rules={[{ type: 'email', message: 'Not an valid email' }]}
+                        rules={[{ type: 'email', message: t('error:not valid email') }]}
+                        normalize={(val) => val.trim()}
                     >
-                        <Input placeholder="add new email" onPressEnter={handleAddNewVoterByEnter}></Input>
+                        <Input placeholder={t('form:add-new-email')} onPressEnter={handleAddNewVoterByEnter}></Input>
                     </Form.Item>
                     <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
                     <Button onClick={handleDone}>Done</Button>
