@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+import DraggableList from 'components/list/DraggableList'
 import CreateBallotModal from 'containers/modal/CreateBallotModal'
 import useChangedStateEffect from 'core/hooks/useChangedStateEffect'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
@@ -6,7 +7,7 @@ import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IElection } from 'core/models/election/IElection'
 import * as React from 'react'
 import { useCallback, useState } from 'react'
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd'
+import { DropResult } from 'react-beautiful-dnd'
 import AddPreviewButton from './AddPreviewButton'
 import PreviewItem from './PreviewItem'
 
@@ -21,10 +22,12 @@ export default function PreviewList({
 }: {
     electionId?: number
     initialElection?: IElection
-    onChange: (ballots: IBallot[]) => void
+    onChange: (ballots: IBallotEntity[]) => void
 }): React.ReactElement {
-    const [ballotsState, setBallotsState] = useState<IBallot[]>(
-        initialElection && initialElection.ballots ? initialElection.ballots : new Array<IBallot>(),
+    const [ballotsState, setBallotsState] = useState<IBallotEntity[]>(
+        initialElection && initialElection.ballots
+            ? (initialElection.ballots as IBallotEntity[])
+            : new Array<IBallotEntity>(),
     )
     const [createBallotModalState, setCreateBallotModalState] = useState<CreateBallotModalState>({
         show: false,
@@ -32,7 +35,7 @@ export default function PreviewList({
     })
 
     const onDragEndHandler = useCallback(
-        (result) => {
+        (result: DropResult) => {
             const { destination, source } = result
 
             // Not dropped in drop context or not moved
@@ -68,10 +71,11 @@ export default function PreviewList({
      */
     const onSubmitCreateBallotHandler = (ballot: IBallot, index?: number) => {
         const newState = Array.from(ballotsState)
+
         if (index !== undefined) {
-            newState.splice(index, 1, ballot)
+            newState.splice(index, 1, ballot as IBallotEntity)
         } else {
-            newState.push(ballot)
+            newState.push(ballot as IBallotEntity) // ! FIX something fishy with all this index use
         }
         const orderedBallots = setOrderOnBallots(newState)
         setBallotsState(orderedBallots)
@@ -81,7 +85,7 @@ export default function PreviewList({
     /**
      * Setting the order on the ballot object
      */
-    const setOrderOnBallots = (unOrderedBallots: IBallot[]): IBallot[] => {
+    const setOrderOnBallots = (unOrderedBallots: IBallotEntity[]): IBallotEntity[] => {
         return unOrderedBallots.map((value, index) => {
             value.order = index
             return value
@@ -118,36 +122,13 @@ export default function PreviewList({
                     onSubmitted={onSubmitCreateBallotHandler}
                 />
             )}
-            <DragDropContext onDragEnd={onDragEndHandler}>
-                <Droppable droppableId="ballots">
-                    {(dropProvided) => (
-                        <div ref={dropProvided.innerRef}>
-                            {ballotsState.map(({ title }, index) => {
-                                return (
-                                    <Draggable key={index} draggableId={index.toString()} index={index}>
-                                        {(provided) => (
-                                            <div
-                                                ref={provided.innerRef}
-                                                {...provided.draggableProps}
-                                                {...provided.dragHandleProps}
-                                            >
-                                                <PreviewItem
-                                                    key={index}
-                                                    itemTitle={title}
-                                                    id={index.toString()}
-                                                    onDelete={() => onDeleteHandler(index)}
-                                                    onEdit={() => onEditHandler(index)}
-                                                />
-                                            </div>
-                                        )}
-                                    </Draggable>
-                                )
-                            })}
-                            {dropProvided.placeholder}
-                        </div>
-                    )}
-                </Droppable>
-            </DragDropContext>
+            <DraggableList list={ballotsState} onDragEndHandler={onDragEndHandler}>
+                {(ballot: IBallotEntity, index: number) => (
+                    <PreviewItem id={index} onDelete={() => onDeleteHandler(index)} onEdit={() => onEditHandler(index)}>
+                        {ballot.title}
+                    </PreviewItem>
+                )}
+            </DraggableList>
             <AddPreviewButton addPreview={addNewBallot} />
         </div>
     )

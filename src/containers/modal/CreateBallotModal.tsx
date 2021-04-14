@@ -222,8 +222,9 @@ export default function CreateBallotModal({
                                             onEdit={() => onEdit(index)}
                                             onDelete={() => onDelete(index)}
                                             id={index}
-                                            itemTitle={item.candidate}
-                                        />
+                                        >
+                                            {item.candidate}
+                                        </PreviewItem>
                                         {editCandidate && editCandidate.id == index && candidateInputField(index)}
                                     </>
                                 )}
