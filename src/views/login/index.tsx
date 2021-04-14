@@ -1,7 +1,8 @@
-import { Alert, Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
 import { getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationDetails } from 'core/service/authentication/AuthenticationDetails'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
@@ -19,22 +20,22 @@ import { Redirect, useHistory } from 'react-router-dom'
 export default function LoginView(): React.ReactElement {
     const authService = new AuthenticationService(BackendAPI, new LocalStorageService())
     const [t] = useTranslation(['translation', 'common', 'form'])
-    const [errorMessage, setErrorMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory()
     const { isLoggedIn } = useAppState()
 
+    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
+
     const formValidated = async (form: AuthenticationDetails) => {
-        setErrorMessage('')
         try {
             await authService.authenticateOrganizer(form)
             appDispatcher.setLoginState(AuthLevel.organizer)
             history.replace('/admin')
         } catch (error) {
             if (error instanceof CredentialError) {
-                setErrorMessage(t('form:Wrong email password'))
+                alertDispatch({ type: 'error', message: 'Wrong email or password' })
             } else {
-                setErrorMessage(t('form:Something went wrong'))
+                alertDispatch({ type: 'error', message: 'Something went wrong' })
             }
         }
     }
@@ -46,9 +47,7 @@ export default function LoginView(): React.ReactElement {
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="login-form">
-                    <div className="error-field">
-                        {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
-                    </div>
+                    <div className="error-field">{createAlertComponent(alertState)}</div>
                     <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
                         <Form.Item
                             label={t('common:Email')}

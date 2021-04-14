@@ -1,4 +1,4 @@
-import { Alert, AlertProps, Space } from 'antd'
+import { Space } from 'antd'
 import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
@@ -12,7 +12,6 @@ import { ElectionService } from 'core/service/election/ElectionService'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
-import { AlertState } from '../../core/state/AlertState'
 
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common', 'election'])
