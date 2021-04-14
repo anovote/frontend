@@ -2,6 +2,8 @@ import React, { ReactElement, ReactNode } from 'react'
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd'
 
 type DraggableProps<T> = {
+    // a unique id for representing the droppable id column
+    droppableId: string
     /**
      * Each individual node that should populate the list,
      * that will contain drag and drop properties.
@@ -29,15 +31,16 @@ interface ObjectWithIndex {
  *  Makes a list draggable by giving each element in list drag and drop handlers.
  * The component can take in any list, as well as any ReactNode to use. The only constraint is that the list must have an id field
  */
-export default function DraggableList<T extends ObjectWithId | ObjectWithIndex>({
+export default function DragDropList<T extends ObjectWithId | ObjectWithIndex>({
     children,
     list,
+    droppableId,
     onDragEndHandler,
 }: DraggableProps<T>): ReactElement {
     return (
         <>
             <DragDropContext onDragEnd={onDragEndHandler}>
-                <Droppable droppableId="ballots">
+                <Droppable droppableId={droppableId}>
                     {(dropProvided) => (
                         <div ref={dropProvided.innerRef}>
                             {list.map((item: T, index: number) => {

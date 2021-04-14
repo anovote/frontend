@@ -1,5 +1,5 @@
 /* eslint-disable react/display-name */
-import DraggableList from 'components/list/DraggableList'
+import DragDropList from 'components/list/DragDropList'
 import CreateBallotModal from 'containers/modal/CreateBallotModal'
 import useChangedStateEffect from 'core/hooks/useChangedStateEffect'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
@@ -120,13 +120,17 @@ export default function BallotPreviewList({
                     onSubmitted={onSubmitCreateBallotHandler}
                 />
             )}
-            <DraggableList list={ballotsState as IBallotInList[]} onDragEndHandler={onDragEndHandler}>
+            <DragDropList
+                list={ballotsState as IBallotInList[]}
+                onDragEndHandler={onDragEndHandler}
+                droppableId={'ballots-droppable-column'}
+            >
                 {(ballot: IBallotInList, index: number) => (
                     <PreviewItem id={index} onDelete={() => onDeleteHandler(index)} onEdit={() => onEditHandler(index)}>
                         {ballot.title}
                     </PreviewItem>
                 )}
-            </DraggableList>
+            </DragDropList>
             <AddPreviewButton addPreview={addNewBallot} />
         </div>
     )
