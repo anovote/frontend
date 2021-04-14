@@ -1,53 +1,42 @@
-import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input, Space } from 'antd'
 import { BackendAPI } from 'core/api'
 import { PasswordDoesNotMatchError } from 'core/errors/customErrors'
+import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ChangePasswordForm(): React.ReactElement {
-    const [alertProps, setAlertProps] = React.useState<AlertProps>()
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
+
+    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
 
     const submitForm = async (values: ChangePasswordInterface) => {
         try {
             await service.validateAndChangePassword(values)
-            const newAlertProps: AlertProps = {
-                message: t('profile:Password changed'),
-                description: t('profile:Your password changed'),
-                type: 'success',
-            }
-            setAlertProps(newAlertProps)
+            alertDispatch({ type: 'success', message: 'Password changed', description: 'Your password was changed' })
         } catch (error) {
-            const newAlertProps: AlertProps = {
-                message: t('common:Something went wrong'),
-                type: 'error',
-            }
             if (error instanceof PasswordDoesNotMatchError) {
-                newAlertProps.description = `${t('common:Password')} ${t('form:Must match').toLocaleLowerCase()}`
+                alertDispatch({
+                    type: 'error',
+                    message: 'Something went wrong',
+                    description: `${t('common:Password')} ${t('form:Must match').toLocaleLowerCase()}`,
+                })
             } else {
-                newAlertProps.description = t('common:Try again later')
+                alertDispatch({
+                    type: 'error',
+                    message: 'Something went wrong',
+                    description: t('common:Try again later'),
+                })
             }
-            setAlertProps(newAlertProps)
         }
     }
 
     return (
         <>
             <Space direction="vertical">
-                {!!alertProps && (
-                    <Alert
-                        message={alertProps?.message}
-                        description={alertProps?.description}
-                        type={alertProps?.type}
-                        onClose={() => {
-                            setAlertProps(undefined)
-                        }}
-                        showIcon
-                        closable
-                    />
-                )}
+                {createAlertComponent(alertState)}
                 <Form layout={'vertical'} onFinish={submitForm}>
                     <Space direction="vertical">
                         <Form.Item
