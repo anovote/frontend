@@ -11,6 +11,7 @@ import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
+import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -33,11 +34,12 @@ export default function CreateElectionView({
 }: CreateElectionProps): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'election'])
-    const [alertProps, setAlertProps] = useState<AlertProps>()
     const [eligibleVoters, setEligibleVoters] = useState<IEligibleVoter[]>([])
     const [election, setElection] = useState<IElection | undefined>(
         initialElection ? initialElection : ({} as IElection),
     )
+
+    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
 
     const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()
@@ -63,19 +65,14 @@ export default function CreateElectionView({
             }
             history.push(getAdminRoute().elections.view, { alertProps })
         } catch (error) {
-            const newAlertProps: AlertProps = {
-                message: '',
-                type: 'error',
-            }
-
             if (error instanceof AuthorizationError) {
-                newAlertProps.message = 'Election Organizer not logged in'
-                newAlertProps.description = 'The election organizer needs to be logged in to create an election'
-                setAlertProps(newAlertProps)
+                alertDispatch({
+                    type: 'error',
+                    message: 'Election organizer not logged in',
+                    description: 'The election organizer needs to be logged in to create an election',
+                })
             } else {
-                newAlertProps.message = 'Something went wrong'
-                newAlertProps.description = 'Please try again later'
-                setAlertProps(newAlertProps)
+                alertDispatch({ type: 'error', message: 'Something went wrong', description: 'Please try again later' })
             }
         }
     }
@@ -167,17 +164,7 @@ export default function CreateElectionView({
                     <PreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
                 </Col>
             </Row>
-            <div className="alert-field">
-                {!!alertProps && (
-                    <Alert
-                        message={alertProps?.message}
-                        description={alertProps?.description}
-                        type={alertProps?.type}
-                        showIcon
-                        closable
-                    />
-                )}
-            </div>
+            <div className="alert-field">{createAlertComponent(alertState)}</div>
         </Content>
     )
 }
