@@ -1,15 +1,9 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Alert, Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Space, Upload } from 'antd'
+import { Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Space, Upload } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
-import {
-    AnovoteAlertState,
-    createAlertComponent,
-    createListOfAlertsComponent,
-    useAlert,
-    useAlertList,
-} from 'core/hooks/useAlert'
+import { createListOfAlertsComponent, useAlertList } from 'core/hooks/useAlert'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
@@ -27,9 +21,6 @@ export default function EligibleVotersTable({
     initialVoters?: IEligibleVoter[]
 }): React.ReactElement {
     const [t] = useTranslation(['parsing', 'error'])
-    const [errorMessage, setErrorMessage] = React.useState('')
-    const [duplicateErrorMessage, setDuplicateErrorMessage] = React.useState('')
-    const [invalidEmailErrorMessage, setInvalidEmailErrorMessage] = React.useState('')
     const [voters, setVoters] = React.useState<IEligibleVoter[]>(
         initialVoters ? initialVoters : new Array<IEligibleVoter>(),
     )
@@ -38,13 +29,7 @@ export default function EligibleVotersTable({
         onChange(voters)
     }, [voters])
 
-    const [alertState, alertDispatch] = useAlert({
-        message: '',
-        description: '',
-        alertType: 'info',
-    })
-
-    const [listOfAlertProps, setListOfAlertProps] = useAlertList()
+    const [listOfAlertProps, addAlertToList] = useAlertList()
 
     const fileParser = new FileParser()
 
@@ -67,22 +52,14 @@ export default function EligibleVotersTable({
                 const parsedCsv = await fileParser.parseCsv<string>(file)
                 arrays = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
             } catch (e) {
-                setListOfAlertProps((listOfAlertProps) => [
-                    ...listOfAlertProps,
-                    { message: 'Something went wrong in the parsing', alertType: 'error' },
-                ])
-                //setErrorMessage(t('parsing:Something went wrong in the parsing'))
+                addAlertToList({ message: 'Something went wrong in the parsing', alertType: 'error' })
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: { email: string }[] }>(file)
             const emails = parsedJson.emails.map((email) => email.email)
             arrays = createListOfEligibleVoters(emails)
         } else {
-            setListOfAlertProps((listOfAlertProps) => [
-                ...listOfAlertProps,
-                { message: 'The-file-is-not-CSV-or-JSON', alertType: 'error' },
-            ])
-            //setErrorMessage(t('error:The-file-is-not-CSV-or-JSON'))
+            addAlertToList({ message: 'The-file-is-not-CSV-or-JSON', alertType: 'error' })
             return
         }
         checkInputArrays(arrays)
@@ -99,19 +76,14 @@ export default function EligibleVotersTable({
         eligibleVoters: IEligibleVoter[]
     }): void {
         if (arrays.invalidEmails.length != 0) {
-            setListOfAlertProps((listOfAlertProps) => [
-                ...listOfAlertProps,
-                { message: 'Removed the following invalid emails' + arrays.invalidEmails, alertType: 'warning' },
-            ])
-            //setInvalidEmailErrorMessage(t('parsing:Removed the following invalid emails') + ': ' + arrays.invalidEmails)
+            addAlertToList({
+                message: 'Removed the following invalid emails' + arrays.invalidEmails,
+                alertType: 'warning',
+            })
         }
 
         if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
-            setListOfAlertProps((listOfAlertProps) => [
-                ...listOfAlertProps,
-                { message: 'Removed duplicate entries', alertType: 'warning' },
-            ])
-            //setDuplicateErrorMessage(t('parsing:Removed duplicate entries'))
+            addAlertToList({ message: 'Removed duplicate entries', alertType: 'warning' })
         }
     }
 
@@ -242,16 +214,7 @@ export default function EligibleVotersTable({
                     <Button onClick={handleDone}>Done</Button>
                 </Row>
             )}
-            <div>
-                {/*{!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
-                {!!duplicateErrorMessage && (
-                    <Alert message={duplicateErrorMessage} type={'warning'} showIcon closable />
-                )}
-                {!!invalidEmailErrorMessage && (
-                    <Alert message={invalidEmailErrorMessage} type={'warning'} showIcon closable />
-                )}*/}
-                {createListOfAlertsComponent(listOfAlertProps)}
-            </div>
+            <div>{createListOfAlertsComponent(listOfAlertProps)}</div>
         </div>
     )
 }

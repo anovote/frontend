@@ -83,10 +83,14 @@ export function useAlert(initialState: AnovoteAlertState): [AnovoteAlertState, D
     return [alertState, alertDispatch]
 }
 
-export function useAlertList(): [AnovoteAlertState[], Dispatch<React.SetStateAction<AnovoteAlertState[]>>] {
+export function useAlertList(): [AnovoteAlertState[], (newAlertProps: AnovoteAlertState) => void] {
     const [listOfAlerts, setListOfAlerts] = useState<AnovoteAlertState[]>([])
 
-    return [listOfAlerts, setListOfAlerts]
+    const addAlertToList = (newAlertProps: AnovoteAlertState) => {
+        setListOfAlerts((listOfAlerts) => [...listOfAlerts, newAlertProps])
+    }
+
+    return [listOfAlerts, addAlertToList]
 }
 
 export function createAlertComponent(alertProps: AnovoteAlertState): React.ReactElement {
