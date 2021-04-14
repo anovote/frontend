@@ -40,6 +40,7 @@ export default function CreateElectionView({
     )
 
     const history = useHistory<AlertState>()
+    const [form] = Form.useForm<IElection>()
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
@@ -81,6 +82,10 @@ export default function CreateElectionView({
 
     const uploadEligibleVotersCallback = (eligibleVoters: IEligibleVoter[]) => {
         setEligibleVoters(eligibleVoters)
+
+        if (election) {
+            setElection({ ...election, eligibleVoters })
+        }
     }
 
     const onBallotsChangeHandler = (ballots: IBallot[]) => {
@@ -94,7 +99,14 @@ export default function CreateElectionView({
     const onFinishedHandler = async (form: IElection) => {
         if (initialElection && onUpdate) {
             const { id, electionOrganizer, createdAt, updatedAt } = initialElection
-            const updateElection: IElectionEntity = { ...form, id, electionOrganizer, createdAt, updatedAt }
+            const updateElection: IElectionEntity = {
+                ...form,
+                id,
+                electionOrganizer,
+                createdAt,
+                updatedAt,
+                eligibleVoters,
+            }
             if (election && election.ballots) {
                 updateElection.ballots = election.ballots
             }
@@ -113,6 +125,7 @@ export default function CreateElectionView({
                         {initialElection ? t('election:Edit election') : t('common:Create new election')}
                     </Title>
                     <Form
+                        form={form}
                         className="is-flex-column"
                         layout="vertical"
                         name="description-form"
@@ -132,10 +145,10 @@ export default function CreateElectionView({
                                 <CloseDateInput />
                             </Col>
                         </Row>
-                        {/* todo #159 allow manual adding of voters */}
                         <EligibleVotersTable
                             initialVoters={election?.eligibleVoters}
-                            onUpload={uploadEligibleVotersCallback}
+                            onChange={uploadEligibleVotersCallback}
+                            formContext={form}
                         />
                         <Title level={2}>{t('common:Verification')}</Title>
                         <Row>
