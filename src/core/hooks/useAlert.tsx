@@ -1,6 +1,21 @@
 import { Alert } from 'antd'
 import * as React from 'react'
+import { useState } from 'react'
 import { Dispatch, useReducer } from 'react'
+
+type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
+
+export type AlertAction =
+    | { type: 'show' }
+    | { type: 'new'; newState: AnovoteAlertState }
+    | { type: 'close' }
+    | { type: 'error' | 'warning' | 'info' | 'success'; message: string; description?: string }
+
+export interface AnovoteAlertState {
+    message: string
+    description?: string
+    alertType: AlertType
+}
 
 function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAlertState {
     switch (action.type) {
@@ -68,19 +83,11 @@ export function useAlert(initialState: AnovoteAlertState): [AnovoteAlertState, D
     return [alertState, alertDispatch]
 }
 
-export interface AnovoteAlertState {
-    message: string
-    description?: string
-    alertType: AlertType
+export function useAlertList(): [AnovoteAlertState[], Dispatch<React.SetStateAction<AnovoteAlertState[]>>] {
+    const [listOfAlerts, setListOfAlerts] = useState<AnovoteAlertState[]>([])
+
+    return [listOfAlerts, setListOfAlerts]
 }
-
-type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
-
-export type AlertAction =
-    | { type: 'show' }
-    | { type: 'new'; newState: AnovoteAlertState }
-    | { type: 'close' }
-    | { type: 'error' | 'warning' | 'info' | 'success'; message: string; description?: string }
 
 export function createAlertComponent(alertProps: AnovoteAlertState): React.ReactElement {
     return (

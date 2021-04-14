@@ -3,7 +3,13 @@ import { Alert, Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Ro
 import Title from 'antd/lib/typography/Title'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
-import { AnovoteAlertState, createAlertComponent, createListOfAlertsComponent, useAlert } from 'core/hooks/useAlert'
+import {
+    AnovoteAlertState,
+    createAlertComponent,
+    createListOfAlertsComponent,
+    useAlert,
+    useAlertList,
+} from 'core/hooks/useAlert'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
@@ -38,7 +44,7 @@ export default function EligibleVotersTable({
         alertType: 'info',
     })
 
-    const [listOfAlertProps, setListOfAlertProps] = useState<AnovoteAlertState[]>([])
+    const [listOfAlertProps, setListOfAlertProps] = useAlertList()
 
     const fileParser = new FileParser()
 
