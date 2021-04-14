@@ -1,22 +1,22 @@
-import { AlertProps, Button, Space, Alert } from 'antd'
+import { Button, Space } from 'antd'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import { RadioChangeEvent } from 'antd/lib/radio'
 import Title from 'antd/lib/typography/Title'
 import BallotTypeDisplay from 'components/BallotTypeDisplay/BallotTypeDisplay'
 import CandidateList from 'components/CandidateList/CandidateList'
+import { BackendAPI } from 'core/api'
+import { Events } from 'core/events'
+import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { useSocket } from 'core/hooks/useSocket'
 import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
-import React, { ReactElement, useReducer, useState } from 'react'
-import { useTranslation } from 'react-i18next'
-
-import { Events } from 'core/events'
-import { useSocket } from 'core/hooks/useSocket'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
-import { BackendAPI } from 'core/api'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
+import React, { ReactElement, useReducer } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const initialState = {
     selected: 0,
@@ -31,7 +31,8 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
-    const [alertProps, setAlertProps] = useState<AlertProps>()
+
+    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -88,17 +89,9 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
         switch (ballot.type) {
             case BallotType.SINGLE: {
                 if (!socket.connected) {
-                    const newAlertProps: AlertProps = {
-                        message: t('Could not connect to the server'),
-                        type: 'error',
-                    }
-                    setAlertProps(newAlertProps)
+                    alertDispatch({ type: 'error', message: 'Could not connect to the server' })
                 } else if (selected === 0) {
-                    const newAlertProps: AlertProps = {
-                        message: t('You need to select a candidate'),
-                        type: 'error',
-                    }
-                    setAlertProps(newAlertProps)
+                    alertDispatch({ type: 'error', message: 'You need to select a candidate' })
                 } else {
                     socket.emit(
                         Events.client.vote.submit,
@@ -112,11 +105,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                             console.log('Callback handled here')
                         },
                     )
-                    const newAlertProps: AlertProps = {
-                        message: t('Your vote was submitted'),
-                        type: 'success',
-                    }
-                    setAlertProps(newAlertProps)
+                    alertDispatch({ type: 'success', message: 'Your vote was submitted' })
                 }
                 break
             }
@@ -156,17 +145,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
             <Button type="primary" shape="round" onClick={submitVote}>
                 {t('common:Submit vote')}
             </Button>
-            <div className="alert-field">
-                {!!alertProps && (
-                    <Alert
-                        message={alertProps?.message}
-                        description={alertProps?.description}
-                        type={alertProps?.type}
-                        showIcon
-                        closable
-                    />
-                )}
-            </div>
+            <div className="alert-field">{createAlertComponent(alertState)}</div>
         </div>
     )
 }

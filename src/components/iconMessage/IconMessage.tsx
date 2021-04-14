@@ -1,5 +1,5 @@
 import { BulbOutlined, CheckOutlined, CloseCircleOutlined, ExclamationOutlined, FrownOutlined } from '@ant-design/icons'
-import { Alert, Button } from 'antd'
+import { Button } from 'antd'
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
 import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
 import React, { ReactElement } from 'react'
@@ -12,7 +12,7 @@ export default function IconMessage({
     alertLevel = 'info',
     onClose,
 }: IIconMessage): ReactElement {
-    const [alertState, alertDispatch] = useAlert({ message: alertMessage, alertType: alertLevel })
+    const [alertState] = useAlert({ message: alertMessage, alertType: alertLevel })
 
     if (!icon) {
         switch (alertLevel) {

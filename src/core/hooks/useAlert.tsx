@@ -44,7 +44,7 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAle
                 ...state,
                 message: action.message,
                 description: action.description,
-                alertType: 'warning',
+                alertType: 'error',
             }
         }
         case 'warning': {
