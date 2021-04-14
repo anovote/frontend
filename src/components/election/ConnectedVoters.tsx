@@ -11,7 +11,7 @@ export function ConnectedVoters(): ReactElement {
     const [t] = useTranslation('election')
 
     useEffect(() => {
-        // todo fetch connected on refresh
+        // todo #203 add how many voters that could be connected
         socket.connect()
         socket.on(Events.server.election.voterConnected, (connectedCount: number) => {
             setConnectedVoters(connectedCount)
