@@ -1,6 +1,5 @@
 import { Alert } from 'antd'
 import * as React from 'react'
-import { useState } from 'react'
 import { Dispatch, useReducer } from 'react'
 
 type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
@@ -81,16 +80,6 @@ export function useAlert(initialState: AnovoteAlertState): [AnovoteAlertState, D
     const [alertState, alertDispatch] = useReducer(alertReducer, initialState)
 
     return [alertState, alertDispatch]
-}
-
-export function useAlertList(): [AnovoteAlertState[], (newAlertProps: AnovoteAlertState) => void] {
-    const [listOfAlerts, setListOfAlerts] = useState<AnovoteAlertState[]>([])
-
-    const addAlertToList = (newAlertProps: AnovoteAlertState) => {
-        setListOfAlerts((listOfAlerts) => [...listOfAlerts, newAlertProps])
-    }
-
-    return [listOfAlerts, addAlertToList]
 }
 
 export function createAlertComponent(alertProps: AnovoteAlertState): React.ReactElement {
