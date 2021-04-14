@@ -1,4 +1,4 @@
-import { Alert, AlertProps, Col, Form, Row } from 'antd'
+import { Col, Form, Row } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import Title from 'antd/lib/typography/Title'
 import CloseDateInput from 'components/election/CloseDateInput'
@@ -11,7 +11,7 @@ import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
-import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { AnovoteAlertState, createAlertComponent, useAlert } from 'core/hooks/useAlert'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -19,7 +19,6 @@ import { IElection } from 'core/models/election/IElection'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { getAdminRoute } from 'core/routes/siteRoutes'
 import { ElectionService } from 'core/service/election/ElectionService'
-import { AlertState } from 'core/state/AlertState'
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -41,7 +40,7 @@ export default function CreateElectionView({
 
     const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
 
-    const history = useHistory<AlertState>()
+    const history = useHistory<AnovoteAlertState>()
     const [form] = Form.useForm<IElection>()
 
     /**
@@ -57,13 +56,12 @@ export default function CreateElectionView({
                 form.ballots = election?.ballots
             }
             await electionService.createElection(form)
-            const alertProps: AlertProps = {
+            alertDispatch({
+                type: 'success',
                 message: 'Election created',
                 description: 'The election was created successfully',
-                type: 'success',
-                closable: true,
-            }
-            history.push(getAdminRoute().elections.view, { alertProps })
+            })
+            history.push(getAdminRoute().elections.view, alertState)
         } catch (error) {
             if (error instanceof AuthorizationError) {
                 alertDispatch({
