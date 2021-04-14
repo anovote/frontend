@@ -11,6 +11,7 @@ import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
+import { DuplicateError } from 'core/errors/DuplicateError'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -44,17 +45,17 @@ export default function CreateElectionView({
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
-     * @param form The form we want to validate
+     * @param formData The form we want to validate
      */
-    const formValidated = async (form: IElection) => {
+    const formValidated = async (formData: IElection) => {
         try {
-            form.status = ElectionStatus.NotStarted
-            form.isLocked = false
-            form.eligibleVoters = eligibleVoters
+            formData.status = ElectionStatus.NotStarted
+            formData.isLocked = false
+            formData.eligibleVoters = eligibleVoters
             if (election && election.ballots) {
-                form.ballots = election?.ballots
+                formData.ballots = election?.ballots
             }
-            await electionService.createElection(form)
+            await electionService.createElection(formData)
             const alertProps: AlertProps = {
                 message: 'Election created',
                 description: 'The election was created successfully',
@@ -68,7 +69,12 @@ export default function CreateElectionView({
                 type: 'error',
             }
 
-            if (error instanceof AuthorizationError) {
+            if (error instanceof DuplicateError) {
+                newAlertProps.message = error.message
+                newAlertProps.description = 'All elections must be unique'
+                setAlertProps(newAlertProps)
+                form.setFields([{ name: 'title', errors: ['Please provide an unique title'] }])
+            } else if (error instanceof AuthorizationError) {
                 newAlertProps.message = 'Election Organizer not logged in'
                 newAlertProps.description = 'The election organizer needs to be logged in to create an election'
                 setAlertProps(newAlertProps)
