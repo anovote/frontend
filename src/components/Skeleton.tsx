@@ -1,6 +1,5 @@
 import { LogoutOutlined, ProjectFilled } from '@ant-design/icons'
 import { AlertProps, Layout, Menu } from 'antd'
-import { LogoutButton } from 'containers/modal/LogoutButton'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { BackendAPI } from 'core/api'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
