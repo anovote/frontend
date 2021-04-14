@@ -33,7 +33,7 @@ export default function CreateElectionView({
     onUpdate,
 }: CreateElectionProps): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
-    const [t] = useTranslation(['translation', 'common', 'election'])
+    const [t] = useTranslation(['translation', 'common', 'election', 'error'])
     const [alertProps, setAlertProps] = useState<AlertProps>()
     const [eligibleVoters, setEligibleVoters] = useState<IEligibleVoter[]>([])
     const [election, setElection] = useState<IElection | undefined>(
@@ -57,8 +57,8 @@ export default function CreateElectionView({
             }
             await electionService.createElection(formData)
             const alertProps: AlertProps = {
-                message: 'Election created',
-                description: 'The election was created successfully',
+                message: t('election:Election created'),
+                description: t('election:The election was created successfully'),
                 type: 'success',
                 closable: true,
             }
@@ -71,16 +71,18 @@ export default function CreateElectionView({
 
             if (error instanceof DuplicateError) {
                 newAlertProps.message = error.message
-                newAlertProps.description = 'All elections must be unique'
+                newAlertProps.description = t('error:All elections must be unique')
                 setAlertProps(newAlertProps)
-                form.setFields([{ name: 'title', errors: ['Please provide an unique title'] }])
+                form.setFields([{ name: 'title', errors: [t('error:Please provide an unique title')] }])
             } else if (error instanceof AuthorizationError) {
-                newAlertProps.message = 'Election Organizer not logged in'
-                newAlertProps.description = 'The election organizer needs to be logged in to create an election'
+                newAlertProps.message = t('error:Election Organizer not logged in')
+                newAlertProps.description = t(
+                    'error:The election organizer needs to be logged in to create an election',
+                )
                 setAlertProps(newAlertProps)
             } else {
-                newAlertProps.message = 'Something went wrong'
-                newAlertProps.description = 'Please try again later'
+                newAlertProps.message = t('error:Something went wrong')
+                newAlertProps.description = t('error:Please try again later')
                 setAlertProps(newAlertProps)
             }
         }
