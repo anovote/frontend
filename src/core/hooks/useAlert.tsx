@@ -81,14 +81,13 @@ export type AlertAction =
     | { type: 'show' }
     | { type: 'new'; newState: AnovoteAlertState }
     | { type: 'close' }
-    | { type: 'error'; message: string; description?: string }
-    | { type: 'warning'; message: string; description?: string }
-    | { type: 'info'; message: string; description?: string }
-    | { type: 'success'; message: string; description?: string }
+    | { type: 'error' | 'warning' | 'info' | 'success'; message: string; description?: string }
 
 export function createAlertComponent(alertProps: AnovoteAlertState): React.ReactElement {
-    return (
-        <div>
+    let alertComponent: React.ReactElement = <></>
+
+    if (alertProps.message) {
+        alertComponent = (
             <Alert
                 message={alertProps.message}
                 description={alertProps.description}
@@ -96,6 +95,8 @@ export function createAlertComponent(alertProps: AnovoteAlertState): React.React
                 closable
                 showIcon
             />
-        </div>
-    )
+        )
+    }
+
+    return <div>{alertComponent}</div>
 }
