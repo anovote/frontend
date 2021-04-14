@@ -28,7 +28,7 @@ export class ElectionEntity implements IElectionEntity {
         return this._election.title
     }
 
-    get description(): string | undefined {
+    get description(): string {
         return this._election.description
     }
 
