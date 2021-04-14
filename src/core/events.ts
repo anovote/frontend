@@ -30,8 +30,11 @@ export const Events = {
             verify: {
                 voterIntegrity: 'verify_voter_integrity',
             },
+            voterVerifiedReceived: 'voter_verification_received',
+            upgradeVerificationToJoin: 'upgrade_verification_to_join',
         },
         election: {
+            administrate: 'administrate_election',
             start: 'start_election',
             close: 'close_election',
         },
@@ -48,13 +51,18 @@ export const Events = {
             action: {
                 mail: 'awaiting_mail_action',
             },
+            voterVerified: 'voter_verified',
+            joinVerified: 'join_verified',
         },
         vote: {
             error: 'vote_error',
+            newVote: 'new_vote',
         },
         election: {
             push: 'push_election',
             close: 'close_election',
+            voterConnected: 'voter_connected',
+            voterDisconnected: 'voter_disconnected',
         },
         ballot: {
             push: 'push_ballot',

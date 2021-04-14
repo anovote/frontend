@@ -19,6 +19,7 @@ export default function PreviewList({
     initialElection,
     onChange,
 }: {
+    electionId?: number
     initialElection?: IElection
     onChange: (ballots: IBallot[]) => void
 }): React.ReactElement {

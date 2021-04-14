@@ -1,28 +1,40 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Alert, Button, Col, Dropdown, List, Menu, Row, Space, Upload } from 'antd'
+import { Alert, Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Space, Upload } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
+import { isValidEmail } from 'core/helpers/validation'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { createListOfEligibleVoters } from '../../core/helpers/eligibleVoter'
 import { FileParser } from './FileParser'
 
 export default function EligibleVotersTable({
-    onUpload,
+    onChange,
     initialVoters,
+    formContext,
 }: {
-    onUpload: (eligibleVoters: IEligibleVoter[]) => void
+    onChange: (eligibleVoters: IEligibleVoter[]) => void
+    formContext: FormInstance
     initialVoters?: IEligibleVoter[]
 }): React.ReactElement {
-    const [t] = useTranslation(['parsing'])
+    const [t] = useTranslation(['parsing', 'error'])
     const [errorMessage, setErrorMessage] = React.useState('')
     const [duplicateErrorMessage, setDuplicateErrorMessage] = React.useState('')
     const [invalidEmailErrorMessage, setInvalidEmailErrorMessage] = React.useState('')
     const [voters, setVoters] = React.useState<IEligibleVoter[]>(
         initialVoters ? initialVoters : new Array<IEligibleVoter>(),
     )
+    const [addByManual, setAddByManual] = useState(false)
+
+    useEffect(() => {
+        onChange(voters)
+    }, [voters])
+
     const fileParser = new FileParser()
+
+    const NEW_VOTER = 'new_voter'
 
     /**
      * Parses a CSV or JSON file, where the CSV or JSON
@@ -30,29 +42,30 @@ export default function EligibleVotersTable({
      * @param file The file we want to parse
      */
     const parseFile = async (file: File): Promise<void> => {
-        let arrays: { invalidEmails: string[]; noDuplicates: string[]; eligibleVoters: IEligibleVoter[] } = {
-            invalidEmails: [],
-            noDuplicates: [],
-            eligibleVoters: [],
-        }
+        let parsedEmails: string[] = []
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
                 const parsedCsv = await fileParser.parseCsv<string>(file)
-                arrays = createListOfEligibleVoters(convertTwoDimArrayToOneDimArray(parsedCsv))
+                parsedEmails = convertTwoDimArrayToOneDimArray(parsedCsv)
             } catch (e) {
-                setErrorMessage(t('Something went wrong in the parsing'))
+                setErrorMessage(t('parsing:Something went wrong in the parsing'))
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: { email: string }[] }>(file)
-            const emails = parsedJson.emails.map((email) => email.email)
-            arrays = createListOfEligibleVoters(emails)
+            parsedEmails = parsedJson.emails.map((email) => email.email)
         } else {
-            setErrorMessage(t('The file is not CSV or JSON!'))
+            setErrorMessage(t('error:The file is not CSV or JSON'))
             return
         }
-        checkInputArrays(arrays)
-        setVoters(arrays.eligibleVoters)
-        onUpload(arrays.eligibleVoters)
+
+        const filteredVoters = createListOfEligibleVoters([
+            ...parsedEmails,
+            ...voters.map((voter) => voter.identification),
+        ])
+
+        checkInputArrays(filteredVoters)
+        setVoters(filteredVoters.eligibleVoters)
+        onChange(filteredVoters.eligibleVoters)
     }
 
     function checkInputArrays(arrays: {
@@ -61,17 +74,90 @@ export default function EligibleVotersTable({
         eligibleVoters: IEligibleVoter[]
     }): void {
         if (arrays.invalidEmails.length != 0) {
-            setInvalidEmailErrorMessage(t('Removed the following invalid emails') + ': ' + arrays.invalidEmails)
+            setInvalidEmailErrorMessage(`${t('parsing:Removed the following invalid emails')}: ${arrays.invalidEmails}`)
         }
 
         if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
-            setDuplicateErrorMessage(t('Removed duplicate entries'))
+            setDuplicateErrorMessage(t('parsing:Removed duplicate entries'))
+        }
+    }
+
+    const addManualInputField = () => {
+        setAddByManual(true)
+    }
+
+    const handleAddNewVoterByEnter = (e: React.SyntheticEvent<HTMLInputElement>) => {
+        e.preventDefault()
+        const voterIdentification = e.currentTarget.value
+        handleAddNewVoter(voterIdentification)
+    }
+
+    /**
+     * Adds a voter to the list if all checks pass.
+     * Display error if something is wrong
+     * @param voterIdentification
+     * @returns
+     */
+    const handleAddNewVoter = (voterIdentification: string) => {
+        if (!isValidEmail(voterIdentification)) {
+            throw new Error(t('error:not valid email'))
+        }
+
+        const newVoter: IEligibleVoter = { identification: voterIdentification }
+        if (isDuplicate(newVoter)) {
+            formContext.setFields([{ name: NEW_VOTER, errors: [t('error:Email is duplicate')] }])
+            throw new Error(t('error:duplicate email'))
+        }
+
+        setVoters([...voters, newVoter])
+        formContext.resetFields([NEW_VOTER])
+    }
+
+    const isDuplicate = (newVoter: IEligibleVoter) => {
+        return voters.find((voter) => {
+            return voter.identification === newVoter.identification
+        })
+    }
+
+    const handleAddNewVoterByButtonClick = () => {
+        const voterIdentification = formContext.getFieldValue(NEW_VOTER)
+        try {
+            handleAddNewVoter(voterIdentification)
+        } catch (err) {
+            console.log(err.message)
+        }
+    }
+
+    /**
+     * Aims to close the input field.
+     * Will first handle the input values if there is any.
+     * @returns
+     */
+    const handleDone = async () => {
+        const addNewVoterInput = formContext.getFieldInstance(NEW_VOTER)
+        const voterIdentification = addNewVoterInput.state.value
+        if (!voterIdentification) {
+            setAddByManual(false)
+            return
+        }
+
+        try {
+            handleAddNewVoter(voterIdentification)
+            await formContext.validateFields([NEW_VOTER])
+            setAddByManual(false)
+        } catch (err) {
+            console.log(err.message) // this could be done silently as antd takes care of displaying the error
         }
     }
 
     const ImportFileMenu = (): React.ReactElement => {
         return (
             <Menu className="import-voters-menu">
+                <Menu.Item>
+                    <span className="manual-button" role="button" onClick={addManualInputField}>
+                        {t('form:Add manually')}
+                    </span>
+                </Menu.Item>
                 <Menu.Item>
                     <Upload className="upload-button" beforeUpload={parseFile} accept=".csv">
                         CSV
@@ -110,6 +196,20 @@ export default function EligibleVotersTable({
                 dataSource={voters}
                 renderItem={(item) => <List.Item>{item.identification}</List.Item>}
             />
+            {addByManual && (
+                <Row>
+                    <Form.Item
+                        name="new_voter"
+                        validateTrigger={['onBlur', 'onChange']}
+                        rules={[{ type: 'email', message: t('error:not valid email') }]}
+                        normalize={(val) => val.trim()}
+                    >
+                        <Input placeholder={t('form:add-new-email')} onPressEnter={handleAddNewVoterByEnter}></Input>
+                    </Form.Item>
+                    <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
+                    <Button onClick={handleDone}>Done</Button>
+                </Row>
+            )}
             <div>
                 {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
                 {!!duplicateErrorMessage && (

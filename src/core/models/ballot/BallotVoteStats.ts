@@ -5,7 +5,7 @@ import { ICandidateStats } from './ICandidateStats'
  * Total votes, votes given to a candidate and blank votes. A list of all candidates for
  * the given ballot with vote status for each candidate
  */
-export class BallotVoteStats implements IBallotStats {
+export class BallotVoteStats {
     private _ballotStats: IBallotStats
 
     private _ballotId: number
@@ -19,18 +19,18 @@ export class BallotVoteStats implements IBallotStats {
     }
 
     get total(): number {
-        return this._ballotStats.total
+        return this._ballotStats.stats.total
     }
 
     get votes(): number {
-        return this._ballotStats.votes
+        return this._ballotStats.stats.votes
     }
 
     get blank(): number {
-        return this._ballotStats.blank
+        return this._ballotStats.stats.blank
     }
 
     get candidates(): Array<ICandidateStats> {
-        return this._ballotStats.candidates
+        return this._ballotStats.stats.candidates
     }
 }

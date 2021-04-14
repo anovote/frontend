@@ -1,18 +1,16 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { CredentialError } from 'core/errors/CredentialsError'
-import { apiRoute } from 'core/routes/apiRoutes'
+import { apiRoutes } from 'core/routes/apiRoutes'
 import { IStorage } from 'core/service/storage/IStorage'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { StatusCodes } from 'http-status-codes'
 import jwt from 'jwt-decode'
 import { AuthenticationDetails } from './AuthenticationDetails'
 import { AuthenticationResponse } from './AuthenticationResponse'
-import { IToken } from './IToken'
+import { IToken, IVoterToken } from './IToken'
 export class AuthenticationService {
     private _httpClient: AxiosInstance
     private _storageService: IStorage<StorageKeys>
-
-    private readonly ACCESS_TOKEN = 'ACCESS_TOKEN'
 
     constructor(httpClient: AxiosInstance, storage: IStorage<StorageKeys>) {
         this._httpClient = httpClient
@@ -24,13 +22,13 @@ export class AuthenticationService {
      */
     public async authenticateOrganizer({ email, password }: AuthenticationDetails): Promise<void> {
         try {
-            const response = await this._httpClient.post<AuthenticationResponse>(apiRoute.authentication, {
+            const response = await this._httpClient.post<AuthenticationResponse>(apiRoutes.public.auth().login, {
                 email,
                 password,
             })
             const token = response.data.token
             if (!token) throw new Error('Token not present')
-            this._storageService.setItem(this.ACCESS_TOKEN, token)
+            this._storageService.setItem('ACCESS_TOKEN', token)
             this.setAuthorization(token)
         } catch (error) {
             if (error.isAxiosError) {
@@ -55,7 +53,7 @@ export class AuthenticationService {
      */
     public tryLoginWithToken(): boolean {
         if (this.hasValidAuthorizationToken()) {
-            const token = this._storageService.getItem(this.ACCESS_TOKEN)
+            const token = this.getAuthorizationToken()
             if (token) {
                 this.setAuthorization(token)
                 return true
@@ -67,13 +65,20 @@ export class AuthenticationService {
     /**
      * Returns the decoded token data if a token exists, else undefined
      */
-    public getDecodedToken(): IToken | undefined {
-        const token = this._storageService.getItem(this.ACCESS_TOKEN)
+    public getDecodedToken(): IToken | IVoterToken | undefined {
+        const token = this.getAuthorizationToken()
         if (token) {
             return jwt<IToken>(token)
         }
     }
 
+    /**
+     * Returns the authorization token or null
+     * @returns returns the authorization token or null
+     */
+    public getAuthorizationToken(): string | null {
+        return this._storageService.getItem('ACCESS_TOKEN')
+    }
     /**
      * Validates if we have a stored token, and the token is not expired
      */
@@ -89,6 +94,6 @@ export class AuthenticationService {
     }
 
     public logout(): void {
-        localStorage.removeItem(this.ACCESS_TOKEN)
+        localStorage.removeItem('ACCESS_TOKEN')
     }
 }

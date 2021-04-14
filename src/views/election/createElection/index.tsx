@@ -5,7 +5,6 @@ import CloseDateInput from 'components/election/CloseDateInput'
 import ElectionDescriptionInput from 'components/election/ElectionDescriptionInput'
 import ElectionPasswordInput from 'components/election/ElectionPasswordInput'
 import ElectionTitleInput from 'components/election/ElectionTitleInput'
-import IsAutomaticCheckbox from 'components/election/IsAutomaticCheckbox'
 import OpenDateInput from 'components/election/OpenDateInput'
 import SaveElectionButton from 'components/election/SaveElectionButton'
 import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
@@ -41,6 +40,7 @@ export default function CreateElectionView({
     )
 
     const history = useHistory<AlertState>()
+    const [form] = Form.useForm<IElection>()
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
@@ -82,6 +82,10 @@ export default function CreateElectionView({
 
     const uploadEligibleVotersCallback = (eligibleVoters: IEligibleVoter[]) => {
         setEligibleVoters(eligibleVoters)
+
+        if (election) {
+            setElection({ ...election, eligibleVoters })
+        }
     }
 
     const onBallotsChangeHandler = (ballots: IBallot[]) => {
@@ -95,7 +99,14 @@ export default function CreateElectionView({
     const onFinishedHandler = async (form: IElection) => {
         if (initialElection && onUpdate) {
             const { id, electionOrganizer, createdAt, updatedAt } = initialElection
-            const updateElection: IElectionEntity = { ...form, id, electionOrganizer, createdAt, updatedAt }
+            const updateElection: IElectionEntity = {
+                ...form,
+                id,
+                electionOrganizer,
+                createdAt,
+                updatedAt,
+                eligibleVoters,
+            }
             if (election && election.ballots) {
                 updateElection.ballots = election.ballots
             }
@@ -105,15 +116,15 @@ export default function CreateElectionView({
         }
     }
 
-    // todo #134 the form cant be populated with election containing dates. This is due to how antd handles dates. We should switch to momentJs for dates.
     return (
         <Content>
-            <Row>
-                <Col span={12} className="election-information-input">
+            <Row gutter={[32, 0]}>
+                <Col span={12}>
                     <Title level={1}>
                         {initialElection ? t('election:Edit election') : t('common:Create new election')}
                     </Title>
                     <Form
+                        form={form}
                         className="is-flex-column"
                         layout="vertical"
                         name="description-form"
@@ -135,7 +146,8 @@ export default function CreateElectionView({
                         </Row>
                         <EligibleVotersTable
                             initialVoters={election?.eligibleVoters}
-                            onUpload={uploadEligibleVotersCallback}
+                            onChange={uploadEligibleVotersCallback}
+                            formContext={form}
                         />
                         <Title level={2}>{t('common:Verification')}</Title>
                         <Row>
@@ -143,8 +155,10 @@ export default function CreateElectionView({
                                 <ElectionPasswordInput />
                             </Col>
                         </Row>
-                        <IsAutomaticCheckbox />
+                        {/* todo #160 implement logic to toggle is automatic
+                        <IsAutomaticCheckbox />*/}
                         <SaveElectionButton hasInitial={initialElection ? true : false} />
+                        {/* todo #154 There should be a cancel button*/}
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">

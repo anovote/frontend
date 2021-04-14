@@ -12,7 +12,7 @@ export default function AdminRoutes(): ReactElement {
     return (
         <Skeleton
             content={
-                <div className="is-fullscreen">
+                <div className="skeleton-admin">
                     <Route exact path={getBaseRoute().admin}>
                         <Redirect to={adminRoute.elections.view} />
                     </Route>

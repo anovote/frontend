@@ -1,6 +1,6 @@
 import { IBallot } from 'core/models/ballot/IBallot'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
-import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { IElectionBase } from 'core/models/election/IElectionBase'
 
 /**
  * Different display actions that can occur in an election
@@ -20,7 +20,7 @@ export enum DisplayAction {
  */
 export type ElectionState = {
     displayAction: DisplayAction
-    election: IElectionEntity | undefined
+    election: IElectionBase | undefined
     ballot: IBallot | undefined
     result: null
 }
@@ -29,7 +29,7 @@ export type ElectionState = {
  * Election state actions, used to perform actions on the reducer
  */
 export type ElectionAction =
-    | { type: 'election'; payload: IElectionEntity }
+    | { type: 'election'; payload: IElectionBase }
     | { type: 'ballot'; payload: IBallot }
     // TODO Not implemented yet
     | { type: 'result'; payload: null }

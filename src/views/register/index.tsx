@@ -2,13 +2,12 @@ import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
-import { useIsLoggedIn } from 'core/hooks/useIsLoggedIn'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { RegistrationDetails } from 'core/service/registration/RegistrationDetails'
 import { RegistrationService } from 'core/service/registration/RegistrationService'
 import { AlertState } from 'core/state/AlertState'
-import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
+import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next/'
 import { Redirect, useHistory } from 'react-router-dom'
@@ -21,7 +20,7 @@ export default function RegisterView(): React.ReactElement {
     const [successMessage, setSuccessMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory<AlertState>()
-    const [isLoggedIn] = useIsLoggedIn()
+    const { isLoggedIn } = useAppState()
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
@@ -74,7 +73,11 @@ export default function RegisterView(): React.ReactElement {
                         <Form.Item
                             label={t('common:Email')}
                             name="email"
-                            rules={[{ required: true, message: t('form:Remember email') }]}
+                            rules={[
+                                { required: true, message: t('form:Remember email') },
+                                { type: 'email', message: t('form:Email is not valid') },
+                            ]}
+                            normalize={(val) => val.trim()}
                         >
                             <Input />
                         </Form.Item>

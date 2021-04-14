@@ -1,4 +1,4 @@
-import { Button, Space } from 'antd'
+import { AlertProps, Button, Space, Alert } from 'antd'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import { RadioChangeEvent } from 'antd/lib/radio'
 import Title from 'antd/lib/typography/Title'
@@ -8,8 +8,15 @@ import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
-import React, { ReactElement, useReducer } from 'react'
+import React, { ReactElement, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import { Events } from 'core/events'
+import { useSocket } from 'core/hooks/useSocket'
+import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
+import { BackendAPI } from 'core/api'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { StorageKeys } from 'core/service/storage/StorageKeys'
 
 const initialState = {
     selected: 0,
@@ -23,6 +30,8 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
     const [t] = useTranslation(['common'])
+    const [socket] = useSocket()
+    const [alertProps, setAlertProps] = useState<AlertProps>()
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -72,6 +81,58 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
         dispatch({ type: 'reset', payload: { single: 0, multiple: [] } })
     }
 
+    const submitVote = () => {
+        socket.connect()
+        const storageService = new AuthenticationService(BackendAPI, new LocalStorageService<StorageKeys>())
+        const voter = storageService.getDecodedToken()
+        switch (ballot.type) {
+            case BallotType.SINGLE: {
+                if (!socket.connected) {
+                    const newAlertProps: AlertProps = {
+                        message: t('Could not connect to the server'),
+                        type: 'error',
+                    }
+                    setAlertProps(newAlertProps)
+                } else if (selected === 0) {
+                    const newAlertProps: AlertProps = {
+                        message: t('You need to select a candidate'),
+                        type: 'error',
+                    }
+                    setAlertProps(newAlertProps)
+                } else {
+                    socket.emit(
+                        Events.client.vote.submit,
+                        {
+                            candidate: selection.single,
+                            ballot: ballot.id,
+                            voter: voter?.id,
+                            submitted: new Date(),
+                        },
+                        () => {
+                            console.log('Callback handled here')
+                        },
+                    )
+                    const newAlertProps: AlertProps = {
+                        message: t('Your vote was submitted'),
+                        type: 'success',
+                    }
+                    setAlertProps(newAlertProps)
+                }
+                break
+            }
+            case BallotType.MULTIPLE: {
+                break
+            }
+
+            case BallotType.RANKED: {
+                break
+            }
+            // TODO add submit vote handling for the different ballot types
+            default:
+                console.error('The vote could not be submitted...')
+        }
+    }
+
     return (
         <div className="voter-display">
             <BallotTypeDisplay type={ballot.type} />
@@ -92,6 +153,20 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 onChange={onChange}
                 selection={ballot.type == BallotType.SINGLE ? selection.single : selection.multiple}
             />
+            <Button type="primary" shape="round" onClick={submitVote}>
+                {t('common:Submit vote')}
+            </Button>
+            <div className="alert-field">
+                {!!alertProps && (
+                    <Alert
+                        message={alertProps?.message}
+                        description={alertProps?.description}
+                        type={alertProps?.type}
+                        showIcon
+                        closable
+                    />
+                )}
+            </div>
         </div>
     )
 }
