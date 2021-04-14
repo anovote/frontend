@@ -16,18 +16,16 @@ import PreviewItem from './PreviewItem'
  * and https://egghead.io/lessons/react-persist-list-reordering-with-react-beautiful-dnd-using-the-ondragend-callback
  */
 
-export default function PreviewList({
+export default function BallotPreviewList({
     initialElection,
     onChange,
 }: {
     electionId?: number
     initialElection?: IElection
-    onChange: (ballots: IBallotEntity[]) => void
+    onChange: (ballots: IBallot[]) => void
 }): React.ReactElement {
-    const [ballotsState, setBallotsState] = useState<IBallotEntity[]>(
-        initialElection && initialElection.ballots
-            ? (initialElection.ballots as IBallotEntity[])
-            : new Array<IBallotEntity>(),
+    const [ballotsState, setBallotsState] = useState<IBallot[]>(
+        initialElection && initialElection.ballots ? (initialElection.ballots as IBallot[]) : new Array<IBallot>(),
     )
     const [createBallotModalState, setCreateBallotModalState] = useState<CreateBallotModalState>({
         show: false,
@@ -73,9 +71,9 @@ export default function PreviewList({
         const newState = Array.from(ballotsState)
 
         if (index !== undefined) {
-            newState.splice(index, 1, ballot as IBallotEntity)
+            newState.splice(index, 1, ballot)
         } else {
-            newState.push(ballot as IBallotEntity) // ! FIX something fishy with all this index use
+            newState.push(ballot)
         }
         const orderedBallots = setOrderOnBallots(newState)
         setBallotsState(orderedBallots)
@@ -85,7 +83,7 @@ export default function PreviewList({
     /**
      * Setting the order on the ballot object
      */
-    const setOrderOnBallots = (unOrderedBallots: IBallotEntity[]): IBallotEntity[] => {
+    const setOrderOnBallots = (unOrderedBallots: IBallot[]): IBallot[] => {
         return unOrderedBallots.map((value, index) => {
             value.order = index
             return value
@@ -107,7 +105,7 @@ export default function PreviewList({
     }
 
     const onEditHandler = (id: number) => {
-        const ballot: IBallotInList = { ...ballotsState[id], indexInList: id }
+        const ballot: IBallotInList = { ...ballotsState[id], index: id }
 
         setCreateBallotModalState({ show: true, initialBallot: ballot })
     }
@@ -122,8 +120,8 @@ export default function PreviewList({
                     onSubmitted={onSubmitCreateBallotHandler}
                 />
             )}
-            <DraggableList list={ballotsState} onDragEndHandler={onDragEndHandler}>
-                {(ballot: IBallotEntity, index: number) => (
+            <DraggableList list={ballotsState as IBallotInList[]} onDragEndHandler={onDragEndHandler}>
+                {(ballot: IBallotInList, index: number) => (
                     <PreviewItem id={index} onDelete={() => onDeleteHandler(index)} onEdit={() => onEditHandler(index)}>
                         {ballot.title}
                     </PreviewItem>
