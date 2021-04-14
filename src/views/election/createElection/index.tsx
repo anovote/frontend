@@ -116,7 +116,6 @@ export default function CreateElectionView({
         }
     }
 
-    // todo #134 the form cant be populated with election containing dates. This is due to how antd handles dates. We should switch to momentJs for dates.
     return (
         <Content>
             <Row gutter={[32, 0]}>
