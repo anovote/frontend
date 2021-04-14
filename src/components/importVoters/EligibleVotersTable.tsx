@@ -60,7 +60,7 @@ export default function EligibleVotersTable({
             const emails = parsedJson.emails.map((email) => email.email)
             arrays = createListOfEligibleVoters(emails)
         } else {
-            setErrorMessage(t('error:The-file-is-not-CSV-or-JSON'))
+            setErrorMessage(t('error:The file is not CSV or JSON'))
             return
         }
         checkInputArrays(arrays)
@@ -103,13 +103,13 @@ export default function EligibleVotersTable({
      */
     const handleAddNewVoter = (voterIdentification: string) => {
         if (!isValidEmail(voterIdentification)) {
-            throw new Error(t('error:not-valid-email'))
+            throw new Error(t('error:not valid email'))
         }
 
         const newVoter: IEligibleVoter = { identification: voterIdentification }
         if (isDuplicate(newVoter)) {
-            formContext.setFields([{ name: NEW_VOTER, errors: [t('error:Email-is-duplicate')] }])
-            throw new Error(t('error:duplicate-email'))
+            formContext.setFields([{ name: NEW_VOTER, errors: [t('error:Email is duplicate')] }])
+            throw new Error(t('error:duplicate email'))
         }
 
         setVoters([...voters, newVoter])
@@ -204,7 +204,7 @@ export default function EligibleVotersTable({
                     <Form.Item
                         name="new_voter"
                         validateTrigger={['onBlur', 'onChange']}
-                        rules={[{ type: 'email', message: t('error:not-valid-email') }]}
+                        rules={[{ type: 'email', message: t('error:not valid email') }]}
                         normalize={(val) => val.trim()}
                     >
                         <Input placeholder={t('form:add-new-email')} onPressEnter={handleAddNewVoterByEnter}></Input>
