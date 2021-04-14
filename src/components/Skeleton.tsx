@@ -5,7 +5,6 @@ import { BackendAPI } from 'core/api'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
-import { AlertState } from 'core/state/AlertState'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -24,8 +23,6 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const history = useHistory()
     const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
-
-    const alertHistory = useHistory<AlertState>()
 
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
