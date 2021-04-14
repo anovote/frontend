@@ -1,7 +1,6 @@
 import { Alert } from 'antd'
-import { useReducer } from 'react'
 import * as React from 'react'
-import { Dispatch } from 'react'
+import { Dispatch, useReducer } from 'react'
 
 function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAlertState {
     switch (action.type) {
@@ -55,7 +54,7 @@ function alertReducer(state: AnovoteAlertState, action: AlertAction): AnovoteAle
                 ...state,
                 message: action.message,
                 description: action.description,
-                alertType: 'info',
+                alertType: 'success',
             }
         }
         default:
@@ -75,7 +74,7 @@ export interface AnovoteAlertState {
     alertType: AlertType
 }
 
-type AlertType = 'error' | 'warning' | 'success' | 'info'
+type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
 
 export type AlertAction =
     | { type: 'show' }
@@ -84,19 +83,34 @@ export type AlertAction =
     | { type: 'error' | 'warning' | 'info' | 'success'; message: string; description?: string }
 
 export function createAlertComponent(alertProps: AnovoteAlertState): React.ReactElement {
-    let alertComponent: React.ReactElement = <></>
-
-    if (alertProps.message) {
-        alertComponent = (
+    return (
+        <div>
             <Alert
                 message={alertProps.message}
                 description={alertProps.description}
                 type={alertProps.alertType}
-                closable
                 showIcon
+                closable
             />
-        )
-    }
+        </div>
+    )
+}
 
-    return <div>{alertComponent}</div>
+export function createListOfAlertsComponent(listOfAlertProps: AnovoteAlertState[]): React.ReactElement {
+    return (
+        <div>
+            {listOfAlertProps.map(function (props, index) {
+                return (
+                    <Alert
+                        key={index}
+                        message={props.message}
+                        description={props.description}
+                        type={props.alertType}
+                        showIcon
+                        closable
+                    />
+                )
+            })}
+        </div>
+    )
 }
