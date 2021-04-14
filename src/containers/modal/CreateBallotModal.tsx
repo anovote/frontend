@@ -1,5 +1,5 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Alert, AlertProps, Button, Form, Input, List } from 'antd'
+import { Button, Form, Input, List } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
 import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotType'
@@ -28,7 +28,6 @@ export default function CreateBallotModal({
     initialBallot?: IBallotInList
     onSubmitted: (ballot: IBallot, indexInList?: number) => void
 }): ReactElement {
-    const [alertMessage, setAlertMessage] = React.useState<AlertProps>()
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const [editCandidate, setEditCandidate] = useState<{ id: number } | undefined>(undefined)
     const [addNew, setAddNew] = useState(false)
@@ -150,18 +149,6 @@ export default function CreateBallotModal({
                 destroyOnClose={true}
             >
                 <Form onFinish={submitForm} layout={'vertical'} className="is-flex-row split-view">
-                    {!!alertMessage && (
-                        <Alert
-                            message={alertMessage?.message}
-                            description={alertMessage?.description}
-                            type={alertMessage?.type}
-                            onClose={() => {
-                                setAlertMessage(undefined)
-                            }}
-                            showIcon
-                            closable
-                        />
-                    )}
                     <div className={'split-view-left'}>
                         <Title level={3}>{modalTitle}</Title>
                         <Form.Item
