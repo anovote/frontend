@@ -1,4 +1,4 @@
-import { Card, Col, Row, Space } from 'antd'
+import { Col, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import BallotsQueue from 'components/queue/BallotsQueue'
@@ -15,6 +15,7 @@ import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { ConnectedVoters } from './ConnectedVoters'
 const authEvent = (socket: AnoSocket, electionId: number) => {
     return WebsocketEvent({
         dataHandler: () => {
@@ -25,13 +26,13 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
         },
     })
 }
+
 export function ElectionInProgressView({ election }: { election: IElectionEntity }): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState(0)
     const [stats, setStats] = useState([] as IBallotStats[])
-    const [connectedVoters, setConnectedVoters] = useState<number>(0)
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -51,14 +52,6 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
             newState[data.ballotId] = data
 
             setStats(newState)
-        })
-
-        socket.on(Events.server.election.voterConnected, (connectedCount: number) => {
-            setConnectedVoters(connectedCount)
-        })
-
-        socket.on(Events.server.election.voterDisconnected, (connectedCount: number) => {
-            setConnectedVoters(connectedCount)
         })
         return () => {
             socket.disconnect()
@@ -108,11 +101,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
                     <Space direction="vertical">
                         <Title level={1}>{election.title}</Title>
                         <ElectionStatusCard election={election} />
-                        <Card className={'info-card'} title={<Title level={2}>{t('election:Connected voters')}</Title>}>
-                            <div className="is-flex-column has-content-center-center">
-                                <span className={'text-large'}>{connectedVoters}</span>
-                            </div>
-                        </Card>
+                        <ConnectedVoters />
                     </Space>
                 </Col>
                 <Col span={12}>
