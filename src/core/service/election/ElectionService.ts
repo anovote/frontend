@@ -50,7 +50,10 @@ export class ElectionService {
                 if (axiosError.response?.status === StatusCodes.INTERNAL_SERVER_ERROR) {
                     throw new Error('Error at the server, drink some Tea and wait')
                 }
-                if (axiosError.response?.status === StatusCodes.NOT_ACCEPTABLE) {
+                if (
+                    axiosError.response?.status === StatusCodes.BAD_REQUEST &&
+                    axiosError.response?.data.code === 'ELECTION_DUPLICATE'
+                ) {
                     throw new DuplicateError(axiosError.response.data.message)
                 }
             }
