@@ -27,7 +27,7 @@ function alertReducer(state: AnovoteAlertState[], action: AlertAction): AnovoteA
             return listCopy
         }
         default:
-            throw new Error()
+            return state
     }
 }
 
