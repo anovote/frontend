@@ -91,7 +91,7 @@ export default function ElectionView(): React.ReactElement {
                 return <ElectionInProgressView election={election} />
             case ElectionStatus.Finished:
                 // todo create view when results are finished
-                return <ElectionFinished />
+                return <ElectionFinished election={election} />
             default:
                 console.error('status not set')
                 return null

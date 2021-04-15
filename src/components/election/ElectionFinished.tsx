@@ -6,43 +6,67 @@ import PreviewList from 'components/previewList/PreviewList'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import IconButton from 'containers/button/IconButton'
 import BallotModal from 'containers/modal/BallotModal'
+import { fetchElectionStats } from 'core/helpers/fetchElectionStats'
 import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
-import React, { ReactElement, useState } from 'react'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { StorageKeys } from 'core/service/storage/StorageKeys'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const ElectionFinished = ({ election }: { election: IElectionEntity }): ReactElement => {
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState(0)
-    const [stats, setStats] = useState([] as IBallotStats[])
+    const [stats, setStats] = useState<IBallotStats[]>([])
+    const [activeBallot, setActiveBallot] = useState<{ ballot: BallotEntity; stats: IBallotStats }>()
+    const [ballots, setballots] = useState<Array<IBallotEntity>>([])
+    useEffect(() => {
+        const storageService = new LocalStorageService<StorageKeys>()
+
+        fetchElectionStats(election.id)
+            .then((serverStats) => {
+                console.log(serverStats)
+
+                setStats(serverStats)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+
+        const b = election.ballots
+            ? election.ballots.map((ballot, index) => new BallotEntity(ballot as IBallotEntity))
+            : new Array<IBallotEntity>()
+        setballots(b)
+    }, [])
     const deleteElectionHandler = () => {
         // todo show confirmation modal
         console.log('handle click')
     }
-
-    const timerId: NodeJS.Timeout | undefined = undefined
-
-    const ballots = election.ballots
-        ? election.ballots.map((ballot, index) => ({ id: index, ...ballot } as IBallotEntity))
-        : new Array<IBallotEntity>()
 
     /**
      * Display modal for a given ballot with id.
      * @param id the id to show modal for
      */
     const showModal = (id: number) => {
-        setModal(true)
-        console.log(id)
+        const ballot = findBallotWithId(id)
+        const stat = stats.find((s) => s.ballotId == id) as IBallotStats
+        console.log('ACTIVE')
+        console.log(stat)
+
+        if (ballot) setActiveBallot({ ballot, stats: stat })
+
         setActive(id)
+        setModal(true)
     }
 
     const closeModal = () => {
         setModal(false)
+        setActive(-1)
     }
 
     const hasNext = () => {
@@ -59,6 +83,8 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
 
     const findBallotWithId = (id: number) => {
         const ballot = ballots.find((ballot) => ballot.id === id)
+        console.log(ballot)
+
         if (!ballot) return undefined
         return new BallotEntity(ballot)
     }
@@ -98,8 +124,8 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                             <BallotsQueue dataSource={ballots} stats={stats} expandBallot={showModal} />
                             <BallotModal
                                 showModal={modal}
-                                ballotEntity={findBallotWithId(active)}
-                                ballotStats={stats[active]}
+                                ballotEntity={activeBallot?.ballot}
+                                ballotStats={activeBallot?.stats}
                                 close={closeModal}
                                 controls={{
                                     next: () => {

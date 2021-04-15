@@ -1,4 +1,4 @@
-import { Steps } from 'antd'
+import { StepProps, Steps } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import PushBallotIcon from 'components/icons/PushBallotIcon'
 import StatCard from 'components/statCard/StatCard'
@@ -6,7 +6,7 @@ import SquareIconButton from 'containers/button/SquareIconButton'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { ElectionEventService } from 'core/service/election/ElectionEventService'
 import { useSocket } from 'core/hooks/useSocket'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { ElectionParams } from './ElectionParams'
@@ -26,6 +26,7 @@ export default function BallotsQueue({
     expandBallot?: (id: number) => void
 }): ReactElement {
     const [current, setCurrent] = useState(0)
+    const [queue, setQueue] = useState<ReactElement<StepProps>[]>()
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
     const { electionId } = useParams<ElectionParams>()
@@ -33,9 +34,9 @@ export default function BallotsQueue({
     const electionEventService: ElectionEventService = new ElectionEventService(socket)
     const [isLoading, setIsLoading] = useState(false)
 
-    const queue = []
-
     const appendStats = (stats: IBallotStats | undefined): IStatValue[] | [] => {
+        console.log(stats)
+
         if (stats) {
             return [
                 { title: t('common:Total'), value: stats.stats.total },
@@ -66,40 +67,45 @@ export default function BallotsQueue({
     }
 
     // render all ballots
-    for (const ballot of dataSource) {
-        let ballotStat = null
-        if (stats) {
-            ballotStat = stats.find((stat) => {
-                return stat.ballotId === ballot.id
-            })
+    useEffect(() => {
+        const q: ReactElement<StepProps>[] = []
+        for (const ballot of dataSource) {
+            let ballotStat = null
+            if (stats) {
+                ballotStat = stats.find((stat) => {
+                    return stat.ballotId === ballot.id
+                })
+                console.log(ballot)
+                console.log(ballotStat)
+            }
+
+            q.push(
+                // todo make loading state follow the component
+                <Step
+                    key={ballot.id}
+                    title={<Title level={4}>{ballot.title}</Title>}
+                    subTitle={<QueueDescription winner="John Doe" />}
+                    description={
+                        <>
+                            {ballotStat && (
+                                <StatCard stats={appendStats(ballotStat)} onClick={() => handleClick(ballot.id)} />
+                            )}
+
+                            <SquareIconButton
+                                text={t('common:Push ballot')}
+                                tabIndex={0}
+                                classId="push-ballot-button"
+                                onClick={() => pushBallot(ballot.id)}
+                            >
+                                <PushBallotIcon spin={isLoading} />
+                            </SquareIconButton>
+                        </>
+                    }
+                />,
+            )
         }
-
-        queue.push(
-            // todo make loading state follow the component
-            <Step
-                key={ballot.id}
-                title={<Title level={4}>{ballot.title}</Title>}
-                subTitle={<QueueDescription winner="John Doe" />}
-                description={
-                    <>
-                        {ballotStat && (
-                            <StatCard stats={appendStats(ballotStat)} onClick={() => handleClick(ballot.id)} />
-                        )}
-
-                        <SquareIconButton
-                            text={t('common:Push ballot')}
-                            tabIndex={0}
-                            classId="push-ballot-button"
-                            onClick={() => pushBallot(ballot.id)}
-                        >
-                            <PushBallotIcon spin={isLoading} />
-                        </SquareIconButton>
-                    </>
-                }
-            />,
-        )
-    }
-
+        setQueue(q)
+    }, [dataSource, stats])
     return (
         <div className="ballots-queue">
             <Steps current={current} onChange={setCurrent} direction="vertical" className="queue">

@@ -3,6 +3,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Col, Row } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
+import BallotsQueue from 'components/queue/BallotsQueue'
 import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
 import { IControl } from 'core/helpers/IControl'
@@ -26,7 +27,6 @@ export default function BallotModal({
 }): ReactElement {
     const [t] = useTranslation(['translation', 'common'])
     const { previous, next } = controls
-
     // cross reference stats with a candidate
     const diagramStats = ballotStats?.stats.candidates.map((stat, index) => {
         return { ...stat, candidate: ballotEntity?.candidates[index].candidate }
