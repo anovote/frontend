@@ -49,24 +49,11 @@
         margin-top: 3 * $bu;
     }
 
-    //// Set colors for each menu item
-    //// Dashboard
-    //.ant-menu-item-selected:nth-child(2),
-    //.ant-menu-item:nth-child(2):hover .ant-menu-item-icon {
-    //    color: $dark;
-    //}
-
     // Elections
     .ant-menu-item-selected:nth-child(3),
     .ant-menu-item:nth-child(3):hover .ant-menu-item-icon {
         color: $info-contrasting;
     }
-
-    //// Customize
-    //.ant-menu-item-selected:nth-child(4),
-    //.ant-menu-item:nth-child(4):hover .ant-menu-item-icon {
-    //    color: $main-light;
-    //}
 
     // Log out
     .ant-menu-item-selected:nth-child(4),
