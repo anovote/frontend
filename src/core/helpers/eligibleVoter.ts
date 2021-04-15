@@ -12,19 +12,13 @@ import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 export function createListOfEligibleVoters(
     listOfEmails: string[],
 ): { invalidEmails: string[]; noDuplicates: string[]; eligibleVoters: IEligibleVoter[] } {
-    const trimmedList: string[] = trimItemsInArray(listOfEmails)
-
-    const noDuplicates = filterForDuplicates(trimmedList)
-
+    const noDuplicates = filterForDuplicates(trimItemsInArray(listOfEmails))
     const invalidEmails: string[] = []
     const eligibleVoters: IEligibleVoter[] = []
 
-    for (let i = 0; i < noDuplicates.length; i++) {
-        if (isValidEmail(noDuplicates[i])) {
-            eligibleVoters.push({ identification: noDuplicates[i] })
-        } else {
-            invalidEmails.push(noDuplicates[i])
-        }
+    for (const identification of noDuplicates) {
+        if (isValidEmail(identification)) eligibleVoters.push({ identification })
+        else if (identification) invalidEmails.push(identification)
     }
 
     return {
