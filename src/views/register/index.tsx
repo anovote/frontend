@@ -1,8 +1,9 @@
 import { Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
+import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
-import { AnovoteAlertState, createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { AnovoteAlertState, useAlert } from 'core/hooks/useAlert'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { RegistrationDetails } from 'core/service/registration/RegistrationDetails'
@@ -20,25 +21,26 @@ export default function RegisterView(): React.ReactElement {
     const history = useHistory<AnovoteAlertState>()
     const { isLoggedIn } = useAppState()
 
-    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
+    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
             try {
                 await registrationService.registerOrganizer(form)
-                alertDispatch({ type: 'success', message: t('form:User was registered') })
+                alertDispatch({ type: 'add', alertType: 'success', message: t('form:User was registered') })
                 appDispatcher.setLoginState(AuthLevel.organizer)
-                history.replace(getAdminRoute().elections.view, alertState)
+                history.replace(getAdminRoute().elections.view, alertState[0])
             } catch (error) {
                 if (error instanceof CredentialError) {
-                    alertDispatch({ type: 'error', message: t('form:Error in form') })
+                    alertDispatch({ type: 'add', alertType: 'error', message: t('form:Error in form') })
                 } else {
-                    alertDispatch({ type: 'error', message: t('form:Something went wrong') })
+                    alertDispatch({ type: 'add', alertType: 'error', message: t('form:Something went wrong') })
                 }
             }
         } else {
             alertDispatch({
-                type: 'error',
+                type: 'add',
+                alertType: 'error',
                 message: t('form:Must be equal', { field: t('common:Password').toLowerCase() }),
             })
         }
@@ -51,7 +53,9 @@ export default function RegisterView(): React.ReactElement {
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="register-form">
-                    <div className="alert-field">{createAlertComponent(alertState)}</div>
+                    <div className="alert-field">
+                        <AlertList alertProps={alertState} />
+                    </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
                         <Form.Item
                             label={t('common:First name')}

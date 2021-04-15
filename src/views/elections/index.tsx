@@ -1,11 +1,12 @@
 import { Space } from 'antd'
 import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
+import { AlertList } from 'components/alert/AlertList'
 import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
 import { BackendAPI } from 'core/api'
-import { AnovoteAlertState, createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { AnovoteAlertState, useAlert } from 'core/hooks/useAlert'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { ElectionService } from 'core/service/election/ElectionService'
@@ -21,7 +22,7 @@ export default function ElectionsView(): React.ReactElement {
     const location = useLocation<AnovoteAlertState>()
     const history = useHistory<AnovoteAlertState>()
 
-    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
+    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
 
     useEffect(() => {
         new ElectionService(BackendAPI)
@@ -43,12 +44,10 @@ export default function ElectionsView(): React.ReactElement {
 
                 if (location.state) {
                     alertDispatch({
-                        type: 'new',
-                        newState: {
-                            message: location.state.message,
-                            description: location.state.description,
-                            alertType: location.state.alertType,
-                        },
+                        type: 'add',
+                        alertType: location.state.alertType,
+                        message: location.state.message,
+                        description: location.state.description,
                     })
                     resetHistoryState()
                 }
@@ -81,7 +80,7 @@ export default function ElectionsView(): React.ReactElement {
 
     return (
         <>
-            {createAlertComponent(alertState)}
+            <AlertList alertProps={alertState} />
             <Title>{t('common:Elections')}</Title>
             <Space align="start" wrap={true}>
                 <CardList

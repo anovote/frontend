@@ -2,11 +2,12 @@ import { Button, Space } from 'antd'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import { RadioChangeEvent } from 'antd/lib/radio'
 import Title from 'antd/lib/typography/Title'
+import { AlertList } from 'components/alert/AlertList'
 import BallotTypeDisplay from 'components/BallotTypeDisplay/BallotTypeDisplay'
 import CandidateList from 'components/CandidateList/CandidateList'
 import { BackendAPI } from 'core/api'
 import { Events } from 'core/events'
-import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { useAlert } from 'core/hooks/useAlert'
 import { useSocket } from 'core/hooks/useSocket'
 import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
@@ -32,7 +33,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
 
-    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
+    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -89,9 +90,9 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
         switch (ballot.type) {
             case BallotType.SINGLE: {
                 if (!socket.connected) {
-                    alertDispatch({ type: 'error', message: 'Could not connect to the server' })
+                    alertDispatch({ type: 'add', alertType: 'error', message: 'Could not connect to the server' })
                 } else if (selected === 0) {
-                    alertDispatch({ type: 'error', message: 'You need to select a candidate' })
+                    alertDispatch({ type: 'add', alertType: 'error', message: 'You need to select a candidate' })
                 } else {
                     socket.emit(
                         Events.client.vote.submit,
@@ -105,7 +106,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                             console.log('Callback handled here')
                         },
                     )
-                    alertDispatch({ type: 'success', message: 'Your vote was submitted' })
+                    alertDispatch({ type: 'add', alertType: 'success', message: 'Your vote was submitted' })
                 }
                 break
             }
@@ -145,7 +146,9 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
             <Button type="primary" shape="round" onClick={submitVote}>
                 {t('common:Submit vote')}
             </Button>
-            <div className="alert-field">{createAlertComponent(alertState)}</div>
+            <div className="alert-field">
+                <AlertList alertProps={alertState} />
+            </div>
         </div>
     )
 }

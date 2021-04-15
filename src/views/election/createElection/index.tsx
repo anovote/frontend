@@ -1,6 +1,7 @@
 import { Col, Form, Row } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import Title from 'antd/lib/typography/Title'
+import { AlertList } from 'components/alert/AlertList'
 import CloseDateInput from 'components/election/CloseDateInput'
 import ElectionDescriptionInput from 'components/election/ElectionDescriptionInput'
 import ElectionPasswordInput from 'components/election/ElectionPasswordInput'
@@ -11,7 +12,7 @@ import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
-import { AnovoteAlertState, createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { AnovoteAlertState, useAlert } from 'core/hooks/useAlert'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -38,7 +39,7 @@ export default function CreateElectionView({
         initialElection ? initialElection : ({} as IElection),
     )
 
-    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
+    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
 
     const history = useHistory<AnovoteAlertState>()
     const [form] = Form.useForm<IElection>()
@@ -57,20 +58,27 @@ export default function CreateElectionView({
             }
             await electionService.createElection(form)
             alertDispatch({
-                type: 'success',
+                type: 'add',
+                alertType: 'success',
                 message: 'Election created',
                 description: 'The election was created successfully',
             })
-            history.push(getAdminRoute().elections.view, alertState)
+            history.push(getAdminRoute().elections.view, alertState[0])
         } catch (error) {
             if (error instanceof AuthorizationError) {
                 alertDispatch({
-                    type: 'error',
+                    type: 'add',
+                    alertType: 'error',
                     message: 'Election organizer not logged in',
                     description: 'The election organizer needs to be logged in to create an election',
                 })
             } else {
-                alertDispatch({ type: 'error', message: 'Something went wrong', description: 'Please try again later' })
+                alertDispatch({
+                    type: 'add',
+                    alertType: 'error',
+                    message: 'Something went wrong',
+                    description: 'Please try again later',
+                })
             }
         }
     }
@@ -162,7 +170,9 @@ export default function CreateElectionView({
                     <PreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
                 </Col>
             </Row>
-            <div className="alert-field">{createAlertComponent(alertState)}</div>
+            <div className="alert-field">
+                <AlertList alertProps={alertState} />
+            </div>
         </Content>
     )
 }

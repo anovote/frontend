@@ -1,22 +1,23 @@
 import { Form, Input, Space } from 'antd'
 import Button from 'antd/lib/button/button'
+import { AlertList } from 'components/alert/AlertList'
 import { isValidEmail } from 'core/helpers/validation'
-import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { useAlert } from 'core/hooks/useAlert'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ChangeEmailForm(): ReactElement {
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
+    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
 
     const submitForm = async (formData: { email: string }) => {
         console.info(formData)
-        alertDispatch({ type: 'error', message: 'LOGIC NOT IMPLEMENTED' })
+        alertDispatch({ type: 'add', alertType: 'error', message: 'LOGIC NOT IMPLEMENTED' })
     }
     return (
         <Space direction="vertical">
-            {createAlertComponent(alertState)}
+            <AlertList alertProps={alertState} />
             <Form onFinish={submitForm} layout={'horizontal'} name="change-email">
                 <Space direction="horizontal" className="inline-form-item">
                     <Form.Item

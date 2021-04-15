@@ -1,8 +1,9 @@
 import { Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
+import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
-import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { useAlert } from 'core/hooks/useAlert'
 import { getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationDetails } from 'core/service/authentication/AuthenticationDetails'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
@@ -24,7 +25,7 @@ export default function LoginView(): React.ReactElement {
     const history = useHistory()
     const { isLoggedIn } = useAppState()
 
-    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
+    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
 
     const formValidated = async (form: AuthenticationDetails) => {
         try {
@@ -33,9 +34,9 @@ export default function LoginView(): React.ReactElement {
             history.replace('/admin')
         } catch (error) {
             if (error instanceof CredentialError) {
-                alertDispatch({ type: 'error', message: 'Wrong email or password' })
+                alertDispatch({ type: 'add', alertType: 'error', message: 'Wrong email or password' })
             } else {
-                alertDispatch({ type: 'error', message: 'Something went wrong' })
+                alertDispatch({ type: 'add', alertType: 'error', message: 'Something went wrong' })
             }
         }
     }
@@ -47,7 +48,9 @@ export default function LoginView(): React.ReactElement {
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="login-form">
-                    <div className="error-field">{createAlertComponent(alertState)}</div>
+                    <div className="error-field">
+                        <AlertList alertProps={alertState} />
+                    </div>
                     <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
                         <Form.Item
                             label={t('common:Email')}

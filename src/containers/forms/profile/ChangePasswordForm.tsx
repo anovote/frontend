@@ -1,7 +1,8 @@
 import { Button, Form, Input, Space } from 'antd'
+import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { PasswordDoesNotMatchError } from 'core/errors/customErrors'
-import { createAlertComponent, useAlert } from 'core/hooks/useAlert'
+import { useAlert } from 'core/hooks/useAlert'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -10,22 +11,29 @@ export default function ChangePasswordForm(): React.ReactElement {
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertState, alertDispatch] = useAlert({ message: '', alertType: undefined })
+    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
 
     const submitForm = async (values: ChangePasswordInterface) => {
         try {
             await service.validateAndChangePassword(values)
-            alertDispatch({ type: 'success', message: 'Password changed', description: 'Your password was changed' })
+            alertDispatch({
+                type: 'add',
+                alertType: 'success',
+                message: 'Password changed',
+                description: 'Your password was changed',
+            })
         } catch (error) {
             if (error instanceof PasswordDoesNotMatchError) {
                 alertDispatch({
-                    type: 'error',
+                    type: 'add',
+                    alertType: 'error',
                     message: 'Something went wrong',
                     description: `${t('common:Password')} ${t('form:Must match').toLocaleLowerCase()}`,
                 })
             } else {
                 alertDispatch({
-                    type: 'error',
+                    type: 'add',
+                    alertType: 'error',
                     message: 'Something went wrong',
                     description: t('common:Try again later'),
                 })
@@ -36,7 +44,7 @@ export default function ChangePasswordForm(): React.ReactElement {
     return (
         <>
             <Space direction="vertical">
-                {createAlertComponent(alertState)}
+                <AlertList alertProps={alertState} />
                 <Form layout={'vertical'} onFinish={submitForm}>
                     <Space direction="vertical">
                         <Form.Item
