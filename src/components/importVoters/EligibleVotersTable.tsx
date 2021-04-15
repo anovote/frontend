@@ -3,8 +3,7 @@ import { Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Spac
 import Title from 'antd/lib/typography/Title'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
-import { createListOfAlertsComponent } from 'core/hooks/useAlert'
-import { useAlertList } from 'core/hooks/useAlertList'
+import { createListOfAlertsComponent, useAlert } from 'core/hooks/useAlert'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
@@ -30,7 +29,10 @@ export default function EligibleVotersTable({
         onChange(voters)
     }, [voters])
 
-    const [listOfAlertProps, addAlertToList] = useAlertList()
+    const [alertState, alertDispatch, listOfAlertProps, addAlertToList] = useAlert({
+        message: '',
+        alertType: undefined,
+    })
 
     const fileParser = new FileParser()
 
