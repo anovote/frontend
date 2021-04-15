@@ -1,6 +1,6 @@
 import { Alert } from 'antd'
 import { AnovoteAlertState } from 'core/hooks/useAlert'
-import * as React from 'react'
+import React from 'react'
 import { FC } from 'react'
 
 export interface AlertListProps {

@@ -1,16 +1,16 @@
-import { Dispatch, useReducer } from 'react'
+import { Dispatch, ReactNode, useReducer } from 'react'
 
 type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
 
 export type AlertAction = {
     type: 'add'
     alertType: AlertType
-    message: string | undefined
+    message: string | undefined | ReactNode
     description?: string
 }
 
 export interface AnovoteAlertState {
-    message: string | undefined
+    message: string | undefined | ReactNode
     description?: string
     alertType: AlertType
 }

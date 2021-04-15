@@ -9,10 +9,11 @@ import { AuthenticationDetails } from 'core/service/authentication/Authenticatio
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { AlertState } from 'core/state/AlertState'
 import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { Redirect, useHistory } from 'react-router-dom'
+import { Redirect, useHistory, useLocation } from 'react-router-dom'
 
 /**
  * Logins view
@@ -22,10 +23,17 @@ export default function LoginView(): React.ReactElement {
     const authService = new AuthenticationService(BackendAPI, new LocalStorageService())
     const [t] = useTranslation(['translation', 'common', 'form'])
     const appDispatcher = useAppStateDispatcher()
-    const history = useHistory()
+    const history = useHistory<AlertState>()
+    const location = useLocation<AlertState>()
     const { isLoggedIn } = useAppState()
+    console.log(location.state)
 
-    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
+    const [alertState, alertDispatch] = useAlert([
+        location.state
+            ? { message: location.state.alertProps?.message, alertType: 'info' }
+            : { message: '', alertType: undefined },
+    ])
+    console.log(location.state.alertProps?.message)
 
     const formValidated = async (form: AuthenticationDetails) => {
         try {
