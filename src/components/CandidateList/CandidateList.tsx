@@ -32,10 +32,10 @@ export default function CandidateList({
         case 0:
             renderList = (
                 <Radio.Group className="width-100" onChange={onChange} value={selection as RadioValue}>
-                    {candidates.map(({ id, candidate }) => {
+                    {candidates.map(({ id, candidate }, index) => {
                         return (
-                            <Radio className="ballot-candidate" value={id} key={id}>
-                                <CandidateEntry id={id} name={candidate} />
+                            <Radio className="ballot-candidate" value={id} key={index + 1}>
+                                <CandidateEntry id={index + 1} name={candidate} />
                             </Radio>
                         )
                     })}
@@ -46,10 +46,10 @@ export default function CandidateList({
         case 1:
             renderList = (
                 <Checkbox.Group className="width-100" onChange={onChange} value={selection as CheckBoxValue}>
-                    {candidates.map(({ id, candidate }) => {
+                    {candidates.map(({ id, candidate }, index) => {
                         return (
-                            <Checkbox className="ballot-candidate" value={id} key={id}>
-                                <CandidateEntry id={id} name={candidate} />
+                            <Checkbox className="ballot-candidate" value={id} key={index + 1}>
+                                <CandidateEntry id={index + 1} name={candidate} />
                             </Checkbox>
                         )
                     })}

@@ -21,7 +21,7 @@ afterEach(() => {
 
 it('Display error on empty fields after create election is clicked', async () => {
     await act(async () => {
-        render(<CreateElectionView />, container)
+        render(<CreateElectionView initialElection={undefined} />, container)
         const btn: HTMLButtonElement = container.querySelector('.create-election-button') as HTMLButtonElement
         btn?.click()
         return await new Promise((resolve) => {

@@ -1,8 +1,11 @@
-import { ProjectFilled } from '@ant-design/icons'
-import { Layout, Menu } from 'antd'
-import { LogoutButton } from 'containers/modal/LogoutButton'
+import { LogoutOutlined, ProjectFilled } from '@ant-design/icons'
+import { AlertProps, Layout, Menu } from 'antd'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
-import { getAdminRoute } from 'core/routes/siteRoutes'
+import { BackendAPI } from 'core/api'
+import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
+import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
+import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
@@ -18,6 +21,7 @@ const { Content, Sider } = Layout
 function Skeleton(props: { content: ReactElement }): ReactElement {
     const [t] = useTranslation(['common'])
     const history = useHistory()
+    const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
 
     const closeProfileModalHandler = () => setProfileModalState(false)
@@ -31,6 +35,13 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     //function onSearch() {
     //    console.log('Tried to search')
     //}
+
+    const logoutHandler = () => {
+        new AuthenticationService(BackendAPI, new LocalStorageService()).logout()
+        const alert: AlertProps = { message: 'You where logged out', closable: true, type: 'info', showIcon: true } // todo temporary until new alert hooks comes
+        dispatcher.setLogoutState()
+        history.push(getPublicRoute().login, { alertProps: alert })
+    }
 
     return (
         <Layout>
@@ -76,13 +87,13 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                         >
                             <ProfileRoundIcon />
                         </LargeIconButton>
-                        <LogoutButton />
-                        {/* todo #146 implement settings */}
-                        {/*<Menu.Item key={settings} icon={<SettingFilled />} id="settings">*/}
-                        {/*<Link to={settings} tabIndex={7}>
+                        {/* todo #146 implement settings, the log out button may be a better permanent solution */}
+                        <Menu.Item key={'logout'} icon={<LogoutOutlined />} onClick={logoutHandler} id="log-out">
+                            {t('common:Log out')}
+                            {/*<Link to={settings} tabIndex={7}>
                                 {t('Settings')}
                             </Link>*/}
-                        {/*</Menu.Item>*/}
+                        </Menu.Item>
                     </Menu>
                 </Sider>
                 <Layout id="content">

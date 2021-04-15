@@ -27,5 +27,7 @@
   "User was registered": "User was registered",
   "Wrong email password": "Wrong email/password",
   "Wrong email/password": "Wrong email/password",
-  "go-to-login": "Go to Login"
+  "add-new-email": "Add new email",
+  "go-to-login": "Go to Login",
+  "max-length": "Max length is {{maxLength}}"
 }

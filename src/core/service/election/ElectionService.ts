@@ -1,5 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
+import { DuplicateError } from 'core/errors/DuplicateError'
 import { IElection } from 'core/models/election/IElection'
 import { IElectionBase } from 'core/models/election/IElectionBase'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
@@ -48,6 +49,12 @@ export class ElectionService {
                 }
                 if (axiosError.response?.status === StatusCodes.INTERNAL_SERVER_ERROR) {
                     throw new Error('Error at the server, drink some Tea and wait')
+                }
+                if (
+                    axiosError.response?.status === StatusCodes.BAD_REQUEST &&
+                    axiosError.response?.data.code === 'ELECTION_DUPLICATE'
+                ) {
+                    throw new DuplicateError(axiosError.response.data.message)
                 }
             }
             throw error

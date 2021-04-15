@@ -117,6 +117,7 @@ function VoterLoginView(): ReactElement {
         history.replace(getVoterRoute().election)
     }
 
+    const MAX_ELECTION_CODE_LENGTH = 5
     return (
         <CenterView>
             <Layout className="small-container">
@@ -151,14 +152,27 @@ function VoterLoginView(): ReactElement {
                                 <Form.Item
                                     label={t('common:Email')}
                                     name="email"
-                                    rules={[{ type: 'email', required: true, message: t('form:Email is not valid') }]}
+                                    normalize={(val) => val.trim()}
+                                    rules={[
+                                        {
+                                            type: 'email',
+                                            required: true,
+                                            message: t('form:Email is not valid'),
+                                        },
+                                    ]}
                                 >
                                     <Input disabled={state.isLoading} placeholder="email@example.com" />
                                 </Form.Item>
                                 <Form.Item
                                     label={t('common:Election Code')}
                                     name={'electionCode'}
-                                    rules={[{ type: 'string', required: true, message: t('form:Is required') }]}
+                                    rules={[
+                                        { type: 'string', required: true, message: t('form:Is required') },
+                                        {
+                                            max: MAX_ELECTION_CODE_LENGTH,
+                                            message: t('form:max-length', { maxLength: MAX_ELECTION_CODE_LENGTH }),
+                                        },
+                                    ]}
                                 >
                                     <Input disabled={state.isLoading} />
                                 </Form.Item>

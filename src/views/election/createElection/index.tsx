@@ -11,6 +11,7 @@ import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
+import { DuplicateError } from 'core/errors/DuplicateError'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -32,7 +33,7 @@ export default function CreateElectionView({
     onUpdate,
 }: CreateElectionProps): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
-    const [t] = useTranslation(['translation', 'common', 'election'])
+    const [t] = useTranslation(['translation', 'common', 'election', 'error'])
     const [alertProps, setAlertProps] = useState<AlertProps>()
     const [eligibleVoters, setEligibleVoters] = useState<IEligibleVoter[]>([])
     const [election, setElection] = useState<IElection | undefined>(
@@ -44,20 +45,20 @@ export default function CreateElectionView({
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
-     * @param form The form we want to validate
+     * @param formData The form we want to validate
      */
-    const formValidated = async (form: IElection) => {
+    const formValidated = async (formData: IElection) => {
         try {
-            form.status = ElectionStatus.NotStarted
-            form.isLocked = false
-            form.eligibleVoters = eligibleVoters
+            formData.status = ElectionStatus.NotStarted
+            formData.isLocked = false
+            formData.eligibleVoters = eligibleVoters
             if (election && election.ballots) {
-                form.ballots = election?.ballots
+                formData.ballots = election?.ballots
             }
-            await electionService.createElection(form)
+            await electionService.createElection(formData)
             const alertProps: AlertProps = {
-                message: 'Election created',
-                description: 'The election was created successfully',
+                message: t('election:Election created'),
+                description: t('election:The election was created successfully'),
                 type: 'success',
                 closable: true,
             }
@@ -68,13 +69,20 @@ export default function CreateElectionView({
                 type: 'error',
             }
 
-            if (error instanceof AuthorizationError) {
-                newAlertProps.message = 'Election Organizer not logged in'
-                newAlertProps.description = 'The election organizer needs to be logged in to create an election'
+            if (error instanceof DuplicateError) {
+                newAlertProps.message = error.message
+                newAlertProps.description = t('error:All elections must be unique')
+                setAlertProps(newAlertProps)
+                form.setFields([{ name: 'title', errors: [t('error:Please provide an unique title')] }])
+            } else if (error instanceof AuthorizationError) {
+                newAlertProps.message = t('error:Election Organizer not logged in')
+                newAlertProps.description = t(
+                    'error:The election organizer needs to be logged in to create an election',
+                )
                 setAlertProps(newAlertProps)
             } else {
-                newAlertProps.message = 'Something went wrong'
-                newAlertProps.description = 'Please try again later'
+                newAlertProps.message = t('error:Something went wrong')
+                newAlertProps.description = t('error:Please try again later')
                 setAlertProps(newAlertProps)
             }
         }
@@ -116,7 +124,6 @@ export default function CreateElectionView({
         }
     }
 
-    // todo #134 the form cant be populated with election containing dates. This is due to how antd handles dates. We should switch to momentJs for dates.
     return (
         <Content>
             <Row gutter={[32, 0]}>
