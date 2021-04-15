@@ -6,7 +6,6 @@ import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
 import { BackendAPI } from 'core/api'
-
 import { AnovoteAlertState, useAlert } from 'core/hooks/useAlert'
 import { ElectionEntity } from 'core/models/election/ElectionEntity'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -18,9 +17,9 @@ import { useHistory, useLocation } from 'react-router-dom'
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common', 'election'])
 
-    const [upcoming, setUpcoming] = useState([] as IElectionEntity[])
-    const [inProgress, setInProgress] = useState([] as IElectionEntity[])
-    const [finished, setFinished] = useState([] as IElectionEntity[])
+    const [upcoming, setUpcoming] = useState([] as ElectionEntity[])
+    const [inProgress, setInProgress] = useState([] as ElectionEntity[])
+    const [finished, setFinished] = useState([] as ElectionEntity[])
     const location = useLocation<AnovoteAlertState>()
     const history = useHistory<AnovoteAlertState>()
 
