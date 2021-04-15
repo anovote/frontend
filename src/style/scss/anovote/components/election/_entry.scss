@@ -26,6 +26,18 @@
             color: $darker-grey !important;
         }
     }
+    .date-space {
+        .ant-space-item {
+            margin-bottom: 0 !important;
+            // !important: Must override injected css from antd
+
+            .date-label {
+                color: $font-color;
+                font-size: 0.8rem;
+                font-weight: $bold;
+            }
+        }
+    }
 }
 
 .not-started {
