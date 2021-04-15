@@ -19,12 +19,11 @@ function alertReducer(state: AnovoteAlertState[], action: AlertAction): AnovoteA
     switch (action.type) {
         case 'add': {
             const listCopy = [...state]
-            if (action.message)
-                listCopy.push({
-                    message: action.message,
-                    description: action.description,
-                    alertType: action.alertType,
-                })
+            listCopy.push({
+                message: action.message,
+                description: action.description,
+                alertType: action.alertType,
+            })
             return listCopy
         }
         default:
@@ -33,6 +32,7 @@ function alertReducer(state: AnovoteAlertState[], action: AlertAction): AnovoteA
 }
 
 export function useAlert(initialState: AnovoteAlertState[]): [AnovoteAlertState[], Dispatch<AlertAction>] {
+    initialState.shift()
     const [alertState, alertDispatch] = useReducer(alertReducer, initialState)
 
     return [alertState, alertDispatch]
