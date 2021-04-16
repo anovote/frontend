@@ -33,7 +33,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
 
-    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -155,7 +155,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 {t('common:Submit vote')}
             </Button>
             <div className="alert-field">
-                <AlertList alertProps={alertState} />
+                <AlertList alertProps={alertStates} />
             </div>
         </div>
     )

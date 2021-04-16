@@ -11,7 +11,7 @@ export default function ChangePasswordForm(): React.ReactElement {
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const submitForm = async (values: ChangePasswordInterface) => {
         try {
@@ -44,7 +44,7 @@ export default function ChangePasswordForm(): React.ReactElement {
     return (
         <>
             <Space direction="vertical">
-                <AlertList alertProps={alertState} />
+                <AlertList alertProps={alertStates} />
                 <Form layout={'vertical'} onFinish={submitForm}>
                     <Space direction="vertical">
                         <Form.Item

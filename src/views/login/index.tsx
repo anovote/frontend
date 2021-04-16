@@ -25,7 +25,7 @@ export default function LoginView(): React.ReactElement {
     const history = useHistory()
     const { isLoggedIn } = useAppState()
 
-    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const formValidated = async (form: AuthenticationDetails) => {
         try {
@@ -49,7 +49,7 @@ export default function LoginView(): React.ReactElement {
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="login-form">
                     <div className="error-field">
-                        <AlertList alertProps={alertState} />
+                        <AlertList alertProps={alertStates} />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
                         <Form.Item

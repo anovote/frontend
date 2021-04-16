@@ -39,7 +39,7 @@ export default function CreateElectionView({
         initialElection ? initialElection : ({} as IElection),
     )
 
-    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const history = useHistory<AnovoteAlertState>()
     const [form] = Form.useForm<IElection>()
@@ -63,7 +63,7 @@ export default function CreateElectionView({
                 message: t('election:Created election'),
                 description: t('election:The election was created successfully'),
             })
-            history.push(getAdminRoute().elections.view, alertState[0])
+            history.push(getAdminRoute().elections.view, alertStates[0])
         } catch (error) {
             if (error instanceof AuthorizationError) {
                 dispatchAlert({
@@ -170,7 +170,7 @@ export default function CreateElectionView({
                 </Col>
             </Row>
             <div className="alert-field">
-                <AlertList alertProps={alertState} />
+                <AlertList alertProps={alertStates} />
             </div>
         </Content>
     )

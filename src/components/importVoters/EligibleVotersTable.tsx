@@ -30,7 +30,7 @@ export default function EligibleVotersTable({
         onChange(voters)
     }, [voters])
 
-    const [alertState, dispatchAlert] = useAlert([
+    const [alertStates, dispatchAlert] = useAlert([
         {
             message: '',
             alertType: undefined,
@@ -224,7 +224,7 @@ export default function EligibleVotersTable({
                 </Row>
             )}
             <div>
-                <AlertList alertProps={alertState} />
+                <AlertList alertProps={alertStates} />
             </div>
         </div>
     )

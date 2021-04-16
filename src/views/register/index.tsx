@@ -21,7 +21,7 @@ export default function RegisterView(): React.ReactElement {
     const history = useHistory<AnovoteAlertState>()
     const { isLoggedIn } = useAppState()
 
-    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
@@ -29,7 +29,7 @@ export default function RegisterView(): React.ReactElement {
                 await registrationService.registerOrganizer(form)
                 dispatchAlert({ type: 'add', alertType: 'success', message: t('form:User was registered') })
                 appDispatcher.setLoginState(AuthLevel.organizer)
-                history.replace(getAdminRoute().elections.view, alertState[0])
+                history.replace(getAdminRoute().elections.view, alertStates[0])
             } catch (error) {
                 if (error instanceof CredentialError) {
                     dispatchAlert({ type: 'add', alertType: 'error', message: t('form:Error in form') })
@@ -54,7 +54,7 @@ export default function RegisterView(): React.ReactElement {
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="register-form">
                     <div className="alert-field">
-                        <AlertList alertProps={alertState} />
+                        <AlertList alertProps={alertStates} />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
                         <Form.Item

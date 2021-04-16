@@ -23,7 +23,7 @@ export default function ElectionsView(): React.ReactElement {
     const location = useLocation<AnovoteAlertState>()
     const history = useHistory<AnovoteAlertState>()
 
-    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     useEffect(() => {
         new ElectionService(BackendAPI)
@@ -82,7 +82,7 @@ export default function ElectionsView(): React.ReactElement {
 
     return (
         <>
-            <AlertList alertProps={alertState} />
+            <AlertList alertProps={alertStates} />
             <Title>{t('common:Elections')}</Title>
             <Space align="start" wrap={true}>
                 <CardList

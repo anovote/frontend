@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next'
 export default function ChangeEmailForm(): ReactElement {
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const submitForm = async (formData: { email: string }) => {
         console.info(formData)
@@ -17,7 +17,7 @@ export default function ChangeEmailForm(): ReactElement {
     }
     return (
         <Space direction="vertical">
-            <AlertList alertProps={alertState} />
+            <AlertList alertProps={alertStates} />
             <Form onFinish={submitForm} layout={'horizontal'} name="change-email">
                 <Space direction="horizontal" className="inline-form-item">
                     <Form.Item
