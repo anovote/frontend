@@ -44,7 +44,7 @@ export default function ChangePasswordForm(): React.ReactElement {
     return (
         <>
             <Space direction="vertical">
-                <AlertList alertProps={alertStates} />
+                <AlertList alerts={alertStates} />
                 <Form layout={'vertical'} onFinish={submitForm}>
                     <Space direction="vertical">
                         <Form.Item

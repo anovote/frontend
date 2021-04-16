@@ -4,13 +4,13 @@ import * as React from 'react'
 import { FC } from 'react'
 
 export interface AlertListProps {
-    alertProps: AlertState[]
+    alerts: AlertState[]
 }
 
-export const AlertList: FC<AlertListProps> = ({ alertProps }: AlertListProps) => {
+export const AlertList: FC<AlertListProps> = ({ alerts }: AlertListProps) => {
     return (
         <div>
-            {alertProps.map(function (props, index) {
+            {alerts.map(function (props, index) {
                 return (
                     <Alert
                         key={index}

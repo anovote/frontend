@@ -82,7 +82,7 @@ export default function ElectionsView(): React.ReactElement {
 
     return (
         <>
-            <AlertList alertProps={alertStates} />
+            <AlertList alerts={alertStates} />
             <Title>{t('common:Elections')}</Title>
             <Space align="start" wrap={true}>
                 <CardList

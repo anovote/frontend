@@ -43,7 +43,7 @@ export default function IconMessage({
             )}
             <SquareIconContainer icon={icon} label={label}></SquareIconContainer>
             <div className="mt-20 is-flex has-content-center-center">
-                <AlertList alertProps={alertStates} />
+                <AlertList alerts={alertStates} />
             </div>
         </div>
     )

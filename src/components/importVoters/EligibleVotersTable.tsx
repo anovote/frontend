@@ -224,7 +224,7 @@ export default function EligibleVotersTable({
                 </Row>
             )}
             <div>
-                <AlertList alertProps={alertStates} />
+                <AlertList alerts={alertStates} />
             </div>
         </div>
     )

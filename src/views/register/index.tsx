@@ -54,7 +54,7 @@ export default function RegisterView(): React.ReactElement {
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="register-form">
                     <div className="alert-field">
-                        <AlertList alertProps={alertStates} />
+                        <AlertList alerts={alertStates} />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
                         <Form.Item

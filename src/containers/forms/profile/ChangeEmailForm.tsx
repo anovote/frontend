@@ -17,7 +17,7 @@ export default function ChangeEmailForm(): ReactElement {
     }
     return (
         <Space direction="vertical">
-            <AlertList alertProps={alertStates} />
+            <AlertList alerts={alertStates} />
             <Form onFinish={submitForm} layout={'horizontal'} name="change-email">
                 <Space direction="horizontal" className="inline-form-item">
                     <Form.Item

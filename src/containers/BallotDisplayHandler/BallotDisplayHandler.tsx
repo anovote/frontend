@@ -185,7 +185,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 {t('common:Submit vote')}
             </Button>
             <div className="alert-field">
-                <AlertList alertProps={alertStates} />
+                <AlertList alerts={alertStates} />
             </div>
         </div>
     )

@@ -1,7 +1,8 @@
 import { LogoutOutlined, ProjectFilled } from '@ant-design/icons'
-import { AlertProps, Layout, Menu } from 'antd'
+import { Layout, Menu } from 'antd'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { BackendAPI } from 'core/api'
+import { AlertState } from 'core/hooks/useAlert'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
@@ -38,9 +39,9 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
 
     const logoutHandler = () => {
         new AuthenticationService(BackendAPI, new LocalStorageService()).logout()
-        const alert: AlertProps = { message: 'You where logged out', closable: true, type: 'info', showIcon: true } // todo temporary until new alert hooks comes
+        const alert: AlertState = { message: 'You where logged out', alertType: 'info' } // todo temporary until new alert hooks comes
         dispatcher.setLogoutState()
-        history.push(getPublicRoute().login, { alertProps: alert })
+        history.push(getPublicRoute().login, alert)
     }
 
     return (

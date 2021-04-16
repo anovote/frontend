@@ -180,7 +180,7 @@ export default function CreateElectionView({
                 </Col>
             </Row>
             <div className="alert-field">
-                <AlertList alertProps={alertStates} />
+                <AlertList alerts={alertStates} />
             </div>
         </Content>
     )
