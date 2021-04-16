@@ -30,7 +30,6 @@ export default function LoginView(): React.ReactElement {
     const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const formValidated = async (form: AuthenticationDetails) => {
-
         try {
             setIsLoading(false)
             await authService.authenticateOrganizer(form)
