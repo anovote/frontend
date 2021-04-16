@@ -9,13 +9,10 @@
   "Election has not started yet": "The election has not started yet",
   "Election open": "Election open",
   "Election opens": "Election opens {{date}}",
-  "Election organizer not logged in": "Election organizernot logged in",
+  "Election organizer not logged in": "Election organizer not logged in",
   "Election starts": "Election starts {{date}}",
-  "Ended on": "Ended on",
   "Finished": "Finished",
   "In progress": "In progress",
-  "Opened on": "Opened on",
-  "Opens on": "Opens on",
   "Please fill in a description": "Please fill in a description",
   "The election organizer needs to be logged in to create an election": "The election organizer needs to be logged in to create an election",
   "The election was created successfully": "The election was created successfully",
@@ -23,7 +20,7 @@
   "To be held": "To be held",
   "Waiting for": "Waiting for {{what}}",
   "create-election": "Create Election",
-  "update-election": "Update Election"
+  "update-election": "Update Election",
   "Ended on": "Ended on",
   "Opened on": "Opened on",
   "Opens on": "Opens on"
