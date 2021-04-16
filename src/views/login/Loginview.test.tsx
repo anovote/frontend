@@ -1,10 +1,10 @@
 // LoginView.test.js
 
+import { mockMatchMedia } from 'mocks/mockMatchMedia'
 import React from 'react'
 import { render, unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
-import { mockMatchMedia } from '../../mocks/mockMatchMedia'
-
+import { MemoryRouter } from 'react-router-dom'
 import LoginView from './index'
 
 let container: Element | DocumentFragment
@@ -23,7 +23,12 @@ afterEach(() => {
 
 it('displays forms validation on empty fields after submit is clicked', async () => {
     await act(async () => {
-        render(<LoginView />, container)
+        render(
+            <MemoryRouter>
+                <LoginView />
+            </MemoryRouter>,
+            container,
+        )
         container.querySelector('button')?.click()
         return await new Promise((resolve) => {
             setTimeout(() => {
@@ -38,7 +43,12 @@ it('displays forms validation on empty fields after submit is clicked', async ()
 
 it('does not displays forms validation message before clicking the submit button', async () => {
     await act(async () => {
-        render(<LoginView />, container)
+        render(
+            <MemoryRouter>
+                <LoginView />
+            </MemoryRouter>,
+            container,
+        )
     })
     const list = [...container.querySelectorAll('.ant-form-item-explain')]
     expect(list.length).toBe(0)

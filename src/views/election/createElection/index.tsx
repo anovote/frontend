@@ -1,6 +1,7 @@
-import { Alert, AlertProps, Col, Form, Row } from 'antd'
+import { Col, Form, Row } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import Title from 'antd/lib/typography/Title'
+import { AlertList } from 'components/alert/AlertList'
 import CloseDateInput from 'components/election/CloseDateInput'
 import ElectionDescriptionInput from 'components/election/ElectionDescriptionInput'
 import ElectionPasswordInput from 'components/election/ElectionPasswordInput'
@@ -11,6 +12,7 @@ import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { DuplicateError } from 'core/errors/DuplicateError'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
@@ -19,7 +21,6 @@ import { IElection } from 'core/models/election/IElection'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { getAdminRoute } from 'core/routes/siteRoutes'
 import { ElectionService } from 'core/service/election/ElectionService'
-import { AlertState } from 'core/state/AlertState'
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -33,12 +34,15 @@ export default function CreateElectionView({
     onUpdate,
 }: CreateElectionProps): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
+
     const [t] = useTranslation(['translation', 'common', 'election', 'error'])
-    const [alertProps, setAlertProps] = useState<AlertProps>()
+
     const [eligibleVoters, setEligibleVoters] = useState<IEligibleVoter[]>([])
     const [election, setElection] = useState<IElection | undefined>(
         initialElection ? initialElection : ({} as IElection),
     )
+
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
     const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()
@@ -55,39 +59,40 @@ export default function CreateElectionView({
             if (election && election.ballots) {
                 formData.ballots = election?.ballots
             }
-            await electionService.createElection(formData)
-            const alertProps: AlertProps = {
-                message: t('election:Election created'),
-                description: t('election:The election was created successfully'),
-                type: 'success',
-                closable: true,
-            }
-            history.push(getAdminRoute().elections.view, { alertProps })
-        } catch (error) {
-            const newAlertProps: AlertProps = {
-                message: '',
-                type: 'error',
-            }
 
-            if (error instanceof DuplicateError) {
-                newAlertProps.message = error.message
-                newAlertProps.description = t('error:All elections must be unique')
-                setAlertProps(newAlertProps)
-                form.setFields([{ name: 'title', errors: [t('error:Please provide an unique title')] }])
-            } else if (error instanceof AuthorizationError) {
-                newAlertProps.message = t('error:Election Organizer not logged in')
-                newAlertProps.description = t(
-                    'error:The election organizer needs to be logged in to create an election',
-                )
-                setAlertProps(newAlertProps)
+            await electionService.createElection(formData)
+            dispatchAlert({
+                type: 'add',
+                level: 'success',
+                message: t('election:Created election'),
+                description: t('election:The election was created successfully'),
+            })
+            history.push(getAdminRoute().elections.view, alertStates[0])
+        } catch (error) {
+            if (error instanceof AuthorizationError) {
+                dispatchAlert({
+                    type: 'add',
+                    level: 'error',
+                    message: t('election:Election organizer not logged in'),
+                    description: t('election:The election organizer needs to be logged in to create an election'),
+                })
+            } else if (error instanceof DuplicateError) {
+                dispatchAlert({
+                    type: 'add',
+                    message: error.message,
+                    description: t('error:All elections must be unique'),
+                    level: 'error',
+                })
             } else {
-                newAlertProps.message = t('error:Something went wrong')
-                newAlertProps.description = t('error:Please try again later')
-                setAlertProps(newAlertProps)
+                dispatchAlert({
+                    type: 'add',
+                    level: 'error',
+                    message: t('common:Something went wrong'),
+                    description: t('common:Please try again later'),
+                })
             }
         }
     }
-
     const uploadEligibleVotersCallback = (eligibleVoters: IEligibleVoter[]) => {
         setEligibleVoters(eligibleVoters)
 
@@ -175,15 +180,7 @@ export default function CreateElectionView({
                 </Col>
             </Row>
             <div className="alert-field">
-                {!!alertProps && (
-                    <Alert
-                        message={alertProps?.message}
-                        description={alertProps?.description}
-                        type={alertProps?.type}
-                        showIcon
-                        closable
-                    />
-                )}
+                <AlertList alerts={alertStates} />
             </div>
         </Content>
     )
