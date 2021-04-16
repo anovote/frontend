@@ -35,8 +35,6 @@ export default function BallotsQueue({
     const [isLoading, setIsLoading] = useState(false)
 
     const appendStats = (stats: IBallotStats | undefined): IStatValue[] | [] => {
-        console.log(stats)
-
         if (stats) {
             return [
                 { title: t('common:Total'), value: stats.stats.total },
@@ -58,7 +56,6 @@ export default function BallotsQueue({
             const electionIdInt = Number.parseInt(electionId)
             const ack = await electionEventService.broadcastBallot(ballot, electionIdInt)
             // todo button should be loading until ack is received
-            console.log(ack)
         }
     }
 
@@ -68,18 +65,16 @@ export default function BallotsQueue({
 
     // render all ballots
     useEffect(() => {
-        const q: ReactElement<StepProps>[] = []
+        const statsQueue: ReactElement<StepProps>[] = []
         for (const ballot of dataSource) {
             let ballotStat = null
             if (stats) {
                 ballotStat = stats.find((stat) => {
                     return stat.ballotId === ballot.id
                 })
-                console.log(ballot)
-                console.log(ballotStat)
             }
 
-            q.push(
+            statsQueue.push(
                 // todo make loading state follow the component
                 <Step
                     key={ballot.id}
@@ -104,7 +99,7 @@ export default function BallotsQueue({
                 />,
             )
         }
-        setQueue(q)
+        setQueue(statsQueue)
     }, [dataSource, stats])
     return (
         <div className="ballots-queue">
