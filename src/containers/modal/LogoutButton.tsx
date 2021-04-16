@@ -1,6 +1,6 @@
-import { AlertProps, Button } from 'antd'
+import { Button } from 'antd'
+import { AlertState } from 'core/hooks/useAlert'
 import { getPublicRoute } from 'core/routes/siteRoutes'
-import { AlertState } from 'core/state/AlertState'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,9 +12,9 @@ export function LogoutButton(): ReactElement {
 
     const [t] = useTranslation()
     const logoutHandler = () => {
-        const alert: AlertProps = { message: 'You where logged out', closable: true, type: 'info', showIcon: true }
+        const alert: AlertState = { message: 'You where logged out', alertType: 'info' }
         dispatcher.setLogoutState()
-        history.push(getPublicRoute().login, { alertProps: alert })
+        history.push(getPublicRoute().login, alert)
     }
     return (
         <Button className="logout-btn" onClick={logoutHandler}>
