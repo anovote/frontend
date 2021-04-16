@@ -28,6 +28,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const openProfileModal = () => setProfileModalState(true)
 
     const { /* dashboard,*/ elections /*, customize, settings*/ } = getAdminRoute()
+    const { landing } = getPublicRoute()
 
     function createElection() {
         history.push(elections.create)
@@ -52,7 +53,9 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
             <Layout className="skeleton-layout">
                 <ProfileSettingsModal showModal={showProfileModal} close={closeProfileModalHandler} />
                 <Sider className="skeleton-sidebar">
-                    <AnovoteLogo id="logo" />
+                    <Link to={landing}>
+                        <AnovoteLogo id="logo" />
+                    </Link>
                     <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={[history.location.pathname]}>
                         <LargeIconButton
                             text={t('Create election')}
