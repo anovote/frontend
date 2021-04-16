@@ -39,7 +39,7 @@ export default function CreateElectionView({
         initialElection ? initialElection : ({} as IElection),
     )
 
-    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
+    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const history = useHistory<AnovoteAlertState>()
     const [form] = Form.useForm<IElection>()
@@ -57,7 +57,7 @@ export default function CreateElectionView({
                 form.ballots = election?.ballots
             }
             await electionService.createElection(form)
-            alertDispatch({
+            dispatchAlert({
                 type: 'add',
                 alertType: 'success',
                 message: 'Election created',
@@ -66,14 +66,14 @@ export default function CreateElectionView({
             history.push(getAdminRoute().elections.view, alertState[0])
         } catch (error) {
             if (error instanceof AuthorizationError) {
-                alertDispatch({
+                dispatchAlert({
                     type: 'add',
                     alertType: 'error',
                     message: 'Election organizer not logged in',
                     description: 'The election organizer needs to be logged in to create an election',
                 })
             } else {
-                alertDispatch({
+                dispatchAlert({
                     type: 'add',
                     alertType: 'error',
                     message: 'Something went wrong',

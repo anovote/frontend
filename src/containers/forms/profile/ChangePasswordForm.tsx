@@ -11,12 +11,12 @@ export default function ChangePasswordForm(): React.ReactElement {
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
+    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const submitForm = async (values: ChangePasswordInterface) => {
         try {
             await service.validateAndChangePassword(values)
-            alertDispatch({
+            dispatchAlert({
                 type: 'add',
                 alertType: 'success',
                 message: 'Password changed',
@@ -24,14 +24,14 @@ export default function ChangePasswordForm(): React.ReactElement {
             })
         } catch (error) {
             if (error instanceof PasswordDoesNotMatchError) {
-                alertDispatch({
+                dispatchAlert({
                     type: 'add',
                     alertType: 'error',
                     message: 'Something went wrong',
                     description: `${t('common:Password')} ${t('form:Must match').toLocaleLowerCase()}`,
                 })
             } else {
-                alertDispatch({
+                dispatchAlert({
                     type: 'add',
                     alertType: 'error',
                     message: 'Something went wrong',

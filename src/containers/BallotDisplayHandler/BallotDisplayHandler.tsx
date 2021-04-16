@@ -33,7 +33,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
 
-    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
+    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -90,9 +90,9 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
         switch (ballot.type) {
             case BallotType.SINGLE: {
                 if (!socket.connected) {
-                    alertDispatch({ type: 'add', alertType: 'error', message: 'Could not connect to the server' })
+                    dispatchAlert({ type: 'add', alertType: 'error', message: 'Could not connect to the server' })
                 } else if (selected === 0) {
-                    alertDispatch({ type: 'add', alertType: 'error', message: 'You need to select a candidate' })
+                    dispatchAlert({ type: 'add', alertType: 'error', message: 'You need to select a candidate' })
                 } else {
                     socket.emit(
                         Events.client.vote.submit,
@@ -106,7 +106,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                             console.log('Callback handled here')
                         },
                     )
-                    alertDispatch({ type: 'add', alertType: 'success', message: 'Your vote was submitted' })
+                    dispatchAlert({ type: 'add', alertType: 'success', message: 'Your vote was submitted' })
                 }
                 break
             }

@@ -36,7 +36,7 @@ export function useAlert(initialState: AnovoteAlertState[]): [AnovoteAlertState[
         initialState.shift()
     }
 
-    const [alertState, alertDispatch] = useReducer(alertReducer, initialState)
+    const [alertState, dispatchAlert] = useReducer(alertReducer, initialState)
 
-    return [alertState, alertDispatch]
+    return [alertState, dispatchAlert]
 }

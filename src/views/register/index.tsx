@@ -21,24 +21,24 @@ export default function RegisterView(): React.ReactElement {
     const history = useHistory<AnovoteAlertState>()
     const { isLoggedIn } = useAppState()
 
-    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
+    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
             try {
                 await registrationService.registerOrganizer(form)
-                alertDispatch({ type: 'add', alertType: 'success', message: t('form:User was registered') })
+                dispatchAlert({ type: 'add', alertType: 'success', message: t('form:User was registered') })
                 appDispatcher.setLoginState(AuthLevel.organizer)
                 history.replace(getAdminRoute().elections.view, alertState[0])
             } catch (error) {
                 if (error instanceof CredentialError) {
-                    alertDispatch({ type: 'add', alertType: 'error', message: t('form:Error in form') })
+                    dispatchAlert({ type: 'add', alertType: 'error', message: t('form:Error in form') })
                 } else {
-                    alertDispatch({ type: 'add', alertType: 'error', message: t('form:Something went wrong') })
+                    dispatchAlert({ type: 'add', alertType: 'error', message: t('form:Something went wrong') })
                 }
             }
         } else {
-            alertDispatch({
+            dispatchAlert({
                 type: 'add',
                 alertType: 'error',
                 message: t('form:Must be equal', { field: t('common:Password').toLowerCase() }),

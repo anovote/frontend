@@ -23,7 +23,7 @@ export default function ElectionsView(): React.ReactElement {
     const location = useLocation<AnovoteAlertState>()
     const history = useHistory<AnovoteAlertState>()
 
-    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
+    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     useEffect(() => {
         new ElectionService(BackendAPI)
@@ -45,7 +45,7 @@ export default function ElectionsView(): React.ReactElement {
                 setFinished(finished)
 
                 if (location.state) {
-                    alertDispatch({
+                    dispatchAlert({
                         type: 'add',
                         alertType: location.state.alertType,
                         message: location.state.message,

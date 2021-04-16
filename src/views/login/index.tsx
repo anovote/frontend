@@ -25,7 +25,7 @@ export default function LoginView(): React.ReactElement {
     const history = useHistory()
     const { isLoggedIn } = useAppState()
 
-    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
+    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const formValidated = async (form: AuthenticationDetails) => {
         try {
@@ -34,9 +34,9 @@ export default function LoginView(): React.ReactElement {
             history.replace('/admin')
         } catch (error) {
             if (error instanceof CredentialError) {
-                alertDispatch({ type: 'add', alertType: 'error', message: 'Wrong email or password' })
+                dispatchAlert({ type: 'add', alertType: 'error', message: 'Wrong email or password' })
             } else {
-                alertDispatch({ type: 'add', alertType: 'error', message: 'Something went wrong' })
+                dispatchAlert({ type: 'add', alertType: 'error', message: 'Something went wrong' })
             }
         }
     }

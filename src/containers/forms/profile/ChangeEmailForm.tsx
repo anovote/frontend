@@ -9,11 +9,11 @@ import { useTranslation } from 'react-i18next'
 export default function ChangeEmailForm(): ReactElement {
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertState, alertDispatch] = useAlert([{ message: '', alertType: undefined }])
+    const [alertState, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
     const submitForm = async (formData: { email: string }) => {
         console.info(formData)
-        alertDispatch({ type: 'add', alertType: 'error', message: 'LOGIC NOT IMPLEMENTED' })
+        dispatchAlert({ type: 'add', alertType: 'error', message: 'LOGIC NOT IMPLEMENTED' })
     }
     return (
         <Space direction="vertical">
