@@ -53,13 +53,17 @@ export default function EligibleVotersTable({
                 const parsedCsv = await fileParser.parseCsv<string>(file)
                 parsedEmails = convertTwoDimArrayToOneDimArray(parsedCsv)
             } catch (e) {
-                dispatchAlert({ type: 'add', alertType: 'error', message: 'something went wrong in the parsing' })
+                dispatchAlert({
+                    type: 'add',
+                    alertType: 'error',
+                    message: t('parsing:something went wrong in the parsing'),
+                })
             }
         } else if (file.type === 'application/json') {
             const parsedJson = await fileParser.parseJson<{ emails: { email: string }[] }>(file)
             parsedEmails = parsedJson.emails.map((email) => email.email)
         } else {
-            dispatchAlert({ type: 'add', alertType: 'error', message: 'The-file-is-not-CSV-or-JSON' })
+            dispatchAlert({ type: 'add', alertType: 'error', message: t('parsing:The-file-is-not-CSV-or-JSON') })
             return
         }
 
@@ -82,12 +86,12 @@ export default function EligibleVotersTable({
             dispatchAlert({
                 type: 'add',
                 alertType: 'warning',
-                message: 'Removed the following invalid emails' + arrays.invalidEmails,
+                message: t('parsing:Removed the following invalid emails') + arrays.invalidEmails,
             })
         }
 
         if (arrays.noDuplicates.length > arrays.eligibleVoters.length) {
-            dispatchAlert({ type: 'add', alertType: 'warning', message: 'Removed duplicate entries' })
+            dispatchAlert({ type: 'add', alertType: 'warning', message: t('parsing:Removed duplicate entries') })
         }
     }
 

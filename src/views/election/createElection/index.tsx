@@ -60,8 +60,8 @@ export default function CreateElectionView({
             dispatchAlert({
                 type: 'add',
                 alertType: 'success',
-                message: 'Election created',
-                description: 'The election was created successfully',
+                message: t('election:Created election'),
+                description: t('election:The election was created successfully'),
             })
             history.push(getAdminRoute().elections.view, alertState[0])
         } catch (error) {
@@ -69,15 +69,15 @@ export default function CreateElectionView({
                 dispatchAlert({
                     type: 'add',
                     alertType: 'error',
-                    message: 'Election organizer not logged in',
-                    description: 'The election organizer needs to be logged in to create an election',
+                    message: t('election:Election organizer not logged in'),
+                    description: t('election:The election organizer needs to be logged in to create an election'),
                 })
             } else {
                 dispatchAlert({
                     type: 'add',
                     alertType: 'error',
-                    message: 'Something went wrong',
-                    description: 'Please try again later',
+                    message: t('common:Something went wrong'),
+                    description: t('common:Please try again later'),
                 })
             }
         }

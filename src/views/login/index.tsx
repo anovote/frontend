@@ -34,9 +34,9 @@ export default function LoginView(): React.ReactElement {
             history.replace('/admin')
         } catch (error) {
             if (error instanceof CredentialError) {
-                dispatchAlert({ type: 'add', alertType: 'error', message: 'Wrong email or password' })
+                dispatchAlert({ type: 'add', alertType: 'error', message: t('profile:Wrong email or password') })
             } else {
-                dispatchAlert({ type: 'add', alertType: 'error', message: 'Something went wrong' })
+                dispatchAlert({ type: 'add', alertType: 'error', message: t('common:Something went wrong') })
             }
         }
     }

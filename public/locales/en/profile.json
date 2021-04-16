@@ -1,7 +1,8 @@
 {
-    "Update profile": "Update profile",
-    "Change email": "Change email",
-    "Change password": "Change password",
-    "Password changed": "Password changed",
-    "Your password changed": "Your password was successfully changed"
+  "Change email": "Change email",
+  "Change password": "Change password",
+  "Password changed": "Password changed",
+  "Update profile": "Update profile",
+  "Wrong email or password": "Wrong email or password",
+  "Your password changed": "Your password was successfully changed"
 }
