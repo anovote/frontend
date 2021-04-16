@@ -13,7 +13,7 @@ import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ConnectedVoters } from './ConnectedVoters'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
@@ -28,19 +28,44 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
     })
 }
 
+export type State = {
+    stats: IBallotStats[]
+    activeBallotIndex: 0
+}
+
+export type Action = { type: 'add'; payload: IBallotStats[] } | { type: 'update'; payload: IBallotStats }
+
+export const statsReducer = (state: State, action: Action): State => {
+    const newState = Object.assign({}, state)
+    switch (action.type) {
+        case 'add':
+            newState.stats.push(...action.payload)
+            break
+        case 'update': {
+            const currentStats = newState.stats.find((stat) => stat.ballotId == action.payload.ballotId)
+            if (currentStats) {
+                currentStats.stats = { ...action.payload.stats }
+            } else {
+                newState.stats.push(action.payload)
+            }
+            break
+        }
+    }
+    return newState
+}
+
 export function ElectionInProgressView({ election }: { election: IElectionEntity }): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState(0)
-    const [stats, setStats] = useState<IBallotStats[]>([])
-    const [connectedVoters, setConnectedVoters] = useState<number>(0)
+    const [state, dispatch] = useReducer(statsReducer, { stats: [], activeBallotIndex: 0 })
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
         fetchElectionStats(election.id)
             .then((serverStats) => {
-                setStats(serverStats)
+                dispatch({ type: 'add', payload: serverStats })
             })
             .catch((err) => {
                 console.log(err)
@@ -57,10 +82,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         })
 
         socket.on(Events.server.vote.newVote, (data: IBallotStats) => {
-            const newState = [...stats]
-            newState[data.ballotId] = data
-
-            setStats(newState)
+            dispatch({ type: 'update', payload: data })
         })
         return () => {
             socket.disconnect()
@@ -85,12 +107,14 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     }
 
     const hasNext = () => {
+        // todo fix this
         if (ballots[active + 1]) {
             setActive(active + 1)
         }
     }
 
     const hasPrevious = () => {
+        // todo fix this
         if (ballots[active - 1]) {
             setActive(active - 1)
         }
@@ -103,7 +127,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     }
 
     const getBallotStats = (ballotId: number): IBallotStats | undefined => {
-        return stats.find((stat) => stat.ballotId === ballotId)
+        return state.stats.find((stat) => stat.ballotId === ballotId)
     }
 
     return (
@@ -120,7 +144,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballots.length > 0 ? (
                         <>
-                            <BallotsQueue dataSource={ballots} stats={stats} expandBallot={showModal} />
+                            <BallotsQueue dataSource={ballots} stats={state.stats} expandBallot={showModal} />
                             <BallotModal
                                 showModal={modal}
                                 ballotEntity={findBallotWithId(active)}
