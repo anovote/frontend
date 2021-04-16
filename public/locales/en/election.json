@@ -24,4 +24,7 @@
   "Waiting for": "Waiting for {{what}}",
   "create-election": "Create Election",
   "update-election": "Update Election"
+  "Ended on": "Ended on",
+  "Opened on": "Opened on",
+  "Opens on": "Opens on"
 }

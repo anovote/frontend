@@ -48,7 +48,7 @@
     font-size: 2rem;
 }
 
-#settings {
+#log-out {
     @include is-flex-row();
     @include has-content-center-center();
     margin-top: 3 * $bu;

@@ -11,8 +11,12 @@ import { useAlert } from 'core/hooks/useAlert'
 import { useSocket } from 'core/hooks/useSocket'
 import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { ICandidateEntity } from 'core/models/ballot/ICandidate'
+import { ICandidate, ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { Events } from 'core/events'
+import { useSocket } from 'core/hooks/useSocket'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
@@ -33,7 +37,16 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
 
+
     const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    
+    const [ballotState, setBallotState] = useState<IBallotEntity>(ballot)
+
+    useEffect(() => {
+        const candidates = addBlankCandidate(ballot.candidates)
+        setBallotState({ ...ballotState, candidates })
+    }, [])
+
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -131,12 +144,35 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
         }
     }
 
+    /**
+     * Adds a blank candidate alternative to the candidate list.
+     * @param candidates the list of candidates
+     * @returns new list of candidate with a blank alternative
+     */
+    const addBlankCandidate = (candidates: ICandidate[]) => {
+        const blankCandidate: ICandidate = { candidate: 'blank' /*, id: candidates.length + 1*/ }
+        if (checkForDuplicateBlank(candidates)) {
+            return candidates
+        }
+        candidates.push(blankCandidate)
+        return candidates
+    }
+
+    /**
+     * Checks a list of candidates to see if it has a blank alternative
+     * @param candidates the list of candidates
+     * @returns true or false
+     */
+    const checkForDuplicateBlank = (candidates: ICandidate[]) => {
+        return candidates.find((candidate) => candidate.candidate === 'blank' || candidate.candidate === null)
+    }
+
     return (
         <div className="voter-display">
-            <BallotTypeDisplay type={ballot.type} />
+            <BallotTypeDisplay type={ballotState.type} />
             <Space className="width-100 spread">
                 <Title level={5}>
-                    {t('common:Candidate_plural')}: {ballot.candidates.length}
+                    {t('common:Candidate_plural')}: {ballotState.candidates.length}
                 </Title>
                 <Title level={5}>
                     {t('common:Selected')} ({selected})
@@ -146,10 +182,10 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 </Button>
             </Space>
             <CandidateList
-                typeOfSelection={ballot.type}
-                candidates={ballot.candidates as ICandidateEntity[]}
+                typeOfSelection={ballotState.type}
+                candidates={ballotState.candidates as ICandidateEntity[]}
                 onChange={onChange}
-                selection={ballot.type == BallotType.SINGLE ? selection.single : selection.multiple}
+                selection={ballotState.type == BallotType.SINGLE ? selection.single : selection.multiple}
             />
             <Button type="primary" shape="round" onClick={submitVote}>
                 {t('common:Submit vote')}
