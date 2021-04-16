@@ -4,7 +4,7 @@ type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
 
 export type AlertAction = {
     type: 'add'
-    alertType: AlertType
+    level: AlertType
     message: string | undefined
     description?: string
 }
@@ -12,7 +12,7 @@ export type AlertAction = {
 export interface AlertState {
     message: string | undefined
     description?: string
-    alertType: AlertType
+    level: AlertType
 }
 
 function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
@@ -22,7 +22,7 @@ function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
             listCopy.push({
                 message: action.message,
                 description: action.description,
-                alertType: action.alertType,
+                level: action.level,
             })
             return listCopy
         }

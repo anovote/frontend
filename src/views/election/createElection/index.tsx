@@ -42,7 +42,7 @@ export default function CreateElectionView({
         initialElection ? initialElection : ({} as IElection),
     )
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
     const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()
@@ -63,7 +63,7 @@ export default function CreateElectionView({
             await electionService.createElection(formData)
             dispatchAlert({
                 type: 'add',
-                alertType: 'success',
+                level: 'success',
                 message: t('election:Created election'),
                 description: t('election:The election was created successfully'),
             })
@@ -72,7 +72,7 @@ export default function CreateElectionView({
             if (error instanceof AuthorizationError) {
                 dispatchAlert({
                     type: 'add',
-                    alertType: 'error',
+                    level: 'error',
                     message: t('election:Election organizer not logged in'),
                     description: t('election:The election organizer needs to be logged in to create an election'),
                 })
@@ -81,12 +81,12 @@ export default function CreateElectionView({
                     type: 'add',
                     message: error.message,
                     description: t('error:All elections must be unique'),
-                    alertType: 'error',
+                    level: 'error',
                 })
             } else {
                 dispatchAlert({
                     type: 'add',
-                    alertType: 'error',
+                    level: 'error',
                     message: t('common:Something went wrong'),
                     description: t('common:Please try again later'),
                 })

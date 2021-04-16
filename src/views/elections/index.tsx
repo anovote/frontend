@@ -23,7 +23,7 @@ export default function ElectionsView(): React.ReactElement {
     const location = useLocation<AlertState>()
     const history = useHistory<AlertState>()
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         new ElectionService(BackendAPI)
@@ -47,7 +47,7 @@ export default function ElectionsView(): React.ReactElement {
                 if (location.state) {
                     dispatchAlert({
                         type: 'add',
-                        alertType: location.state.alertType,
+                        level: location.state.level,
                         message: location.state.message,
                         description: location.state.description,
                     })
@@ -64,7 +64,7 @@ export default function ElectionsView(): React.ReactElement {
      * The history location should stay intact
      */
     const resetHistoryState = () => {
-        const state: AlertState = { message: '', alertType: undefined }
+        const state: AlertState = { message: '', level: undefined }
         history.replace({ ...history.location, state })
     }
 

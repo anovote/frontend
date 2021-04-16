@@ -27,7 +27,7 @@ export default function LoginView(): React.ReactElement {
     const { isLoggedIn } = useAppState()
     const [isLoading, setIsLoading] = useState(false)
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
     const formValidated = async (form: AuthenticationDetails) => {
         try {
@@ -38,9 +38,9 @@ export default function LoginView(): React.ReactElement {
         } catch (error) {
             setIsLoading(false)
             if (error instanceof CredentialError) {
-                dispatchAlert({ type: 'add', alertType: 'error', message: t('profile:Wrong email or password') })
+                dispatchAlert({ type: 'add', level: 'error', message: t('profile:Wrong email or password') })
             } else {
-                dispatchAlert({ type: 'add', alertType: 'error', message: t('common:Something went wrong') })
+                dispatchAlert({ type: 'add', level: 'error', message: t('common:Something went wrong') })
             }
         }
     }

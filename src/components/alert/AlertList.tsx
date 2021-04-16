@@ -16,7 +16,7 @@ export const AlertList: FC<AlertListProps> = ({ alerts }: AlertListProps) => {
                         key={index}
                         message={props.message}
                         description={props.description}
-                        type={props.alertType}
+                        type={props.level}
                         showIcon
                         closable
                     />

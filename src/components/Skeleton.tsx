@@ -39,7 +39,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
 
     const logoutHandler = () => {
         new AuthenticationService(BackendAPI, new LocalStorageService()).logout()
-        const alert: AlertState = { message: 'You where logged out', alertType: 'info' } // todo temporary until new alert hooks comes
+        const alert: AlertState = { message: 'You where logged out', level: 'info' } // todo temporary until new alert hooks comes
         dispatcher.setLogoutState()
         history.push(getPublicRoute().login, alert)
     }

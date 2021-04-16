@@ -13,7 +13,7 @@ export default function IconMessage({
     alertLevel = 'info',
     onClose,
 }: IIconMessage): ReactElement {
-    const [alertStates] = useAlert([{ message: alertMessage, alertType: alertLevel }])
+    const [alertStates] = useAlert([{ message: alertMessage, level: alertLevel }])
 
     if (!icon) {
         switch (alertLevel) {
