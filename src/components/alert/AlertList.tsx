@@ -1,13 +1,12 @@
 import { Alert } from 'antd'
 import { AlertState } from 'core/hooks/useAlert'
-import * as React from 'react'
-import { FC } from 'react'
+import React, { ReactElement } from 'react'
 
 export interface AlertListProps {
     alerts: AlertState[]
 }
 
-export const AlertList: FC<AlertListProps> = ({ alerts }: AlertListProps) => {
+export const AlertList = ({ alerts }: AlertListProps): ReactElement => {
     return (
         <div>
             {alerts.map(function (props, index) {

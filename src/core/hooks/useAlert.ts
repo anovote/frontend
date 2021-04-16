@@ -1,3 +1,4 @@
+import { ReactNode } from 'react'
 import { Dispatch, useReducer } from 'react'
 
 type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
@@ -5,12 +6,12 @@ type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
 export type AlertAction = {
     type: 'add'
     level: AlertType
-    message: string | undefined
+    message: string | undefined | ReactNode
     description?: string
 }
 
 export interface AlertState {
-    message: string | undefined
+    message: string | undefined | ReactNode
     description?: string
     level: AlertType
 }

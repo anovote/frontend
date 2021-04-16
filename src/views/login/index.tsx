@@ -3,7 +3,7 @@ import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
-import { useAlert } from 'core/hooks/useAlert'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationDetails } from 'core/service/authentication/AuthenticationDetails'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
@@ -13,7 +13,7 @@ import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateConte
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Redirect, useHistory } from 'react-router-dom'
+import { Redirect, useHistory, useLocation } from 'react-router-dom'
 
 /**
  * Logins view
@@ -23,11 +23,14 @@ export default function LoginView(): React.ReactElement {
     const authService = new AuthenticationService(BackendAPI, new LocalStorageService())
     const [t] = useTranslation(['translation', 'common', 'form'])
     const appDispatcher = useAppStateDispatcher()
-    const history = useHistory()
+    const history = useHistory<AlertState>()
+    const location = useLocation<AlertState>()
     const { isLoggedIn } = useAppState()
     const [isLoading, setIsLoading] = useState(false)
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const [alertStates, dispatchAlert] = useAlert([
+        location.state ? { message: location.state.message, level: 'info' } : { message: '', level: undefined },
+    ])
 
     const formValidated = async (form: AuthenticationDetails) => {
         try {
