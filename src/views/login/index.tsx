@@ -9,6 +9,7 @@ import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import * as React from 'react'
+import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Redirect, useHistory } from 'react-router-dom'
 
@@ -23,14 +24,18 @@ export default function LoginView(): React.ReactElement {
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory()
     const { isLoggedIn } = useAppState()
+    const [isLoading, setIsLoading] = useState(false)
 
     const formValidated = async (form: AuthenticationDetails) => {
+        setIsLoading(true)
         setErrorMessage('')
         try {
+            setIsLoading(false)
             await authService.authenticateOrganizer(form)
             appDispatcher.setLoginState(AuthLevel.organizer)
             history.replace('/admin')
         } catch (error) {
+            setIsLoading(false)
             if (error instanceof CredentialError) {
                 setErrorMessage(t('form:Wrong email password'))
             } else {
@@ -66,7 +71,7 @@ export default function LoginView(): React.ReactElement {
                         </Form.Item>
                         <Form.Item>
                             <Space>
-                                <Button type="primary" htmlType="submit">
+                                <Button type="primary" htmlType="submit" loading={isLoading}>
                                     {t('common:Log In')}
                                 </Button>
                                 <Button
