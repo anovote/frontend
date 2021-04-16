@@ -15,13 +15,9 @@ import { ICandidate, ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
 import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Events } from 'core/events'
-import { useSocket } from 'core/hooks/useSocket'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
-import React, { ReactElement, useReducer } from 'react'
-import { useTranslation } from 'react-i18next'
 
 const initialState = {
     selected: 0,
@@ -37,16 +33,14 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
 
-
     const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
-    
+
     const [ballotState, setBallotState] = useState<IBallotEntity>(ballot)
 
     useEffect(() => {
         const candidates = addBlankCandidate(ballot.candidates)
         setBallotState({ ...ballotState, candidates })
     }, [])
-
 
     /**
      * Handles the change of clicked candidate(s) according to

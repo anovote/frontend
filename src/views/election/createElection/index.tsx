@@ -60,7 +60,7 @@ export default function CreateElectionView({
                 formData.ballots = election?.ballots
             }
 
-            await electionService.createElection(form)
+            await electionService.createElection(formData)
             dispatchAlert({
                 type: 'add',
                 alertType: 'success',
@@ -76,6 +76,13 @@ export default function CreateElectionView({
                     message: t('election:Election organizer not logged in'),
                     description: t('election:The election organizer needs to be logged in to create an election'),
                 })
+            } else if (error instanceof DuplicateError) {
+                dispatchAlert({
+                    type: 'add',
+                    message: error.message,
+                    description: t('error:All elections must be unique'),
+                    alertType: 'error',
+                })
             } else {
                 dispatchAlert({
                     type: 'add',
@@ -83,41 +90,9 @@ export default function CreateElectionView({
                     message: t('common:Something went wrong'),
                     description: t('common:Please try again later'),
                 })
-
-            await electionService.createElection(formData)
-            const alertProps: AlertProps = {
-                message: t('election:Election created'),
-                description: t('election:The election was created successfully'),
-                type: 'success',
-                closable: true,
-            }
-            history.push(getAdminRoute().elections.view, { alertProps })
-        } catch (error) {
-            const newAlertProps: AlertProps = {
-                message: '',
-                type: 'error',
-            }
-
-            if (error instanceof DuplicateError) {
-                newAlertProps.message = error.message
-                newAlertProps.description = t('error:All elections must be unique')
-                setAlertProps(newAlertProps)
-                form.setFields([{ name: 'title', errors: [t('error:Please provide an unique title')] }])
-            } else if (error instanceof AuthorizationError) {
-                newAlertProps.message = t('error:Election Organizer not logged in')
-                newAlertProps.description = t(
-                    'error:The election organizer needs to be logged in to create an election',
-                )
-                setAlertProps(newAlertProps)
-            } else {
-                newAlertProps.message = t('error:Something went wrong')
-                newAlertProps.description = t('error:Please try again later')
-                setAlertProps(newAlertProps)
-
             }
         }
     }
-
     const uploadEligibleVotersCallback = (eligibleVoters: IEligibleVoter[]) => {
         setEligibleVoters(eligibleVoters)
 
