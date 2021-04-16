@@ -3,7 +3,7 @@ import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
-import { AnovoteAlertState, useAlert } from 'core/hooks/useAlert'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { RegistrationDetails } from 'core/service/registration/RegistrationDetails'
@@ -18,7 +18,7 @@ export default function RegisterView(): React.ReactElement {
 
     const [t] = useTranslation(['form', 'common'])
     const appDispatcher = useAppStateDispatcher()
-    const history = useHistory<AnovoteAlertState>()
+    const history = useHistory<AlertState>()
     const { isLoggedIn } = useAppState()
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])

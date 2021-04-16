@@ -1,10 +1,10 @@
 import { Alert } from 'antd'
-import { AnovoteAlertState } from 'core/hooks/useAlert'
+import { AlertState } from 'core/hooks/useAlert'
 import * as React from 'react'
 import { FC } from 'react'
 
 export interface AlertListProps {
-    alertProps: AnovoteAlertState[]
+    alertProps: AlertState[]
 }
 
 export const AlertList: FC<AlertListProps> = ({ alertProps }: AlertListProps) => {

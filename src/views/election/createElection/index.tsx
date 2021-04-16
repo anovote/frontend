@@ -12,7 +12,7 @@ import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
-import { AnovoteAlertState, useAlert } from 'core/hooks/useAlert'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -41,7 +41,7 @@ export default function CreateElectionView({
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
-    const history = useHistory<AnovoteAlertState>()
+    const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()
 
     /**

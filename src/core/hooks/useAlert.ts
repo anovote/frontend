@@ -9,13 +9,13 @@ export type AlertAction = {
     description?: string
 }
 
-export interface AnovoteAlertState {
+export interface AlertState {
     message: string | undefined
     description?: string
     alertType: AlertType
 }
 
-function alertReducer(state: AnovoteAlertState[], action: AlertAction): AnovoteAlertState[] {
+function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
     switch (action.type) {
         case 'add': {
             const listCopy = [...state]
@@ -31,7 +31,7 @@ function alertReducer(state: AnovoteAlertState[], action: AlertAction): AnovoteA
     }
 }
 
-export function useAlert(initialState: AnovoteAlertState[]): [AnovoteAlertState[], Dispatch<AlertAction>] {
+export function useAlert(initialState: AlertState[]): [AlertState[], Dispatch<AlertAction>] {
     if (initialState[0].message === '') {
         initialState.shift()
     }

@@ -6,7 +6,7 @@ import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
 import { BackendAPI } from 'core/api'
-import { AnovoteAlertState, useAlert } from 'core/hooks/useAlert'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { ElectionEntity } from 'core/models/election/ElectionEntity'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { ElectionService } from 'core/service/election/ElectionService'
@@ -20,8 +20,8 @@ export default function ElectionsView(): React.ReactElement {
     const [upcoming, setUpcoming] = useState([] as ElectionEntity[])
     const [inProgress, setInProgress] = useState([] as ElectionEntity[])
     const [finished, setFinished] = useState([] as ElectionEntity[])
-    const location = useLocation<AnovoteAlertState>()
-    const history = useHistory<AnovoteAlertState>()
+    const location = useLocation<AlertState>()
+    const history = useHistory<AlertState>()
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', alertType: undefined }])
 
@@ -64,7 +64,7 @@ export default function ElectionsView(): React.ReactElement {
      * The history location should stay intact
      */
     const resetHistoryState = () => {
-        const state: AnovoteAlertState = { message: '', alertType: undefined }
+        const state: AlertState = { message: '', alertType: undefined }
         history.replace({ ...history.location, state })
     }
 
