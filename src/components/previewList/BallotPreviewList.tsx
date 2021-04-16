@@ -25,7 +25,7 @@ export default function BallotPreviewList({
     onChange: (ballots: IBallot[]) => void
 }): React.ReactElement {
     const [ballotsState, setBallotsState] = useState<IBallot[]>(
-        initialElection && initialElection.ballots ? (initialElection.ballots as IBallot[]) : new Array<IBallot>(),
+        initialElection && initialElection.ballots ? initialElection.ballots : new Array<IBallot>(),
     )
     const [createBallotModalState, setCreateBallotModalState] = useState<CreateBallotModalState>({
         show: false,
