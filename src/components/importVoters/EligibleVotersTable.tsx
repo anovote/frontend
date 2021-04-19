@@ -163,6 +163,11 @@ export default function EligibleVotersTable({
         }
     }
 
+    const handleEligibleVoterDelete = (voterIdentity: string) => {
+        const newVoters = voters.filter((voter) => voter.identification !== voterIdentity)
+        setVoters(newVoters)
+    }
+
     const ImportFileMenu = (): React.ReactElement => {
         return (
             <Menu className="import-voters-menu">
@@ -207,7 +212,14 @@ export default function EligibleVotersTable({
             <List
                 id="voters-list"
                 dataSource={voters}
-                renderItem={(item) => <List.Item>{item.identification}</List.Item>}
+                renderItem={(item) => (
+                    <List.Item>
+                        <EligibleVoterListItem
+                            voterIdentity={item.identification}
+                            onDelete={handleEligibleVoterDelete}
+                        />
+                    </List.Item>
+                )}
             />
             {addByManual && (
                 <Row>
