@@ -1,3 +1,4 @@
+import { getBaseRoute } from 'core/routes/siteRoutes'
 import React, { ReactElement, ReactNode } from 'react'
 import { Redirect, Route, RouteComponentProps, RouteProps } from 'react-router-dom'
 import { AuthLevel } from '../../core/service/authentication/AuthLevel'
@@ -28,7 +29,7 @@ interface IPrivateRouteProps extends RouteProps {
  * @param props route props
  */
 export const ProtectedRoute = (props: IPrivateRouteProps): ReactElement | null => {
-    const { component: Component, children, isLoggedIn, authLevel, ...rest } = props
+    const { component: Component, children, isLoggedIn, authLevel, path, ...rest } = props
     const hasLevel = props.allowedLevels.some((level) => level === authLevel)
     const canRoute = hasLevel && isLoggedIn
 
@@ -42,8 +43,16 @@ export const ProtectedRoute = (props: IPrivateRouteProps): ReactElement | null =
      */
     function getRenderComponent(routeProps: RouteComponentProps) {
         let renderComponent: ReactElement | ReactNode | null | undefined
+        let redirectPath = '/'
 
-        renderComponent = <Redirect to={{ pathname: '/login', state: { from: routeProps.location } }} />
+        if (path?.includes(getBaseRoute().admin)) {
+            redirectPath = '/login'
+        }
+        if (path?.includes(getBaseRoute().voter)) {
+            redirectPath = '/join'
+        }
+
+        renderComponent = <Redirect to={{ pathname: redirectPath, state: { from: routeProps.location } }} />
 
         if (canRoute) renderComponent = Component ? <Component {...routeProps} /> : children
         else if (isLoggedIn) renderComponent = <div>You don not have access</div>
