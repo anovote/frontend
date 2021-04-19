@@ -2,6 +2,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Space, Upload } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
+import { EligibleVoterListItem } from 'components/EligibleVoterListItem'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
 import { useAlert } from 'core/hooks/useAlert'
@@ -12,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { createListOfEligibleVoters } from '../../core/helpers/eligibleVoter'
 import { FileParser } from './FileParser'
 
-export default function EligibleVotersTable({
+export default function EligibleVotersList({
     onChange,
     initialVoters,
     formContext,

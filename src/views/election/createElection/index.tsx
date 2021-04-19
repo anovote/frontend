@@ -8,12 +8,12 @@ import ElectionPasswordInput from 'components/election/ElectionPasswordInput'
 import ElectionTitleInput from 'components/election/ElectionTitleInput'
 import OpenDateInput from 'components/election/OpenDateInput'
 import SaveElectionButton from 'components/election/SaveElectionButton'
-import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
+import EligibleVotersList from 'components/importVoters/EligibleVotersList'
 import PreviewList from 'components/previewList/PreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
-import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { DuplicateError } from 'core/errors/DuplicateError'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -157,7 +157,7 @@ export default function CreateElectionView({
                                 <CloseDateInput />
                             </Col>
                         </Row>
-                        <EligibleVotersTable
+                        <EligibleVotersList
                             initialVoters={election?.eligibleVoters}
                             onChange={uploadEligibleVotersCallback}
                             formContext={form}
