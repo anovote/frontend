@@ -1,18 +1,18 @@
 import { StepProps, Steps } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import PushBallotIcon from 'components/icons/PushBallotIcon'
+import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
 import SquareIconButton from 'containers/button/SquareIconButton'
-import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { ElectionEventService } from 'core/service/election/ElectionEventService'
 import { useSocket } from 'core/hooks/useSocket'
+import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { IBallotStats } from 'core/models/ballot/IBallotStats'
+import { ElectionEventService } from 'core/service/election/ElectionEventService'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { ElectionParams } from './ElectionParams'
 import QueueDescription from './QueueDescription'
-import { IBallotStats } from 'core/models/ballot/IBallotStats'
-import { IStatValue } from 'components/statCard/IStatValue'
 
 const { Step } = Steps
 
@@ -25,14 +25,14 @@ export default function BallotsQueue({
     stats?: IBallotStats[]
     expandBallot?: (id: number) => void
 }): ReactElement {
-    const [current, setCurrent] = useState(0)
-    const [queue, setQueue] = useState<ReactElement<StepProps>[]>()
-    const [t] = useTranslation(['common'])
     const [socket] = useSocket()
+    const [t] = useTranslation(['common'])
+    const [current, setCurrent] = useState(0)
+    const [isLoading, setIsLoading] = useState(false)
     const { electionId } = useParams<ElectionParams>()
+    const [queue, setQueue] = useState<ReactElement<StepProps>[]>()
 
     const electionEventService: ElectionEventService = new ElectionEventService(socket)
-    const [isLoading, setIsLoading] = useState(false)
 
     const appendStats = (stats: IBallotStats | undefined): IStatValue[] | [] => {
         if (stats) {
@@ -49,9 +49,7 @@ export default function BallotsQueue({
     async function pushBallot(id: number) {
         setIsLoading(true)
         // todo #127 pushing a ballot should change some state on the ballot on the server to indicate that it has been published
-        console.log('pushing ballot with id ', id)
         const ballot = dataSource.find((ballot) => ballot.id === id)
-        console.log(ballot)
         if (ballot && electionId) {
             const electionIdInt = Number.parseInt(electionId)
             const ack = await electionEventService.broadcastBallot(ballot, electionIdInt)
@@ -63,7 +61,6 @@ export default function BallotsQueue({
         if (expandBallot) expandBallot(id)
     }
 
-    // render all ballots
     useEffect(() => {
         const statsQueue: ReactElement<StepProps>[] = []
         for (const ballot of dataSource) {
@@ -100,7 +97,9 @@ export default function BallotsQueue({
             )
         }
         setQueue(statsQueue)
+        // Re-renders queue, when stats or data source changes
     }, [dataSource, stats])
+
     return (
         <div className="ballots-queue">
             <Steps current={current} onChange={setCurrent} direction="vertical" className="queue">
