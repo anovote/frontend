@@ -35,7 +35,15 @@ export default function ElectionView(): React.ReactElement {
     useEffect(() => {
         if (!electionId) {
             // todo
-            throw new Error('missing ID')
+            history.push(getAdminRoute().elections.view, { message: t('error:Election not found'), level: 'error' })
+            return
+        }
+        if (Number.isNaN(Number.parseInt(electionId))) {
+            history.push(getAdminRoute().elections.view, {
+                message: t('error:Election ID is not a number'),
+                level: 'error',
+            })
+            return
         }
         fetchElection(electionId)
     }, [])
