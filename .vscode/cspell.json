@@ -36,6 +36,7 @@
         "onstatechange",
         "onupdatefound",
         "papaparse",
+        "popconfirm",
         "postgres",
         "postgresql",
         "precache",
