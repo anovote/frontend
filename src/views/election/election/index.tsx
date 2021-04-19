@@ -48,19 +48,14 @@ export default function ElectionView(): React.ReactElement {
         }
     }
 
-    const fetchElection = (electionId: string) => {
-        dispatch({ type: 'fetchingElection' })
-        setTimeout(() => {
-            // todo remove timeout. only here to demonstrate loading
-            electionService
-                .getElection(Number.parseInt(electionId))
-                .then((response) => {
-                    dispatch({ type: 'gotElection', election: response })
-                })
-                .catch((reason) => {
-                    dispatch({ type: 'error', message: reason })
-                })
-        }, 1000)
+    const fetchElection = async (electionId: string) => {
+        try {
+            dispatch({ type: 'fetchingElection' })
+            const response = await electionService.getElection(Number.parseInt(electionId))
+            dispatch({ type: 'gotElection', election: response })
+        } catch (error) {
+            dispatch({ type: 'error', message: error })
+        }
     }
 
     const onElectionChangeHandler = (election: IElectionEntity) => {
@@ -90,7 +85,6 @@ export default function ElectionView(): React.ReactElement {
             case ElectionStatus.Started:
                 return <ElectionInProgressView election={election} />
             case ElectionStatus.Finished:
-                // todo create view when results are finished
                 return <ElectionFinished election={election} />
             default:
                 console.error('status not set')
