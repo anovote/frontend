@@ -1,47 +1,37 @@
-import { DeleteOutlined, EditOutlined, PlayCircleFilled } from '@ant-design/icons'
+import { DeleteOutlined } from '@ant-design/icons'
 import { Col, List, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
-import PreviewList from 'components/previewList/PreviewList'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import IconButton from 'containers/button/IconButton'
 import BallotModal from 'containers/modal/BallotModal'
 import { fetchElectionStats } from 'core/helpers/fetchElectionStats'
-import { BallotEntity } from 'core/models/ballot/BallotEntity'
-import { IBallot } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { IBallotStats } from 'core/models/ballot/IBallotStats'
-import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
-import { LocalStorageService } from 'core/service/storage/LocalStorageService'
-import { StorageKeys } from 'core/service/storage/StorageKeys'
-import React, { ReactElement, useEffect, useState } from 'react'
+import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export const ElectionFinished = ({ election }: { election: IElectionEntity }): ReactElement => {
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
-    const [active, setActive] = useState(0)
-    const [stats, setStats] = useState<IBallotStats[]>([])
-    const [activeBallot, setActiveBallot] = useState<{ ballot: BallotEntity; stats: IBallotStats }>()
-    const [ballots, setballots] = useState<Array<IBallotEntity>>([])
+    const [ballotState, setBallotState] = useReducer(electionBallotReducer, {
+        ballots: [],
+        activeBallotIndex: 0,
+    })
     useEffect(() => {
-        const storageService = new LocalStorageService<StorageKeys>()
-
         fetchElectionStats(election.id)
             .then((serverStats) => {
-                console.log(serverStats)
-
-                setStats(serverStats)
+                setBallotState({ type: 'addStats', payload: serverStats })
             })
             .catch((err) => {
                 console.log(err)
             })
 
-        const b = election.ballots
-            ? election.ballots.map((ballot, index) => new BallotEntity(ballot as IBallotEntity))
+        const ballots = election.ballots
+            ? election.ballots.map((ballot) => ({ ...ballot } as IBallotEntity))
             : new Array<IBallotEntity>()
-        setballots(b)
+        setBallotState({ type: 'addBallots', payload: ballots })
     }, [])
     const deleteElectionHandler = () => {
         // todo show confirmation modal
@@ -53,41 +43,14 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
      * @param id the id to show modal for
      */
     const showModal = (id: number) => {
-        const ballot = findBallotWithId(id)
-        const stat = stats.find((s) => s.ballotId == id) as IBallotStats
-        console.log('ACTIVE')
-        console.log(stat)
-
-        if (ballot) setActiveBallot({ ballot, stats: stat })
-
-        setActive(id)
+        setBallotState({ type: 'setActiveBallot', payload: id })
         setModal(true)
     }
 
     const closeModal = () => {
         setModal(false)
-        setActive(-1)
     }
 
-    const hasNext = () => {
-        if (ballots[active + 1]) {
-            setActive(active + 1)
-        }
-    }
-
-    const hasPrevious = () => {
-        if (ballots[active - 1]) {
-            setActive(active - 1)
-        }
-    }
-
-    const findBallotWithId = (id: number) => {
-        const ballot = ballots.find((ballot) => ballot.id === id)
-        console.log(ballot)
-
-        if (!ballot) return undefined
-        return new BallotEntity(ballot)
-    }
     return (
         <>
             <Row gutter={[32, 16]} align="top">
@@ -119,20 +82,19 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                 </Col>
                 <Col span={12}>
                     <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballots.length > 0 ? (
+                    {ballotState.ballots.length > 0 ? (
                         <>
-                            <BallotsQueue dataSource={ballots} stats={stats} expandBallot={showModal} />
+                            <BallotsQueue dataSource={ballotState.ballots} expandBallot={showModal} />
                             <BallotModal
                                 showModal={modal}
-                                ballotEntity={activeBallot?.ballot}
-                                ballotStats={activeBallot?.stats}
+                                ballot={ballotState.ballots[ballotState.activeBallotIndex]}
                                 close={closeModal}
                                 controls={{
                                     next: () => {
-                                        console.log('next')
+                                        setBallotState({ type: 'nextBallot' })
                                     },
                                     previous: () => {
-                                        console.log('prev')
+                                        setBallotState({ type: 'previousBallot' })
                                     },
                                 }}
                             />

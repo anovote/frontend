@@ -1,6 +1,6 @@
 import { Spin } from 'antd'
 import { ElectionFinished } from 'components/election/ElectionFinished'
-import { ElectionInProgressView } from 'components/election/ElectionInProgress'
+import { ElectionInProgress } from 'components/election/ElectionInProgress'
 import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
 import { ElectionParams } from 'components/queue/ElectionParams'
 import { BackendAPI } from 'core/api'
@@ -83,7 +83,7 @@ export default function ElectionView(): React.ReactElement {
                     />
                 )
             case ElectionStatus.Started:
-                return <ElectionInProgressView election={election} />
+                return <ElectionInProgress election={election} />
             case ElectionStatus.Finished:
                 return <ElectionFinished election={election} />
             default:

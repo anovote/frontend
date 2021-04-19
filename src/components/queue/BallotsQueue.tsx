@@ -21,7 +21,7 @@ export default function BallotsQueue({
     stats,
     expandBallot,
 }: {
-    dataSource: IBallotEntity[]
+    dataSource: Array<{ ballot: IBallotEntity; stats: IBallotStats }>
     stats?: IBallotStats[]
     expandBallot?: (id: number) => void
 }): ReactElement {
@@ -35,6 +35,8 @@ export default function BallotsQueue({
     const electionEventService: ElectionEventService = new ElectionEventService(socket)
 
     const appendStats = (stats: IBallotStats | undefined): IStatValue[] | [] => {
+        console.log(stats)
+
         if (stats) {
             return [
                 { title: t('common:Total'), value: stats.stats.total },
@@ -49,45 +51,47 @@ export default function BallotsQueue({
     async function pushBallot(id: number) {
         setIsLoading(true)
         // todo #127 pushing a ballot should change some state on the ballot on the server to indicate that it has been published
-        const ballot = dataSource.find((ballot) => ballot.id === id)
+        const ballot = dataSource.find((ballot) => ballot.ballot.id === id)
+        console.log(ballot)
+
         if (ballot && electionId) {
             const electionIdInt = Number.parseInt(electionId)
-            const ack = await electionEventService.broadcastBallot(ballot, electionIdInt)
+            const ack = await electionEventService.broadcastBallot(ballot.ballot, electionIdInt)
+            console.log(ack)
+
             // todo button should be loading until ack is received
         }
     }
 
     const handleClick = (id: number) => {
+        console.log(id)
+
         if (expandBallot) expandBallot(id)
     }
 
     useEffect(() => {
         const statsQueue: ReactElement<StepProps>[] = []
         for (const ballot of dataSource) {
-            let ballotStat = null
-            if (stats) {
-                ballotStat = stats.find((stat) => {
-                    return stat.ballotId === ballot.id
-                })
-            }
-
             statsQueue.push(
                 // todo make loading state follow the component
                 <Step
-                    key={ballot.id}
-                    title={<Title level={4}>{ballot.title}</Title>}
+                    key={ballot.ballot.id}
+                    title={<Title level={4}>{ballot.ballot.title}</Title>}
                     subTitle={<QueueDescription winner="John Doe" />}
                     description={
                         <>
-                            {ballotStat && (
-                                <StatCard stats={appendStats(ballotStat)} onClick={() => handleClick(ballot.id)} />
+                            {ballot.stats && (
+                                <StatCard
+                                    stats={appendStats(ballot.stats)}
+                                    onClick={() => handleClick(ballot.ballot.id)}
+                                />
                             )}
 
                             <SquareIconButton
                                 text={t('common:Push ballot')}
                                 tabIndex={0}
                                 classId="push-ballot-button"
-                                onClick={() => pushBallot(ballot.id)}
+                                onClick={() => pushBallot(ballot.ballot.id)}
                             >
                                 <PushBallotIcon spin={isLoading} />
                             </SquareIconButton>
