@@ -35,8 +35,6 @@ export default function BallotsQueue({
     const electionEventService: ElectionEventService = new ElectionEventService(socket)
 
     const appendStats = (stats: IBallotStats | undefined): IStatValue[] | [] => {
-        console.log(stats)
-
         if (stats) {
             return [
                 { title: t('common:Total'), value: stats.stats.total },
@@ -52,20 +50,14 @@ export default function BallotsQueue({
         setIsLoading(true)
         // todo #127 pushing a ballot should change some state on the ballot on the server to indicate that it has been published
         const ballot = dataSource.find((ballot) => ballot.ballot.id === id)
-        console.log(ballot)
-
         if (ballot && electionId) {
             const electionIdInt = Number.parseInt(electionId)
             const ack = await electionEventService.broadcastBallot(ballot.ballot, electionIdInt)
-            console.log(ack)
-
             // todo button should be loading until ack is received
         }
     }
 
     const handleClick = (id: number) => {
-        console.log(id)
-
         if (expandBallot) expandBallot(id)
     }
 
