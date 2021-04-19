@@ -1,5 +1,7 @@
 {
   "Add manually": "Add manually",
+  "Are you sure you want to cancel": "Are you sure you want to cancel?",
+  "Cancel": "Cancel",
   "Email is not valid": "Email is not valid",
   "Error in form": "Error in form",
   "Is required": "Field is required",
@@ -13,6 +15,7 @@
   "Must contain uppercase plural": "$t(form:Must contain) {{count}} uppercase characters",
   "Must have at least one": "Must have at least one {{field}}",
   "Must match": "Must match {{field}}",
+  "No": "No",
   "Password validation": "Minimum 8 characters, one uppercase, one numeric and one special",
   "Please provide a password": "Please provide a password",
   "Please provide email": "Please provide email",
@@ -27,6 +30,7 @@
   "User was registered": "User was registered",
   "Wrong email password": "Wrong email/password",
   "Wrong email/password": "Wrong email/password",
+  "Yes": "Yes",
   "add-new-email": "Add new email",
   "go-to-login": "Go to Login",
   "max-length": "Max length is {{maxLength}}"
