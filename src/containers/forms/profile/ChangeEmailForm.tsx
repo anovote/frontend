@@ -30,14 +30,14 @@ export default function ChangeEmailForm(): ReactElement {
                     type: 'add',
                     level: 'error',
                     message: t('common:Something went wrong'),
-                    description: `${t('profile:Email is already in use').toLocaleLowerCase()}`,
+                    description: t('common:Try again later'),
                 })
             } else {
                 dispatchAlert({
                     type: 'add',
                     level: 'error',
                     message: t('common:Something went wrong'),
-                    description: t('common:Try again later'),
+                    description: `${t('profile:Email is already in use').toLocaleLowerCase()}`,
                 })
             }
         }
