@@ -86,7 +86,6 @@ describe('update election', () => {
         )
 
         const title = screen.getByTestId('title') as HTMLInputElement
-        console.log(title.value)
         expect(title.value).toEqual(election.title)
         const description = screen.getByText(election.description) as HTMLTextAreaElement
         expect(description.value).toEqual(election.description)
