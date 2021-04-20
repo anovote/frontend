@@ -43,7 +43,7 @@ export const ProtectedRoute = (props: IPrivateRouteProps): ReactElement | null =
      */
     function getRenderComponent(routeProps: RouteComponentProps) {
         let renderComponent: ReactElement | ReactNode | null | undefined
-        let redirectPath = '/'
+        let redirectPath = '/login'
 
         if (path?.includes(getBaseRoute().admin)) {
             redirectPath = '/login'
