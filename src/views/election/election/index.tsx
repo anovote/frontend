@@ -27,7 +27,7 @@ export default function ElectionView(): React.ReactElement {
     }
     const [{ isLoading, election, edit }, dispatch] = useReducer(reducer, initialState)
     const history = useHistory<AlertState>()
-    const [t] = useTranslation('error')
+    const [t] = useTranslation(['error', 'election'])
 
     const { electionId } = useParams<ElectionParams>()
     const electionService = new ElectionService(BackendAPI)
@@ -88,6 +88,11 @@ export default function ElectionView(): React.ReactElement {
             try {
                 await electionService.delete(election)
                 dispatch({ type: 'deleteSuccess' })
+                const message = t('election:Delete was successful')
+                history.push(getAdminRoute().elections.view, {
+                    message,
+                    level: 'info',
+                })
             } catch ({ message }) {
                 dispatch({ type: 'error', message })
             }
