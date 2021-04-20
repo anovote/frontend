@@ -58,6 +58,7 @@ const adminRoute = () => {
             const organizerPath = path.append('electionOrganizer')
             return {
                 changePassword: organizerPath.append('changePassword').get(),
+                changeEmail: organizerPath.append('changeEmail').get(),
             }
         },
     }
