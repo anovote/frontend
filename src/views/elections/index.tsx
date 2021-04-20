@@ -44,7 +44,7 @@ export default function ElectionsView(): React.ReactElement {
                 setInProgress(started)
                 setFinished(finished)
 
-                if (location.state) {
+                if (location.state && location.state.message !== '') {
                     dispatchAlert({
                         type: 'add',
                         level: location.state.level,
