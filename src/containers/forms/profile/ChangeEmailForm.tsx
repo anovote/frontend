@@ -21,7 +21,7 @@ export default function ChangeEmailForm(): ReactElement {
             dispatchAlert({
                 type: 'add',
                 level: 'success',
-                message: t('profile:Email'),
+                message: t('profile:Email changed'),
                 description: t('profile:Your email was changed'),
             })
         } catch (error) {
