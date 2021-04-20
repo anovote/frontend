@@ -5,7 +5,7 @@ export default function ElectionTitleInput(): React.ReactElement {
     const [t] = useTranslation('form')
     return (
         <Form.Item name="title" rules={[{ required: true, message: t('form:Please fill in a title') }]}>
-            <Input placeholder="Title"></Input>
+            <Input data-testid="title" placeholder="Title"></Input>
         </Form.Item>
     )
 }
