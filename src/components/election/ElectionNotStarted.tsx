@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined, PlayCircleFilled } from '@ant-design/icons'
-import { Col, List, Row, Space } from 'antd'
+import { Col, List, Popconfirm, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import BallotPreviewList from 'components/previewList/BallotPreviewList'
@@ -15,15 +15,11 @@ export const ElectionNotStarted = ({
     election,
     onElectionChange,
     onElectionEdit,
-}: {
-    election: IElectionEntity
-    onElectionChange: (election: IElectionEntity) => void
-    onElectionEdit: () => void
-}): ReactElement => {
-    const [t] = useTranslation('common')
+}: ElectionNotStartedProps): ReactElement => {
+    const [t] = useTranslation(['common', 'election'])
     const deleteElectionHandler = () => {
         // todo show confirmation modal
-        console.log('handle click')
+        onElectionChange(election, true)
     }
 
     let timerId: NodeJS.Timeout | undefined = undefined
@@ -68,12 +64,19 @@ export const ElectionNotStarted = ({
                                     onClick={changeElectionToStarted}
                                     color="green"
                                 />
-                                <IconButton
-                                    icon={<DeleteOutlined />}
-                                    text="Delete"
-                                    onClick={deleteElectionHandler}
-                                    color="red"
-                                />
+                                <Popconfirm
+                                    title={t('election:Are you sure you want to delete the election')}
+                                    onConfirm={deleteElectionHandler}
+                                >
+                                    <IconButton
+                                        icon={<DeleteOutlined />}
+                                        text="Delete"
+                                        onClick={() => {
+                                            return
+                                        }}
+                                        color="red"
+                                    />
+                                </Popconfirm>
                             </Space>
                         </Col>
                         <Col>
@@ -102,4 +105,10 @@ export const ElectionNotStarted = ({
             </Row>
         </>
     )
+}
+
+interface ElectionNotStartedProps {
+    election: IElectionEntity
+    onElectionChange: (election: IElectionEntity, toDelete?: boolean) => void
+    onElectionEdit: () => void
 }
