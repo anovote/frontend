@@ -1,8 +1,8 @@
+import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
+import { unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 import { mockMatchMedia } from '../../../mocks/mockMatchMedia'
-
 import CreateElectionView from './index'
 
 let container: Element | DocumentFragment
@@ -21,16 +21,19 @@ afterEach(() => {
 
 it('Display error on empty fields after create election is clicked', async () => {
     await act(async () => {
-        render(<CreateElectionView initialElection={undefined} />, container)
-        const btn: HTMLButtonElement = container.querySelector('.create-election-button') as HTMLButtonElement
-        btn?.click()
-        return await new Promise((resolve) => {
-            setTimeout(() => {
-                resolve()
-            }, 200)
-        })
+        render(
+            <CreateElectionView
+                initialElection={undefined}
+                onAbort={() => {
+                    return
+                }}
+            />,
+        )
+
+        fireEvent.submit(screen.getByTestId('description-form'))
     })
-    const list = [...container.querySelectorAll('.ant-form-item-explain')]
-    expect(list[0]).toBeTruthy()
-    expect(list[1]).toBeTruthy()
+    const titleAlert = await screen.findByText('form:Please fill in a title')
+    const descriptionAlert = await screen.findByText('form:Please fill in a description')
+    expect(titleAlert).toBeTruthy()
+    expect(descriptionAlert).toBeTruthy()
 })
