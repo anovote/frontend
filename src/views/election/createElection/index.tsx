@@ -145,6 +145,7 @@ export default function CreateElectionView({
                         name="description-form"
                         onFinish={onFinishedHandler}
                         initialValues={initialElection}
+                        data-testid="description-form"
                     >
                         <ElectionTitleInput />
                         <ElectionDescriptionInput />
