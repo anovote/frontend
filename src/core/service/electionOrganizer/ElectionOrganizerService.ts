@@ -1,6 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { ChangePasswordInterface } from 'containers/forms/profile/ChangePasswordForm'
-import { PasswordDoesNotMatchError, PasswordIsNotValidError } from 'core/errors/customErrors'
+import { InvalidEmail, PasswordDoesNotMatchError, PasswordIsNotValidError } from 'core/errors/customErrors'
 import { apiRoutes } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
 
@@ -23,6 +23,29 @@ export class ElectionOrganizerService {
         return await this.changePassword(newPasswords.password1)
     }
 
+    /**
+     * If the validated email is successfully validated, a request for changing the
+     * email would be sent.
+     * @param newEmail the new email the user want to change to
+     * @returns the answer of the request, true if successful
+     */
+    async changeEmail(newEmail: string): Promise<boolean> {
+        const sanitized = this.validateEmail(newEmail)
+        try {
+            await this._httpClient.put(apiRoutes.admin.organizer().changeEmail, { newEmail: sanitized })
+            return true
+        } catch (error) {
+            if (error.isAxiosError) {
+                const axiosError: AxiosError = error
+                if (axiosError.response?.status === StatusCodes.BAD_REQUEST) {
+                    throw new Error('Bad request')
+                }
+            }
+            throw error
+        }
+        return false
+    }
+
     private async changePassword(newPassword: string) {
         try {
             await this._httpClient.put(apiRoutes.admin.organizer().changePassword, { newPassword })
@@ -35,6 +58,16 @@ export class ElectionOrganizerService {
             }
             throw error
         }
+    }
+
+    private validateEmail(newEmail: string): string {
+        const lowercaseMail = newEmail.toLowerCase()
+        const trimmedMail = lowercaseMail.trim()
+        const emailRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
+        if (!emailRegex.test(newEmail)) {
+            throw new InvalidEmail()
+        }
+        return trimmedMail
     }
 
     private validatePassword(newPasswords: ChangePasswordInterface): string {

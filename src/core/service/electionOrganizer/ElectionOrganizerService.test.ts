@@ -63,3 +63,21 @@ it('should resolve if password is between 8 and 225 characters', async () => {
     passwords = { password1: password, password2: password }
     await expect(es.validateAndChangePassword(passwords)).resolves.toBe(undefined)
 })
+
+it('should update email for user if email is correct', async () => {
+    await expect(es.changeEmail('test@gmail.com')).resolves.toBe(true)
+})
+
+it('should update email for user if email is correct but wrong form', async () => {
+    await expect(es.changeEmail('    test@gmail.com')).resolves.toBe(true)
+    await expect(es.changeEmail('test@gmail.com     ')).resolves.toBe(true)
+    await expect(es.changeEmail('      test@gmail.com     ')).resolves.toBe(true)
+    await expect(es.changeEmail('TEST@GMAIL.com')).resolves.toBe(true)
+})
+
+it('should not update email for user if email is wrongfully submitted', async () => {
+    await expect(es.changeEmail('test      @mail.com')).resolves.toBe(false)
+    await expect(es.changeEmail('test@     mail.com')).resolves.toBe(false)
+    await expect(es.changeEmail('test    @          mail.com')).resolves.toBe(false)
+    await expect(es.changeEmail('test@mail .      com')).resolves.toBe(false)
+})
