@@ -34,7 +34,6 @@ export default function ElectionView(): React.ReactElement {
 
     useEffect(() => {
         if (!electionId) {
-            // todo
             history.push(getAdminRoute().elections.view, { message: t('error:Election not found'), level: 'error' })
             return
         }
