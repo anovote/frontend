@@ -7,6 +7,7 @@ import SquareIconButton from 'containers/button/SquareIconButton'
 import { useSocket } from 'core/hooks/useSocket'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
+import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { ElectionEventService } from 'core/service/election/ElectionEventService'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -61,6 +62,31 @@ export default function BallotsQueue({
         if (expandBallot) expandBallot(id)
     }
 
+    /**
+     *  Returns the current leading candidate for a ballot. If there are no available leaders,
+     * undefined is returned.
+     * @param stats ballot stats for the ballot
+     * @param ballot ballot to get leader of
+     * @returns returns current leader of the ballot or undefined
+     */
+    const getBallotLeader = (stats: IBallotStats, ballot: IBallotEntity) => {
+        let votes = -1
+        let leadingCandidate
+        for (const candidate of stats.stats.candidates) {
+            if (candidate.votes > votes) {
+                const candidateEntity = ballot.candidates.find(
+                    (ballotCandidate) => candidate.id === (ballotCandidate as ICandidateEntity).id,
+                )
+                if (candidateEntity) {
+                    votes = candidate.votes
+                    leadingCandidate = candidateEntity.candidate
+                }
+            }
+        }
+
+        return leadingCandidate
+    }
+
     useEffect(() => {
         const statsQueue: ReactElement<StepProps>[] = []
         for (const ballot of dataSource) {
@@ -69,7 +95,7 @@ export default function BallotsQueue({
                 <Step
                     key={ballot.ballot.id}
                     title={<Title level={4}>{ballot.ballot.title}</Title>}
-                    subTitle={<QueueDescription winner="John Doe" />}
+                    subTitle={<QueueDescription winner={getBallotLeader(ballot.stats, ballot.ballot)} />}
                     description={
                         <>
                             {ballot.stats && (
