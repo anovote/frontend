@@ -39,8 +39,8 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
     useEffect(() => {
         const candidates = addBlankCandidate(ballot.candidates)
-        setBallotState({ ...ballotState, candidates })
-    }, [])
+        setBallotState({ ...ballot, candidates })
+    }, [ballot])
 
     /**
      * Handles the change of clicked candidate(s) according to
