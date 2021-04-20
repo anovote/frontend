@@ -1,7 +1,9 @@
-import { Alert, Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
+import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationDetails } from 'core/service/authentication/AuthenticationDetails'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
@@ -11,7 +13,7 @@ import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateConte
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Redirect, useHistory } from 'react-router-dom'
+import { Redirect, useHistory, useLocation } from 'react-router-dom'
 
 /**
  * Logins view
@@ -20,15 +22,19 @@ import { Redirect, useHistory } from 'react-router-dom'
 export default function LoginView(): React.ReactElement {
     const authService = new AuthenticationService(BackendAPI, new LocalStorageService())
     const [t] = useTranslation(['translation', 'common', 'form'])
-    const [errorMessage, setErrorMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
-    const history = useHistory()
+    const history = useHistory<AlertState>()
+    const location = useLocation<AlertState>()
     const { isLoggedIn } = useAppState()
     const [isLoading, setIsLoading] = useState(false)
 
+    const [alertStates, dispatchAlert] = useAlert([
+        location.state
+            ? { message: location.state.message, level: location.state.level }
+            : { message: '', level: undefined },
+    ])
+
     const formValidated = async (form: AuthenticationDetails) => {
-        setIsLoading(true)
-        setErrorMessage('')
         try {
             setIsLoading(false)
             await authService.authenticateOrganizer(form)
@@ -37,9 +43,9 @@ export default function LoginView(): React.ReactElement {
         } catch (error) {
             setIsLoading(false)
             if (error instanceof CredentialError) {
-                setErrorMessage(t('form:Wrong email password'))
+                dispatchAlert({ type: 'add', level: 'error', message: t('profile:Wrong email or password') })
             } else {
-                setErrorMessage(t('form:Something went wrong'))
+                dispatchAlert({ type: 'add', level: 'error', message: t('common:Something went wrong') })
             }
         }
     }
@@ -52,7 +58,7 @@ export default function LoginView(): React.ReactElement {
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="login-form">
                     <div className="error-field">
-                        {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
+                        <AlertList alerts={alertStates} />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
                         <Form.Item

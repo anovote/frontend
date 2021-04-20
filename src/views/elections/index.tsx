@@ -1,26 +1,29 @@
-import { Alert, AlertProps, Space } from 'antd'
+import { Space } from 'antd'
 import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
+import { AlertList } from 'components/alert/AlertList'
 import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
 import { BackendAPI } from 'core/api'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { ElectionEntity } from 'core/models/election/ElectionEntity'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { ElectionService } from 'core/service/election/ElectionService'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router-dom'
-import { AlertState } from '../../core/state/AlertState'
 
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common', 'election'])
+
     const [upcoming, setUpcoming] = useState([] as ElectionEntity[])
     const [inProgress, setInProgress] = useState([] as ElectionEntity[])
     const [finished, setFinished] = useState([] as ElectionEntity[])
-    const [alert, setAlert] = useState<AlertProps>()
     const location = useLocation<AlertState>()
     const history = useHistory<AlertState>()
+
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         new ElectionService(BackendAPI)
@@ -42,7 +45,12 @@ export default function ElectionsView(): React.ReactElement {
                 setFinished(finished)
 
                 if (location.state) {
-                    setAlert(location.state.alertProps)
+                    dispatchAlert({
+                        type: 'add',
+                        level: location.state.level,
+                        message: location.state.message,
+                        description: location.state.description,
+                    })
                     resetHistoryState()
                 }
             })
@@ -56,7 +64,7 @@ export default function ElectionsView(): React.ReactElement {
      * The history location should stay intact
      */
     const resetHistoryState = () => {
-        const state: AlertState = { alertProps: undefined }
+        const state: AlertState = { message: '', level: undefined }
         history.replace({ ...history.location, state })
     }
 
@@ -74,14 +82,7 @@ export default function ElectionsView(): React.ReactElement {
 
     return (
         <>
-            {alert && (
-                <Alert
-                    {...alert}
-                    onClose={() => {
-                        setAlert(undefined)
-                    }}
-                />
-            )}
+            <AlertList alerts={alertStates} />
             <Title>{t('common:Elections')}</Title>
             <Space align="start" wrap={true}>
                 <CardList

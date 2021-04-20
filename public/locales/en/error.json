@@ -1,4 +1,10 @@
 {
+    "All elections must be unique": "All elections must be unique",
+    "Election Organizer not logged in": "Election Organizer not logged in",
+    "Please provide an unique title": "Please provide an unique title",
+    "Please try again later": "Please try again later",
+    "Something went wrong": "Something went wrong",
+    "The election organizer needs to be logged in to create an election": "The election organizer needs to be logged in to create an election",
     "Already verified": "You are already verified on a device",
     "Election do not exist": "The election do not exist",
     "Election is finished": "The election is finished or closed",

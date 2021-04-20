@@ -1,12 +1,13 @@
-import { Alert, AlertProps, Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input, Space } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
+import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
 import { RegistrationDetails } from 'core/service/registration/RegistrationDetails'
 import { RegistrationService } from 'core/service/registration/RegistrationService'
-import { AlertState } from 'core/state/AlertState'
 import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next/'
@@ -16,31 +17,32 @@ export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
 
     const [t] = useTranslation(['form', 'common'])
-    const [errorMessage, setErrorMessage] = React.useState('')
-    const [successMessage, setSuccessMessage] = React.useState('')
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory<AlertState>()
     const { isLoggedIn } = useAppState()
 
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
-            setErrorMessage('')
             try {
                 await registrationService.registerOrganizer(form)
-                setSuccessMessage(t('form:User was registered'))
-
+                dispatchAlert({ type: 'add', level: 'success', message: t('form:User was registered') })
                 appDispatcher.setLoginState(AuthLevel.organizer)
-                const alertProps: AlertProps = { message: successMessage }
-                history.replace(getAdminRoute().elections.view, { alertProps })
+                history.replace(getAdminRoute().elections.view, alertStates[0])
             } catch (error) {
                 if (error instanceof CredentialError) {
-                    setErrorMessage(t('form:Error in form'))
+                    dispatchAlert({ type: 'add', level: 'error', message: t('form:Error in form') })
                 } else {
-                    setErrorMessage(t('form:Something went wrong'))
+                    dispatchAlert({ type: 'add', level: 'error', message: t('form:Something went wrong') })
                 }
             }
         } else {
-            setErrorMessage(t('form:Must be equal', { field: t('common:Password').toLowerCase() }))
+            dispatchAlert({
+                type: 'add',
+                level: 'error',
+                message: t('form:Must be equal', { field: t('common:Password').toLowerCase() }),
+            })
         }
     }
 
@@ -52,8 +54,7 @@ export default function RegisterView(): React.ReactElement {
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="register-form">
                     <div className="alert-field">
-                        {!!successMessage && <Alert message={successMessage} type={'success'} showIcon closable />}
-                        {!!errorMessage && <Alert message={errorMessage} type={'warning'} showIcon closable />}
+                        <AlertList alerts={alertStates} />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
                         <Form.Item

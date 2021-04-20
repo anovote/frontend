@@ -1,20 +1,21 @@
-import { AlertProps, Button, Space, Alert } from 'antd'
+import { Button, Space } from 'antd'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import { RadioChangeEvent } from 'antd/lib/radio'
 import Title from 'antd/lib/typography/Title'
+import { AlertList } from 'components/alert/AlertList'
 import BallotTypeDisplay from 'components/BallotTypeDisplay/BallotTypeDisplay'
 import CandidateList from 'components/CandidateList/CandidateList'
+import { BackendAPI } from 'core/api'
+import { Events } from 'core/events'
+import { useAlert } from 'core/hooks/useAlert'
+import { useSocket } from 'core/hooks/useSocket'
 import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { ICandidateEntity } from 'core/models/ballot/ICandidate'
+import { ICandidate, ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
-import React, { ReactElement, useReducer, useState } from 'react'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
-import { Events } from 'core/events'
-import { useSocket } from 'core/hooks/useSocket'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
-import { BackendAPI } from 'core/api'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 
@@ -31,7 +32,15 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
     const [t] = useTranslation(['common'])
     const [socket] = useSocket()
-    const [alertProps, setAlertProps] = useState<AlertProps>()
+
+    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+
+    const [ballotState, setBallotState] = useState<IBallotEntity>(ballot)
+
+    useEffect(() => {
+        const candidates = addBlankCandidate(ballot.candidates)
+        setBallotState({ ...ballotState, candidates })
+    }, [])
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -88,17 +97,17 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
         switch (ballot.type) {
             case BallotType.SINGLE: {
                 if (!socket.connected) {
-                    const newAlertProps: AlertProps = {
-                        message: t('Could not connect to the server'),
-                        type: 'error',
-                    }
-                    setAlertProps(newAlertProps)
+                    dispatchAlert({
+                        type: 'add',
+                        level: 'error',
+                        message: t('common:Could not connect to the server'),
+                    })
                 } else if (selected === 0) {
-                    const newAlertProps: AlertProps = {
-                        message: t('You need to select a candidate'),
-                        type: 'error',
-                    }
-                    setAlertProps(newAlertProps)
+                    dispatchAlert({
+                        type: 'add',
+                        level: 'error',
+                        message: t('common:You need to select a candidate'),
+                    })
                 } else {
                     socket.emit(
                         Events.client.vote.submit,
@@ -112,11 +121,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                             console.log('Callback handled here')
                         },
                     )
-                    const newAlertProps: AlertProps = {
-                        message: t('Your vote was submitted'),
-                        type: 'success',
-                    }
-                    setAlertProps(newAlertProps)
+                    dispatchAlert({ type: 'add', level: 'success', message: t('common:Your vote was submitted') })
                 }
                 break
             }
@@ -133,12 +138,35 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
         }
     }
 
+    /**
+     * Adds a blank candidate alternative to the candidate list.
+     * @param candidates the list of candidates
+     * @returns new list of candidate with a blank alternative
+     */
+    const addBlankCandidate = (candidates: ICandidate[]) => {
+        const blankCandidate: ICandidate = { candidate: 'blank' /*, id: candidates.length + 1*/ }
+        if (checkForDuplicateBlank(candidates)) {
+            return candidates
+        }
+        candidates.push(blankCandidate)
+        return candidates
+    }
+
+    /**
+     * Checks a list of candidates to see if it has a blank alternative
+     * @param candidates the list of candidates
+     * @returns true or false
+     */
+    const checkForDuplicateBlank = (candidates: ICandidate[]) => {
+        return candidates.find((candidate) => candidate.candidate === 'blank' || candidate.candidate === null)
+    }
+
     return (
         <div className="voter-display">
-            <BallotTypeDisplay type={ballot.type} />
+            <BallotTypeDisplay type={ballotState.type} />
             <Space className="width-100 spread">
                 <Title level={5}>
-                    {t('common:Candidate_plural')}: {ballot.candidates.length}
+                    {t('common:Candidate_plural')}: {ballotState.candidates.length}
                 </Title>
                 <Title level={5}>
                     {t('common:Selected')} ({selected})
@@ -148,24 +176,16 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 </Button>
             </Space>
             <CandidateList
-                typeOfSelection={ballot.type}
-                candidates={ballot.candidates as ICandidateEntity[]}
+                typeOfSelection={ballotState.type}
+                candidates={ballotState.candidates as ICandidateEntity[]}
                 onChange={onChange}
-                selection={ballot.type == BallotType.SINGLE ? selection.single : selection.multiple}
+                selection={ballotState.type == BallotType.SINGLE ? selection.single : selection.multiple}
             />
             <Button type="primary" shape="round" onClick={submitVote}>
                 {t('common:Submit vote')}
             </Button>
             <div className="alert-field">
-                {!!alertProps && (
-                    <Alert
-                        message={alertProps?.message}
-                        description={alertProps?.description}
-                        type={alertProps?.type}
-                        showIcon
-                        closable
-                    />
-                )}
+                <AlertList alerts={alertStates} />
             </div>
         </div>
     )
