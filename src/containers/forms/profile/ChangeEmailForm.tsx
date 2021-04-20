@@ -30,7 +30,7 @@ export default function ChangeEmailForm(): ReactElement {
                     type: 'add',
                     level: 'error',
                     message: t('common:Something went wrong'),
-                    description: `${t('common:Password')} ${t('form:Must match').toLocaleLowerCase()}`,
+                    description: `${t('profile:Email is already in use').toLocaleLowerCase()}`,
                 })
             } else {
                 dispatchAlert({

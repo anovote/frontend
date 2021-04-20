@@ -1,10 +1,11 @@
 {
-    "Change email": "Change email",
-    "Change password": "Change password",
-    "Email changed": "Email changed",
-    "Password changed": "Password changed",
-    "Update profile": "Update profile",
-    "Wrong email or password": "Wrong email or password",
-    "Your email was changed": "Your email was changed",
-    "Your password changed": "Your password was successfully changed"
+  "Change email": "Change email",
+  "Change password": "Change password",
+  "Email changed": "Email changed",
+  "Email is already in use": "Email is already in use",
+  "Password changed": "Password changed",
+  "Update profile": "Update profile",
+  "Wrong email or password": "Wrong email or password",
+  "Your email was changed": "Your email was changed",
+  "Your password changed": "Your password was successfully changed"
 }
