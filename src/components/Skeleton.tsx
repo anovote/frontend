@@ -27,7 +27,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const history = useHistory()
     const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
-    const [organizer, setOrganizer] = useState({} as IElectionOrganizer)
+    const [organizer, setOrganizer] = useState<IElectionOrganizer>({} as IElectionOrganizer)
 
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
@@ -44,9 +44,17 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
 
     const fetchOrganizer = useCallback(async () => {
         const electionOrganizerService = new ElectionOrganizerService(BackendAPI)
-        const organizer = await electionOrganizerService.fetchOrganizer()
-        if (organizer) setOrganizer(organizer)
-        console.log(organizer)
+        try {
+            const organizer = await electionOrganizerService.fetchOrganizer()
+            if (organizer) setOrganizer(organizer)
+        } catch (error) {
+            const organizer = {
+                firstName: t('common:Your'),
+                lastName: t('common:Name'),
+                email: 'example@mail.com',
+            } as IElectionOrganizer
+            setOrganizer(organizer)
+        }
     }, [organizer])
 
     //function onSearch() {

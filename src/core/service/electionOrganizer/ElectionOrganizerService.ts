@@ -30,12 +30,7 @@ export class ElectionOrganizerService {
                 return organizer
             }
         } catch (error) {
-            if (error.isAxiosError) {
-                const axiosError: AxiosError = error
-                if (axiosError.response?.status == StatusCodes.BAD_REQUEST) {
-                    throw new Error('Bad request')
-                }
-            }
+            throw new Error('Something happened')
         }
     }
 
