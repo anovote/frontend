@@ -25,9 +25,14 @@ export default function BallotModal({
     const [t] = useTranslation(['translation', 'common'])
     const { previous, next } = controls
     // cross reference stats with a candidate
-    const diagramStats = ballot.stats.stats.candidates.map((stat, index) => {
-        return { ...stat, candidate: ballot.ballot.candidates[index].candidate }
-    })
+    const diagramStats = ballot.stats.stats.candidates
+        .map((stat, index) => {
+            return { ...stat, candidate: ballot.ballot.candidates[index].candidate }
+        })
+        // Sorts ballots in decreasing order
+        .sort((statsA, statsB) => {
+            return statsB.votes - statsA.votes
+        })
 
     const config = {
         width: 600,
