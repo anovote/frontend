@@ -30,7 +30,7 @@ const initialState = {
 export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity }): ReactElement {
     const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
-    const [t] = useTranslation(['common'])
+    const [t] = useTranslation(['common', 'ballot'])
     const [socket] = useSocket()
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
@@ -144,7 +144,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
      * @returns new list of candidate with a blank alternative
      */
     const addBlankCandidate = (candidates: ICandidate[]) => {
-        const blankCandidate: ICandidate = { candidate: 'blank' /*, id: candidates.length + 1*/ }
+        const blankCandidate: ICandidate = { candidate: t('ballot:Blank') /*, id: candidates.length + 1*/ }
         if (checkForDuplicateBlank(candidates)) {
             return candidates
         }
