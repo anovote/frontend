@@ -1,7 +1,12 @@
-import { Col, Row, Space } from 'antd'
+import { CloseOutlined } from '@ant-design/icons'
+import { Col, Divider, Row, Space } from 'antd'
+import { Gutter } from 'antd/lib/grid/row'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
+import ElectionStatusLabel from 'components/ElectionStatusLabel'
+import CloseElectionIcon from 'components/icons/CloseElectionIcon'
 import BallotsQueue from 'components/queue/BallotsQueue'
+import IconButton from 'containers/button/IconButton'
 import BallotModal from 'containers/modal/BallotModal'
 import { Events } from 'core/events'
 import { useSocket } from 'core/hooks/useSocket'
@@ -15,6 +20,7 @@ import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { TupleType } from 'typescript'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
 const authEvent = (socket: AnoSocket, electionId: number) => {
@@ -107,15 +113,33 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
 
     return (
         <>
-            <Row gutter={16}>
+            <Row justify="space-between" align="middle">
                 <Col>
-                    <Space direction="vertical">
-                        <Title level={1}>{election.title}</Title>
+                    <Title level={1}>{election.title}</Title>
+                </Col>
+                <Col>
+                    <ElectionStatusLabel status={election.status} />
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <IconButton
+                        icon={<CloseElectionIcon />}
+                        text="Close Election"
+                        onClick={() => console.log('aaa')}
+                        color="red"
+                    />
+                </Col>
+            </Row>
+            <Divider />
+            <Row wrap={true} justify="start" gutter={[64, 32]}>
+                <Col flex="none">
+                    <Space size={16} direction="vertical">
                         <ElectionStatusCard election={election} />
                         <ConnectedVoters />
                     </Space>
                 </Col>
-                <Col span={12}>
+                <Col flex="auto">
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballots.length > 0 ? (
                         <>
