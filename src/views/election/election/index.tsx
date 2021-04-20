@@ -50,17 +50,14 @@ export default function ElectionView(): React.ReactElement {
 
     const fetchElection = (electionId: string) => {
         dispatch({ type: 'fetchingElection' })
-        setTimeout(() => {
-            // todo remove timeout. only here to demonstrate loading
-            electionService
-                .getElection(Number.parseInt(electionId))
-                .then((response) => {
-                    dispatch({ type: 'gotElection', election: response })
-                })
-                .catch((reason) => {
-                    dispatch({ type: 'error', message: reason })
-                })
-        }, 1000)
+        electionService
+            .getElection(Number.parseInt(electionId))
+            .then((response) => {
+                dispatch({ type: 'gotElection', election: response })
+            })
+            .catch((reason) => {
+                dispatch({ type: 'error', message: reason })
+            })
     }
 
     const onElectionChangeHandler = (election: IElectionEntity) => {
