@@ -55,13 +55,18 @@ export function ElectionStatusCard({ election }: { election: IElectionEntity }):
                 <span className="field-not-relevant"> {new Date().toLocaleDateString()}</span>
             ),
         },
-        {
+    ]
+
+    if (election.status === ElectionStatus.Started) {
+        details.push({
             icon: <ClockCircleOutlined />,
             colorClass: 'main-light',
             title: t('election:Time elapsed'),
-            // TODO! implement logic to set timer on states from current election
-            text: <CountUpTimer />,
-        },
+            text: <CountUpTimer initialTime={election.openDate ? election.openDate.getTime() : Date.now()} />,
+        })
+    }
+
+    details.push(
         {
             icon: <ForwardOutlined />,
             colorClass: 'main-light',
@@ -74,12 +79,7 @@ export function ElectionStatusCard({ election }: { election: IElectionEntity }):
             title: t('election:Authentication method'),
             text: t('common:Email'),
         },
-        {
-            icon: <SafetyOutlined />,
-            colorClass: 'main-light',
-            title: t('common:Password'),
-            text: election.password ? <PasswordShowHide password={election.password} /> : <span>----</span>,
-            // todo #135 password is not returned by the server. Do we need it to?
+    )
         },
     ]
 
