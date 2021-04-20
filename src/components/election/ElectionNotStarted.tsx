@@ -2,7 +2,7 @@ import { DeleteOutlined, EditOutlined, PlayCircleFilled } from '@ant-design/icon
 import { Col, List, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
-import PreviewList from 'components/previewList/PreviewList'
+import BallotPreviewList from 'components/previewList/BallotPreviewList'
 import IconButton from 'containers/button/IconButton'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
@@ -94,7 +94,7 @@ export const ElectionNotStarted = ({
                 <Col span={12}>
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballots.length > 0 ? (
-                        <PreviewList initialElection={election} onChange={onChangeHandler} />
+                        <BallotPreviewList initialElection={election} onChange={onChangeHandler} />
                     ) : (
                         <div>{t('common:no-ballots')}</div>
                     )}

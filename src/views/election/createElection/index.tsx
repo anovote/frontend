@@ -9,7 +9,7 @@ import ElectionTitleInput from 'components/election/ElectionTitleInput'
 import OpenDateInput from 'components/election/OpenDateInput'
 import SaveElectionButton from 'components/election/SaveElectionButton'
 import EligibleVotersTable from 'components/importVoters/EligibleVotersTable'
-import PreviewList from 'components/previewList/PreviewList'
+import BallotPreviewList from 'components/previewList/BallotPreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { AlertState, useAlert } from 'core/hooks/useAlert'
@@ -176,7 +176,7 @@ export default function CreateElectionView({
                 </Col>
                 <Col span={12} className="ballot-section">
                     <Title level={2}>{t('common:Ballots')}</Title>
-                    <PreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
+                    <BallotPreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
                 </Col>
             </Row>
             <div className="alert-field">

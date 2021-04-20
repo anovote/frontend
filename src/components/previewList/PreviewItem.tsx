@@ -3,12 +3,12 @@ import { Button, Space } from 'antd'
 import * as React from 'react'
 
 export default function PreviewItem({
-    itemTitle,
+    children,
     id,
     onEdit,
     onDelete,
 }: {
-    itemTitle?: string
+    children?: string
     id: string | number
     onEdit: (id: string | number) => void
     onDelete: (id: string | number) => void
@@ -20,8 +20,8 @@ export default function PreviewItem({
         onDelete(id)
     }
     return (
-        <div className="preview-item" key={id}>
-            {itemTitle}
+        <div className="preview-item">
+            {children}
             <Space direction={'horizontal'}>
                 <Button type="text" icon={<EditFilled />} onClick={onEditHandler}></Button>
                 <Button type="text" icon={<CloseOutlined />} onClick={onDeleteHandler}></Button>
