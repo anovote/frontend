@@ -112,7 +112,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                     socket.emit(
                         Events.client.vote.submit,
                         {
-                            candidate: selection.single,
+                            candidate: Number.isInteger(selection.single) ? selection.single : null,
                             ballot: ballot.id,
                             voter: voter?.id,
                             submitted: new Date(),
