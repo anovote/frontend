@@ -54,8 +54,8 @@ export default function ElectionView(): React.ReactElement {
             // todo remove timeout. only here to demonstrate loading
             electionService
                 .getElection(Number.parseInt(electionId))
-                .then((response) => {
-                    dispatch({ type: 'gotElection', election: response })
+                .then((election) => {
+                    dispatch({ type: 'gotElection', election })
                 })
                 .catch((reason) => {
                     dispatch({ type: 'error', message: reason })
