@@ -40,6 +40,8 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         const storageService = new LocalStorageService<StorageKeys>()
         fetchElectionStats(election.id)
             .then((serverStats) => {
+                console.log(serverStats)
+
                 setBallotState({ type: 'addStats', payload: serverStats })
             })
             .catch((err) => {

@@ -53,7 +53,7 @@ export default function BallotsQueue({
         const ballot = dataSource.find((ballot) => ballot.ballot.id === id)
         if (ballot && electionId) {
             const electionIdInt = Number.parseInt(electionId)
-            const ack = await electionEventService.broadcastBallot(ballot.ballot, electionIdInt)
+            await electionEventService.broadcastBallot(ballot.ballot, electionIdInt)
             // todo button should be loading until ack is received
         }
     }
