@@ -63,9 +63,19 @@ export default function ElectionView(): React.ReactElement {
         }, 1000)
     }
 
-    const onElectionChangeHandler = (election: IElectionEntity) => {
-        dispatch({ type: 'updateElectionStatus', election })
-        updateElection(election)
+    const onElectionChangeHandler = async (election: IElectionEntity, toDelete?: boolean) => {
+        if (toDelete) {
+            dispatch({ type: 'deleteElection', election })
+            try {
+                await electionService.delete(election)
+                dispatch({ type: 'deleteSuccess' })
+            } catch ({ message }) {
+                dispatch({ type: 'error', message })
+            }
+        } else {
+            dispatch({ type: 'updateElectionStatus', election })
+            updateElection(election)
+        }
     }
 
     const onUpdateHandler = (election: IElectionEntity) => {
@@ -83,7 +93,7 @@ export default function ElectionView(): React.ReactElement {
                 return (
                     <ElectionNotStarted
                         election={election}
-                        onElectionChange={(election) => onElectionChangeHandler(election)}
+                        onElectionChange={(election, toDelete) => onElectionChangeHandler(election, toDelete)}
                         onElectionEdit={() => dispatch({ type: 'edit' })}
                     />
                 )
@@ -114,6 +124,11 @@ type ElectionViewState = {
 
 function reducer(state: ElectionViewState, action: ElectionViewActions): ElectionViewState {
     switch (action.type) {
+        case 'deleteElection': {
+            return { ...state, isLoading: true }
+        }
+        case 'deleteSuccess':
+            return { ...state, isLoading: false, election: undefined }
         case 'edit': {
             return { ...state, edit: true }
         }
@@ -136,6 +151,9 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
 }
 
 type ElectionViewActions =
-    | { type: 'fetchingElection' | 'success' | 'edit' }
-    | { type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess'; election: IElectionEntity }
+    | { type: 'fetchingElection' | 'success' | 'edit' | 'deleteSuccess' }
+    | {
+          type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess' | 'deleteElection'
+          election: IElectionEntity
+      }
     | { type: 'error'; message: string }
