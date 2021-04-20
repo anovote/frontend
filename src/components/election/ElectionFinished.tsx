@@ -11,6 +11,8 @@ import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
 import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { jsPDF } from 'jspdf'
+import PDFObject from 'pdfobject'
 
 export const ElectionFinished = ({ election }: { election: IElectionEntity }): ReactElement => {
     const [t] = useTranslation(['common', 'election'])
@@ -20,6 +22,19 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
         activeBallotIndex: 0,
     })
     useEffect(() => {
+        function createPDF() {
+            const doc = new jsPDF()
+            let p = 20
+            for (const k of ballotState.ballots) {
+                doc.text(k.ballot.title.toString(), 20, p)
+                doc.text(k.stats.stats.votes.toString(), 20, p)
+                doc.text(k.stats.stats.blank.toString(), 20, p)
+                doc.text(k.stats.stats.total.toString(), 20, p)
+                p += 10
+            }
+            return doc.output('datauristring')
+        }
+        PDFObject.embed(createPDF(), '#example1')
         fetchElectionStats(election.id)
             .then((serverStats) => {
                 setBallotState({ type: 'addStats', payload: serverStats })
@@ -53,6 +68,7 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
 
     return (
         <>
+            <div style={{ height: '900px' }} id="example1"></div>
             <Row gutter={[32, 16]} align="top">
                 <Col span={12}>
                     <Title>{election.title}</Title>
