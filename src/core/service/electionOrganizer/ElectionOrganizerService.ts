@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { ChangePasswordInterface } from 'containers/forms/profile/ChangePasswordForm'
 import { InvalidEmail, PasswordDoesNotMatchError, PasswordIsNotValidError } from 'core/errors/customErrors'
+import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { apiRoutes } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
 
@@ -12,6 +13,30 @@ export class ElectionOrganizerService {
 
     constructor(httpClient: AxiosInstance) {
         this._httpClient = httpClient
+    }
+
+    /**
+     * Fetches the organizer with the given id
+     * @param organizerId the id of the organizer to fetch
+     * @returns an object with the election organizer, or nothing
+     */
+    async fetchOrganizer(): Promise<IElectionOrganizerEntity | void> {
+        try {
+            const response = await this._httpClient.get(apiRoutes.admin.organizer().get)
+
+            if (response) {
+                const { data } = response
+                const organizer = data
+                return organizer
+            }
+        } catch (error) {
+            if (error.isAxiosError) {
+                const axiosError: AxiosError = error
+                if (axiosError.response?.status == StatusCodes.BAD_REQUEST) {
+                    throw new Error('Bad request')
+                }
+            }
+        }
     }
 
     /**
@@ -63,8 +88,10 @@ export class ElectionOrganizerService {
     private validateEmail(newEmail: string): string {
         const lowercaseMail = newEmail.toLowerCase()
         const trimmedMail = lowercaseMail.trim()
+        console.log(trimmedMail)
+
         const emailRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-        if (!emailRegex.test(newEmail)) {
+        if (!emailRegex.test(trimmedMail)) {
             throw new InvalidEmail()
         }
         return trimmedMail
