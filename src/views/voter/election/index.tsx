@@ -17,6 +17,7 @@ import { WebsocketEvent } from 'core/socket/EventHandler'
 import { electionReducer, initialElectionState } from 'core/state/election/electionReducer'
 import { electionSocketEventBinder, electionSocketEventCleanup } from 'core/state/election/electionSocketEventBinder'
 import React, { ReactElement, useEffect, useReducer } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import ElectionContentHandler from './ElectionContentHandler'
 import ElectionInfoHandler from './ElectionInfoHandler'
@@ -24,6 +25,7 @@ export default function VoterElectionView(): ReactElement {
     const [electionState, electionDispatch] = useReducer(electionReducer, initialElectionState)
     const [socket] = useSocket()
     const history = useHistory()
+    const [t] = useTranslation('voter')
 
     useEffect(() => {
         socket.connect()
@@ -90,19 +92,8 @@ export default function VoterElectionView(): ReactElement {
                         <ElectionContentHandler state={electionState} />
                         <LogoutButton
                             confirmProps={{
-                                title: 'Are you sure you want to logout?',
-                                content: (
-                                    <>
-                                        <p>
-                                            You will <b>not</b> be able to log back in. Logging out will prevent you
-                                            from continue to participate in the rest of the election.
-                                        </p>
-                                        <p>
-                                            If you need to go to the organizer page while still in an election, try
-                                            opening it from another browser or in incognito mode
-                                        </p>
-                                    </>
-                                ),
+                                title: t('voter:Are you sure you want to logout'),
+                                content: <Trans i18nKey="voter:logout description"></Trans>,
                                 redirectTo: getPublicRoute().joinElection,
                             }}
                         />

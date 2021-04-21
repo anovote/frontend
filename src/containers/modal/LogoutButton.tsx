@@ -12,10 +12,9 @@ export function LogoutButton({ confirmProps }: LogoutButtonProps): ReactElement 
     const dispatcher = useAppStateDispatcher()
     const { confirm } = Modal
 
-    const [t] = useTranslation()
+    const [t] = useTranslation('common')
     const logoutHandler = async () => {
         if (!confirmProps) {
-            console.log('clicked')
             logout()
             return
         }
@@ -23,16 +22,15 @@ export function LogoutButton({ confirmProps }: LogoutButtonProps): ReactElement 
         confirm({
             ...confirmProps,
             onOk: logout,
-            okText: 'Logout',
-            cancelText: 'Cancel',
+            okText: t('common:Log out'),
+            cancelText: t('common:Cancel'),
             okType: 'danger',
             closable: true,
         })
     }
 
     const logout = () => {
-        console.log('logout')
-        const alert: AlertState = { message: 'You where logged out', level: 'info' }
+        const alert: AlertState = { message: t('common:You where logged out'), level: 'info' }
         dispatcher.setLogoutState()
         history.push(confirmProps ? confirmProps.redirectTo : getPublicRoute().login, alert)
     }
