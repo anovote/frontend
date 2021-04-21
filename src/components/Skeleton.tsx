@@ -33,6 +33,8 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     function createElection() {
         history.push(elections.create)
     }
+
+    // todo #161
     //function onSearch() {
     //    console.log('Tried to search')
     //}
