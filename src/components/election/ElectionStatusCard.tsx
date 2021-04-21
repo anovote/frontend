@@ -2,19 +2,18 @@ import {
     ClockCircleOutlined,
     ForwardOutlined,
     LockOutlined,
-    SafetyOutlined,
     SecurityScanOutlined,
     UnlockOutlined,
 } from '@ant-design/icons'
 import Title from 'antd/lib/typography/Title'
 import CardList from 'components/cards/CardList'
 import CountUpTimer from 'components/countUpTimer/countUpTimer'
+import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IStatusDetail } from 'views/election/election/IStatusDetail'
 import StatusListItem from 'views/election/election/StatusListItem'
-import { PasswordShowHide } from './PasswordShowHide'
 
 /**
  * Creates and populates a status card with key properties of an election
@@ -55,13 +54,18 @@ export function ElectionStatusCard({ election }: { election: IElectionEntity }):
                 <span className="field-not-relevant"> {new Date().toLocaleDateString()}</span>
             ),
         },
-        {
+    ]
+
+    if (election.status === ElectionStatus.Started) {
+        details.push({
             icon: <ClockCircleOutlined />,
             colorClass: 'main-light',
             title: t('election:Time elapsed'),
-            // TODO! implement logic to set timer on states from current election
-            text: <CountUpTimer />,
-        },
+            text: <CountUpTimer initialTime={election.openDate ? election.openDate.getTime() : Date.now()} />,
+        })
+    }
+
+    details.push(
         {
             icon: <ForwardOutlined />,
             colorClass: 'main-light',
@@ -74,14 +78,14 @@ export function ElectionStatusCard({ election }: { election: IElectionEntity }):
             title: t('election:Authentication method'),
             text: t('common:Email'),
         },
-        {
-            icon: <SafetyOutlined />,
-            colorClass: 'main-light',
-            title: t('common:Password'),
-            text: election.password ? <PasswordShowHide password={election.password} /> : <span>----</span>,
-            // todo #135 password is not returned by the server. Do we need it to?
-        },
-    ]
+    )
+    //    {
+    //        icon: <SafetyOutlined />,
+    //        colorClass: 'main-light',
+    //        title: t('common:Password'),
+    //        text: election.password ? <PasswordShowHide password={election.password} /> : <span>----</span>,
+    // todo #135 password is not returned by the server. Do we need it to?
+    //    },
 
     return <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)} />
 }
