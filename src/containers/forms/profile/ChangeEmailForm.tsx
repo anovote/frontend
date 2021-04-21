@@ -29,14 +29,14 @@ export default function ChangeEmailForm({ initialValue }: { initialValue: string
                 dispatchAlert({
                     type: 'add',
                     level: 'error',
-                    message: t('common:Something went wrong'),
+                    message: t('common:Email is invalid'),
                     description: t('common:Try again later'),
                 })
             } else {
                 dispatchAlert({
                     type: 'add',
                     level: 'error',
-                    message: t('common:Something went wrong'),
+                    message: t('common:Your request to change email was not fulfilled'),
                     description: `${t('profile:Email is already in use').toLocaleLowerCase()}`,
                 })
             }
