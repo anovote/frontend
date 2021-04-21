@@ -92,9 +92,13 @@ export default function ElectionView(): React.ReactElement {
         updateElection(election)
     }
 
+    const handleAbort = () => {
+        dispatch({ type: 'abortEdit' })
+    }
+
     const renderElectionView = (election: IElectionEntity) => {
         if (edit) {
-            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} />
+            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} onAbort={handleAbort} />
         }
         switch (election.status) {
             case ElectionStatus.NotStarted:
@@ -136,6 +140,8 @@ type ElectionViewState = {
 
 function reducer(state: ElectionViewState, action: ElectionViewActions): ElectionViewState {
     switch (action.type) {
+        case 'abortEdit':
+            return { ...state, edit: false }
         case 'edit': {
             return { ...state, edit: true }
         }
@@ -157,6 +163,6 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
 }
 
 type ElectionViewActions =
-    | { type: 'fetchingElection' | 'success' | 'edit' }
+    | { type: 'fetchingElection' | 'success' | 'edit' | 'abortEdit' }
     | { type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess'; election: IElectionEntity }
     | { type: 'error'; message: string }
