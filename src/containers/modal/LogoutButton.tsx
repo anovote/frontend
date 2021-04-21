@@ -1,32 +1,57 @@
-import { Button } from 'antd'
+import { LogoutOutlined } from '@ant-design/icons'
+import { Button, Modal } from 'antd'
 import { AlertState } from 'core/hooks/useAlert'
 import { getPublicRoute } from 'core/routes/siteRoutes'
-import { LogoutOutlined } from '@ant-design/icons'
-
-import { BackendAPI } from 'core/api'
-
-import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
-import { LocalStorageService } from 'core/service/storage/LocalStorageService'
-
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 
-export function LogoutButton(): ReactElement {
+export function LogoutButton({ confirmProps }: LogoutButtonProps): ReactElement {
     const history = useHistory<AlertState>()
     const dispatcher = useAppStateDispatcher()
+    const { confirm } = Modal
 
     const [t] = useTranslation()
-    const logoutHandler = () => {
+    const logoutHandler = async () => {
+        if (!confirmProps) {
+            console.log('clicked')
+            logout()
+            return
+        }
+        console.log('here')
+        confirm({
+            ...confirmProps,
+            onOk: logout,
+            okText: 'Logout',
+            cancelText: 'Cancel',
+            okType: 'danger',
+            closable: true,
+        })
+    }
+
+    const logout = () => {
+        console.log('logout')
         const alert: AlertState = { message: 'You where logged out', level: 'info' }
         dispatcher.setLogoutState()
-        history.push(getPublicRoute().login, alert)
+        history.push(confirmProps ? confirmProps.redirectTo : getPublicRoute().login, alert)
     }
+
     return (
-        <Button className="logout-btn" onClick={logoutHandler} id="settings">
+        <Button className={'logout-btn'} onClick={logoutHandler}>
             <LogoutOutlined />
             {t('common:Log out')}
         </Button>
     )
+}
+
+interface LogoutButtonProps {
+    //confirm?: () => Promise<void>
+    confirmProps?: {
+        title: string
+        content: ReactNode
+        okText?: string
+        cancelText?: string
+        redirectTo: string
+    }
 }
