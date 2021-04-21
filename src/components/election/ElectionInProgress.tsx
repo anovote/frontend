@@ -1,7 +1,6 @@
-import { CloseOutlined } from '@ant-design/icons'
-import { Col, Divider, Row, Space } from 'antd'
-import { Gutter } from 'antd/lib/grid/row'
+import { Col, Divider, Modal, Popconfirm, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
+import { AlertList } from 'components/alert/AlertList'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import ElectionStatusLabel from 'components/ElectionStatusLabel'
 import CloseElectionIcon from 'components/icons/CloseElectionIcon'
@@ -9,6 +8,7 @@ import BallotsQueue from 'components/queue/BallotsQueue'
 import IconButton from 'containers/button/IconButton'
 import BallotModal from 'containers/modal/BallotModal'
 import { Events } from 'core/events'
+import { useAlert } from 'core/hooks/useAlert'
 import { useSocket } from 'core/hooks/useSocket'
 import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
@@ -20,7 +20,6 @@ import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { TupleType } from 'typescript'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
 const authEvent = (socket: AnoSocket, electionId: number) => {
@@ -40,6 +39,9 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     const [modal, setModal] = useState(false)
     const [active, setActive] = useState(0)
     const [stats, setStats] = useState([] as IBallotStats[])
+    const [forceEndVisible, setForceEndVisible] = useState(false)
+
+    const [alerts, setAlerts] = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -111,8 +113,67 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         return stats.find((stat) => stat.ballotId === ballotId)
     }
 
+    const endElectionOnConfirm = async (id: number) => {
+        socket.emit(
+            Events.client.election.close,
+            { id },
+            WebsocketEvent({
+                dataHandler: (data: { finished: boolean; needForceEnd: boolean; closeDate: Date }) => {
+                    if (data.needForceEnd) {
+                        setForceEndVisible(true)
+                    }
+                    if (data.finished) onFinishedElection()
+                },
+                errorHandler: () => {
+                    setAlerts({
+                        type: 'add',
+                        level: 'error',
+                        message: 'Something happened when trying to end election',
+                    })
+                },
+            }),
+        )
+    }
+
+    const forceEndElection = async (id: number) => {
+        socket.emit(
+            Events.client.election.close,
+            { id, forceEnd: true },
+            WebsocketEvent({
+                dataHandler: (data: { finished: boolean; needForceEnd: boolean; election: IElectionEntity }) => {
+                    if (data.finished) onFinishedElection()
+                },
+                errorHandler: () => {
+                    setAlerts({
+                        type: 'add',
+                        level: 'error',
+                        message: 'Something happened when trying to force end election',
+                    })
+                },
+            }),
+        )
+    }
+
+    const onFinishedElection = () => {
+        setForceEndVisible(false)
+        window.location.reload()
+    }
+
     return (
         <>
+            {/** Modal for force end election */}
+            {/** // TODO fix translation  */}
+            <Modal
+                title={t('election:Confirm close of election')}
+                visible={forceEndVisible}
+                onOk={() => forceEndElection(election.id)}
+                onCancel={() => setForceEndVisible(false)}
+            >
+                <p>{t('election:This election have a closing date')}</p>
+                <p>{t('election:If you proceed to end this election')}</p>
+                <p>{t('election:Are you sure you want to')}?</p>
+            </Modal>
+            <AlertList alerts={alerts} />
             <Row justify="space-between" align="middle">
                 <Col>
                     <Title level={1}>{election.title}</Title>
@@ -123,12 +184,19 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
             </Row>
             <Row>
                 <Col>
-                    <IconButton
-                        icon={<CloseElectionIcon />}
-                        text="Close Election"
-                        onClick={() => console.log('aaa')}
-                        color="red"
-                    />
+                    <Popconfirm
+                        placement="bottom"
+                        title={`${t('form:Are you sure')}?`}
+                        onConfirm={() => endElectionOnConfirm(election.id)}
+                        okText={t('common:Yes')}
+                        cancelText={t('common:No')}
+                    >
+                        <IconButton
+                            icon={<CloseElectionIcon />}
+                            text={`${t('common:End')} ${t('election:Election')}`}
+                            color="red"
+                        />
+                    </Popconfirm>
                 </Col>
             </Row>
             <Divider />
