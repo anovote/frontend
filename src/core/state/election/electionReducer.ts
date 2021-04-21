@@ -31,9 +31,9 @@ export type ElectionState = {
 export type ElectionAction =
     | { type: 'election'; payload: IElectionBase }
     | { type: 'ballot'; payload: IBallot }
+    | { type: 'close'; payload: boolean } // payload = isFinish
     // TODO Not implemented yet
     | { type: 'result'; payload: null }
-    | { type: 'close'; payload: boolean }
 
 export const initialElectionState: ElectionState = {
     ballot: undefined,
