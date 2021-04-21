@@ -4,6 +4,7 @@ import CenterView from 'components/centerView/CenterView'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
+import { LogoutButton } from 'containers/modal/LogoutButton'
 import { BackendAPI } from 'core/api'
 import { Events } from 'core/events'
 import { useSocket } from 'core/hooks/useSocket'
@@ -77,6 +78,7 @@ export default function VoterElectionView(): ReactElement {
             electionSocketEventCleanup()
         }
     }, [])
+
     return (
         <CenterView>
             <Layout className="small-container">
@@ -86,6 +88,24 @@ export default function VoterElectionView(): ReactElement {
                     <Divider />
                     <VoterContent>
                         <ElectionContentHandler state={electionState} />
+                        <LogoutButton
+                            confirmProps={{
+                                title: 'Are you sure you want to logout?',
+                                content: (
+                                    <>
+                                        <p>
+                                            You will <b>not</b> be able to log back in. Logging out will prevent you
+                                            from continue to participate in the rest of the election.
+                                        </p>
+                                        <p>
+                                            If you need to go to the organizer page while still in an election, try
+                                            opening it from another browser or in incognito mode
+                                        </p>
+                                    </>
+                                ),
+                                redirectTo: getPublicRoute().joinElection,
+                            }}
+                        />
                     </VoterContent>
                 </Content>
                 <VoterFooter />
