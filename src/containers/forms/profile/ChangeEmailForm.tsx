@@ -9,7 +9,7 @@ import { ElectionOrganizerService } from 'core/service/electionOrganizer/Electio
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export default function ChangeEmailForm(): ReactElement {
+export default function ChangeEmailForm({ initialValue }: { initialValue: string }): ReactElement {
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
@@ -46,7 +46,12 @@ export default function ChangeEmailForm(): ReactElement {
     return (
         <Space direction="vertical">
             <AlertList alerts={alertStates} />
-            <Form onFinish={submitForm} layout={'horizontal'} name="change-email">
+            <Form
+                onFinish={submitForm}
+                layout={'horizontal'}
+                name="change-email"
+                initialValues={{ newEmail: initialValue }}
+            >
                 <Space direction="horizontal" className="inline-form-item">
                     <Form.Item
                         name="newEmail"

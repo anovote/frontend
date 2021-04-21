@@ -1,8 +1,8 @@
-import { ElectionOrganizerService } from './ElectionOrganizerService'
-import { PasswordDoesNotMatchError, PasswordIsNotValidError } from 'core/errors/customErrors'
 import axios, { AxiosInstance } from 'axios'
-import RandExp from 'randexp'
 import { ChangePasswordInterface } from 'containers/forms/profile/ChangePasswordForm'
+import { PasswordDoesNotMatchError, PasswordIsNotValidError } from 'core/errors/customErrors'
+import RandExp from 'randexp'
+import { ElectionOrganizerService } from './ElectionOrganizerService'
 
 const axiosMock: jest.Mocked<AxiosInstance> = (axios as unknown) as jest.Mocked<AxiosInstance>
 jest.mock('axios')
@@ -76,8 +76,8 @@ it('should update email for user if email is correct but wrong form', async () =
 })
 
 it('should not update email for user if email is wrongfully submitted', async () => {
-    await expect(es.changeEmail('test      @mail.com')).resolves.toBe(false)
-    await expect(es.changeEmail('test@     mail.com')).resolves.toBe(false)
-    await expect(es.changeEmail('test    @          mail.com')).resolves.toBe(false)
-    await expect(es.changeEmail('test@mail .      com')).resolves.toBe(false)
+    await expect(es.changeEmail('test      @mail.com')).rejects.toThrowError()
+    await expect(es.changeEmail('test@     mail.com')).rejects.toThrowError()
+    await expect(es.changeEmail('test    @          mail.com')).rejects.toThrowError()
+    await expect(es.changeEmail('test@mail .      com')).rejects.toThrowError()
 })
