@@ -33,15 +33,13 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
     const [ballotState, setBallotState] = useReducer(electionBallotReducer, {
-        ballots: [],
+        ballotWithStats: [],
         activeBallotIndex: 0,
     })
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
         fetchElectionStats(election.id)
             .then((serverStats) => {
-                console.log(serverStats)
-
                 setBallotState({ type: 'addStats', payload: serverStats })
             })
             .catch((err) => {
@@ -62,10 +60,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
             setBallotState({ type: 'updateStats', payload: data })
         })
 
-        const ballots = election.ballots
-            ? election.ballots.map((ballot) => ({ ...ballot } as IBallotEntity))
-            : new Array<IBallotEntity>()
-        setBallotState({ type: 'addBallots', payload: ballots })
+        setBallotState({ type: 'addBallots', payload: election.ballots as Array<IBallotEntity> })
 
         return () => {
             socket.disconnect()
@@ -97,12 +92,12 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 </Col>
                 <Col span={12}>
                     <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballotState.ballots.length > 0 ? (
+                    {ballotState.ballotWithStats.length > 0 ? (
                         <>
-                            <BallotsQueue dataSource={ballotState.ballots} expandBallot={showModal} />
+                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
                             <BallotModal
                                 showModal={modal}
-                                ballot={ballotState.ballots[ballotState.activeBallotIndex]}
+                                ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
                                 close={closeModal}
                                 controls={{
                                     next: () => {
