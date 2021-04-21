@@ -80,7 +80,9 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                     organizer={organizer}
                 />
                 <Sider className="skeleton-sidebar">
-                    <AnovoteLogo id="logo" />
+                    <Link to={elections.view}>
+                        <AnovoteLogo id="logo" />
+                    </Link>
                     <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={[history.location.pathname]}>
                         <LargeIconButton
                             text={t('Create election')}
