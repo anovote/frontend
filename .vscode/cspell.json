@@ -36,7 +36,7 @@
         "onstatechange",
         "onupdatefound",
         "papaparse",
-        "Popconfirm",
+        "popconfirm",
         "postgres",
         "postgresql",
         "precache",
@@ -53,6 +53,7 @@
         "Steffen",
         "streetsidesoftware",
         "subnav",
+        "testid",
         "tokenkey",
         "Tr",
         "Træen",
@@ -68,15 +69,6 @@
         "wojtekmaj",
         "zwaldowski"
     ],
-    "flagWords": [
-        "hte"
-    ],
-    "ignorePaths": [
-        "*.env*",
-        ".prettier*",
-        "package.json",
-        "yarn.lock",
-        ".eslint*",
-        ".vscode/*"
-    ]
+    "flagWords": ["hte"],
+    "ignorePaths": ["*.env*", ".prettier*", "package.json", "yarn.lock", ".eslint*", ".vscode/*"]
 }

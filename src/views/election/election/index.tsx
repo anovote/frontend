@@ -67,8 +67,8 @@ export default function ElectionView(): React.ReactElement {
             // todo remove timeout. only here to demonstrate loading
             electionService
                 .getElection(Number.parseInt(electionId))
-                .then((response) => {
-                    dispatch({ type: 'gotElection', election: response })
+                .then((election) => {
+                    dispatch({ type: 'gotElection', election })
                 })
                 .catch((reason) => {
                     if (reason.response.status === StatusCodes.NOT_FOUND) {
@@ -107,9 +107,13 @@ export default function ElectionView(): React.ReactElement {
         updateElection(election)
     }
 
+    const handleAbort = () => {
+        dispatch({ type: 'abortEdit' })
+    }
+
     const renderElectionView = (election: IElectionEntity) => {
         if (edit) {
-            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} />
+            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} onAbort={handleAbort} />
         }
         switch (election.status) {
             case ElectionStatus.NotStarted:
@@ -156,6 +160,8 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
         }
         case 'deleteSuccess':
             return { ...state, isLoading: false, election: undefined }
+        case 'abortEdit':
+            return { ...state, edit: false }
         case 'edit': {
             return { ...state, edit: true }
         }
@@ -177,7 +183,7 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
 }
 
 type ElectionViewActions =
-    | { type: 'fetchingElection' | 'success' | 'edit' | 'deleteSuccess' }
+    | { type: 'fetchingElection' | 'success' | 'edit' | 'deleteSuccess' | 'abortEdit' }
     | {
           type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess' | 'deleteElection'
           election: IElectionEntity

@@ -1,6 +1,6 @@
 import i18n from 'i18next'
-import { initReactI18next } from 'react-i18next'
 import Backend from 'i18next-http-backend'
+import { initReactI18next } from 'react-i18next'
 
 i18n.use(Backend)
 
@@ -17,7 +17,7 @@ i18n.init({
         addPath: '/locales/add/{{lng}}/{{ns}}.json',
     },
     // for debugging, easy to see keys not loaded in console
-    debug: true,
+    debug: false,
 
     lng: 'en',
 

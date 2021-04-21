@@ -36,6 +36,8 @@ export default function ConnectionIndicator(): ReactElement {
     const [renderIndicator, setRenderIndicator] = useState(disconnectedElement)
 
     useEffect(() => {
+        if (socket.connected) setRenderIndicator(connectedElement)
+
         socket.on(Events.standard.socket.connect, () => {
             setRenderIndicator(connectedElement)
         })

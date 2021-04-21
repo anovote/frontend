@@ -81,7 +81,8 @@ export class ElectionService {
 
     public async getElection(electionId: number): Promise<IElectionEntity> {
         try {
-            return (await this.httpClient.get(this.electionRoute.byId(electionId).get)).data
+            const election = (await this.httpClient.get(this.electionRoute.byId(electionId).get)).data
+            return this.checkAndSetDates(election)
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
@@ -160,6 +161,18 @@ export class ElectionService {
             }
             throw error
         }
+    }
+
+    private checkAndSetDates = (election: IElectionEntity): IElectionEntity => {
+        const { openDate, closeDate } = election
+        const dates: { [key: string]: Date | string | null | undefined } = { openDate, closeDate }
+        for (const date in dates) {
+            if (dates[date] && typeof dates[date] === 'string') {
+                dates[date] = new Date(dates[date] as string)
+            }
+        }
+
+        return { ...election, ...dates }
     }
 
     //private handleError(error: Error | AxiosError) {}
