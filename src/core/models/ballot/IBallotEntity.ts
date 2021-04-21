@@ -1,5 +1,6 @@
 import { BallotStatus } from './BallotStatus'
 import { IBallot } from './IBallot'
+import { ICandidateEntity } from './ICandidate'
 
 /**
  * Represents a ballot entity that is stored
@@ -11,4 +12,5 @@ export interface IBallotEntity extends IBallot {
     status: BallotStatus
     createdAt: Date
     updatedAt: Date
+    candidates: Array<ICandidateEntity>
 }
