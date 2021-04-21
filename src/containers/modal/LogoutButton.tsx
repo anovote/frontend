@@ -18,7 +18,6 @@ export function LogoutButton({ confirmation }: LogoutButtonProps): ReactElement 
             logout()
             return
         }
-        console.log('here')
         confirm({
             ...confirmation,
             onOk: logout,
@@ -44,7 +43,6 @@ export function LogoutButton({ confirmation }: LogoutButtonProps): ReactElement 
 }
 
 interface LogoutButtonProps {
-    //confirm?: () => Promise<void>
     confirmation?: {
         title: string
         content: ReactNode
