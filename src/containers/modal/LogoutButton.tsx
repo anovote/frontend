@@ -7,20 +7,20 @@ import React, { ReactElement, ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 
-export function LogoutButton({ confirmProps }: LogoutButtonProps): ReactElement {
+export function LogoutButton({ confirmation }: LogoutButtonProps): ReactElement {
     const history = useHistory<AlertState>()
     const dispatcher = useAppStateDispatcher()
     const { confirm } = Modal
 
     const [t] = useTranslation('common')
     const logoutHandler = async () => {
-        if (!confirmProps) {
+        if (!confirmation) {
             logout()
             return
         }
         console.log('here')
         confirm({
-            ...confirmProps,
+            ...confirmation,
             onOk: logout,
             okText: t('common:Log out'),
             cancelText: t('common:Cancel'),
@@ -32,7 +32,7 @@ export function LogoutButton({ confirmProps }: LogoutButtonProps): ReactElement 
     const logout = () => {
         const alert: AlertState = { message: t('common:You where logged out'), level: 'info' }
         dispatcher.setLogoutState()
-        history.push(confirmProps ? confirmProps.redirectTo : getPublicRoute().login, alert)
+        history.push(confirmation ? getPublicRoute().joinElection : getPublicRoute().login, alert)
     }
 
     return (
@@ -45,11 +45,10 @@ export function LogoutButton({ confirmProps }: LogoutButtonProps): ReactElement 
 
 interface LogoutButtonProps {
     //confirm?: () => Promise<void>
-    confirmProps?: {
+    confirmation?: {
         title: string
         content: ReactNode
         okText?: string
         cancelText?: string
-        redirectTo: string
     }
 }

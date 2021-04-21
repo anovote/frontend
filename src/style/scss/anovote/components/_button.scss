@@ -86,10 +86,6 @@ button {
     color: $danger-contrasting;
     width: auto;
 
-    &.voter-logout-btn {
-        width: auto;
-    }
-
     &:hover {
         background-color: $danger-contrasting;
         color: $danger-light;

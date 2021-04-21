@@ -91,10 +91,9 @@ export default function VoterElectionView(): ReactElement {
                     <VoterContent>
                         <ElectionContentHandler state={electionState} />
                         <LogoutButton
-                            confirmProps={{
+                            confirmation={{
                                 title: t('voter:Are you sure you want to logout'),
                                 content: <Trans i18nKey="voter:logout description" />,
-                                redirectTo: getPublicRoute().joinElection,
                             }}
                         />
                     </VoterContent>
