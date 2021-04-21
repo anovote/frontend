@@ -1,15 +1,15 @@
-import { Col, Form, Row } from 'antd'
+import { Col, Form, Row, Space } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
+import SaveElectionButton from 'components/buttons/SaveElectionButton'
 import CloseDateInput from 'components/election/CloseDateInput'
 import ElectionDescriptionInput from 'components/election/ElectionDescriptionInput'
 import ElectionPasswordInput from 'components/election/ElectionPasswordInput'
 import ElectionTitleInput from 'components/election/ElectionTitleInput'
 import OpenDateInput from 'components/election/OpenDateInput'
-import SaveElectionButton from 'components/election/SaveElectionButton'
 import EligibleVotersList from 'components/importVoters/EligibleVotersList'
-import PreviewList from 'components/previewList/PreviewList'
+import BallotPreviewList from 'components/previewList/BallotPreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { DuplicateError } from 'core/errors/DuplicateError'
@@ -25,6 +25,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
+import { CancelButton } from '../../../components/buttons/CancelButton'
 
 /**
  * The main view used for creating and updating an election
@@ -32,6 +33,7 @@ import { useHistory } from 'react-router'
 export default function CreateElectionView({
     initialElection = undefined,
     onUpdate,
+    onAbort,
 }: CreateElectionProps): React.ReactElement {
     const electionService = new ElectionService(BackendAPI)
 
@@ -143,6 +145,7 @@ export default function CreateElectionView({
                         name="description-form"
                         onFinish={onFinishedHandler}
                         initialValues={initialElection}
+                        data-testid="description-form"
                     >
                         <ElectionTitleInput />
                         <ElectionDescriptionInput />
@@ -170,13 +173,20 @@ export default function CreateElectionView({
                         </Row>
                         {/* todo #160 implement logic to toggle is automatic
                         <IsAutomaticCheckbox />*/}
-                        <SaveElectionButton hasInitial={initialElection ? true : false} />
+                        <Row>
+                            <Col>
+                                <Space align="baseline">
+                                    <SaveElectionButton hasInitial={initialElection ? true : false} />
+                                    <CancelButton onAbort={onAbort}></CancelButton>
+                                </Space>
+                            </Col>
+                        </Row>
                         {/* todo #154 There should be a cancel button*/}
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">
                     <Title level={2}>{t('common:Ballots')}</Title>
-                    <PreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
+                    <BallotPreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
                 </Col>
             </Row>
             <div className="alert-field">
@@ -188,5 +198,5 @@ export default function CreateElectionView({
 
 // inspired by https://www.benmvp.com/blog/conditional-react-props-typescript/
 type CreateElectionProps =
-    | { initialElection: IElectionEntity; onUpdate: (election: IElectionEntity) => void }
-    | { initialElection: undefined; onUpdate?: never }
+    | { initialElection: IElectionEntity; onUpdate: (election: IElectionEntity) => void; onAbort: () => void }
+    | { initialElection: undefined; onUpdate?: never; onAbort: () => void }

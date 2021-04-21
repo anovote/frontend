@@ -16,5 +16,5 @@ export interface IBallot {
 }
 
 export interface IBallotInList extends IBallot {
-    indexInList: number
+    index: number
 }

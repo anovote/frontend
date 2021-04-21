@@ -4,12 +4,16 @@ import { ElectionInProgressView } from 'components/election/ElectionInProgress'
 import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
 import { ElectionParams } from 'components/queue/ElectionParams'
 import { BackendAPI } from 'core/api'
+import { AlertState } from 'core/hooks/useAlert'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { getAdminRoute } from 'core/routes/siteRoutes'
 import { ElectionService } from 'core/service/election/ElectionService'
+import { StatusCodes } from 'http-status-codes'
 import * as React from 'react'
 import { useEffect, useReducer } from 'react'
-import { useParams } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useHistory, useParams } from 'react-router-dom'
 import CreateElectionView from '../createElection'
 
 /**
@@ -22,14 +26,23 @@ export default function ElectionView(): React.ReactElement {
         edit: false,
     }
     const [{ isLoading, election, edit }, dispatch] = useReducer(reducer, initialState)
+    const history = useHistory<AlertState>()
+    const [t] = useTranslation('error')
 
     const { electionId } = useParams<ElectionParams>()
     const electionService = new ElectionService(BackendAPI)
 
     useEffect(() => {
         if (!electionId) {
-            // todo
-            throw new Error('missing ID')
+            history.push(getAdminRoute().elections.view, { message: t('error:Election not found'), level: 'error' })
+            return
+        }
+        if (Number.isNaN(Number.parseInt(electionId))) {
+            history.push(getAdminRoute().elections.view, {
+                message: t('error:Election ID is not a number'),
+                level: 'error',
+            })
+            return
         }
         fetchElection(electionId)
     }, [])
@@ -54,10 +67,15 @@ export default function ElectionView(): React.ReactElement {
             // todo remove timeout. only here to demonstrate loading
             electionService
                 .getElection(Number.parseInt(electionId))
-                .then((response) => {
-                    dispatch({ type: 'gotElection', election: response })
+                .then((election) => {
+                    dispatch({ type: 'gotElection', election })
                 })
                 .catch((reason) => {
+                    if (reason.response.status === StatusCodes.NOT_FOUND) {
+                        const { message }: { message: string } = reason.response.data
+                        history.push(getAdminRoute().elections.view, { message, level: 'error' })
+                        return
+                    }
                     dispatch({ type: 'error', message: reason })
                 })
         }, 1000)
@@ -74,9 +92,13 @@ export default function ElectionView(): React.ReactElement {
         updateElection(election)
     }
 
+    const handleAbort = () => {
+        dispatch({ type: 'abortEdit' })
+    }
+
     const renderElectionView = (election: IElectionEntity) => {
         if (edit) {
-            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} />
+            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} onAbort={handleAbort} />
         }
         switch (election.status) {
             case ElectionStatus.NotStarted:
@@ -94,6 +116,10 @@ export default function ElectionView(): React.ReactElement {
                 return <ElectionFinished />
             default:
                 console.error('status not set')
+                history.push(getAdminRoute().elections.view, {
+                    message: t('error:Something went wrong'),
+                    level: 'error',
+                })
                 return null
         }
     }
@@ -114,6 +140,8 @@ type ElectionViewState = {
 
 function reducer(state: ElectionViewState, action: ElectionViewActions): ElectionViewState {
     switch (action.type) {
+        case 'abortEdit':
+            return { ...state, edit: false }
         case 'edit': {
             return { ...state, edit: true }
         }
@@ -123,7 +151,6 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
             return { ...state, isLoading: false, election: action.election }
         case 'error':
             console.error(action.message)
-            // todo #131 redirect if election with id does not exist
             return { ...state, isLoading: false, edit: false }
         case 'updateElectionStatus':
         case 'updateElection':
@@ -136,6 +163,6 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
 }
 
 type ElectionViewActions =
-    | { type: 'fetchingElection' | 'success' | 'edit' }
+    | { type: 'fetchingElection' | 'success' | 'edit' | 'abortEdit' }
     | { type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess'; election: IElectionEntity }
     | { type: 'error'; message: string }
