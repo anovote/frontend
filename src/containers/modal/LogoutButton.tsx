@@ -20,9 +20,6 @@ export function LogoutButton(): ReactElement {
     const [t] = useTranslation()
     const logoutHandler = () => {
         const alert: AlertState = { message: 'You where logged out', level: 'info' }
-
-        new AuthenticationService(BackendAPI, new LocalStorageService()).logout()
-
         dispatcher.setLogoutState()
         history.push(getPublicRoute().login, alert)
     }
