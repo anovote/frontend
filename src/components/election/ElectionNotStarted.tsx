@@ -18,7 +18,6 @@ export const ElectionNotStarted = ({
 }: ElectionNotStartedProps): ReactElement => {
     const [t] = useTranslation(['common', 'election'])
     const deleteElectionHandler = () => {
-        // todo show confirmation modal
         onElectionChange(election, true)
     }
 
