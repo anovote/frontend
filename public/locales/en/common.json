@@ -25,6 +25,7 @@
   "Elections": "Elections",
   "Eligible voters": "Eligible voters",
   "Email": "Email",
+  "End": "End",
   "FINISHED": "FINISHED",
   "First name": "First name",
   "IN PROGRESS": "IN PROGRESS",
@@ -34,6 +35,7 @@
   "Log out": "Log out",
   "New password": "New password",
   "Next": "Next",
+  "No": "No",
   "None": "None",
   "Open": "Open",
   "PLANNED": "PLANNED",
@@ -67,6 +69,7 @@
   "Vote_plural": "Votes",
   "Votes": "Votes",
   "Welcome to Anovote": "Welcome to Anovote",
+  "Yes": "Yes",
   "You need to select a candidate": "You need to select a candidate",
   "Your vote was submitted": "Your vote was submitted!",
   "no-ballots": "No ballots"
