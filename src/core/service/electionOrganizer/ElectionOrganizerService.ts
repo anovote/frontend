@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { ChangePasswordInterface } from 'containers/forms/profile/ChangePasswordForm'
 import { InvalidEmail, PasswordDoesNotMatchError, PasswordIsNotValidError } from 'core/errors/customErrors'
+import { isValidEmail } from 'core/helpers/validation'
 import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { apiRoutes } from 'core/routes/apiRoutes'
 import { StatusCodes } from 'http-status-codes'
@@ -83,8 +84,8 @@ export class ElectionOrganizerService {
     private validateEmail(newEmail: string): string {
         const lowercaseMail = newEmail.toLowerCase()
         const trimmedMail = lowercaseMail.trim()
-        const emailRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
-        if (!emailRegex.test(trimmedMail)) {
+
+        if (!isValidEmail(trimmedMail)) {
             throw new InvalidEmail()
         }
         return trimmedMail
