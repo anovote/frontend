@@ -83,8 +83,6 @@ export class ElectionOrganizerService {
     private validateEmail(newEmail: string): string {
         const lowercaseMail = newEmail.toLowerCase()
         const trimmedMail = lowercaseMail.trim()
-        console.log(trimmedMail)
-
         const emailRegex = new RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)
         if (!emailRegex.test(trimmedMail)) {
             throw new InvalidEmail()
