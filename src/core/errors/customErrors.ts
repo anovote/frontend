@@ -9,3 +9,9 @@ export class PasswordIsNotValidError extends Error {
         super(message)
     }
 }
+
+export class InvalidEmail extends Error {
+    constructor(message?: string) {
+        super(message)
+    }
+}

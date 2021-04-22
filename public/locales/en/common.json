@@ -26,6 +26,7 @@
   "Eligible voters": "Eligible voters",
   "Email": "Email",
   "End": "End",
+  "Email is invalid": "Email is invalid",
   "FINISHED": "FINISHED",
   "First name": "First name",
   "IN PROGRESS": "IN PROGRESS",
@@ -33,6 +34,7 @@
   "Last name": "Last name",
   "Log In": "Log In",
   "Log out": "Log out",
+  "Name": "Name",
   "New password": "New password",
   "Next": "Next",
   "No": "No",
@@ -71,6 +73,8 @@
   "Welcome to Anovote": "Welcome to Anovote",
   "Yes": "Yes",
   "You need to select a candidate": "You need to select a candidate",
+  "Your": "Your",
+  "Your request to change email was not fulfilled": "Your request to change email was not fulfilled",
   "Your vote was submitted": "Your vote was submitted!",
   "no-ballots": "No ballots"
 }

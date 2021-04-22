@@ -1,11 +1,13 @@
 {
   "Are you sure you want to": "Are you sure you want to end this election",
+  "Are you sure you want to delete the election": "Are you sure you want to delete the election",
   "Authentication method": "Authentication method",
   "Ballot proceed": "Ballot proceed",
   "Closed on": "Closed on",
   "Confirm close of election": "Confirm close of election",
   "Connected voters": "Connected voters",
   "Created election": "Created election",
+  "Delete was successful": "Delete was successful",
   "Edit election": "Edit election",
   "Election": "Election",
   "Election close": "Election close",
