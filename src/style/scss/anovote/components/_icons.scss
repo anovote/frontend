@@ -69,8 +69,13 @@ and positions content in center/center of the element
     height: 90vw;
     max-width: 20rem;
     max-height: 20rem;
+    padding: 1rem;
     @include is-flex-column;
     @include has-content-center-center;
     @include has-shadow;
     @include is-rounded-large;
+
+    .voter-description {
+        font-size: 1rem;
+    }
 }
