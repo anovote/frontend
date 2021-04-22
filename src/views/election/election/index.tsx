@@ -27,7 +27,7 @@ export default function ElectionView(): React.ReactElement {
     }
     const [{ isLoading, election, edit }, dispatch] = useReducer(reducer, initialState)
     const history = useHistory<AlertState>()
-    const [t] = useTranslation('error')
+    const [t] = useTranslation(['error', 'election'])
 
     const { electionId } = useParams<ElectionParams>()
     const electionService = new ElectionService(BackendAPI)
@@ -81,9 +81,24 @@ export default function ElectionView(): React.ReactElement {
         }, 1000)
     }
 
-    const onElectionChangeHandler = (election: IElectionEntity) => {
-        dispatch({ type: 'updateElectionStatus', election })
-        updateElection(election)
+    const onElectionChangeHandler = async (election: IElectionEntity, toDelete?: boolean) => {
+        if (toDelete) {
+            dispatch({ type: 'deleteElection', election })
+            try {
+                await electionService.delete(election)
+                dispatch({ type: 'deleteSuccess' })
+                const message = t('election:Delete was successful')
+                history.push(getAdminRoute().elections.view, {
+                    message,
+                    level: 'info',
+                })
+            } catch ({ message }) {
+                dispatch({ type: 'error', message })
+            }
+        } else {
+            dispatch({ type: 'updateElectionStatus', election })
+            updateElection(election)
+        }
     }
 
     const onUpdateHandler = (election: IElectionEntity) => {
@@ -105,7 +120,7 @@ export default function ElectionView(): React.ReactElement {
                 return (
                     <ElectionNotStarted
                         election={election}
-                        onElectionChange={(election) => onElectionChangeHandler(election)}
+                        onElectionChange={(election, toDelete) => onElectionChangeHandler(election, toDelete)}
                         onElectionEdit={() => dispatch({ type: 'edit' })}
                     />
                 )
@@ -140,11 +155,14 @@ type ElectionViewState = {
 
 function reducer(state: ElectionViewState, action: ElectionViewActions): ElectionViewState {
     switch (action.type) {
+        case 'deleteSuccess':
+            return { ...state, isLoading: false, election: undefined }
         case 'abortEdit':
             return { ...state, edit: false }
         case 'edit': {
             return { ...state, edit: true }
         }
+        case 'deleteElection':
         case 'fetchingElection':
             return { ...state, isLoading: true }
         case 'gotElection':
@@ -163,6 +181,9 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
 }
 
 type ElectionViewActions =
-    | { type: 'fetchingElection' | 'success' | 'edit' | 'abortEdit' }
-    | { type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess'; election: IElectionEntity }
+    | { type: 'fetchingElection' | 'success' | 'edit' | 'deleteSuccess' | 'abortEdit' }
+    | {
+          type: 'gotElection' | 'updateElectionStatus' | 'updateElection' | 'updateSuccess' | 'deleteElection'
+          election: IElectionEntity
+      }
     | { type: 'error'; message: string }

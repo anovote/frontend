@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { DuplicateError } from 'core/errors/DuplicateError'
+import { NotFoundError } from 'core/errors/NotFoundError'
 import { IElection } from 'core/models/election/IElection'
 import { IElectionBase } from 'core/models/election/IElectionBase'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
@@ -109,6 +110,30 @@ export class ElectionService {
                 }
                 if (axiosError.response?.status === StatusCodes.INTERNAL_SERVER_ERROR) {
                     throw new Error('Error at the server, drink some Tea and wait')
+                }
+            }
+            throw error
+        }
+    }
+
+    /**
+     * delete
+     */
+    public async delete(election: IElectionEntity): Promise<void> {
+        try {
+            await this.httpClient.delete<IElectionEntity>(this.electionRoute.byId(election.id).delete)
+        } catch (error) {
+            if (error.isAxiosError) {
+                const axiosError: AxiosError = error
+                switch (axiosError.response?.status) {
+                    case StatusCodes.UNAUTHORIZED:
+                        throw new AuthorizationError('You need to be logged in to create an election!')
+                    case StatusCodes.INTERNAL_SERVER_ERROR:
+                        throw new Error('Error at the server, drink some Tea and wait')
+                    case StatusCodes.NOT_FOUND:
+                        throw new NotFoundError('Election not found')
+                    default:
+                        throw axiosError
                 }
             }
             throw error
