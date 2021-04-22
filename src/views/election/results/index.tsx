@@ -1,7 +1,7 @@
 import { Bar } from '@ant-design/charts'
 import { BarConfig } from '@ant-design/charts/es/bar'
 import { PlayCircleFilled } from '@ant-design/icons'
-import { Space } from 'antd'
+import { Space, Statistic } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionParams } from 'components/queue/ElectionParams'
 import IconButton from 'containers/button/IconButton'
@@ -94,10 +94,16 @@ export default function ElectionResultView(): React.ReactElement {
                 })
 
             config = { ...config, data: stats }
+            const votes = ballot.votes
             ballotResults.push(
                 <>
                     <div className="result-item mb-20">
                         <Title level={3}>{ballot.title}</Title>
+                        <Space direction="horizontal" size="large">
+                            <Statistic title={t('common:Total')} value={votes.total} />
+                            <Statistic title={t('common:Votes')} value={votes.votes} />
+                            <Statistic title={t('common:Blank')} value={votes.blank} />
+                        </Space>
                         <Bar key={Math.random()} {...config}></Bar>
                     </div>
                 </>,
