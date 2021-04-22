@@ -25,7 +25,6 @@ export class BallotWithVotes extends BallotEntity {
     }
     constructor(ballot: IBallotEntity) {
         super(ballot)
-        console.log(this)
     }
 
     /**
@@ -62,5 +61,28 @@ export class BallotWithVotes extends BallotEntity {
             ...this._votes,
             candidates: candidates,
         }
+    }
+
+    /**
+     *  Returns the current leading candidate for a ballot. If there are no available leaders,
+     * undefined is returned.
+     * @param stats ballot stats for the ballot
+     * @param ballot ballot to get leader of
+     * @returns returns current leader of the ballot or undefined
+     */
+    getBallotLeader(): string | undefined {
+        let votes = -1
+        let leadingCandidate
+        for (const candidate of this._votes.candidates) {
+            if (candidate.votes > votes) {
+                const candidateEntity = this.candidates.find((ballotCandidate) => candidate.id === ballotCandidate.id)
+                if (candidateEntity) {
+                    votes = candidate.votes
+                    leadingCandidate = candidateEntity.candidate
+                }
+            }
+        }
+
+        return leadingCandidate
     }
 }
