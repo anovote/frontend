@@ -3,6 +3,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Col, Row } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
+import { BallotStatusLabel } from 'components/ElectionStatusLabel'
 import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
 import { IControl } from 'core/helpers/IControl'
@@ -68,12 +69,13 @@ export default function BallotModal({
                 <Modal
                     width={'100vw'}
                     // TODO Add status ICON implementation here when merged
-                    title={ballotEntity.status == 1 ? 'IN PROGRESS' : 'NOT STARTED'}
+                    title={<BallotStatusLabel status={ballotEntity.status} />}
                     footer={footer}
                     visible={showModal}
                     onCancel={close}
                     className="modal-display-small"
                 >
+                    {console.log(ballotEntity.status)}
                     <Row>
                         <Col span={24}>
                             <Title level={2}>{ballotEntity.title}</Title>
