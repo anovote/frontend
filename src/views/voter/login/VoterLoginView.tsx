@@ -45,7 +45,9 @@ function VoterLoginView(): ReactElement {
     const [state, dispatch] = useReducer(voterLoginReducer, initialState)
     const [election, setElection] = useState<undefined | IElectionBase>(undefined)
     const authenticationService = new AuthenticationService(BackendAPI, new LocalStorageService<StorageKeys>())
-    const [alertState] = useAlert([location.state])
+    const initialAlertState: AlertState[] = location.state ? [location.state] : []
+
+    const [alertState] = useAlert(initialAlertState)
 
     useEffect(() => {
         const connectEvent = joinConnectEvent(dispatch)

@@ -1,6 +1,8 @@
+import { LogoutOutlined } from '@ant-design/icons'
 import { Divider } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import CenterView from 'components/centerView/CenterView'
+import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
@@ -17,7 +19,7 @@ import { WebsocketEvent } from 'core/socket/EventHandler'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import { DisplayAction, electionReducer, initialElectionState } from 'core/state/election/electionReducer'
 import { electionSocketEventBinder, electionSocketEventCleanup } from 'core/state/election/electionSocketEventBinder'
-import React, { ReactElement, useEffect, useReducer } from 'react'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import ElectionContentHandler from './ElectionContentHandler'
 import ElectionInfoHandler from './ElectionInfoHandler'
@@ -26,6 +28,7 @@ export default function VoterElectionView(): ReactElement {
     const [socket] = useSocket()
     const history = useHistory<AlertState>()
     const appStateDispatch = useAppStateDispatcher()
+    const [isLoggingOut, setIsLoggingOut] = useState(false)
 
     useEffect(() => {
         socket.connect()
@@ -83,12 +86,15 @@ export default function VoterElectionView(): ReactElement {
 
     useEffect(() => {
         if (electionState.displayAction === DisplayAction.Closed) {
-            appStateDispatch.setLogoutState()
-            history.push(getPublicRoute().joinElection, {
-                message: 'You were logged out',
-                description: 'This happen because the election was closed',
-                level: 'info',
-            })
+            setIsLoggingOut(true)
+            setTimeout(() => {
+                appStateDispatch.setLogoutState()
+                history.push(getPublicRoute().joinElection, {
+                    message: 'You were logged out',
+                    description: 'This happen because the election was closed',
+                    level: 'info',
+                })
+            }, 5000)
         }
     }, [electionState])
 
@@ -100,7 +106,15 @@ export default function VoterElectionView(): ReactElement {
                     <ElectionInfoHandler state={electionState} />
                     <Divider />
                     <VoterContent>
-                        <ElectionContentHandler state={electionState} />
+                        {isLoggingOut ? (
+                            <SquareIconContainer
+                                icon={<LogoutOutlined />}
+                                label="Logging off"
+                                description={'Election is finish so we are logging you out. Thanks for participating'}
+                            />
+                        ) : (
+                            <ElectionContentHandler state={electionState} />
+                        )}
                     </VoterContent>
                 </Content>
                 <VoterFooter />
