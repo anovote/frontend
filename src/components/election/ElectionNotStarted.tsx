@@ -67,14 +67,7 @@ export const ElectionNotStarted = ({
                                     title={t('election:Are you sure you want to delete the election')}
                                     onConfirm={deleteElectionHandler}
                                 >
-                                    <IconButton
-                                        icon={<DeleteOutlined />}
-                                        text="Delete"
-                                        onClick={() => {
-                                            return
-                                        }}
-                                        color="red"
-                                    />
+                                    <IconButton icon={<DeleteOutlined />} text="Delete" color="red" />
                                 </Popconfirm>
                             </Space>
                         </Col>
