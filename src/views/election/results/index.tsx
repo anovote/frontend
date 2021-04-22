@@ -1,135 +1,169 @@
-import { Bar, Line } from '@ant-design/charts'
-import { Progress } from 'antd'
+import { Bar } from '@ant-design/charts'
+import { BarConfig } from '@ant-design/charts/es/bar'
+import { PlayCircleFilled } from '@ant-design/icons'
+import { Space } from 'antd'
+import Title from 'antd/lib/typography/Title'
+import { ElectionParams } from 'components/queue/ElectionParams'
+import IconButton from 'containers/button/IconButton'
 import { BackendAPI } from 'core/api'
+import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { fetchElectionStats } from 'core/helpers/fetchElectionStats'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
+import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
 import { ElectionService } from 'core/service/election/ElectionService'
-import { jsPDF } from 'jspdf'
-import PDFObject from 'pdfobject'
 import html2canvas from 'html2canvas'
-import html2PDF from 'jspdf-html2canvas'
+import jsPDF from 'jspdf'
 import * as React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 /**
- * The main view used for creating an election
+ * Help for scaling found here
+ * https://stackoverflow.com/questions/18191893/generate-pdf-from-html-in-div-using-javascript
+ *
+ * View for election results, will fetch election based on the ID in the url
  */
 export default function ElectionResultView(): React.ReactElement {
-    const r = useLocation().hash
     const electionService = new ElectionService(BackendAPI)
-    console.log(r)
+    const routeParams = useParams<ElectionParams>()
+    const [t] = useTranslation(['common', 'election', 'error'])
 
+    const [election, setElection] = useState<IElectionEntity | undefined>()
+    const [error, setError] = useState('')
     const [ballotState, setBallotState] = React.useReducer(electionBallotReducer, {
-        ballots: [],
+        ballotWithStats: [],
         activeBallotIndex: 0,
     })
+
     const fetchElection = async (electionId: string) => {
         try {
             return await electionService.getElection(Number.parseInt(electionId))
         } catch (error) {
-            /**hi */
+            if (error instanceof AuthorizationError) {
+                setError(t('error:You are not authorized'))
+            } else {
+                setError(t('error:Election do not exist'))
+            }
         }
     }
     React.useEffect(() => {
-        async function start() {
-            const election = await fetchElection('3')
-            if (election) {
-                const stats = await fetchElectionStats(3)
-                setBallotState({ type: 'addStats', payload: stats })
-
+        async function getResultData(electionId: string) {
+            const election = await fetchElection(electionId)
+            const stats = await fetchElectionStats(Number.parseInt(electionId))
+            if (election && stats) {
+                setElection(election)
                 const ballots = election.ballots
                     ? election.ballots.map((ballot) => ({ ...ballot } as IBallotEntity))
                     : new Array<IBallotEntity>()
                 setBallotState({ type: 'addBallots', payload: ballots })
+                setBallotState({ type: 'addStats', payload: stats })
             }
-            test()
         }
-        start()
+        const electionId = routeParams.electionId
+        if (electionId) getResultData(electionId)
     }, [])
-    let diagramStats: Array<any>
-    for (const ballot of ballotState.ballots) {
-        diagramStats = ballot.stats.stats.candidates
-            .map((stat, index) => {
-                return { ...stat, candidate: ballot.ballot.candidates[index].candidate }
-            })
-            // Sorts ballots in decreasing order
-            .sort((statsA, statsB) => {
-                return statsB.votes - statsA.votes
-            })
-    }
-    const A4_width = 595 //pixels
-    const A4_height = 842 //pixels
-    const ratio = 1.5 // scale for higher image's dpi
-    console.log('starting...')
-    async function test() {
-        async function createPDF() {
-            console.log('creating pdf')
-            const resultElement = document.body.querySelector('#results') as HTMLElement
-            let k
-            if (resultElement) {
-                k = await html2PDF(resultElement, {
-                    jsPDF: {
-                        orientation: 'portrait',
-                        units: 'mm',
-                        format: 'a4',
-                    },
-                    html2canvas: {
-                        width: A4_width * ratio,
-                        height: A4_height * ratio,
-                        scrollX: 0,
-                        scale: 3,
-                        scrollY: -window.scrollY,
-                    },
-                    imageType: 'image/jpeg',
-                    imageQuality: 1,
-                    output: '.',
-                    success: function () {
-                        console.log('hei')
-                    },
-                })
-            }
-            return k.output('datauristring')
-        }
-        PDFObject.embed(await createPDF(), '#example1')
-    }
-    const k = [1, 2, 3]
-    const data = [
-        { year: '1991', value1: 3 },
-        { year: '1992', value: 4 },
-        { year: '1993', value: 3.5 },
-        { year: '1994', value: 5 },
-        { year: '1995', value: 4.9 },
-        { year: '1996', value: 6 },
-        { year: '1997', value: 7 },
-        { year: '1998', value: 9 },
-        { year: '1999', value: 13 },
-    ]
 
-    const config = {
-        data,
-        xField: 'year',
-        yField: 'value',
-        point: {
-            size: 5,
-            shape: 'diamond',
-        },
-        label: {
-            style: {
-                fill: '#aaa',
+    const ballotResults: Array<React.ReactElement> = []
+    function createDiagrams() {
+        let config: BarConfig = {
+            data: [],
+            xField: 'votes',
+            yField: 'candidate',
+            seriesField: 'candidate',
+            barStyle: {
+                y: 200,
             },
-        },
+            yAxis: {
+                label: null,
+            },
+            xAxis: { tickInterval: 5 },
+            label: {
+                position: 'middle',
+            },
+        }
+        for (const ballot of ballotState.ballotWithStats) {
+            const stats = ballot
+                .getVoteStatsWithCandidates()
+                .candidates.map((c, i) => {
+                    c.candidate = `# ${i + 1} ${c.candidate}`
+                    return c
+                }) // Sorts ballots in decreasing order
+                .sort((statsA, statsB) => {
+                    return statsB.votes - statsA.votes
+                })
+
+            config = { ...config, data: stats }
+            ballotResults.push(
+                <>
+                    <div className="result-item mb-20">
+                        <Title level={3}>{ballot.title}</Title>
+                        <Bar key={Math.random()} {...config}></Bar>
+                    </div>
+                </>,
+            )
+        }
     }
-    const kwi = k.map((e) => {
-        return <div key={e}>{e}</div>
-    })
+
+    function getFileName() {
+        if (!election) return
+        return `results-${election.title}`.toLowerCase()
+    }
+
+    createDiagrams()
+
+    async function createPDF() {
+        const padding = 25
+        const resultElement = document.body.querySelector('#results') as HTMLElement
+        if (resultElement) {
+            // Creates canvas element from HTML
+            const canvas = await html2canvas(resultElement)
+            // PDF generator, height is equal to canvas height to create one large page
+            const pdf = new jsPDF('portrait', 'pt', [850, canvas.height])
+            // Convert canvas to data URL with maximum quality
+            const imgData = canvas.toDataURL('image/jpeg', 1)
+
+            const pageWidth = pdf.internal.pageSize.getWidth()
+            const pageHeight = pdf.internal.pageSize.getHeight()
+            const imageWidth = canvas.width
+            const imageHeight = canvas.height
+
+            // Create rato factor for scaling the image on the PDF page
+            const ratio =
+                imageWidth / imageHeight >= pageWidth / pageHeight ? pageWidth / imageWidth : pageHeight / imageHeight
+
+            pdf.addImage(
+                imgData,
+                'JPEG',
+                padding,
+                padding,
+                imageWidth * ratio - padding * 2,
+                imageHeight * ratio - padding * 2,
+            )
+            return pdf.save(getFileName())
+        }
+    }
     return (
         <>
-            <div id="results" style={{}}>
-                <Line {...config}></Line>
-                <Bar {...config}></Bar>
-                {kwi}
-            </div>
-            <div style={{ height: '900px', width: '1000px' }} id="example1"></div>
+            <Title level={1}>{t('election:Results')}</Title>
+            {election && (
+                <>
+                    <Space direction="horizontal" className="mb-15">
+                        <IconButton
+                            icon={<PlayCircleFilled />}
+                            text={t('common:Download pdf')}
+                            onClick={createPDF}
+                            color="green"
+                        />
+                    </Space>
+                    <div id="results" style={{}}>
+                        <Title level={2}>{election.title}</Title>
+                        <p>{election.description}</p>
+                        {ballotResults}
+                    </div>
+                </>
+            )}
+            {!election && <p>{error}</p>}
         </>
     )
 }
