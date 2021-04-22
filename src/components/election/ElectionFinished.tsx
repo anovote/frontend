@@ -1,4 +1,4 @@
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, OrderedListOutlined } from '@ant-design/icons'
 import { Col, List, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
@@ -11,9 +11,12 @@ import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
 import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory, useLocation } from 'react-router'
 
 export const ElectionFinished = ({ election }: { election: IElectionEntity }): ReactElement => {
     const [t] = useTranslation(['common', 'election'])
+    const history = useHistory()
+    const location = useLocation()
     const [modal, setModal] = useState(false)
     const [ballotState, setBallotState] = useReducer(electionBallotReducer, {
         ballotWithStats: [],
@@ -51,6 +54,10 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
         setModal(false)
     }
 
+    const gotoResultsPage = () => {
+        history.push(location.pathname + '/results')
+    }
+
     return (
         <>
             <Row gutter={[32, 16]} align="top">
@@ -64,6 +71,12 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                                     text="Delete"
                                     onClick={deleteElectionHandler}
                                     color="red"
+                                />
+                                <IconButton
+                                    icon={<OrderedListOutlined />}
+                                    text="Results"
+                                    onClick={gotoResultsPage}
+                                    color="green"
                                 />
                             </Space>
                         </Col>
