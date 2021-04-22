@@ -155,9 +155,6 @@ type ElectionViewState = {
 
 function reducer(state: ElectionViewState, action: ElectionViewActions): ElectionViewState {
     switch (action.type) {
-        case 'deleteElection': {
-            return { ...state, isLoading: true }
-        }
         case 'deleteSuccess':
             return { ...state, isLoading: false, election: undefined }
         case 'abortEdit':
@@ -165,6 +162,7 @@ function reducer(state: ElectionViewState, action: ElectionViewActions): Electio
         case 'edit': {
             return { ...state, edit: true }
         }
+        case 'deleteElection':
         case 'fetchingElection':
             return { ...state, isLoading: true }
         case 'gotElection':
