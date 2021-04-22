@@ -1,4 +1,4 @@
-import { ICandidateStats } from './ICandidateStats'
+import { IVoteStats } from './IVoteStats'
 
 /**
  * Represents ballot stats for a particular ballot
@@ -7,10 +7,5 @@ import { ICandidateStats } from './ICandidateStats'
  */
 export interface IBallotStats {
     ballotId: number
-    stats: {
-        total: number
-        votes: number
-        blank: number
-        candidates: Array<ICandidateStats>
-    }
+    stats: IVoteStats
 }

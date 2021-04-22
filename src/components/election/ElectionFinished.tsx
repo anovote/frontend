@@ -18,7 +18,7 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
     const [ballotState, setBallotState] = useReducer(electionBallotReducer, {
-        ballots: [],
+        ballotWithStats: [],
         activeBallotIndex: 0,
     })
     useEffect(() => {
@@ -98,12 +98,12 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                 </Col>
                 <Col span={12}>
                     <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballotState.ballots.length > 0 ? (
+                    {ballotState.ballotWithStats.length > 0 ? (
                         <>
-                            <BallotsQueue dataSource={ballotState.ballots} expandBallot={showModal} />
+                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
                             <BallotModal
                                 showModal={modal}
-                                ballot={ballotState.ballots[ballotState.activeBallotIndex]}
+                                ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
                                 close={closeModal}
                                 controls={{
                                     next: () => {
