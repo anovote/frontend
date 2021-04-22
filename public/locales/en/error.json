@@ -20,5 +20,6 @@
     "Voter identification is missing": "Please provide an identification",
     "Voter verification failed": "The verification failed, please try again",
     "duplicate email": "Duplicate email",
-    "not valid email": "Not valid email"
+    "not valid email": "Not valid email",
+    "You are not authorized": "You are not authorized"
 }
