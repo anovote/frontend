@@ -80,7 +80,7 @@ export default function Home(): React.ReactElement {
                         </section>
                         <section id="anovote-backstory">
                             <Title level={1}>{t('site:Anovote anonymous voting')}</Title>
-                            <Space wrap={true} className="backstory-content">
+                            <Space wrap={true} align="center" className="backstory-content">
                                 <article className="backstory">
                                     <Text>
                                         Anovote was develop with the intention of performing as secure and anonymous

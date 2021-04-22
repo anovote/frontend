@@ -5,7 +5,7 @@ $hero-height: 70vh;
 }
 .hero {
     background-color: $background;
-    height: $hero-height;
+    height: fit-content;
     position: relative;
     @include is-flex-row;
     justify-content: space-around;
@@ -19,6 +19,10 @@ $hero-height: 70vh;
         @include is-flex;
         @include is-flex-column;
         z-index: 1;
+
+        @include for-tablet-portrait-up {
+            margin-bottom: 0;
+        }
 
         .title-box {
             font-size: 6 * $bu;
@@ -44,26 +48,53 @@ $hero-height: 70vh;
 
     .showcase {
         display: block;
-        width: 60 * $bu;
-        height: 32 * $bu;
+        width: 1175px;
+        height: 832px;
         transform: rotate(-3deg);
         align-self: flex-end;
         position: relative;
         z-index: 1;
+
+        @include for-tablet-portrait-up {
+            width: 900px;
+        }
+
+        @include for-phone-only {
+            display: none;
+        }
+
         img {
-            position: absolute;
+            position: relative;
             top: 0;
             left: 0;
 
-            height: 62 * $bu;
+            height: 832px;
+
+            @include for-tablet-portrait-up {
+                height: 640px;
+            }
+
+            @include for-desktop-up {
+                height: 750px;
+            }
         }
     }
 }
 #lines-background-effect {
     flex-basis: 100%;
     position: absolute;
-    top: 4rem;
-    right: -2rem;
+    width: 100%;
+    right: 0;
+    left: 0;
+    bottom: -30%;
+
+    @include for-tablet-portrait-up {
+        bottom: -5%;
+    }
+
+    @include for-phone-only {
+        display: none;
+    }
 }
 
 .content {
@@ -121,11 +152,9 @@ $hero-height: 70vh;
     #anovote-backstory {
         .backstory-content {
             margin-top: 6rem;
-            display: block;
-            width: 60rem;
-            @include is-flex-row;
+            max-width: 60rem;
             justify-content: center;
-            align-items: center;
+            flex-wrap: wrap;
 
             article {
                 max-width: 24rem;
@@ -134,6 +163,10 @@ $hero-height: 70vh;
                 span {
                     text-align: left;
                     display: block;
+
+                    @include for-phone-only {
+                        text-align: center;
+                    }
                 }
             }
 
