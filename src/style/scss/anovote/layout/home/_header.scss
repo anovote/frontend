@@ -3,6 +3,7 @@
     justify-content: space-between;
     padding: 1 * $bu 2 * $bu;
     height: $home-header-height;
+    z-index: 1;
 }
 
 .ant-menu-light {
