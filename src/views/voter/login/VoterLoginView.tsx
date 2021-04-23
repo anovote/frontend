@@ -1,5 +1,6 @@
 import { Button, Form, Input, Result } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
+import { AlertList } from 'components/alert/AlertList'
 import CenterView from 'components/centerView/CenterView'
 import IconMessage from 'components/iconMessage/IconMessage'
 import VoterContent from 'components/voterContent/VoterContent'
@@ -8,6 +9,7 @@ import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
 import { BackendAPI } from 'core/api'
 import { Events } from 'core/events'
+import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { useSocket } from 'core/hooks/useSocket'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionBase } from 'core/models/election/IElectionBase'
@@ -23,6 +25,7 @@ import { voterLoginReducer, VoterLoginState } from 'core/state/login/VoterLoginS
 import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
+import { useLocation } from 'react-router-dom'
 import { joinAckEvent, joinConnectErrorEvent, joinConnectEvent, joinVerifiedEvent } from './Events'
 
 /**
@@ -33,6 +36,7 @@ function VoterLoginView(): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['error', 'form', 'common', 'voter'])
     const history = useHistory()
+    const location = useLocation<AlertState>()
     const appStateDispatcher = useAppStateDispatcher()
     const initialState: VoterLoginState = {
         isLoading: false,
@@ -41,6 +45,10 @@ function VoterLoginView(): ReactElement {
     const [state, dispatch] = useReducer(voterLoginReducer, initialState)
     const [election, setElection] = useState<undefined | IElectionBase>(undefined)
     const authenticationService = new AuthenticationService(BackendAPI, new LocalStorageService<StorageKeys>())
+    const initialAlertState: AlertState[] = location.state ? [location.state] : []
+
+    const [alertState] = useAlert(initialAlertState)
+
     useEffect(() => {
         const connectEvent = joinConnectEvent(dispatch)
         const connectErrorEvent = joinConnectErrorEvent(dispatch, t)
@@ -137,6 +145,7 @@ function VoterLoginView(): ReactElement {
                         ]}
                     />
                 )}
+                <AlertList alerts={alertState} />
                 <Content className="voter-election-layout-content">
                     <VoterContentInfo title={t('voter:Join election')}></VoterContentInfo>
                     <VoterContent>

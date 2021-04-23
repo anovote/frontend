@@ -1,0 +1,85 @@
+.about-hero {
+    background-color: $background;
+    @include is-flex;
+    justify-content: center;
+    position: relative;
+}
+
+#purple-line {
+    width: 700px;
+    position: absolute;
+    right: -10rem;
+    bottom: -7rem;
+}
+
+.site-layout-content {
+    @include is-flex-column;
+    width: 80%;
+}
+
+#about-title {
+    margin-top: 6rem;
+    font-size: 4rem;
+}
+
+.about-content {
+    margin-top: 2rem;
+    padding: 4rem 0;
+    background-color: $white;
+    @include is-flex;
+    justify-content: center;
+
+    section {
+        #how-it-started {
+            margin-bottom: 2rem;
+        }
+    }
+}
+
+.about-layout-content-header {
+    @include is-flex-column;
+    justify-content: center;
+}
+
+.content-size {
+    max-width: 60rem;
+}
+.team-carousel {
+    align-self: center;
+    height: fit-content;
+    padding: 2rem 0;
+
+    .team-member {
+        display: block;
+        height: 20rem;
+        width: 14rem;
+        background-color: $background;
+        @include is-rounded-large;
+        @include is-flex-column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 1rem;
+        margin: 0 1rem;
+
+        .member-image {
+            margin-bottom: auto;
+            display: block;
+            height: 8rem;
+            width: 8rem;
+            border-radius: 4rem;
+            border: 3px solid $main-light;
+        }
+
+        .ant-typography {
+            text-align: center;
+        }
+
+        a {
+            color: $main-light;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

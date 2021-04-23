@@ -12,6 +12,7 @@ import LoginView from './login'
 import RegisterView from './register'
 import VerifyVoterView from './voter/verify'
 import VoterLoginView from './voter/login/VoterLoginView'
+import About from './home/About'
 
 /**
  * Router view
@@ -26,6 +27,9 @@ export default function RouterView(): React.ReactElement {
             <Switch>
                 <Route exact path={getPublicRoute().landing}>
                     <Home />
+                </Route>
+                <Route path={getPublicRoute().about}>
+                    <About />
                 </Route>
                 <Route path={getPublicRoute().register}>
                     <RegisterView />
