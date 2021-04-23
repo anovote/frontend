@@ -116,7 +116,7 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     const endElectionOnConfirm = async (id: number) => {
         socket.emit(
             Events.client.election.close,
-            { id },
+            { electionId: id },
             WebsocketEvent({
                 dataHandler: (data: { finished: boolean; needForceEnd: boolean; closeDate: Date }) => {
                     if (data.needForceEnd) {
@@ -162,7 +162,6 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
     return (
         <>
             {/** Modal for force end election */}
-            {/** // TODO fix translation  */}
             <Modal
                 title={t('election:Confirm close of election')}
                 visible={forceEndVisible}
