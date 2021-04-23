@@ -1,4 +1,5 @@
-import { Button, Form, Input, Result } from 'antd'
+import { Button, Form, Input, Result, Space, Tooltip } from 'antd'
+import Text from 'antd/lib/typography'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import CenterView from 'components/centerView/CenterView'
 import IconMessage from 'components/iconMessage/IconMessage'
@@ -24,6 +25,8 @@ import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { joinAckEvent, joinConnectErrorEvent, joinConnectEvent, joinVerifiedEvent } from './Events'
+import Link from 'antd/lib/typography/Link'
+import { QuestionCircleOutlined } from '@ant-design/icons'
 
 /**
  * A view for a voter to give email and election code in order to join an election
@@ -164,7 +167,19 @@ function VoterLoginView(): ReactElement {
                                     <Input disabled={state.isLoading} placeholder="email@example.com" />
                                 </Form.Item>
                                 <Form.Item
-                                    label={t('common:Election Code')}
+                                    label={
+                                        <Space>
+                                            <Text>Election code</Text>
+                                            <Tooltip
+                                                title={t(
+                                                    'voter:The election code is provided by the election organizer',
+                                                )}
+                                                placement="right"
+                                            >
+                                                <QuestionCircleOutlined />
+                                            </Tooltip>
+                                        </Space>
+                                    }
                                     name={'electionCode'}
                                     rules={[
                                         { type: 'string', required: true, message: t('form:Is required') },

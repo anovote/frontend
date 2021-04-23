@@ -1,13 +1,15 @@
 {
-    "Voter verification succeeded": "Verification successful",
-    "Verifying code": "Verifying code",
-    "This browser tab can ble closed": "This browser tab can be closed",
-    "Please do not close this window": "Please do not close this window",
-    "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again",
-    "Verification link sent to your": "Verification link sent to your {{type}}",
-    "Join election": "Join election",
-    "Verification code is missing": "Verification code is missing",
-    "Voter verification failed": "The verification failed, please try again",
-    "You are already part of an election": "You are already part of the election: {{election}}",
-    "Do you want to re-join": "Do you want to re-join the election?"
+  "Do you want to re-join": "Do you want to re-join the election?",
+  "Join election": "Join election",
+  "Please do not close this window": "Please do not close this window",
+  "The election code is provided by the election organizer": "The election code is provided by the election organizer",
+  "This browser tab can ble closed": "This browser tab can be closed",
+  "This is provided by the election organizer": "This is provided by the election organizer",
+  "Verification code is missing": "Verification code is missing",
+  "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again",
+  "Verification link sent to your": "Verification link sent to your {{type}}",
+  "Verifying code": "Verifying code",
+  "Voter verification failed": "The verification failed, please try again",
+  "Voter verification succeeded": "Verification successful",
+  "You are already part of an election": "You are already part of the election: {{election}}"
 }
