@@ -1,6 +1,7 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { DuplicateError } from 'core/errors/DuplicateError'
+import { NotFoundError } from 'core/errors/NotFoundError'
 import { IElection } from 'core/models/election/IElection'
 import { IElectionBase } from 'core/models/election/IElectionBase'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
@@ -80,7 +81,8 @@ export class ElectionService {
 
     public async getElection(electionId: number): Promise<IElectionEntity> {
         try {
-            return (await this.httpClient.get(this.electionRoute.byId(electionId).get)).data
+            const election = (await this.httpClient.get(this.electionRoute.byId(electionId).get)).data
+            return this.checkAndSetDates(election)
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
@@ -115,6 +117,30 @@ export class ElectionService {
     }
 
     /**
+     * delete
+     */
+    public async delete(election: IElectionEntity): Promise<void> {
+        try {
+            await this.httpClient.delete<IElectionEntity>(this.electionRoute.byId(election.id).delete)
+        } catch (error) {
+            if (error.isAxiosError) {
+                const axiosError: AxiosError = error
+                switch (axiosError.response?.status) {
+                    case StatusCodes.UNAUTHORIZED:
+                        throw new AuthorizationError('You need to be logged in to create an election!')
+                    case StatusCodes.INTERNAL_SERVER_ERROR:
+                        throw new Error('Error at the server, drink some Tea and wait')
+                    case StatusCodes.NOT_FOUND:
+                        throw new NotFoundError('Election not found')
+                    default:
+                        throw axiosError
+                }
+            }
+            throw error
+        }
+    }
+
+    /**
      * Tries to fetch the election base details for the given election id and returns it.
      * If it fails an error is thrown
      * @param electionId the id of the election to get details from
@@ -135,6 +161,18 @@ export class ElectionService {
             }
             throw error
         }
+    }
+
+    private checkAndSetDates = (election: IElectionEntity): IElectionEntity => {
+        const { openDate, closeDate } = election
+        const dates: { [key: string]: Date | string | null | undefined } = { openDate, closeDate }
+        for (const date in dates) {
+            if (dates[date] && typeof dates[date] === 'string') {
+                dates[date] = new Date(dates[date] as string)
+            }
+        }
+
+        return { ...election, ...dates }
     }
 
     //private handleError(error: Error | AxiosError) {}

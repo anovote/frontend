@@ -44,6 +44,7 @@ const adminRoute = () => {
                         get: electionIdPath.get(),
                         stats: electionIdPath.append('stats').get(),
                         update: electionIdPath.get(),
+                        delete: electionIdPath.get(),
                         ballots: () => {
                             const ballotsPath = electionIdPath.append('ballots')
                             return {

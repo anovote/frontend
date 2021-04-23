@@ -17,13 +17,13 @@ export default function IconButton({
     disabled?: boolean
     color?: 'red' | 'green'
     icon: ReactElement
-    onClick: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+    onClick?: (event?: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }): ReactElement {
     const classReverse = reverse ? 'is-flex-row-reverse' : ''
     return (
         <button
             disabled={disabled}
-            onClick={(event) => onClick(event)}
+            onClick={onClick ? (event) => onClick(event) : undefined}
             className={`anovote-button-style icon-button ${color ? color : 'main-light'} ${classReverse}`}
             tabIndex={tabIndex}
             id={classId}

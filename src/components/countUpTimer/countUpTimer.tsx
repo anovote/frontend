@@ -1,5 +1,5 @@
-import React from 'react'
 import { CountUpTimer as Counter } from 'lib/time/counter/CountUpTimer'
+import React from 'react'
 
 /**
  * Creates a time object that displays time in D H M S format.
@@ -7,13 +7,14 @@ import { CountUpTimer as Counter } from 'lib/time/counter/CountUpTimer'
  * If doCount is set to false it will not count and just display the time in D H M S format.
  */
 export default function CountUpTimer({
-    initialTime = 0,
+    initialTime = Date.now(),
     doCount = true,
 }: {
     initialTime?: number
     doCount?: boolean
 }): JSX.Element {
-    const counter = new Counter(initialTime)
+    const timeDifference = Date.now() - initialTime
+    const counter = new Counter(timeDifference)
 
     const [time, setTime] = React.useState(counter.time)
 
