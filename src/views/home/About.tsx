@@ -1,16 +1,15 @@
+import { Space } from 'antd'
 import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout'
 import Text from 'antd/lib/typography/Text'
 import Title from 'antd/lib/typography/Title'
 import Navigation from 'components/home/Navigation'
 import React, { ReactElement } from 'react'
-import { Link } from 'react-router-dom'
-import steffenPicture from 'style/assets/steffen.jpg'
-import sanderPicture from 'style/assets/sander.jpg'
-import emilPicture from 'style/assets/emil.jpg'
-import chrisPicture from 'style/assets/christoffer.jpg'
-import { ReactComponent as PurpleLine } from 'style/assets/purple-line.svg'
-import { Space } from 'antd'
 import { useTranslation } from 'react-i18next'
+import chrisPicture from 'style/assets/christoffer.jpg'
+import emilPicture from 'style/assets/emil.jpg'
+import { ReactComponent as PurpleLine } from 'style/assets/purple-line.svg'
+import sanderPicture from 'style/assets/sander.jpg'
+import steffenPicture from 'style/assets/steffen.jpg'
 
 export default function About(): ReactElement {
     const [t] = useTranslation(['site'])
