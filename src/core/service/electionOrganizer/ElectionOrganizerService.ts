@@ -1,5 +1,4 @@
 import { AxiosError, AxiosInstance } from 'axios'
-import { ChangePasswordInterface } from 'containers/forms/profile/ChangePasswordForm'
 import { InvalidEmail, PasswordDoesNotMatchError, PasswordIsNotValidError } from 'core/errors/customErrors'
 import { isValidEmail } from 'core/helpers/validation'
 import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
@@ -36,49 +35,56 @@ export class ElectionOrganizerService {
     }
 
     /**
-     * Validates and change the password of an election organizer only if validation passes
-     * @param newPasswords contains the passwords to be checked
+     * Updates the details for an given election organizer on the server.
+     * @param organizer the organizer to update details for
+     * @returns the newly updated organizer details
      */
-    async validateAndChangePassword(newPasswords: ChangePasswordInterface): Promise<void> | never {
-        this.validatePassword(newPasswords)
-        return await this.changePassword(newPasswords.password1)
+    async updateDetails(organizer: IElectionOrganizerEntity): Promise<IElectionOrganizerEntity> {
+        let response
+
+        try {
+            response = await this._httpClient.put(apiRoutes.admin.organizer().byId(organizer.id).update, {
+                ...organizer,
+            })
+        } catch (error) {
+            if (error.isAxiosError) {
+                const axiosError: AxiosError = error
+                if (axiosError.response?.status === StatusCodes.BAD_REQUEST) {
+                    throw new Error('Bad request')
+                }
+            }
+            throw error
+        }
+        return response.data
     }
 
     /**
-     * If the validated email is successfully validated, a request for changing the
-     * email would be sent.
-     * @param newEmail the new email the user want to change to
-     * @returns the answer of the request, true if successful
+     * Changes the email for the organizer if the email is a valid address
+     * @param organizer the organizer to update the email for
+     * @returns the updated organizer entity
      */
-    async changeEmail(newEmail: string): Promise<boolean> {
-        const sanitized = this.validateEmail(newEmail)
-        try {
-            await this._httpClient.put(apiRoutes.admin.organizer().changeEmail, { newEmail: sanitized })
-            return true
-        } catch (error) {
-            if (error.isAxiosError) {
-                const axiosError: AxiosError = error
-                if (axiosError.response?.status === StatusCodes.BAD_REQUEST) {
-                    throw new Error('Bad request')
-                }
-            }
-            throw error
-        }
-        return false
+    async changeEmail(organizer: IElectionOrganizerEntity): Promise<IElectionOrganizerEntity> {
+        const sanitized = this.validateEmail(organizer.email)
+
+        return this.updateDetails({ ...organizer, email: sanitized })
     }
 
-    private async changePassword(newPassword: string) {
-        try {
-            await this._httpClient.put(apiRoutes.admin.organizer().changePassword, { newPassword })
-        } catch (error) {
-            if (error.isAxiosError) {
-                const axiosError: AxiosError = error
-                if (axiosError.response?.status === StatusCodes.BAD_REQUEST) {
-                    throw new Error('Bad request')
-                }
-            }
-            throw error
-        }
+    /**
+     * Changes the password for the organizer after checking if the new passwords,
+     * are validated as good passwords.
+     * @param organizer the organizer object to change password to
+     * @param newPasswords the new passwords the organizer wants to change to
+     * @returns the updated organizer
+     */
+    async changePassword(
+        organizer: IElectionOrganizerEntity,
+        newPasswords: { password1: string; password2: string },
+    ): Promise<IElectionOrganizerEntity> {
+        const checkedPassword = this.validatePassword(newPasswords)
+
+        organizer.password = checkedPassword
+
+        return await this.updateDetails({ ...organizer })
     }
 
     private validateEmail(newEmail: string): string {
@@ -91,7 +97,7 @@ export class ElectionOrganizerService {
         return trimmedMail
     }
 
-    private validatePassword(newPasswords: ChangePasswordInterface): string {
+    private validatePassword(newPasswords: { password1: string; password2: string }): string {
         this.checkPasswordMatch(newPasswords)
 
         const { password1 } = newPasswords
@@ -105,7 +111,7 @@ export class ElectionOrganizerService {
         }
     }
 
-    private checkPasswordMatch(newPasswords: ChangePasswordInterface) {
+    private checkPasswordMatch(newPasswords: { password1: string; password2: string }) {
         const { password1, password2 } = newPasswords
         if (password1 !== password2) {
             throw new PasswordDoesNotMatchError('Password does not match')
