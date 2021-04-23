@@ -20,11 +20,12 @@ import { WebsocketEvent } from 'core/socket/EventHandler'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import { DisplayAction, electionReducer, initialElectionState } from 'core/state/election/electionReducer'
 import { electionSocketEventBinder, electionSocketEventCleanup } from 'core/state/election/electionSocketEventBinder'
-import { default as React, default as React, ReactElement, useEffect, useReducer, useState } from 'react'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import ElectionContentHandler from './ElectionContentHandler'
 import ElectionInfoHandler from './ElectionInfoHandler'
+
 export default function VoterElectionView(): ReactElement {
     const [electionState, electionDispatch] = useReducer(electionReducer, initialElectionState)
     const [socket] = useSocket()
