@@ -66,14 +66,14 @@ export default function LoginView(): React.ReactElement {
                             name="email"
                             rules={[{ required: true, message: t('form:Please provide email') }]}
                         >
-                            <Input />
+                            <Input placeholder="ola.nordmann@gmail.com" />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Password')}
                             name="password"
                             rules={[{ required: true, message: t('form:Please provide a password') }]}
                         >
-                            <Input.Password />
+                            <Input.Password placeholder={t('form:Your password')} />
                         </Form.Item>
                         <Form.Item>
                             <Space>
