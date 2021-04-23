@@ -29,7 +29,7 @@ export function LogoutButton({ confirmation }: LogoutButtonProps): ReactElement 
     }
 
     const logout = () => {
-        const alert: AlertState = { message: t('common:You where logged out'), level: 'info' }
+        const alert: AlertState = { message: t('common:You were logged out'), level: 'info' }
         dispatcher.setLogoutState()
         history.push(confirmation ? getPublicRoute().joinElection : getPublicRoute().login, alert)
     }
