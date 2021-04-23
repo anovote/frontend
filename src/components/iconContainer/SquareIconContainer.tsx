@@ -17,7 +17,7 @@ export default function SquareIconContainer({
         <div className="large-icon-container">
             {icon}
             {!!label && <span className="mt-10 text-label mb-10">{label}</span>}
-            {!!description && <div className="voter-description">{description}</div>}
+            {!!description && <div className="text">{description}</div>}
         </div>
     )
 }
