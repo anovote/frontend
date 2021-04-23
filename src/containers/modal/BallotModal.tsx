@@ -75,7 +75,6 @@ export default function BallotModal({
                     onCancel={close}
                     className="modal-display-small"
                 >
-                    {console.log(ballotEntity.status)}
                     <Row>
                         <Col span={24}>
                             <Title level={2}>{ballotEntity.title}</Title>
