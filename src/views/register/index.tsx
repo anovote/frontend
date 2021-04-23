@@ -62,14 +62,14 @@ export default function RegisterView(): React.ReactElement {
                             name="firstName"
                             rules={[{ required: true, message: t('form:Remember first name') }]}
                         >
-                            <Input />
+                            <Input placeholder="Ola" />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Last name')}
                             name="lastName"
                             rules={[{ required: true, message: t('form:Remember last name') }]}
                         >
-                            <Input />
+                            <Input placeholder="Nordmann" />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Email')}
@@ -80,21 +80,21 @@ export default function RegisterView(): React.ReactElement {
                             ]}
                             normalize={(val) => val.trim()}
                         >
-                            <Input />
+                            <Input placeholder="ola.nordmann@gmail.com" />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Password')}
                             name="password"
                             rules={[{ required: true, message: t('form:Remember password') }]}
                         >
-                            <Input.Password />
+                            <Input.Password placeholder={t('form:Your password')} />
                         </Form.Item>
                         <Form.Item
                             label={t('form:Please rewrite password')}
                             name="reTypePassword"
                             rules={[{ required: true, message: t('form:Remember to rewrite password') }]}
                         >
-                            <Input.Password />
+                            <Input.Password placeholder={t('form:Your password')} />
                         </Form.Item>
                         <Form.Item>
                             <Space>

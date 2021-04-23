@@ -67,7 +67,8 @@
         "USEPOLLING",
         "varchar",
         "wojtekmaj",
-        "zwaldowski"
+        "zwaldowski",
+        "Nordmann"
     ],
     "flagWords": ["hte"],
     "ignorePaths": ["*.env*", ".prettier*", "package.json", "yarn.lock", ".eslint*", ".vscode/*"]
