@@ -4,6 +4,7 @@ import CenterView from 'components/centerView/CenterView'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterFooter from 'components/voterFooter/VoterFooter'
 import VoterHeader from 'components/voterHeader/VoterHeader'
+import { LogoutButton } from 'containers/modal/LogoutButton'
 import { BackendAPI } from 'core/api'
 import { Events } from 'core/events'
 import { useSocket } from 'core/hooks/useSocket'
@@ -16,6 +17,7 @@ import { WebsocketEvent } from 'core/socket/EventHandler'
 import { electionReducer, initialElectionState } from 'core/state/election/electionReducer'
 import { electionSocketEventBinder, electionSocketEventCleanup } from 'core/state/election/electionSocketEventBinder'
 import React, { ReactElement, useEffect, useReducer } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import ElectionContentHandler from './ElectionContentHandler'
 import ElectionInfoHandler from './ElectionInfoHandler'
@@ -23,6 +25,7 @@ export default function VoterElectionView(): ReactElement {
     const [electionState, electionDispatch] = useReducer(electionReducer, initialElectionState)
     const [socket] = useSocket()
     const history = useHistory()
+    const [t] = useTranslation('voter')
 
     useEffect(() => {
         socket.connect()
@@ -77,6 +80,7 @@ export default function VoterElectionView(): ReactElement {
             electionSocketEventCleanup()
         }
     }, [])
+
     return (
         <CenterView>
             <Layout className="small-container">
@@ -86,6 +90,12 @@ export default function VoterElectionView(): ReactElement {
                     <Divider />
                     <VoterContent>
                         <ElectionContentHandler state={electionState} />
+                        <LogoutButton
+                            confirmation={{
+                                title: t('voter:Are you sure you want to logout'),
+                                content: <Trans i18nKey="voter:logout description" />,
+                            }}
+                        />
                     </VoterContent>
                 </Content>
                 <VoterFooter />
