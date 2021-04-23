@@ -66,7 +66,7 @@ export default function CreateBallotModal({
 
     const submitForm = async (formData: IBallot) => {
         formData.candidates = candidatesList
-        const index = initialBallot?.indexInList
+        const index = initialBallot?.index
         onSubmitted(formData, index)
     }
 
@@ -209,8 +209,9 @@ export default function CreateBallotModal({
                                             onEdit={() => onEdit(index)}
                                             onDelete={() => onDelete(index)}
                                             id={index}
-                                            itemTitle={item.candidate}
-                                        />
+                                        >
+                                            {item.candidate}
+                                        </PreviewItem>
                                         {editCandidate && editCandidate.id == index && candidateInputField(index)}
                                     </>
                                 )}

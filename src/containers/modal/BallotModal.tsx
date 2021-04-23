@@ -3,6 +3,7 @@ import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Col, Row } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
+import { BallotStatusLabel } from 'components/ElectionStatusLabel'
 import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
 import { IControl } from 'core/helpers/IControl'
@@ -67,8 +68,7 @@ export default function BallotModal({
             {ballot && (
                 <Modal
                     width={'100vw'}
-                    // TODO Add status ICON implementation here when merged
-                    title={ballot.status == 1 ? 'IN PROGRESS' : 'NOT STARTED'}
+                    title={<BallotStatusLabel status={ballot.status} />}
                     footer={footer}
                     visible={showModal}
                     onCancel={close}

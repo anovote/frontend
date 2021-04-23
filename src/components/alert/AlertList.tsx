@@ -6,6 +6,7 @@ export interface AlertListProps {
     alerts: AlertState[]
 }
 
+//todo #229 when an alert is closed it should remove itself from the alerts array. This can be done with the `afterClose` prop on the alert component
 export const AlertList = ({ alerts }: AlertListProps): ReactElement => {
     return (
         <div>
