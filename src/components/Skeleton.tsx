@@ -3,7 +3,7 @@ import { Layout, Menu } from 'antd'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { BackendAPI } from 'core/api'
 import { AlertState } from 'core/hooks/useAlert'
-import { IElectionOrganizer } from 'core/models/electionOrganizer/IElectionOrganizer'
+import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
@@ -26,7 +26,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const history = useHistory()
     const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
-    const [organizer, setOrganizer] = useState<IElectionOrganizer>({} as IElectionOrganizer)
+    const [organizer, setOrganizer] = useState<IElectionOrganizerEntity>({} as IElectionOrganizerEntity)
 
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
@@ -51,7 +51,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                 firstName: t('common:Your'),
                 lastName: t('common:Name'),
                 email: 'example@mail.com',
-            } as IElectionOrganizer
+            } as IElectionOrganizerEntity
             setOrganizer(organizer)
         }
     }, [organizer])
