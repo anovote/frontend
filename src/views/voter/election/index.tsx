@@ -20,6 +20,7 @@ import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import { DisplayAction, electionReducer, initialElectionState } from 'core/state/election/electionReducer'
 import { electionSocketEventBinder, electionSocketEventCleanup } from 'core/state/election/electionSocketEventBinder'
 import React, { ReactElement, useEffect, useReducer, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router-dom'
 import ElectionContentHandler from './ElectionContentHandler'
 import ElectionInfoHandler from './ElectionInfoHandler'
@@ -29,6 +30,7 @@ export default function VoterElectionView(): ReactElement {
     const history = useHistory<AlertState>()
     const appStateDispatch = useAppStateDispatcher()
     const [isLoggingOut, setIsLoggingOut] = useState(false)
+    const [t] = useTranslation('common')
 
     useEffect(() => {
         socket.connect()
@@ -87,11 +89,11 @@ export default function VoterElectionView(): ReactElement {
     useEffect(() => {
         if (electionState.displayAction === DisplayAction.Closed) {
             setIsLoggingOut(true)
+            appStateDispatch.setLogoutState()
             setTimeout(() => {
-                appStateDispatch.setLogoutState()
                 history.push(getPublicRoute().joinElection, {
-                    message: 'You were logged out',
-                    description: 'This happen because the election was closed',
+                    message: t('You were logged out'),
+                    description: t('This happen because the election was closed'),
                     level: 'info',
                 })
             }, 5000)
@@ -109,8 +111,8 @@ export default function VoterElectionView(): ReactElement {
                         {isLoggingOut ? (
                             <SquareIconContainer
                                 icon={<LogoutOutlined />}
-                                label="Logging off"
-                                description={'Election is finish so we are logging you out. Thanks for participating'}
+                                label="{t('Logging off')}"
+                                description={t('Election is finish so we are logging you out thanks for participating')}
                             />
                         ) : (
                             <ElectionContentHandler state={electionState} />
