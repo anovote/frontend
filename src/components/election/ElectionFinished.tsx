@@ -17,7 +17,7 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
     const [t] = useTranslation(['common', 'election'])
     const history = useHistory()
     const location = useLocation()
-    const [modal, setModal] = useState(false)
+    const [showBallotModal, setShowBallotModal] = useState(false)
     const [ballotState, setBallotState] = useReducer(electionBallotReducer, {
         ballotWithStats: [],
         activeBallotIndex: 0,
@@ -45,13 +45,13 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
      * Display modal for a given ballot with id.
      * @param id the id to show modal for
      */
-    const showModal = (id: number) => {
+    const doShowBallotModal = (id: number) => {
         setBallotState({ type: 'setActiveBallot', payload: id })
-        setModal(true)
+        setShowBallotModal(true)
     }
 
     const closeModal = () => {
-        setModal(false)
+        setShowBallotModal(false)
     }
 
     const gotoResultsPage = () => {
@@ -97,9 +97,9 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballotState.ballotWithStats.length > 0 ? (
                         <>
-                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
+                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={doShowBallotModal} />
                             <BallotModal
-                                showModal={modal}
+                                showModal={showBallotModal}
                                 ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
                                 close={closeModal}
                                 controls={{
