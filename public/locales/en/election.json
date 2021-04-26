@@ -33,5 +33,6 @@
   "To be held": "To be held",
   "Waiting for": "Waiting for {{what}}",
   "create-election": "Create Election",
-  "update-election": "Update Election"
+  "update-election": "Update Election",
+  "Are you sure you want to": "Are you sure you want to"
 }
