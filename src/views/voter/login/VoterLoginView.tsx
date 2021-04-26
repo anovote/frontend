@@ -1,4 +1,5 @@
 import { Button, Form, Input, Result } from 'antd'
+import Text from 'antd/lib/typography'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import CenterView from 'components/centerView/CenterView'
 import IconMessage from 'components/iconMessage/IconMessage'
@@ -167,7 +168,7 @@ function VoterLoginView(): ReactElement {
                                 <Form.Item
                                     label={
                                         <TextWithToolTip
-                                            text="Election code"
+                                            textComponent={<Text>Election code</Text>}
                                             toolTipTitle={t(
                                                 'voter:The election code is provided by the election organizer',
                                             )}
