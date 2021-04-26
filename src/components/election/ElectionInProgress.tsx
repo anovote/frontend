@@ -10,15 +10,15 @@ import BallotModal from 'containers/modal/BallotModal'
 import { Events } from 'core/events'
 import { useAlert } from 'core/hooks/useAlert'
 import { useSocket } from 'core/hooks/useSocket'
-import { BallotEntity } from 'core/models/ballot/BallotEntity'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
+import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
@@ -33,21 +33,22 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
     })
 }
 
-export function ElectionInProgressView({ election }: { election: IElectionEntity }): ReactElement {
+export function ElectionInProgress({ election }: { election: IElectionEntity }): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['common', 'election'])
     const [modal, setModal] = useState(false)
-    const [active, setActive] = useState(0)
-    const [stats, setStats] = useState([] as IBallotStats[])
+    const [ballotState, setBallotState] = useReducer(electionBallotReducer, {
+        ballotWithStats: [],
+        activeBallotIndex: 0,
+    })
     const [forceEndVisible, setForceEndVisible] = useState(false)
-
     const [alerts, setAlerts] = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
         fetchElectionStats(election.id)
             .then((serverStats) => {
-                setStats(serverStats)
+                setBallotState({ type: 'addStats', payload: serverStats })
             })
             .catch((err) => {
                 console.log(err)
@@ -64,53 +65,27 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
         })
 
         socket.on(Events.server.vote.newVote, (data: IBallotStats) => {
-            const newState = [...stats]
-            newState[data.ballotId] = data
-
-            setStats(newState)
+            setBallotState({ type: 'updateStats', payload: data })
         })
+
+        setBallotState({ type: 'addBallots', payload: election.ballots as Array<IBallotEntity> })
+
         return () => {
             socket.disconnect()
         }
     }, [])
-
-    const ballots = election.ballots
-        ? election.ballots.map((ballot) => ({ ...ballot } as IBallotEntity))
-        : new Array<IBallotEntity>()
 
     /**
      * Display modal for a given ballot with id.
      * @param id the id to show modal for
      */
     const showModal = (id: number) => {
+        setBallotState({ type: 'setActiveBallot', payload: id })
         setModal(true)
-        setActive(id)
     }
 
     const closeModal = () => {
         setModal(false)
-    }
-
-    const hasNext = () => {
-        if (ballots[active + 1]) {
-            setActive(active + 1)
-        }
-    }
-
-    const hasPrevious = () => {
-        if (ballots[active - 1]) {
-            setActive(active - 1)
-        }
-    }
-
-    const findBallotWithId = (id: number) => {
-        const ballot = ballots.find((ballot) => ballot.id === id)
-        if (!ballot) return undefined
-        return new BallotEntity(ballot)
-    }
-
-    const getBallotStats = (ballotId: number): IBallotStats | undefined => {
-        return stats.find((stat) => stat.ballotId === ballotId)
     }
 
     const endElectionOnConfirm = async (id: number) => {
@@ -208,21 +183,19 @@ export function ElectionInProgressView({ election }: { election: IElectionEntity
                 </Col>
                 <Col flex="auto">
                     <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballots.length > 0 ? (
+                    {ballotState.ballotWithStats.length > 0 ? (
                         <>
-                            <BallotsQueue dataSource={ballots} stats={stats} expandBallot={showModal} />
+                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
                             <BallotModal
                                 showModal={modal}
-                                ballotEntity={findBallotWithId(active)}
-                                ballotStats={getBallotStats(active)}
+                                ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
                                 close={closeModal}
                                 controls={{
                                     next: () => {
-                                        // todo #189 fix these next/prev buttons
-                                        hasNext()
+                                        setBallotState({ type: 'nextBallot' })
                                     },
                                     previous: () => {
-                                        hasPrevious()
+                                        setBallotState({ type: 'previousBallot' })
                                     },
                                 }}
                             />

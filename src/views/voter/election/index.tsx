@@ -66,6 +66,7 @@ export default function VoterElectionView(): ReactElement {
                 }
                 socket.emit(
                     Events.client.auth.withToken,
+                    // Todo: #215 Add method to get Bearer prefix token from for service.
                     { token: 'Bearer: ' + authenticationService.getAuthorizationToken() },
                     WebsocketEvent({
                         dataHandler: bindEvents,

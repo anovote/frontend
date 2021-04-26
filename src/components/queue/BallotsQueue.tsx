@@ -1,46 +1,42 @@
-import { Steps } from 'antd'
+import { StepProps, Steps } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import PushBallotIcon from 'components/icons/PushBallotIcon'
+import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
 import SquareIconButton from 'containers/button/SquareIconButton'
-import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { ElectionEventService } from 'core/service/election/ElectionEventService'
 import { useSocket } from 'core/hooks/useSocket'
-import React, { ReactElement, useState } from 'react'
+import { BallotWithVotes } from 'core/models/ballot/BallotWithVotes'
+import { ICandidateEntity } from 'core/models/ballot/ICandidate'
+import { IVoteStats } from 'core/models/ballot/IVoteStats'
+import { ElectionEventService } from 'core/service/election/ElectionEventService'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { ElectionParams } from './ElectionParams'
 import QueueDescription from './QueueDescription'
-import { IBallotStats } from 'core/models/ballot/IBallotStats'
-import { IStatValue } from 'components/statCard/IStatValue'
 
 const { Step } = Steps
 
 export default function BallotsQueue({
     dataSource,
-    stats,
     expandBallot,
 }: {
-    dataSource: IBallotEntity[]
-    stats?: IBallotStats[]
+    dataSource: Array<BallotWithVotes>
     expandBallot?: (id: number) => void
 }): ReactElement {
-    const [current, setCurrent] = useState(0)
-    const [t] = useTranslation(['common'])
     const [socket] = useSocket()
-    const { electionId } = useParams<ElectionParams>()
-
-    const electionEventService: ElectionEventService = new ElectionEventService(socket)
+    const [t] = useTranslation(['common'])
+    const [current, setCurrent] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
-
-    const queue = []
-
-    const appendStats = (stats: IBallotStats | undefined): IStatValue[] | [] => {
+    const { electionId } = useParams<ElectionParams>()
+    const [queue, setQueue] = useState<ReactElement<StepProps>[]>()
+    const electionEventService: ElectionEventService = new ElectionEventService(socket)
+    const appendStats = (stats: IVoteStats | undefined): IStatValue[] | [] => {
         if (stats) {
             return [
-                { title: t('common:Total'), value: stats.stats.total },
-                { title: t('Votes'), value: stats.stats.votes },
-                { title: t('common:Blank'), value: stats.stats.blank },
+                { title: t('common:Total'), value: stats.total },
+                { title: t('Votes'), value: stats.votes },
+                { title: t('common:Blank'), value: stats.blank },
             ]
         }
 
@@ -50,14 +46,11 @@ export default function BallotsQueue({
     async function pushBallot(id: number) {
         setIsLoading(true)
         // todo #127 pushing a ballot should change some state on the ballot on the server to indicate that it has been published
-        console.log('pushing ballot with id ', id)
         const ballot = dataSource.find((ballot) => ballot.id === id)
-        console.log(ballot)
         if (ballot && electionId) {
             const electionIdInt = Number.parseInt(electionId)
-            const ack = await electionEventService.broadcastBallot(ballot, electionIdInt)
+            await electionEventService.broadcastBallot(ballot, electionIdInt)
             // todo button should be loading until ack is received
-            console.log(ack)
         }
     }
 
@@ -65,44 +58,73 @@ export default function BallotsQueue({
         if (expandBallot) expandBallot(id)
     }
 
-    // render all ballots
-    for (const ballot of dataSource) {
-        let ballotStat = null
-        if (stats) {
-            ballotStat = stats.find((stat) => {
-                return stat.ballotId === ballot.id
-            })
+    // Handler for when the active ballot queue card changes.
+    // Disables loading state and set the current active ballot card
+    const onActiveBallotChange = (id: number) => {
+        setIsLoading(false)
+        setCurrent(id)
+    }
+
+    /**
+     *  Returns the current leading candidate for a ballot. If there are no available leaders,
+     * undefined is returned.
+     * @param stats ballot stats for the ballot
+     * @param ballot ballot to get leader of
+     * @returns returns current leader of the ballot or undefined
+     */
+    const getBallotLeader = (ballot: BallotWithVotes) => {
+        let votes = -1
+        let leadingCandidate
+        for (const candidate of ballot.votes.candidates) {
+            if (candidate.votes > votes) {
+                const candidateEntity = ballot.candidates.find(
+                    (ballotCandidate) => candidate.id === (ballotCandidate as ICandidateEntity).id,
+                )
+                if (candidateEntity) {
+                    votes = candidate.votes
+                    leadingCandidate = candidateEntity.candidate
+                }
+            }
         }
 
-        queue.push(
-            // todo make loading state follow the component
-            <Step
-                key={ballot.id}
-                title={<Title level={4}>{ballot.title}</Title>}
-                subTitle={<QueueDescription winner="John Doe" />}
-                description={
-                    <>
-                        {ballotStat && (
-                            <StatCard stats={appendStats(ballotStat)} onClick={() => handleClick(ballot.id)} />
-                        )}
-
-                        <SquareIconButton
-                            text={t('common:Push ballot')}
-                            tabIndex={0}
-                            classId="push-ballot-button"
-                            onClick={() => pushBallot(ballot.id)}
-                        >
-                            <PushBallotIcon spin={isLoading} />
-                        </SquareIconButton>
-                    </>
-                }
-            />,
-        )
+        return leadingCandidate
     }
+
+    useEffect(() => {
+        const statsQueue: ReactElement<StepProps>[] = []
+        for (const ballot of dataSource) {
+            statsQueue.push(
+                // todo make loading state follow the component
+                <Step
+                    key={ballot.id}
+                    title={<Title level={4}>{ballot.title}</Title>}
+                    subTitle={<QueueDescription winner={getBallotLeader(ballot)} />}
+                    description={
+                        <>
+                            {ballot && (
+                                <StatCard stats={appendStats(ballot.votes)} onClick={() => handleClick(ballot.id)} />
+                            )}
+
+                            <SquareIconButton
+                                text={t('common:Push ballot')}
+                                tabIndex={0}
+                                classId="push-ballot-button"
+                                onClick={() => pushBallot(ballot.id)}
+                            >
+                                <PushBallotIcon spin={isLoading} />
+                            </SquareIconButton>
+                        </>
+                    }
+                />,
+            )
+        }
+        setQueue(statsQueue)
+        // Re-renders queue, when stats or data source changes
+    }, [dataSource, isLoading])
 
     return (
         <div className="ballots-queue">
-            <Steps current={current} onChange={setCurrent} direction="vertical" className="queue">
+            <Steps current={current} onChange={onActiveBallotChange} direction="vertical" className="queue">
                 {queue}
             </Steps>
         </div>

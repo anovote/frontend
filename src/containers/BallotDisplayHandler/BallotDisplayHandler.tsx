@@ -30,7 +30,7 @@ const initialState = {
 export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity }): ReactElement {
     const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
-    const [t] = useTranslation(['common'])
+    const [t] = useTranslation(['common', 'ballot'])
     const [socket] = useSocket()
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
@@ -39,8 +39,8 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
 
     useEffect(() => {
         const candidates = addBlankCandidate(ballot.candidates)
-        setBallotState({ ...ballotState, candidates })
-    }, [])
+        setBallotState({ ...ballot, candidates })
+    }, [ballot])
 
     /**
      * Handles the change of clicked candidate(s) according to
@@ -112,7 +112,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                     socket.emit(
                         Events.client.vote.submit,
                         {
-                            candidate: selection.single,
+                            candidate: selection.single && selection.single >= 0 ? selection.single : null,
                             ballot: ballot.id,
                             voter: voter?.id,
                             submitted: new Date(),
@@ -143,8 +143,11 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
      * @param candidates the list of candidates
      * @returns new list of candidate with a blank alternative
      */
-    const addBlankCandidate = (candidates: ICandidate[]) => {
-        const blankCandidate: ICandidate = { candidate: 'blank' /*, id: candidates.length + 1*/ }
+    const addBlankCandidate = (candidates: ICandidateEntity[]) => {
+        const blankCandidate: ICandidateEntity = {
+            id: -1,
+            candidate: t('ballot:Blank'),
+        }
         if (checkForDuplicateBlank(candidates)) {
             return candidates
         }
