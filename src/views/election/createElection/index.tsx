@@ -13,6 +13,7 @@ import BallotPreviewList from 'components/previewList/BallotPreviewList'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { DuplicateError } from 'core/errors/DuplicateError'
+import { prepareElection } from 'core/helpers/prepareElection'
 import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
@@ -41,7 +42,7 @@ export default function CreateElectionView({
 
     const [eligibleVoters, setEligibleVoters] = useState<IEligibleVoter[]>([])
     const [election, setElection] = useState<IElection | undefined>(
-        initialElection ? initialElection : ({} as IElection),
+        initialElection ? prepareElection(initialElection) : ({} as IElection),
     )
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])

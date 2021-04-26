@@ -23,7 +23,7 @@ export default function IconButton({
     return (
         <button
             disabled={disabled}
-            onClick={onClick ? (event) => onClick(event) : undefined}
+            onClick={(event) => onClick && onClick(event)}
             className={`anovote-button-style icon-button ${color ? color : 'main-light'} ${classReverse}`}
             tabIndex={tabIndex}
             id={classId}
