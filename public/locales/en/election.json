@@ -24,5 +24,11 @@
     "Ended on": "Ended on",
     "Opened on": "Opened on",
     "Opens on": "Opens on",
-    "Results": "Election results"
+    "Results": "Election results",
+    "Are you sure you want to delete the election": "Are you sure you want to delete the election",
+    "Confirm close of election": "Confirm close of election",
+    "Delete was successful": "Delete was successful",
+    "Election": "Election",
+    "If you proceed to end this election": "If you proceed to end this election, the election will be ended before the existing close date",
+    "This election have a closing date": "This election have a closing date"
 }

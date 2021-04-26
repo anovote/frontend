@@ -16,6 +16,7 @@ interface IAdminRoutes {
 }
 interface IPublicRoutes {
     landing: string
+    about: string
     register: string
     login: string
     joinElection: string
@@ -60,6 +61,7 @@ export const getPublicRoute = (): IPublicRoutes => {
     const { pub } = routePrefixes
     return {
         landing: `${pub}`,
+        about: `${pub}about`,
         register: `${pub}register`,
         login: `${pub}login`,
         joinElection: `${pub}join`,

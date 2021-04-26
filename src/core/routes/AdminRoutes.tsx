@@ -1,6 +1,6 @@
 import Skeleton from 'components/Skeleton'
 import React, { ReactElement } from 'react'
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, useHistory } from 'react-router-dom'
 import CreateElectionView from 'views/election/createElection'
 import ElectionView from 'views/election/election'
 import ElectionResultView from 'views/election/results'
@@ -9,6 +9,7 @@ import { getAdminRoute, getBaseRoute } from './siteRoutes'
 
 export default function AdminRoutes(): ReactElement {
     const adminRoute = getAdminRoute()
+    const history = useHistory()
 
     return (
         <Skeleton
@@ -27,7 +28,12 @@ export default function AdminRoutes(): ReactElement {
                         <ElectionResultView />
                     </Route>
                     <Route exact path={adminRoute.elections.create}>
-                        <CreateElectionView initialElection={undefined} />
+                        <CreateElectionView
+                            initialElection={undefined}
+                            onAbort={() => {
+                                history.goBack()
+                            }}
+                        />
                     </Route>
                 </div>
             }

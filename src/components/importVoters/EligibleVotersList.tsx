@@ -2,6 +2,7 @@ import { PlusOutlined } from '@ant-design/icons'
 import { Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Space, Upload } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
+import { EligibleVoterListItem } from 'components/EligibleVoterListItem'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
 import { useAlert } from 'core/hooks/useAlert'
@@ -12,7 +13,7 @@ import { useTranslation } from 'react-i18next'
 import { createListOfEligibleVoters } from '../../core/helpers/eligibleVoter'
 import { FileParser } from './FileParser'
 
-export default function EligibleVotersTable({
+export default function EligibleVotersList({
     onChange,
     initialVoters,
     formContext,
@@ -163,6 +164,11 @@ export default function EligibleVotersTable({
         }
     }
 
+    const handleEligibleVoterDelete = (voterIdentity: string) => {
+        const newVoters = voters.filter((voter) => voter.identification !== voterIdentity)
+        setVoters(newVoters)
+    }
+
     const ImportFileMenu = (): React.ReactElement => {
         return (
             <Menu className="import-voters-menu">
@@ -207,7 +213,14 @@ export default function EligibleVotersTable({
             <List
                 id="voters-list"
                 dataSource={voters}
-                renderItem={(item) => <List.Item>{item.identification}</List.Item>}
+                renderItem={(item) => (
+                    <List.Item>
+                        <EligibleVoterListItem
+                            voterIdentity={item.identification}
+                            onDelete={handleEligibleVoterDelete}
+                        />
+                    </List.Item>
+                )}
             />
             {addByManual && (
                 <Row>

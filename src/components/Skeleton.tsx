@@ -3,11 +3,11 @@ import { Layout, Menu } from 'antd'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { BackendAPI } from 'core/api'
 import { AlertState } from 'core/hooks/useAlert'
+import { IElectionOrganizer } from 'core/models/electionOrganizer/IElectionOrganizer'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
-import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
-import { LocalStorageService } from 'core/service/storage/LocalStorageService'
+import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 import LargeIconButton from '../containers/button/LargeIconbutton'
@@ -24,6 +24,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const history = useHistory()
     const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
+    const [organizer, setOrganizer] = useState<IElectionOrganizer>({} as IElectionOrganizer)
 
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
@@ -33,12 +34,32 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     function createElection() {
         history.push(elections.create)
     }
+
+    useEffect(() => {
+        fetchOrganizer()
+    }, [])
+
+    const fetchOrganizer = useCallback(async () => {
+        const electionOrganizerService = new ElectionOrganizerService(BackendAPI)
+        try {
+            const organizer = await electionOrganizerService.fetchOrganizer()
+            if (organizer) setOrganizer(organizer)
+        } catch (error) {
+            const organizer = {
+                firstName: t('common:Your'),
+                lastName: t('common:Name'),
+                email: 'example@mail.com',
+            } as IElectionOrganizer
+            setOrganizer(organizer)
+        }
+    }, [organizer])
+
+    // todo #161
     //function onSearch() {
     //    console.log('Tried to search')
     //}
 
     const logoutHandler = () => {
-        new AuthenticationService(BackendAPI, new LocalStorageService()).logout()
         const alert: AlertState = { message: 'You where logged out', level: 'info' } // todo temporary until new alert hooks comes
         dispatcher.setLogoutState()
         history.push(getPublicRoute().login, alert)
@@ -51,9 +72,15 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                 <Search placeholder="Search something.." allowClear size="middle" onSearch={onSearch} tabIndex={1} />*/}
             {/*</Header>*/}
             <Layout className="skeleton-layout">
-                <ProfileSettingsModal showModal={showProfileModal} close={closeProfileModalHandler} />
+                <ProfileSettingsModal
+                    showModal={showProfileModal}
+                    close={closeProfileModalHandler}
+                    organizer={organizer}
+                />
                 <Sider className="skeleton-sidebar">
-                    <AnovoteLogo id="logo" />
+                    <Link to={elections.view}>
+                        <AnovoteLogo id="logo" />
+                    </Link>
                     <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={[history.location.pathname]}>
                         <LargeIconButton
                             text={t('Create election')}
@@ -81,7 +108,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                         </Menu.Item>*/}
                         <LargeIconButton
                             classId="view-profile"
-                            text="Name for you"
+                            text={`${organizer.firstName} ${organizer.lastName}`}
                             reverse={true}
                             onClick={openProfileModal}
                             tabIndex={6}

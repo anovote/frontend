@@ -1,5 +1,4 @@
-import { ReactNode } from 'react'
-import { Dispatch, useReducer } from 'react'
+import { Dispatch, ReactNode, useReducer } from 'react'
 
 type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
 
@@ -33,7 +32,7 @@ function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
 }
 
 export function useAlert(initialState: AlertState[]): [AlertState[], Dispatch<AlertAction>] {
-    if (initialState[0].message === '') {
+    if (initialState.length > 0 && initialState[0].message === '') {
         initialState.shift()
     }
 
