@@ -17,7 +17,7 @@
     "Must have at least one": "Must have at least one {{field}}",
     "Must match": "Must match {{field}}",
     "No": "No",
-    "Password validation": "Minimum 8 characters, one uppercase, one numeric and one special",
+    "Password validation": "Minimum 8 characters, one uppercase, one lowercase, one numeric and one special",
     "Please fill in a title": "Please fill in a title!",
     "Please provide a password": "Please provide a password",
     "Please provide email": "Please provide email",
