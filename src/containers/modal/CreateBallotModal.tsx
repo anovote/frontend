@@ -28,7 +28,7 @@ export default function CreateBallotModal({
     initialBallot?: IBallotInList
     onSubmitted: (ballot: IBallot, indexInList?: number) => void
 }): ReactElement {
-    const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
+    const [t] = useTranslation(['translation', 'common', 'form', 'profile', 'ballot'])
     const [editCandidate, setEditCandidate] = useState<{ id: number } | undefined>(undefined)
     const [addNew, setAddNew] = useState(false)
 

@@ -13,10 +13,12 @@ export default function TextWithToolTip({
     placement?: TooltipPlacement
 }): ReactElement {
     return (
-        <Space>
+        <Space className="text-with-tooltip">
             {textComponent}
-            <Tooltip title={toolTipTitle} placement={placement}>
-                <QuestionCircleOutlined />
+            <Tooltip title={toolTipTitle} placement={placement} className="text-with-tooltip">
+                <div className="tooltip-icon-container">
+                    <QuestionCircleOutlined className="tooltip-icon" />
+                </div>
             </Tooltip>
         </Space>
     )

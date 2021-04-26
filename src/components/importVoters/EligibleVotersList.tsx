@@ -3,6 +3,7 @@ import { Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Spac
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
 import { EligibleVoterListItem } from 'components/EligibleVoterListItem'
+import TextWithToolTip from 'components/toolTip/TextWithToolTip'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
 import { useAlert } from 'core/hooks/useAlert'
@@ -195,7 +196,10 @@ export default function EligibleVotersList({
         <div>
             <Row>
                 <Col span={12}>
-                    <Title level={2}>{t('common:Eligible voters')}</Title>
+                    <TextWithToolTip
+                        textComponent={<Title level={2}>{t('common:Eligible voters')}</Title>}
+                        toolTipTitle={t('election:Eligible voters tooltip description')}
+                    />
                 </Col>
                 <Col span={12}>
                     <Space align="end" direction="vertical" className="width-100">
@@ -230,7 +234,7 @@ export default function EligibleVotersList({
                         rules={[{ type: 'email', message: t('error:not valid email') }]}
                         normalize={(val) => val.trim()}
                     >
-                        <Input placeholder={t('form:add-new-email')} onPressEnter={handleAddNewVoterByEnter}></Input>
+                        <Input placeholder="ola.nordmann@gmail.com" onPressEnter={handleAddNewVoterByEnter}></Input>
                     </Form.Item>
                     <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
                     <Button onClick={handleDone}>Done</Button>

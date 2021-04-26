@@ -1,0 +1,24 @@
+.text-with-tooltip {
+    h2.ant-typography {
+        margin-top: 8px;
+        margin-bottom: 8px;
+        margin-right: 0px;
+        margin-left: 0px; 
+    }
+    h3.ant-typography {
+        margin-top: 6px;
+        margin-bottom: 6px;
+        margin-right: 0px;
+        margin-left: 0px; 
+    }
+}
+
+.tooltip-icon-container {
+    position: relative;
+}
+
+.tooltip-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
