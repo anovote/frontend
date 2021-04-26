@@ -66,7 +66,7 @@ export class ElectionOrganizerService {
     async changeEmail(organizer: IElectionOrganizerEntity): Promise<IElectionOrganizerEntity> {
         const sanitized = this.validateEmail(organizer.email)
 
-        return this.updateDetails({ ...organizer, email: sanitized })
+        return await this.updateDetails({ ...organizer, email: sanitized })
     }
 
     /**
@@ -97,7 +97,7 @@ export class ElectionOrganizerService {
         return trimmedMail
     }
 
-    private validatePassword(newPasswords: { password1: string; password2: string }): string {
+    validatePassword(newPasswords: { password1: string; password2: string }): string {
         this.checkPasswordMatch(newPasswords)
 
         const { password1 } = newPasswords
