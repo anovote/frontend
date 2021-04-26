@@ -1,4 +1,4 @@
-import { DeleteOutlined } from '@ant-design/icons'
+import { DeleteOutlined, OrderedListOutlined } from '@ant-design/icons'
 import { Col, List, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
@@ -11,10 +11,13 @@ import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
 import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useHistory, useLocation } from 'react-router'
 
 export const ElectionFinished = ({ election }: { election: IElectionEntity }): ReactElement => {
     const [t] = useTranslation(['common', 'election'])
-    const [modal, setModal] = useState(false)
+    const history = useHistory()
+    const location = useLocation()
+    const [showBallotModal, setShowBallotModal] = useState(false)
     const [ballotState, setBallotState] = useReducer(electionBallotReducer, {
         ballotWithStats: [],
         activeBallotIndex: 0,
@@ -42,13 +45,17 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
      * Display modal for a given ballot with id.
      * @param id the id to show modal for
      */
-    const showModal = (id: number) => {
+    const doShowBallotModal = (id: number) => {
         setBallotState({ type: 'setActiveBallot', payload: id })
-        setModal(true)
+        setShowBallotModal(true)
     }
 
     const closeModal = () => {
-        setModal(false)
+        setShowBallotModal(false)
+    }
+
+    const gotoResultsPage = () => {
+        history.push(location.pathname + '/results')
     }
 
     return (
@@ -64,6 +71,12 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                                     text="Delete"
                                     onClick={deleteElectionHandler}
                                     color="red"
+                                />
+                                <IconButton
+                                    icon={<OrderedListOutlined />}
+                                    text="Results"
+                                    onClick={gotoResultsPage}
+                                    color="green"
                                 />
                             </Space>
                         </Col>
@@ -84,9 +97,9 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballotState.ballotWithStats.length > 0 ? (
                         <>
-                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
+                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={doShowBallotModal} />
                             <BallotModal
-                                showModal={modal}
+                                showModal={showBallotModal}
                                 ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
                                 close={closeModal}
                                 controls={{

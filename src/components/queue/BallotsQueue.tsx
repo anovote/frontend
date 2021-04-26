@@ -6,7 +6,6 @@ import StatCard from 'components/statCard/StatCard'
 import SquareIconButton from 'containers/button/SquareIconButton'
 import { useSocket } from 'core/hooks/useSocket'
 import { BallotWithVotes } from 'core/models/ballot/BallotWithVotes'
-import { ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { IVoteStats } from 'core/models/ballot/IVoteStats'
 import { ElectionEventService } from 'core/service/election/ElectionEventService'
 import React, { ReactElement, useEffect, useState } from 'react'
@@ -65,31 +64,6 @@ export default function BallotsQueue({
         setCurrent(id)
     }
 
-    /**
-     *  Returns the current leading candidate for a ballot. If there are no available leaders,
-     * undefined is returned.
-     * @param stats ballot stats for the ballot
-     * @param ballot ballot to get leader of
-     * @returns returns current leader of the ballot or undefined
-     */
-    const getBallotLeader = (ballot: BallotWithVotes) => {
-        let votes = -1
-        let leadingCandidate
-        for (const candidate of ballot.votes.candidates) {
-            if (candidate.votes > votes) {
-                const candidateEntity = ballot.candidates.find(
-                    (ballotCandidate) => candidate.id === (ballotCandidate as ICandidateEntity).id,
-                )
-                if (candidateEntity) {
-                    votes = candidate.votes
-                    leadingCandidate = candidateEntity.candidate
-                }
-            }
-        }
-
-        return leadingCandidate
-    }
-
     useEffect(() => {
         const statsQueue: ReactElement<StepProps>[] = []
         for (const ballot of dataSource) {
@@ -98,7 +72,7 @@ export default function BallotsQueue({
                 <Step
                     key={ballot.id}
                     title={<Title level={4}>{ballot.title}</Title>}
-                    subTitle={<QueueDescription winner={getBallotLeader(ballot)} />}
+                    subTitle={<QueueDescription winner={ballot.getBallotLeader()} />}
                     description={
                         <>
                             {ballot && (

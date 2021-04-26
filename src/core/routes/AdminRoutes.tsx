@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react'
 import { Redirect, Route, useHistory } from 'react-router-dom'
 import CreateElectionView from 'views/election/createElection'
 import ElectionView from 'views/election/election'
+import ElectionResultView from 'views/election/results'
 import ElectionsView from 'views/elections'
 import { getAdminRoute, getBaseRoute } from './siteRoutes'
 
@@ -22,6 +23,9 @@ export default function AdminRoutes(): ReactElement {
                     </Route>
                     <Route exact path={adminRoute.elections.viewId}>
                         <ElectionView />
+                    </Route>
+                    <Route exact path={adminRoute.elections.result}>
+                        <ElectionResultView />
                     </Route>
                     <Route exact path={adminRoute.elections.create}>
                         <CreateElectionView
