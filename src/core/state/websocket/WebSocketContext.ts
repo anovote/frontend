@@ -3,7 +3,7 @@ import { createContext } from 'react'
 import io from 'socket.io-client'
 import { AnoSocket } from './IAnoSocket'
 
-const socket = io(AppConfig.WS_URI, { autoConnect: false }) as AnoSocket
+const socket = io(AppConfig.WS_URL, { autoConnect: false }) as AnoSocket
 socket.auth = {
     authenticated: false,
 }
