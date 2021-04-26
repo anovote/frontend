@@ -1,9 +1,9 @@
-import { Button, Form, Input, Space } from 'antd'
+import { Button, Form, Input, Space, Spin } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
-import { formRules } from 'core/helpers/formRules'
+import { formRules, IFormRules } from 'core/helpers/formRules'
 import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
@@ -11,16 +11,18 @@ import { RegistrationDetails } from 'core/service/registration/RegistrationDetai
 import { RegistrationService } from 'core/service/registration/RegistrationService'
 import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import * as React from 'react'
+import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next/'
 import { Redirect, useHistory } from 'react-router-dom'
 
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
 
-    const [t] = useTranslation(['form', 'common'])
+    const { t, i18n } = useTranslation(['form', 'common'])
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory<AlertState>()
     const { isLoggedIn } = useAppState()
+    const [rules, setRules] = useState<IFormRules>()
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
@@ -46,11 +48,23 @@ export default function RegisterView(): React.ReactElement {
             })
         }
     }
-    console.log(formRules)
+
+    /**
+     * Getting the rules
+     */
+    useEffect(() => {
+        formRules(i18n)
+            .then((data) => {
+                setRules(data)
+            })
+            .catch((err) => {
+                throw err
+            })
+    }, [])
 
     return isLoggedIn ? (
         <Redirect to={getAdminRoute().elections.view} />
-    ) : (
+    ) : rules ? (
         <Layout className="layout">
             <Content className="is-fullscreen is-flex-column has-content-center-center">
                 <h1>{t('common:Welcome to Anovote')}</h1>
@@ -59,27 +73,27 @@ export default function RegisterView(): React.ReactElement {
                         <AlertList alerts={alertStates} />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
-                        <Form.Item label={t('common:First name')} name="firstName" rules={formRules.firstName}>
+                        <Form.Item label={t('common:First name')} name="firstName" rules={rules.firstName}>
                             <Input />
                         </Form.Item>
-                        <Form.Item label={t('common:Last name')} name="lastName" rules={formRules.lastName}>
+                        <Form.Item label={t('common:Last name')} name="lastName" rules={rules.lastName}>
                             <Input />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Email')}
                             name="email"
-                            rules={formRules.email}
+                            rules={rules.email}
                             normalize={(val) => val.trim()}
                         >
                             <Input />
                         </Form.Item>
-                        <Form.Item label={t('common:Password')} name="password" rules={formRules.password}>
+                        <Form.Item label={t('common:Password')} name="password" rules={rules.password}>
                             <Input.Password />
                         </Form.Item>
                         <Form.Item
                             label={t('form:Please rewrite password')}
                             name="reTypePassword"
-                            rules={formRules.rePassword}
+                            rules={rules.rePassword}
                         >
                             <Input.Password />
                         </Form.Item>
@@ -101,5 +115,7 @@ export default function RegisterView(): React.ReactElement {
                 </div>
             </Content>
         </Layout>
+    ) : (
+        <Spin />
     )
 }
