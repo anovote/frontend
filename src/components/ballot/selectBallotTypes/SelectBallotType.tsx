@@ -1,5 +1,6 @@
 import { Form, Radio } from 'antd'
 import Text from 'antd/lib/typography/Text'
+import TextWithToolTip from 'components/toolTip/TextWithToolTip'
 import { BallotType } from 'core/models/ballot/BallotType'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,7 +17,16 @@ export default function SelectBallotType({
 }): React.ReactElement {
     const [t] = useTranslation(['ballot'])
     return (
-        <Form.Item label={label} name={'ballot-type'} initialValue={initialValue}>
+        <Form.Item
+            label={
+                <TextWithToolTip
+                    textComponent={<Text>{label}</Text>}
+                    toolTipTitle={t('ballot:Select the type of ballot that you want the voters to vote on')}
+                />
+            }
+            name={'ballot-type'}
+            initialValue={initialValue}
+        >
             <div className="radio-wrapper is-flex is-flex-justify-content-center">
                 <Radio.Group className="radio-group" defaultValue={initialValue}>
                     {/* todo #155 implement logic for handling different types of ballots
