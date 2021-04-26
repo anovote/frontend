@@ -7,7 +7,12 @@ const PASSWORD_MAX_LENGTH = 255
 const PASSWORD_MIN_LENGTH = 8
 const strongRegex = new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])^(?=.{8,225}$).*') // One upper case letter, one lower case letter, one number, one special char, min length 8
 
-export const formRules: IFormRules = {
+const oneLowerCase = new RegExp('(?=.*[a-z]) ')
+const oneUpperCase = new RegExp('(?=.*[A-Z])')
+const oneDigit = new RegExp('(?=.*[0-9])')
+const oneSpecial = new RegExp('(?=.*[!@#$%^&*])')
+
+const rules: IFormRules = {
     password: [
         { max: PASSWORD_MAX_LENGTH, message: i18n.t('form:max-length', { maxLength: PASSWORD_MAX_LENGTH }) },
         { required: true, message: i18n.t('form:Remember password') },
@@ -16,6 +21,22 @@ export const formRules: IFormRules = {
             message: i18n.t('form:min-length', { minLength: PASSWORD_MIN_LENGTH }),
         },
         { pattern: strongRegex, message: i18n.t('form:Password validation') },
+        {
+            pattern: oneLowerCase,
+            message: i18n.t('form:Must have at least one', { field: 'lower case letter' }),
+        },
+        {
+            pattern: oneUpperCase,
+            message: i18n.t('form:Must have at least one', { field: 'upper case letter' }),
+        },
+        {
+            pattern: oneDigit,
+            message: i18n.t('form:Must have at least one', { field: 'digit' }),
+        },
+        {
+            pattern: oneSpecial,
+            message: i18n.t('form:Must have at least one', { field: 'special character (!@#$%^&*)' }),
+        },
     ],
     rePassword: [
         { required: true, message: i18n.t('form:Remember to rewrite password') },
