@@ -36,5 +36,6 @@
     "add-new-email": "Add new email",
     "go-to-login": "Go to Login",
     "Please fill in a description": "Please fill in a description",
-    "max-length": "Max length is {{maxLength}}"
+    "max-length": "Max length is {{maxLength}}",
+    "min-length": "Minimum length is {{minLength}}"
 }
