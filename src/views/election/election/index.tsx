@@ -66,7 +66,7 @@ export default function ElectionView(): React.ReactElement {
             dispatch({ type: 'fetchingElection' })
             const response = await electionService.getElection(Number.parseInt(electionId))
             dispatch({ type: 'gotElection', election: response })
-        } catch (error) {
+        } catch (reason) {
             if (reason.response.status === StatusCodes.NOT_FOUND) {
                 const { message }: { message: string } = reason.response.data
                 history.push(getAdminRoute().elections.view, { message, level: 'error' })
@@ -74,7 +74,6 @@ export default function ElectionView(): React.ReactElement {
             }
             dispatch({ type: 'error', message: reason })
         }
-
     }
 
     const onElectionChangeHandler = async (election: IElectionEntity, toDelete?: boolean) => {
