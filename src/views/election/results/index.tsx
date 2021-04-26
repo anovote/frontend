@@ -27,6 +27,7 @@ export default function ElectionResultView(): React.ReactElement {
 
     const [election, setElection] = useState<IElectionEntity | undefined>()
     const [error, setError] = useState('')
+    const [generatingPdf, setGeneratingPdf] = useState(false)
     const [ballotState, setBallotState] = React.useReducer(electionBallotReducer, {
         ballotWithStats: [],
         activeBallotIndex: 0,
@@ -111,8 +112,16 @@ export default function ElectionResultView(): React.ReactElement {
         if (!election) return
         return `results-${election.title}`.toLowerCase()
     }
+
     async function createPDF() {
-        await createResultsPDF({ filename: getFileName(), resultContainerID: 'results' })
+        try {
+            setGeneratingPdf(true)
+            await createResultsPDF({ filename: getFileName(), resultContainerID: '#results' })
+        } catch (error) {
+            /** */
+        } finally {
+            setGeneratingPdf(false)
+        }
     }
 
     createDiagrams()
@@ -125,7 +134,7 @@ export default function ElectionResultView(): React.ReactElement {
                     <Space direction="horizontal" className="mb-15">
                         <IconButton
                             icon={<PlayCircleFilled />}
-                            text={t('common:Download pdf')}
+                            text={generatingPdf ? t('common:Generating pdf') : t('common:Download pdf')}
                             onClick={createPDF}
                             color="green"
                         />
