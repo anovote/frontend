@@ -110,13 +110,6 @@ export default function VoterElectionView(): ReactElement {
                     <ElectionInfoHandler state={electionState} />
                     <Divider />
                     <VoterContent>
-                        <ElectionContentHandler state={electionState} />
-                        <LogoutButton
-                            confirmation={{
-                                title: t('voter:Are you sure you want to logout'),
-                                content: <Trans i18nKey="voter:logout description" />,
-                            }}
-                        />
                         {isLoggingOut ? (
                             <SquareIconContainer
                                 icon={<LogoutOutlined />}
@@ -124,7 +117,15 @@ export default function VoterElectionView(): ReactElement {
                                 description={t('Election is finish so we are logging you out thanks for participating')}
                             />
                         ) : (
-                            <ElectionContentHandler state={electionState} />
+                            <>
+                                <ElectionContentHandler state={electionState} />
+                                <LogoutButton
+                                    confirmation={{
+                                        title: t('voter:Are you sure you want to logout'),
+                                        content: <Trans i18nKey="voter:logout description" />,
+                                    }}
+                                />
+                            </>
                         )}
                     </VoterContent>
                 </Content>
