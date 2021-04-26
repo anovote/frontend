@@ -1,8 +1,8 @@
-import { Button, Form, Input, Result, Space, Tooltip } from 'antd'
-import Text from 'antd/lib/typography'
+import { Button, Form, Input, Result } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import CenterView from 'components/centerView/CenterView'
 import IconMessage from 'components/iconMessage/IconMessage'
+import TextWithToolTip from 'components/toolTip/TextWithToolTip'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterContentInfo from 'components/voterContentInfo/VoterContentInfo'
 import VoterFooter from 'components/voterFooter/VoterFooter'
@@ -25,8 +25,6 @@ import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory } from 'react-router'
 import { joinAckEvent, joinConnectErrorEvent, joinConnectEvent, joinVerifiedEvent } from './Events'
-import Link from 'antd/lib/typography/Link'
-import { QuestionCircleOutlined } from '@ant-design/icons'
 
 /**
  * A view for a voter to give email and election code in order to join an election
@@ -164,21 +162,16 @@ function VoterLoginView(): ReactElement {
                                         },
                                     ]}
                                 >
-                                    <Input disabled={state.isLoading} placeholder="email@example.com" />
+                                    <Input disabled={state.isLoading} placeholder="ola.nordmann@gmail.com" />
                                 </Form.Item>
                                 <Form.Item
                                     label={
-                                        <Space>
-                                            <Text>Election code</Text>
-                                            <Tooltip
-                                                title={t(
-                                                    'voter:The election code is provided by the election organizer',
-                                                )}
-                                                placement="right"
-                                            >
-                                                <QuestionCircleOutlined />
-                                            </Tooltip>
-                                        </Space>
+                                        <TextWithToolTip
+                                            text="Election code"
+                                            toolTipTitle={t(
+                                                'voter:The election code is provided by the election organizer',
+                                            )}
+                                        />
                                     }
                                     name={'electionCode'}
                                     rules={[
