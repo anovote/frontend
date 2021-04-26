@@ -1,0 +1,58 @@
+.ant-layout-header {
+    @include is-flex-row;
+    justify-content: space-between;
+    padding: 1 * $bu 2 * $bu;
+    height: $home-header-height;
+    z-index: 1;
+}
+
+.ant-menu-light {
+    background: none;
+}
+
+.ant-menu {
+    border: none;
+    .ant-menu-item,
+    a {
+        margin: 0 0.5rem;
+        font-weight: $bold;
+    }
+
+    .ant-menu-item {
+        color: $font-color;
+
+        &:hover {
+            color: $info-contrasting;
+            border-color: $info-contrasting;
+        }
+    }
+}
+
+#join,
+#login {
+    color: $font-color;
+    padding: 0.5rem 1.5rem;
+    border: 3px solid $font-color;
+    @include is-rounded-large;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+#join {
+    border-color: $warning-contrasting;
+}
+
+#login {
+    border-color: $main-contrasting;
+}
+
+#sign-up {
+    color: $font-color;
+    text-decoration: underline;
+
+    &:hover {
+        color: $info-contrasting;
+    }
+}

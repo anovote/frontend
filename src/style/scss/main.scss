@@ -7,6 +7,7 @@
 
 // MIXINS
 @import './anovote/mixins/universalDesign';
+@import './anovote/mixins/mediaQueries';
 @import './anovote/mixins/typography';
 @import './anovote/mixins/flexbox';
 @import './anovote/mixins/style';
@@ -20,6 +21,7 @@
 @import './anovote/layout/container';
 @import './anovote/layout/animations';
 @import './anovote/layout/voter';
+@import './anovote/layout/home/style';
 
 // COMPONENTS
 @import './anovote/components/button';

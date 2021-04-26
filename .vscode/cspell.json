@@ -23,6 +23,7 @@
         "Feide",
         "flexbox",
         "fontfamily",
+        "freshfish",
         "Holanger",
         "Hurlen",
         "Iconbutton",
@@ -36,6 +37,7 @@
         "onstatechange",
         "onupdatefound",
         "papaparse",
+        "perkynades",
         "popconfirm",
         "postgres",
         "postgresql",
@@ -45,10 +47,12 @@
         "preload",
         "randexp",
         "respawn",
+        "sanderhurlen",
         "Sider",
         "source",
         "sourcemap",
         "spanline",
+        "spiftire",
         "spmef",
         "Steffen",
         "streetsidesoftware",
@@ -70,6 +74,15 @@
         "zwaldowski",
         "Nordmann"
     ],
-    "flagWords": ["hte"],
-    "ignorePaths": ["*.env*", ".prettier*", "package.json", "yarn.lock", ".eslint*", ".vscode/*"]
+    "flagWords": [
+        "hte"
+    ],
+    "ignorePaths": [
+        "*.env*",
+        ".prettier*",
+        "package.json",
+        "yarn.lock",
+        ".eslint*",
+        ".vscode/*"
+    ]
 }
