@@ -12,16 +12,12 @@ import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
 import { ElectionService } from 'core/service/election/ElectionService'
-import html2canvas from 'html2canvas'
-import jsPDF from 'jspdf'
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
+import { createResultsPDF } from './createResultPDF'
 /**
- * Help for scaling found here
- * https://stackoverflow.com/questions/18191893/generate-pdf-from-html-in-div-using-javascript
- *
  * View for election results, will fetch election based on the ID in the url
  */
 export default function ElectionResultView(): React.ReactElement {
@@ -115,40 +111,12 @@ export default function ElectionResultView(): React.ReactElement {
         if (!election) return
         return `results-${election.title}`.toLowerCase()
     }
+    async function createPDF() {
+        await createResultsPDF({ filename: getFileName(), resultContainerID: 'results' })
+    }
 
     createDiagrams()
 
-    async function createPDF() {
-        const padding = 25
-        const resultElement = document.body.querySelector('#results') as HTMLElement
-        if (resultElement) {
-            // Creates canvas element from HTML
-            const canvas = await html2canvas(resultElement)
-            // PDF generator, height is equal to canvas height to create one large page
-            const pdf = new jsPDF('portrait', 'pt', [850, canvas.height])
-            // Convert canvas to data URL with maximum quality
-            const imgData = canvas.toDataURL('image/jpeg', 1)
-
-            const pageWidth = pdf.internal.pageSize.getWidth()
-            const pageHeight = pdf.internal.pageSize.getHeight()
-            const imageWidth = canvas.width
-            const imageHeight = canvas.height
-
-            // Create rato factor for scaling the image on the PDF page
-            const ratio =
-                imageWidth / imageHeight >= pageWidth / pageHeight ? pageWidth / imageWidth : pageHeight / imageHeight
-
-            pdf.addImage(
-                imgData,
-                'JPEG',
-                padding,
-                padding,
-                imageWidth * ratio - padding * 2,
-                imageHeight * ratio - padding * 2,
-            )
-            return pdf.save(getFileName())
-        }
-    }
     return (
         <>
             <Title level={1}>{t('election:Results')}</Title>
