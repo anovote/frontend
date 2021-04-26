@@ -4,17 +4,17 @@ import Tooltip, { TooltipPlacement } from 'antd/lib/tooltip'
 import React, { ReactElement, ReactNode } from 'react'
 
 export default function TextWithToolTip({
-    text,
+    textComponent,
     toolTipTitle,
     placement = 'right',
 }: {
-    text: ReactNode
+    textComponent: ReactNode
     toolTipTitle: string
     placement?: TooltipPlacement
 }): ReactElement {
     return (
         <Space>
-            {text}
+            {textComponent}
             <Tooltip title={toolTipTitle} placement={placement}>
                 <QuestionCircleOutlined />
             </Tooltip>
