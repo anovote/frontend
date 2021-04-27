@@ -3,6 +3,7 @@ import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { formRules } from 'core/helpers/formRules'
 import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
@@ -20,6 +21,7 @@ export default function RegisterView(): React.ReactElement {
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory<AlertState>()
     const { isLoggedIn } = useAppState()
+    const rules = formRules(t)
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
@@ -57,42 +59,27 @@ export default function RegisterView(): React.ReactElement {
                         <AlertList alerts={alertStates} />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
-                        <Form.Item
-                            label={t('common:First name')}
-                            name="firstName"
-                            rules={[{ required: true, message: t('form:Remember first name') }]}
-                        >
+                        <Form.Item label={t('common:First name')} name="firstName" rules={rules.firstName}>
                             <Input />
                         </Form.Item>
-                        <Form.Item
-                            label={t('common:Last name')}
-                            name="lastName"
-                            rules={[{ required: true, message: t('form:Remember last name') }]}
-                        >
+                        <Form.Item label={t('common:Last name')} name="lastName" rules={rules.lastName}>
                             <Input />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Email')}
                             name="email"
-                            rules={[
-                                { required: true, message: t('form:Remember email') },
-                                { type: 'email', message: t('form:Email is not valid') },
-                            ]}
+                            rules={rules.email}
                             normalize={(val) => val.trim()}
                         >
                             <Input />
                         </Form.Item>
-                        <Form.Item
-                            label={t('common:Password')}
-                            name="password"
-                            rules={[{ required: true, message: t('form:Remember password') }]}
-                        >
+                        <Form.Item label={t('common:Password')} name="password" rules={rules.password}>
                             <Input.Password />
                         </Form.Item>
                         <Form.Item
                             label={t('form:Please rewrite password')}
                             name="reTypePassword"
-                            rules={[{ required: true, message: t('form:Remember to rewrite password') }]}
+                            rules={rules.rePassword}
                         >
                             <Input.Password />
                         </Form.Item>
