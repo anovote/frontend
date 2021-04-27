@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === 'development') {
     config.WS_URL = `${httpProtocol}://${wsUri}`
 } else if (process.env.NODE_ENV === 'test') {
     config.API_URL = `${httpProtocol}://${apiUri}:${apiPort}`
+    config.WS_URL = `${httpProtocol}://${wsUri}:${wsPort}`
 }
 
 export const AppConfig = {
