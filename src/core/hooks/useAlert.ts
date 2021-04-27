@@ -24,6 +24,18 @@ function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
     switch (action.type) {
         case 'add': {
             const listCopy = [...state]
+            if (state.length > 0) {
+                const prev = state[state.length - 1]
+
+                if (
+                    isEqualToPrevious(
+                        { message: action.message, description: action.description },
+                        { message: prev.message, description: prev.description },
+                    )
+                ) {
+                    return listCopy
+                }
+            }
             listCopy.push({
                 message: action.message,
                 description: action.description,
@@ -40,6 +52,15 @@ function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
         default:
             return state
     }
+}
+
+function isEqualToPrevious(
+    newAlert: { message: string | ReactNode; description?: string },
+    prevAlert: { message: string | ReactNode; description?: string },
+) {
+    if (newAlert.message === prevAlert.message) return true
+    if (newAlert.description === prevAlert.description) return true
+    return false
 }
 
 export function useAlert(initialState: AlertState[]): [AlertState[], Dispatch<AlertAction>] {
