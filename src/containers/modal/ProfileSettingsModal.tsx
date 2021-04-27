@@ -3,7 +3,7 @@ import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
 import ChangeEmailFrom from 'containers/forms/profile/ChangeEmailForm'
 import ChangePasswordForm from 'containers/forms/profile/ChangePasswordForm'
-import { IElectionOrganizer } from 'core/models/electionOrganizer/IElectionOrganizer'
+import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LogoutButton } from './LogoutButton'
@@ -13,13 +13,13 @@ export default function ProfileSettingsModal({
     showModal,
     close,
 }: {
-    organizer: IElectionOrganizer
+    organizer: IElectionOrganizerEntity
     showModal: boolean
     close: () => void
 }): ReactElement {
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const { firstName, lastName, email } = organizer
+    const { firstName, lastName } = organizer
 
     return (
         <>
@@ -41,13 +41,13 @@ export default function ProfileSettingsModal({
                 <Row>
                     <Col span={24}>
                         <Title level={3}>{t('profile:Change email')}</Title>
-                        <ChangeEmailFrom initialValue={email} />
+                        <ChangeEmailFrom initialValue={organizer} />
                     </Col>
                 </Row>
                 <Row>
                     <Col span={24}>
                         <Title level={3}>{t('profile:Change password')}</Title>
-                        <ChangePasswordForm />
+                        <ChangePasswordForm initialValue={organizer} />
                     </Col>
                 </Row>
                 <Row>

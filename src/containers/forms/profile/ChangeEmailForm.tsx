@@ -5,19 +5,22 @@ import { BackendAPI } from 'core/api'
 import { InvalidEmail } from 'core/errors/customErrors'
 import { isValidEmail } from 'core/helpers/validation'
 import { useAlert } from 'core/hooks/useAlert'
+import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export default function ChangeEmailForm({ initialValue }: { initialValue: string }): ReactElement {
+export default function ChangeEmailForm({ initialValue }: { initialValue: IElectionOrganizerEntity }): ReactElement {
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
-    const submitForm = async ({ newEmail }: { newEmail: string }) => {
+    const submitForm = async ({ email }: { email: string }) => {
+        const organizer = initialValue
+        organizer.email = email
         try {
-            await service.changeEmail(newEmail)
+            await service.changeEmail(organizer)
             dispatchAlert({
                 type: 'add',
                 level: 'success',
@@ -46,15 +49,10 @@ export default function ChangeEmailForm({ initialValue }: { initialValue: string
     return (
         <Space direction="vertical">
             <AlertList alerts={alertStates} />
-            <Form
-                onFinish={submitForm}
-                layout={'horizontal'}
-                name="change-email"
-                initialValues={{ newEmail: initialValue }}
-            >
+            <Form onFinish={submitForm} layout={'horizontal'} name="change-email" initialValues={initialValue}>
                 <Space direction="horizontal" className="inline-form-item">
                     <Form.Item
-                        name="newEmail"
+                        name="email"
                         rules={[
                             {
                                 required: true,
