@@ -2,12 +2,17 @@ import { Dispatch, ReactNode, useReducer } from 'react'
 
 type AlertType = 'error' | 'warning' | 'success' | 'info' | undefined
 
-export type AlertAction = {
-    type: 'add'
-    level: AlertType
-    message: string | undefined | ReactNode
-    description?: string
-}
+export type AlertAction =
+    | {
+          type: 'add'
+          level: AlertType
+          message: string | undefined | ReactNode
+          description?: string
+      }
+    | {
+          type: 'remove'
+          index: number
+      }
 
 export interface AlertState {
     message: string | undefined | ReactNode
@@ -24,6 +29,12 @@ function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
                 description: action.description,
                 level: action.level,
             })
+            return listCopy
+        }
+
+        case 'remove': {
+            const listCopy = [...state]
+            listCopy.splice(action.index, 1)
             return listCopy
         }
         default:
