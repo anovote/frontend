@@ -18,7 +18,7 @@ import { Redirect, useHistory } from 'react-router-dom'
 export default function RegisterView(): React.ReactElement {
     const registrationService = new RegistrationService(BackendAPI)
 
-    const [ t, i18n ] = useTranslation(['form', 'common'])
+    const [t, i18n] = useTranslation(['form', 'common'])
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory<AlertState>()
     const { isLoggedIn } = useAppState()
