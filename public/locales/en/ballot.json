@@ -1,10 +1,11 @@
 {
-  "Ballot Type": "Ballot type",
-  "Display vote count": "Display vote count",
-  "Rank your candidates": "Rank your candidates",
-  "Result type": "Result type",
-  "Select multiple": "Select multiple",
-  "Select one": "Select one",
-  "Select ranked": "Select ranked",
-  "Select type": "Select type"
+    "Ballot Type": "Ballot type",
+    "Display vote count": "Display vote count",
+    "Rank your candidates": "Rank your candidates",
+    "Result type": "Result type",
+    "Select multiple": "Select multiple",
+    "Select one": "Select one",
+    "Select ranked": "Select ranked",
+    "Select type": "Select type",
+    "Blank": "Blank"
 }

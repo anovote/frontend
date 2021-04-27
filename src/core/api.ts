@@ -8,7 +8,7 @@ const JSON_MIME = 'application/json'
  * Accepts JSON as default
  */
 export const BackendAPI = axios.create({
-    baseURL: `${AppConfig.API_URI}:${AppConfig.API_PORT}`,
+    baseURL: `${AppConfig.API_URL}`,
     headers: { Accept: JSON_MIME },
 })
 

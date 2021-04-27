@@ -79,10 +79,12 @@
     "Welcome to Anovote": "Welcome to Anovote",
     "Yes": "Yes",
     "You need to select a candidate": "You need to select a candidate",
-    "You were logged out": "You were logged out",
-    "Your": "Your",
-    "Your request to change email was not fulfilled": "Your request to change email was not fulfilled",
     "Your vote was submitted": "Your vote was submitted!",
     "no-ballots": "No ballots",
-    "or": "or"
+    "Download pdf": "Download PDF",
+    "Generating pdf": "Generating PDF",
+    "Your": "Your",
+    "Your request to change email was not fulfilled": "Your request to change email was not fulfilled",
+    "or": "or",
+    "You were logged out": "You were logged out"
 }
