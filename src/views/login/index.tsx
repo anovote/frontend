@@ -66,7 +66,7 @@ export default function LoginView(): React.ReactElement {
                             name="email"
                             rules={[{ required: true, message: t('form:Please provide email') }]}
                         >
-                            <Input placeholder="ola.nordmann@gmail.com" />
+                            <Input placeholder={t('form:Example-email')} />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Password')}

@@ -172,7 +172,7 @@ function VoterLoginView(): ReactElement {
                                         },
                                     ]}
                                 >
-                                    <Input disabled={state.isLoading} placeholder="ola.nordmann@gmail.com" />
+                                    <Input disabled={state.isLoading} placeholder={t('form:Example-email')} />
                                 </Form.Item>
                                 <Form.Item
                                     label={

@@ -80,7 +80,7 @@ export default function RegisterView(): React.ReactElement {
                             ]}
                             normalize={(val) => val.trim()}
                         >
-                            <Input placeholder="ola.nordmann@gmail.com" />
+                            <Input placeholder={t('form:Example-email')} />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Password')}

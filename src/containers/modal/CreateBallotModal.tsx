@@ -28,7 +28,7 @@ export default function CreateBallotModal({
     initialBallot?: IBallotInList
     onSubmitted: (ballot: IBallot, indexInList?: number) => void
 }): ReactElement {
-    const [t] = useTranslation(['translation', 'common', 'form', 'profile', 'ballot'])
+    const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const [editCandidate, setEditCandidate] = useState<{ id: number } | undefined>(undefined)
     const [addNew, setAddNew] = useState(false)
 
@@ -167,7 +167,7 @@ export default function CreateBallotModal({
                         <Form.Item name="description" initialValue={initialBallot?.description}>
                             <Input.TextArea placeholder={t('common:Description')} />
                         </Form.Item>
-                        <SelectBallotType label={t('ballot:Select type')} initialValue={initialBallot?.type} />
+                        <SelectBallotType label={t('common:Select type')} initialValue={initialBallot?.type} />
                         <SelectResultType
                             label={t('ballot:Result type')}
                             initialValue={initialBallot?.resultDisplayType}

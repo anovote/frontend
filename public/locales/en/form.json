@@ -37,5 +37,6 @@
     "go-to-login": "Go to Login",
     "Please fill in a description": "Please fill in a description",
     "max-length": "Max length is {{maxLength}}",
-    "Your password": "Your password"
+    "Your password": "Your password",
+    "Example-email": "ola.nordmann@example.com"
 }
