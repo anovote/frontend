@@ -104,6 +104,7 @@ const publicRoute = () => {
             return {
                 register: authPath.append('register').get(),
                 login: authPath.append('login').get(),
+                authenticated: authPath.append('authenticated').get(),
             }
         },
     }

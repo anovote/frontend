@@ -7,6 +7,7 @@ import { StatusCodes } from 'http-status-codes'
 import jwt from 'jwt-decode'
 import { AuthenticationDetails } from './AuthenticationDetails'
 import { AuthenticationResponse } from './AuthenticationResponse'
+import { AuthLevel } from './AuthLevel'
 import { IToken, IVoterToken } from './IToken'
 export class AuthenticationService {
     private _httpClient: AxiosInstance
@@ -52,14 +53,47 @@ export class AuthenticationService {
      * This sets the authorization header for the http client if valid token
      */
     public tryLoginWithToken(): boolean {
+        let loggedIn = false
         if (this.hasValidAuthorizationToken()) {
             const token = this.getAuthorizationToken()
             if (token) {
                 this.setAuthorization(token)
-                return true
+                loggedIn = true
             }
         }
-        return false
+        return loggedIn
+    }
+
+    /**
+     * Returns the authorization level for the stored token, if there is no token, Auth level of none
+     * is returned.
+     * @returns current authorization level, defaults to none
+     */
+    public getAuthorizationLevel(): AuthLevel {
+        let authorizationLevel = AuthLevel.none
+        const token = this.getDecodedToken()
+        if (token) {
+            if (token.organizer) authorizationLevel = AuthLevel.organizer
+            else authorizationLevel = AuthLevel.voter
+        }
+        return authorizationLevel
+    }
+
+    /**
+     * Verifies the authentication for the token assigned to HTTP headers.
+     * Returns true if the server return 200/OK, else returns false as the server was unable to
+     * verify the token.
+     * @returns true if authenticated else false
+     */
+    public async isAuthenticationValid(): Promise<boolean> {
+        let authenticationValid = false
+        try {
+            await this._httpClient.get(apiRoutes.public.auth().authenticated)
+            authenticationValid = true
+        } catch (error) {
+            // ignore error as it means we were not able to verify the authentication status of the user
+        }
+        return authenticationValid
     }
 
     /**
