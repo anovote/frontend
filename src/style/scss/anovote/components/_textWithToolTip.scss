@@ -1,15 +1,6 @@
 .text-with-tooltip {
-    h2.ant-typography {
-        margin-top: 8px;
-        margin-bottom: 8px;
-        margin-right: 0px;
-        margin-left: 0px; 
-    }
-    h3.ant-typography {
-        margin-top: 6px;
-        margin-bottom: 6px;
-        margin-right: 0px;
-        margin-left: 0px; 
+    .ant-typography {
+        margin: 0.5rem 0;        
     }
 }
 
@@ -21,4 +12,5 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    color: $main-light;
 }
