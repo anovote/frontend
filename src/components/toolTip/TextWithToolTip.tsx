@@ -16,9 +16,7 @@ export default function TextWithToolTip({
         <Space className="text-with-tooltip">
             {textComponent}
             <Tooltip title={toolTipTitle} placement={placement} className="text-with-tooltip">
-                <div className="tooltip-icon-container">
-                    <QuestionCircleOutlined className="tooltip-icon" />
-                </div>
+                <QuestionCircleOutlined className="tooltip-icon" />
             </Tooltip>
         </Space>
     )

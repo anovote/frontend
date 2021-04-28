@@ -1,11 +1,8 @@
 .text-with-tooltip {
+    position: relative;
     .ant-typography {
         margin: 0.5rem 0;        
     }
-}
-
-.tooltip-icon-container {
-    position: relative;
 }
 
 .tooltip-icon {
