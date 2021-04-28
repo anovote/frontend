@@ -10,7 +10,7 @@ import ElectionTitleInput from 'components/election/ElectionTitleInput'
 import OpenDateInput from 'components/election/OpenDateInput'
 import EligibleVotersList from 'components/importVoters/EligibleVotersList'
 import BallotPreviewList from 'components/previewList/BallotPreviewList'
-import TextWithToolTip from 'components/toolTip/TextWithToolTip'
+import ComponentWithTooltip from 'components/toolTip/ComponentWithTooltip'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { DuplicateError } from 'core/errors/DuplicateError'
@@ -154,15 +154,15 @@ export default function CreateElectionView({
                         <Title level={2}>{t('common:Schedule')}</Title>
                         <Row>
                             <Col span={12}>
-                                <TextWithToolTip
-                                    textComponent={<Title level={3}>{t('common:Open')}</Title>}
+                                <ComponentWithTooltip
+                                    component={<Title level={3}>{t('common:Open')}</Title>}
                                     toolTipTitle={t('election:The date and time you want the election to open')}
                                 />
                                 <OpenDateInput />
                             </Col>
                             <Col span={12}>
-                                <TextWithToolTip
-                                    textComponent={<Title level={3}>{t('common:Close')}</Title>}
+                                <ComponentWithTooltip
+                                    component={<Title level={3}>{t('common:Close')}</Title>}
                                     toolTipTitle={t('election:The date and time you want the election to close')}
                                 />
                                 <CloseDateInput />
@@ -173,8 +173,8 @@ export default function CreateElectionView({
                             onChange={uploadEligibleVotersCallback}
                             formContext={form}
                         />
-                        <TextWithToolTip
-                            textComponent={<Title level={2}>{t('common:Verification')}</Title>}
+                        <ComponentWithTooltip
+                            component={<Title level={2}>{t('common:Verification')}</Title>}
                             toolTipTitle={t('election:Add a password as a verification for your election')}
                         />
                         <Row>

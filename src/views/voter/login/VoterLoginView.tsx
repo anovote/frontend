@@ -4,7 +4,7 @@ import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
 import CenterView from 'components/centerView/CenterView'
 import IconMessage from 'components/iconMessage/IconMessage'
-import TextWithToolTip from 'components/toolTip/TextWithToolTip'
+import ComponentWithTooltip from 'components/toolTip/ComponentWithTooltip'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterContentInfo from 'components/voterContentInfo/VoterContentInfo'
 import VoterFooter from 'components/voterFooter/VoterFooter'
@@ -176,8 +176,8 @@ function VoterLoginView(): ReactElement {
                                 </Form.Item>
                                 <Form.Item
                                     label={
-                                        <TextWithToolTip
-                                            textComponent={<Text>Election code</Text>}
+                                        <ComponentWithTooltip
+                                            component={<Text>Election code</Text>}
                                             toolTipTitle={t(
                                                 'voter:The election code is provided by the election organizer',
                                             )}
