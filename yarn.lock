@@ -7250,11 +7250,6 @@ html2canvas@^1.0.0-rc.5, html2canvas@^1.0.0-rc.7:
   dependencies:
     css-line-break "1.1.1"
 
-html2pdf@^0.0.11:
-  version "0.0.11"
-  resolved "https://registry.yarnpkg.com/html2pdf/-/html2pdf-0.0.11.tgz#1359156fbdeac0ec6fc8a781b05e8747ded19769"
-  integrity sha1-E1kVb73qwOxvyKeBsF6HR97Rl2k=
-
 htmlparser2@^3.10.1:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/htmlparser2/-/htmlparser2-3.10.1.tgz#bd679dc3f59897b6a34bb10749c855bb53a9392f"
@@ -8617,15 +8612,7 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
-jspdf-html2canvas@^1.4.9:
-  version "1.4.9"
-  resolved "https://registry.yarnpkg.com/jspdf-html2canvas/-/jspdf-html2canvas-1.4.9.tgz#36dff4ea11fff02bf111024ead92ab54b5ce0c5e"
-  integrity sha512-fgfZbzrD9k0wVdmg4Pj0YKMWThgGf7p3SKQMXwd1mti+mWLtZr3nDOUUQ0qJFLhhcTQcK6/Q0hXKR3c9UJc8jA==
-  dependencies:
-    html2canvas "^1.0.0-rc.7"
-    jspdf "^2.1.1"
-
-jspdf@^2.1.1, jspdf@^2.3.1:
+jspdf@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/jspdf/-/jspdf-2.3.1.tgz#313d117234b546469694a1fd81a1e02411647576"
   integrity sha512-1vp0USP1mQi1h7NKpwxjFgQkJ5ncZvtH858aLpycUc/M+r/RpWJT8PixAU7Cw/3fPd4fpC8eB/Bj42LnsR21YQ==
