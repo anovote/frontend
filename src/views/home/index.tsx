@@ -89,7 +89,7 @@ export default function Home(): React.ReactElement {
                                     <br />
                                     <Text>
                                         All packed in to an simple and elegant solution for everyone to use. Now you can
-                                        replace pen and paper, with your mobile phone and computer!😊
+                                        replace pen and paper, with your mobile phone and computer!
                                     </Text>
                                 </article>
                                 <span className="article-image">

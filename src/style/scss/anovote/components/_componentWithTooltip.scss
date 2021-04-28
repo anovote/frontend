@@ -1,0 +1,13 @@
+.component-with-tooltip {
+    position: relative;
+    .ant-typography {
+        margin: 0.5rem 0;        
+    }
+}
+
+.tooltip-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: $main-light;
+}

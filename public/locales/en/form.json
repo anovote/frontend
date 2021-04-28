@@ -1,10 +1,11 @@
 {
     "Add manually": "Add manually",
     "Are you sure": "Are you sure",
-    "Email is not valid": "Email is not valid",
     "Are you sure you want to cancel": "Are you sure you want to cancel?",
     "Cancel": "Cancel",
+    "Email is not valid": "Email is not valid",
     "Error in form": "Error in form",
+    "Example-email": "ola.nordmann@example.com",
     "Is required": "Field is required",
     "Must be": "Must be",
     "Must be an email": "$t(form:Must be) an email address",
@@ -18,6 +19,7 @@
     "Must match": "Must match {{field}}",
     "No": "No",
     "Password validation": "Minimum 8 characters, one uppercase, one lowercase, one numeric and one special",
+    "Please fill in a description": "Please fill in a description",
     "Please fill in a title": "Please fill in a title!",
     "Please provide a password": "Please provide a password",
     "Please provide email": "Please provide email",
@@ -33,9 +35,9 @@
     "Wrong email password": "Wrong email/password",
     "Wrong email/password": "Wrong email/password",
     "Yes": "Yes",
+    "Your password": "Your password",
     "add-new-email": "Add new email",
     "go-to-login": "Go to Login",
-    "Please fill in a description": "Please fill in a description",
     "max-length": "Max length is {{maxLength}}",
     "min-length": "Minimum length is {{minLength}}"
 }

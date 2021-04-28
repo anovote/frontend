@@ -59,11 +59,19 @@ export default function RegisterView(): React.ReactElement {
                         <AlertList alerts={alertStates} />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
-                        <Form.Item label={t('common:First name')} name="firstName" rules={rules.firstName}>
-                            <Input />
+                        <Form.Item
+                            label={t('common:First name')}
+                            name="firstName"
+                            rules={[{ required: true, message: t('form:Remember first name') }]}
+                        >
+                            <Input placeholder="Ola" />
                         </Form.Item>
-                        <Form.Item label={t('common:Last name')} name="lastName" rules={rules.lastName}>
-                            <Input />
+                        <Form.Item
+                            label={t('common:Last name')}
+                            name="lastName"
+                            rules={[{ required: true, message: t('form:Remember last name') }]}
+                        >
+                            <Input placeholder="Nordmann" />
                         </Form.Item>
                         <Form.Item
                             label={t('common:Email')}
@@ -71,17 +79,21 @@ export default function RegisterView(): React.ReactElement {
                             rules={rules.email}
                             normalize={(val) => val.trim()}
                         >
-                            <Input />
+                            <Input placeholder={t('form:Example-email')} />
                         </Form.Item>
-                        <Form.Item label={t('common:Password')} name="password" rules={rules.password}>
-                            <Input.Password />
+                        <Form.Item
+                            label={t('common:Password')}
+                            name="password"
+                            rules={[{ required: true, message: t('form:Remember password') }]}
+                        >
+                            <Input.Password placeholder={t('form:Your password')} />
                         </Form.Item>
                         <Form.Item
                             label={t('form:Please rewrite password')}
                             name="reTypePassword"
                             rules={rules.rePassword}
                         >
-                            <Input.Password />
+                            <Input.Password placeholder={t('form:Your password')} />
                         </Form.Item>
                         <Form.Item>
                             <Space>

@@ -1,8 +1,10 @@
 import { Button, Form, Input, Result } from 'antd'
+import Text from 'antd/lib/typography'
 import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
 import CenterView from 'components/centerView/CenterView'
 import IconMessage from 'components/iconMessage/IconMessage'
+import ComponentWithTooltip from 'components/toolTip/ComponentWithTooltip'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterContentInfo from 'components/voterContentInfo/VoterContentInfo'
 import VoterFooter from 'components/voterFooter/VoterFooter'
@@ -170,10 +172,17 @@ function VoterLoginView(): ReactElement {
                                         },
                                     ]}
                                 >
-                                    <Input disabled={state.isLoading} placeholder="email@example.com" />
+                                    <Input disabled={state.isLoading} placeholder={t('form:Example-email')} />
                                 </Form.Item>
                                 <Form.Item
-                                    label={t('common:Election Code')}
+                                    label={
+                                        <ComponentWithTooltip
+                                            component={<Text>Election code</Text>}
+                                            toolTipTitle={t(
+                                                'voter:The election code is provided by the election organizer',
+                                            )}
+                                        />
+                                    }
                                     name={'electionCode'}
                                     rules={[
                                         { type: 'string', required: true, message: t('form:Is required') },
