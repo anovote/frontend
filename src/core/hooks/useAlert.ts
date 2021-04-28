@@ -21,14 +21,14 @@ export interface AlertState {
 }
 
 function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
-    const listMaxLength = 5
+    const LIST_MAX_LENGTH = 5
     switch (action.type) {
         case 'add': {
             const listCopy = [...state]
 
             // make sure alert list never exceeds max length to avoid stacking
-            if (state.length + 1 > listMaxLength) {
-                listCopy.splice(listCopy.length - listMaxLength, 1)
+            if (state.length + 1 > LIST_MAX_LENGTH) {
+                listCopy.splice(listCopy.length - LIST_MAX_LENGTH, 1)
             }
 
             if (state.length > 0) {
@@ -65,9 +65,23 @@ function isEqualToPrevious(
     newAlert: { message: string | ReactNode; description?: string },
     prevAlert: { message: string | ReactNode; description?: string },
 ) {
-    if (newAlert.message === prevAlert.message) return true
-    if (newAlert.description && newAlert.description === prevAlert.description) return true
+    if (
+        messageAreEqual(newAlert.message, prevAlert.message) ||
+        (newAlert.description &&
+            prevAlert.description &&
+            descriptionAreEqual(newAlert.description, prevAlert.description))
+    ) {
+        return true
+    }
     return false
+}
+
+function messageAreEqual(newMessage: string | ReactNode, prevMessage: string | ReactNode) {
+    return newMessage === prevMessage
+}
+
+function descriptionAreEqual(newDescription: string, prevDescription: string) {
+    return newDescription === prevDescription
 }
 
 export function useAlert(initialState: AlertState[]): [AlertState[], Dispatch<AlertAction>] {
