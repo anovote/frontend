@@ -1,5 +1,6 @@
 {
   "Add a password as a verification for your election": "Add a password as a verification for your election",
+  "Are you sure you want to": "Are you sure you want to",
   "Are you sure you want to delete the election": "Are you sure you want to delete the election",
   "Authentication method": "Authentication method",
   "Ballot proceed": "Ballot proceed",
@@ -24,6 +25,7 @@
   "Opened on": "Opened on",
   "Opens on": "Opens on",
   "Please fill in a description": "Please fill in a description",
+  "Results": "Election results",
   "The date and time you want the election to close": "The date and time you want the election to close",
   "The date and time you want the election to open": "The date and time you want the election to open",
   "The election organizer needs to be logged in to create an election": "The election organizer needs to be logged in to create an election",
@@ -33,6 +35,5 @@
   "To be held": "To be held",
   "Waiting for": "Waiting for {{what}}",
   "create-election": "Create Election",
-  "update-election": "Update Election",
-  "Are you sure you want to": "Are you sure you want to"
+  "update-election": "Update Election"
 }

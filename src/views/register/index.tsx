@@ -3,6 +3,7 @@ import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { formRules } from 'core/helpers/formRules'
 import { AlertState, useAlert } from 'core/hooks/useAlert'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthLevel } from 'core/service/authentication/AuthLevel'
@@ -20,6 +21,7 @@ export default function RegisterView(): React.ReactElement {
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory<AlertState>()
     const { isLoggedIn } = useAppState()
+    const rules = formRules(t)
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
@@ -74,10 +76,7 @@ export default function RegisterView(): React.ReactElement {
                         <Form.Item
                             label={t('common:Email')}
                             name="email"
-                            rules={[
-                                { required: true, message: t('form:Remember email') },
-                                { type: 'email', message: t('form:Email is not valid') },
-                            ]}
+                            rules={rules.email}
                             normalize={(val) => val.trim()}
                         >
                             <Input placeholder={t('form:Example-email')} />
@@ -92,7 +91,7 @@ export default function RegisterView(): React.ReactElement {
                         <Form.Item
                             label={t('form:Please rewrite password')}
                             name="reTypePassword"
-                            rules={[{ required: true, message: t('form:Remember to rewrite password') }]}
+                            rules={rules.rePassword}
                         >
                             <Input.Password placeholder={t('form:Your password')} />
                         </Form.Item>

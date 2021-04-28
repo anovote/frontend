@@ -21,7 +21,7 @@ import { Redirect, useHistory, useLocation } from 'react-router-dom'
  */
 export default function LoginView(): React.ReactElement {
     const authService = new AuthenticationService(BackendAPI, new LocalStorageService())
-    const [t] = useTranslation(['translation', 'common', 'form'])
+    const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory<AlertState>()
     const location = useLocation<AlertState>()

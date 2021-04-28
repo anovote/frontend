@@ -1,5 +1,6 @@
 {
   "Ballot Type": "Ballot type",
+  "Blank": "Blank",
   "Display vote count": "Display vote count",
   "Rank your candidates": "Rank your candidates",
   "Result type": "Result type",
@@ -7,6 +8,5 @@
   "Select multiple": "Select multiple",
   "Select one": "Select one",
   "Select ranked": "Select ranked",
-  "Select the type of ballot that you want the voters to vote on": "Select the type of ballot that you want the voters to vote on",
-  "Select type": "Select type"
+  "Select the type of ballot that you want the voters to vote on": "Select the type of ballot that you want the voters to vote on"
 }

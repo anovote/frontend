@@ -1,6 +1,6 @@
 import { Spin } from 'antd'
 import { ElectionFinished } from 'components/election/ElectionFinished'
-import { ElectionInProgressView } from 'components/election/ElectionInProgress'
+import { ElectionInProgress } from 'components/election/ElectionInProgress'
 import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
 import { ElectionParams } from 'components/queue/ElectionParams'
 import { BackendAPI } from 'core/api'
@@ -61,24 +61,19 @@ export default function ElectionView(): React.ReactElement {
         }
     }
 
-    const fetchElection = (electionId: string) => {
-        dispatch({ type: 'fetchingElection' })
-        setTimeout(() => {
-            // todo remove timeout. only here to demonstrate loading
-            electionService
-                .getElection(Number.parseInt(electionId))
-                .then((election) => {
-                    dispatch({ type: 'gotElection', election })
-                })
-                .catch((reason) => {
-                    if (reason.response.status === StatusCodes.NOT_FOUND) {
-                        const { message }: { message: string } = reason.response.data
-                        history.push(getAdminRoute().elections.view, { message, level: 'error' })
-                        return
-                    }
-                    dispatch({ type: 'error', message: reason })
-                })
-        }, 1000)
+    const fetchElection = async (electionId: string) => {
+        try {
+            dispatch({ type: 'fetchingElection' })
+            const response = await electionService.getElection(Number.parseInt(electionId))
+            dispatch({ type: 'gotElection', election: response })
+        } catch (reason) {
+            if (reason.response.status === StatusCodes.NOT_FOUND) {
+                const { message }: { message: string } = reason.response.data
+                history.push(getAdminRoute().elections.view, { message, level: 'error' })
+                return
+            }
+            dispatch({ type: 'error', message: reason })
+        }
     }
 
     const onElectionChangeHandler = async (election: IElectionEntity, toDelete?: boolean) => {
@@ -125,10 +120,9 @@ export default function ElectionView(): React.ReactElement {
                     />
                 )
             case ElectionStatus.Started:
-                return <ElectionInProgressView election={election} />
+                return <ElectionInProgress election={election} />
             case ElectionStatus.Finished:
-                // todo create view when results are finished
-                return <ElectionFinished />
+                return <ElectionFinished election={election} />
             default:
                 console.error('status not set')
                 history.push(getAdminRoute().elections.view, {

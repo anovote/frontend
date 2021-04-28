@@ -1,46 +1,36 @@
+import { act, render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import React from 'react'
-import { unmountComponentAtNode, render } from 'react-dom'
-import { act } from 'react-dom/test-utils'
 import { mockMatchMedia } from '../../mocks/mockMatchMedia'
 import RegisterView from './index'
-
-let container: Element | DocumentFragment
 
 beforeAll(() => {
     mockMatchMedia()
 })
 
-beforeEach(() => {
-    container = document.createElement('div')
-    document.body.appendChild(container)
-})
-
-afterEach(() => {
-    unmountComponentAtNode(container)
-})
-
 it('Displays forms validation on empty fields after register is clicked', async () => {
     await act(async () => {
-        render(<RegisterView />, container)
-        container.querySelector('button')?.click()
-        return await new Promise((resolve) => {
-            setTimeout(() => {
-                resolve()
-            }, 200)
-        })
+        render(<RegisterView />)
+        const button = await screen.findByText('form:Register')
+        userEvent.click(button)
     })
-    const list = [...container.querySelectorAll('.ant-form-item-explain')]
-    expect(list[0]).toBeTruthy()
-    expect(list[1]).toBeTruthy()
-    expect(list[2]).toBeTruthy()
-    expect(list[3]).toBeTruthy()
-    expect(list[4]).toBeTruthy()
+
+    await waitFor(
+        () => {
+            const NUMBER_OF_REQUIRED_FIELDS = 5
+
+            screen.getByText('form:Remember first name')
+            screen.getByText('form:Remember last name')
+            screen.getByText('form:Remember email')
+            screen.getByText('form:Remember password')
+            screen.getByText('form:Remember to rewrite password')
+            expect(screen.getAllByRole('alert').length).toBe(NUMBER_OF_REQUIRED_FIELDS)
+        },
+        { timeout: 200 },
+    )
 })
 
 it('Does not display form validation alert message before clicking the register button', async () => {
-    await act(async () => {
-        render(<RegisterView />, container)
-    })
-    const list = [...container.querySelectorAll('.ant-form-item-explain')]
-    expect(list.length).toBe(0)
+    render(<RegisterView />)
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 })

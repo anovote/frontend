@@ -19,5 +19,8 @@
         "en": "gb" // show UK's flag instead of US's
     },
     "i18n-ally.enabledFrameworks": ["react", "i18next"],
-    "i18n-ally.keystyle": "nested"
+    "i18n-ally.keystyle": "nested",
+    "i18n-ally.annotationDelimiter": ":",
+    "i18n-ally.indent": 4,
+    "i18n-ally.extract.keygenStyle": "default"
 }

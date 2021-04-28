@@ -3,19 +3,24 @@ import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
 import { PasswordDoesNotMatchError } from 'core/errors/customErrors'
 import { useAlert } from 'core/hooks/useAlert'
+import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 
-export default function ChangePasswordForm(): React.ReactElement {
+export default function ChangePasswordForm({
+    initialValue,
+}: {
+    initialValue: IElectionOrganizerEntity
+}): React.ReactElement {
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
     const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
 
-    const submitForm = async (values: ChangePasswordInterface) => {
+    const submitForm = async (passwords: { password1: string; password2: string }) => {
         try {
-            await service.validateAndChangePassword(values)
+            await service.changePassword(initialValue, passwords)
             dispatchAlert({
                 type: 'add',
                 level: 'success',
@@ -92,9 +97,4 @@ export default function ChangePasswordForm(): React.ReactElement {
             </Space>
         </>
     )
-}
-// todo if password1 is visible don't show password2
-export interface ChangePasswordInterface {
-    password1: string
-    password2: string
 }

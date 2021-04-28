@@ -2,7 +2,7 @@ import { BallotResultDisplay } from './BallotResultDisplay'
 import { BallotStatus } from './BallotStatus'
 import { BallotType } from './BallotType'
 import { IBallotEntity } from './IBallotEntity'
-import { ICandidate } from './ICandidate'
+import { ICandidateEntity } from './ICandidate'
 
 /**
  * Represents a ballot entity.
@@ -49,7 +49,7 @@ export class BallotEntity implements IBallotEntity {
         return this._ballot.status
     }
 
-    get candidates(): Array<ICandidate> {
+    get candidates(): Array<ICandidateEntity> {
         return this._ballot.candidates
     }
 

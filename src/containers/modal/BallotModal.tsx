@@ -7,8 +7,8 @@ import { BallotStatusLabel } from 'components/ElectionStatusLabel'
 import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
 import { IControl } from 'core/helpers/IControl'
-import { BallotEntity } from 'core/models/ballot/BallotEntity'
-import { IBallotStats } from 'core/models/ballot/IBallotStats'
+import { BallotWithVotes } from 'core/models/ballot/BallotWithVotes'
+import { IVoteStats } from 'core/models/ballot/IVoteStats'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
@@ -16,22 +16,22 @@ export default function BallotModal({
     showModal,
     close,
     controls,
-    ballotStats,
-    ballotEntity,
+    ballot,
 }: {
     showModal: boolean
     close: () => void
     controls: IControl
-    ballotStats?: IBallotStats
-    ballotEntity: BallotEntity | undefined
+    ballot: BallotWithVotes
 }): ReactElement {
     const [t] = useTranslation(['translation', 'common'])
     const { previous, next } = controls
-
     // cross reference stats with a candidate
-    const diagramStats = ballotStats?.stats.candidates.map((stat, index) => {
-        return { ...stat, candidate: ballotEntity?.candidates[index].candidate }
-    })
+    const diagramStats = ballot
+        .getVoteStatsWithCandidates()
+        .candidates // Sorts ballots in decreasing order
+        .sort((statsA, statsB) => {
+            return statsB.votes - statsA.votes
+        })
 
     const config = {
         width: 600,
@@ -42,7 +42,7 @@ export default function BallotModal({
         seriesField: 'candidate',
     }
 
-    const appendStats = ({ stats }: IBallotStats): IStatValue[] => {
+    const appendStats = (stats: IVoteStats): IStatValue[] => {
         return [
             { title: t('common:Total'), value: stats.total },
             { title: t('common:Votes'), value: stats.votes },
@@ -65,11 +65,10 @@ export default function BallotModal({
 
     return (
         <>
-            {ballotEntity && (
+            {ballot && (
                 <Modal
                     width={'100vw'}
-                    // TODO Add status ICON implementation here when merged
-                    title={<BallotStatusLabel status={ballotEntity.status} />}
+                    title={<BallotStatusLabel status={ballot.status} />}
                     footer={footer}
                     visible={showModal}
                     onCancel={close}
@@ -77,8 +76,8 @@ export default function BallotModal({
                 >
                     <Row>
                         <Col span={24}>
-                            <Title level={2}>{ballotEntity.title}</Title>
-                            <div>{ballotStats && <StatCard stats={appendStats(ballotStats)} />}</div>
+                            <Title level={2}>{ballot.title}</Title>
+                            <div>{ballot.votes && <StatCard stats={appendStats(ballot.votes)} />}</div>
                         </Col>
                         <Col span={24}>{diagramStats && <Bar data={diagramStats} {...config} />}</Col>
                     </Row>
