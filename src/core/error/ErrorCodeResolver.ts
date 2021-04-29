@@ -22,6 +22,11 @@ export class ErrorCodeResolver {
         { code: ErrorCode.voterIdentificationMissing, message: (t) => t('error:Voter identification is missing') },
         { code: ErrorCode.verificationCodeMissing, message: (t) => t('error:Verification code is missing') },
         { code: ErrorCode.voterNotExist, message: (t) => t('error:Identification not exist for election') },
+        { code: ErrorCode.electionDuplicate, message: (t) => t('error:Duplicate election') },
+        { code: ErrorCode.electionRoomNotExist, message: (t) => t('error:Election room not exist') },
+        { code: ErrorCode.ballotNotExist, message: (t) => t('error:Ballot not exist') },
+        { code: ErrorCode.alreadyVotedOnBallot, message: (t) => t('error:Already voted on ballot') },
+        { code: ErrorCode.ballotArchived, message: (t) => t('error:Ballot is archived') },
     ]
 
     constructor(t: TFunction<string[]>) {
