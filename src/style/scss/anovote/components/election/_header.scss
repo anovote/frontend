@@ -8,9 +8,12 @@
     color: $dark;
     border: none;
     box-shadow: none;
-
+    transition: all 0.3s;
     .anticon {
         font-size: 1.5rem;
+    }
+    &:hover {
+        transform: rotateZ(90deg);
     }
 }
 .col-position {
