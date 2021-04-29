@@ -11,6 +11,7 @@ export type ElectionBallotStateAction =
     | { type: 'addStats'; payload: IBallotStats[] }
     | { type: 'updateStats'; payload: IBallotStats }
     | { type: 'addBallots'; payload: IBallotEntity[] }
+    | { type: 'updateBallot'; payload: IBallotEntity }
     | { type: 'setActiveBallot'; payload: number }
     | { type: 'previousBallot' }
     | { type: 'nextBallot' }
@@ -42,6 +43,14 @@ export const electionBallotReducer = (
                 newState.ballotWithStats.push(new BallotWithVotes(ballot))
             }
             break
+        case 'updateBallot': {
+            const ballot = newState.ballotWithStats.find((ballot) => ballot.id == action.payload.id)
+            if (ballot) {
+                ballot.update(action.payload)
+                newState.ballotWithStats = [...newState.ballotWithStats]
+            }
+            break
+        }
         case 'setActiveBallot':
             newState.activeBallotIndex = newState.ballotWithStats.findIndex((ballot) => {
                 return ballot.id == action.payload
