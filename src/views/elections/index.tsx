@@ -6,13 +6,12 @@ import CardList from 'components/cards/CardList'
 import ElectionEntry from 'components/list/entries/electionEntry'
 import ElectionHeader from 'components/list/headers/electionHeader'
 import { BackendAPI } from 'core/api'
-import { AlertState, useAlert } from 'core/hooks/useAlert'
+import { useAlert } from 'core/hooks/useAlert'
 import { ElectionEntity } from 'core/models/election/ElectionEntity'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { ElectionService } from 'core/service/election/ElectionService'
 import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useHistory, useLocation } from 'react-router-dom'
 
 export default function ElectionsView(): React.ReactElement {
     const [t] = useTranslation(['common', 'election'])
@@ -20,7 +19,6 @@ export default function ElectionsView(): React.ReactElement {
     const [upcoming, setUpcoming] = useState([] as ElectionEntity[])
     const [inProgress, setInProgress] = useState([] as ElectionEntity[])
     const [finished, setFinished] = useState([] as ElectionEntity[])
-    const history = useHistory<AlertState>()
 
     const { alertStates } = useAlert([{ message: '', level: undefined }])
 
