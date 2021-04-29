@@ -13,6 +13,15 @@ export class BallotEntity implements IBallotEntity {
     constructor(ballotEntity: IBallotEntity) {
         this._ballot = ballotEntity
     }
+
+    /**
+     * Updates the ballot values for this entity
+     * @param updatedBallot updated ballot to assign
+     */
+    update(updatedBallot: IBallotEntity): void {
+        this._ballot = { ...this._ballot, ...updatedBallot }
+    }
+
     get id(): number {
         return this._ballot.id
     }
