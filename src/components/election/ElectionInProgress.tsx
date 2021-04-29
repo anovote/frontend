@@ -88,6 +88,11 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
             setBallotState({ type: 'updateStats', payload: data })
         })
 
+        socket.on(Events.server.ballot.update, (data: { ballot: IBallotEntity }) => {
+            if (!data?.ballot) return
+            setBallotState({ type: 'updateBallot', payload: data.ballot })
+        })
+
         setBallotState({ type: 'addBallots', payload: election.ballots as Array<IBallotEntity> })
 
         return () => {
