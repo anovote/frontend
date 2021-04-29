@@ -14,7 +14,7 @@ export default function ChangeEmailForm({ initialValue }: { initialValue: IElect
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
 
     const submitForm = async ({ email }: { email: string }) => {
         const organizer = initialValue

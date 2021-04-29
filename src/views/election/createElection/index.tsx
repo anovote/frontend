@@ -46,7 +46,7 @@ export default function CreateElectionView({
         initialElection ? prepareElection(initialElection) : ({} as IElection),
     )
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
 
     const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()
@@ -65,13 +65,12 @@ export default function CreateElectionView({
             }
 
             await electionService.createElection(formData)
-            dispatchAlert({
-                type: 'add',
+
+            history.push(getAdminRoute().elections.view, {
                 level: 'success',
                 message: t('election:Created election'),
                 description: t('election:The election was created successfully'),
             })
-            history.push(getAdminRoute().elections.view, alertStates[0])
         } catch (error) {
             if (error instanceof AuthorizationError) {
                 dispatchAlert({
@@ -192,7 +191,6 @@ export default function CreateElectionView({
                                 </Space>
                             </Col>
                         </Row>
-                        {/* todo #154 There should be a cancel button*/}
                     </Form>
                 </Col>
                 <Col span={12} className="ballot-section">

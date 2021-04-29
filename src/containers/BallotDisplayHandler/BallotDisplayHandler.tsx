@@ -33,7 +33,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
     const [t] = useTranslation(['common', 'ballot'])
     const [socket] = useSocket()
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
 
     const [ballotState, setBallotState] = useState<IBallotEntity>(ballot)
 

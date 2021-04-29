@@ -16,7 +16,7 @@ export default function ChangePasswordForm({
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
 
     const submitForm = async (passwords: { password1: string; password2: string }) => {
         try {

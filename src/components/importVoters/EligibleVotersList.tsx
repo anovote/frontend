@@ -32,7 +32,7 @@ export default function EligibleVotersList({
         onChange(voters)
     }, [voters])
 
-    const [alertStates, dispatchAlert] = useAlert([
+    const { alertStates, dispatchAlert } = useAlert([
         {
             message: '',
             level: undefined,

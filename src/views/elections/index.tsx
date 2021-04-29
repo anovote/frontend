@@ -20,10 +20,9 @@ export default function ElectionsView(): React.ReactElement {
     const [upcoming, setUpcoming] = useState([] as ElectionEntity[])
     const [inProgress, setInProgress] = useState([] as ElectionEntity[])
     const [finished, setFinished] = useState([] as ElectionEntity[])
-    const location = useLocation<AlertState>()
     const history = useHistory<AlertState>()
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates } = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         new ElectionService(BackendAPI)
@@ -43,30 +42,11 @@ export default function ElectionsView(): React.ReactElement {
                 setUpcoming(upcoming)
                 setInProgress(started)
                 setFinished(finished)
-
-                if (location.state && location.state.message !== '') {
-                    dispatchAlert({
-                        type: 'add',
-                        level: location.state.level,
-                        message: location.state.message,
-                        description: location.state.description,
-                    })
-                    resetHistoryState()
-                }
             })
             .catch((error) => {
                 console.log(error)
             })
     }, [])
-
-    /**
-     * Resets the history state
-     * The history location should stay intact
-     */
-    const resetHistoryState = () => {
-        const state: AlertState = { message: '', level: undefined }
-        history.replace({ ...history.location, state })
-    }
 
     /**
      * Generates the list entry with correct elements.

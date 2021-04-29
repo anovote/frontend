@@ -49,7 +49,7 @@ function VoterLoginView(): ReactElement {
     const authenticationService = new AuthenticationService(BackendAPI, new LocalStorageService<StorageKeys>())
     const initialAlertState: AlertState[] = location.state ? [location.state] : []
 
-    const [alertState] = useAlert(initialAlertState)
+    const { alertStates } = useAlert(initialAlertState)
 
     useEffect(() => {
         const connectEvent = joinConnectEvent(dispatch)
@@ -147,7 +147,7 @@ function VoterLoginView(): ReactElement {
                         ]}
                     />
                 )}
-                <AlertList alerts={alertState} />
+                <AlertList alerts={alertStates} />
                 <Content className="voter-election-layout-content">
                     <VoterContentInfo title={t('voter:Join election')}></VoterContentInfo>
                     <VoterContent>

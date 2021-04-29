@@ -42,7 +42,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         activeBallotIndex: 0,
     })
     const [forceEndVisible, setForceEndVisible] = useState(false)
-    const [alerts, setAlerts] = useAlert([{ message: '', level: undefined }])
+    const { alertStates: alerts, dispatchAlert: setAlerts } = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()

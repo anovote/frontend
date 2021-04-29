@@ -19,7 +19,7 @@ export interface AlertState {
     description?: string
     level: AlertType
 }
-type UseAlertReturn = [AlertState[], Dispatch<AlertAction>] & {
+type UseAlertReturn = {
     alertStates: AlertState[]
     dispatchAlert: Dispatch<AlertAction>
 }
@@ -95,5 +95,5 @@ export function useAlert(initialState: AlertState[]): UseAlertReturn {
 
     const [alertStates, dispatchAlert] = useReducer(alertReducer, initialState)
 
-    return [alertStates, dispatchAlert] as UseAlertReturn
+    return { alertStates, dispatchAlert }
 }

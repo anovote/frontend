@@ -60,7 +60,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     //}
 
     const logoutHandler = () => {
-        const alert: AlertState = { message: 'You where logged out', level: 'info' } // todo temporary until new alert hooks comes
+        const alert: AlertState = { message: t('common:You were logged out'), level: 'info' }
         dispatcher.setLogoutState()
         history.push(getPublicRoute().login, alert)
     }

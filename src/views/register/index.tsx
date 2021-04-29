@@ -23,7 +23,7 @@ export default function RegisterView(): React.ReactElement {
     const { isLoggedIn } = useAppState()
     const rules = formRules(t)
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
