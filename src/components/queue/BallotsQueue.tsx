@@ -6,6 +6,7 @@ import StatCard from 'components/statCard/StatCard'
 import SquareIconButton from 'containers/button/SquareIconButton'
 import { BallotStatus } from 'core/models/ballot/BallotStatus'
 import { BallotWithVotes } from 'core/models/ballot/BallotWithVotes'
+import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IVoteStats } from 'core/models/ballot/IVoteStats'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -56,6 +57,19 @@ export default function BallotsQueue({
         setCurrent(id)
     }
 
+    /**
+     * Returns true if the ballot can be pushed, else false
+     * @param ballot the ballot to check
+     * @returns returns true if it can be pushed or else false
+     */
+    const canPushBallot = (ballot: IBallotEntity) => {
+        let canPush = false
+        if (doPushBallot && (ballot.status == BallotStatus.IN_QUEUE || ballot.status == BallotStatus.IN_PROGRESS)) {
+            canPush = true
+        }
+        return canPush
+    }
+
     useEffect(() => {
         const statsQueue: ReactElement<StepProps>[] = []
         for (const ballot of dataSource) {
@@ -72,7 +86,7 @@ export default function BallotsQueue({
                             {ballot && (
                                 <StatCard stats={appendStats(ballot.votes)} onClick={() => handleClick(ballot.id)} />
                             )}
-                            {doPushBallot && (
+                            {canPushBallot(ballot) && (
                                 <SquareIconButton
                                     text={t('common:Push ballot')}
                                     tabIndex={0}
