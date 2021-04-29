@@ -7,7 +7,7 @@ export interface ElectionBallotState {
     activeBallotIndex: number
 }
 
-export type Action =
+export type ElectionBallotStateAction =
     | { type: 'addStats'; payload: IBallotStats[] }
     | { type: 'updateStats'; payload: IBallotStats }
     | { type: 'addBallots'; payload: IBallotEntity[] }
@@ -15,7 +15,10 @@ export type Action =
     | { type: 'previousBallot' }
     | { type: 'nextBallot' }
 
-export const electionBallotReducer = (state: ElectionBallotState, action: Action): ElectionBallotState => {
+export const electionBallotReducer = (
+    state: ElectionBallotState,
+    action: ElectionBallotStateAction,
+): ElectionBallotState => {
     const newState = Object.assign({}, state)
     switch (action.type) {
         case 'addStats': {
