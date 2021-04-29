@@ -14,8 +14,7 @@ import { useSocket } from 'core/hooks/useSocket'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
-import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
-import { ElectionEventService } from 'core/service/election/ElectionEventService'
+import { electionBallotReducer, ElectionBallotStateAction } from 'core/reducers/electionBallotsReducer'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
@@ -36,6 +35,23 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
     })
 }
 
+/**
+ *  Acknowledgement handler for pushed ballots.
+ *
+ * @param setBallotState state update method
+ * @returns WebsocketEvent handler
+ */
+const pushBallotAck = (setBallotState: React.Dispatch<ElectionBallotStateAction>) => {
+    return WebsocketEvent<{ ballot: IBallotEntity }>({
+        dataHandler: (data) => {
+            setBallotState({ type: 'updateBallot', payload: data.ballot })
+        },
+        errorHandler: (error) => {
+            console.log(error)
+        },
+    })
+}
+
 export function ElectionInProgress({ election }: { election: IElectionEntity }): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['common', 'election'])
@@ -47,7 +63,6 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     const [forceEndVisible, setForceEndVisible] = useState(false)
     const [alerts, setAlerts] = useAlert([{ message: '', level: undefined }])
     const { electionId } = useParams<ElectionParams>()
-    const electionEventService: ElectionEventService = new ElectionEventService(socket)
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -83,8 +98,11 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     async function doPushBallot(id: number) {
         const ballot = ballotState.ballotWithStats.find((ballot) => ballot.id === id)
         if (ballot && electionId) {
-            const electionIdInt = Number.parseInt(electionId)
-            await electionEventService.broadcastBallot(ballot, electionIdInt)
+            socket.emit(
+                Events.client.ballot.push,
+                { ballotId: ballot.id, electionId: Number.parseInt(electionId) },
+                pushBallotAck(setBallotState),
+            )
         }
     }
 
