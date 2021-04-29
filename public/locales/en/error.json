@@ -29,5 +29,6 @@
     "not valid email": "Not valid email",
     "You are not authorized": "You are not authorized",
     "Unable to submit vote": "Unable to submit vote",
+    "Unable to push ballot": "Unable to push ballot",
     "Already voted on ballot": "You have already voted on this ballot"
 }

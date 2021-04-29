@@ -8,8 +8,9 @@ import BallotsQueue from 'components/queue/BallotsQueue'
 import { ElectionParams } from 'components/queue/ElectionParams'
 import IconButton from 'containers/button/IconButton'
 import BallotModal from 'containers/modal/BallotModal'
+import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
-import { useAlert } from 'core/hooks/useAlert'
+import { AlertAction, useAlert } from 'core/hooks/useAlert'
 import { useSocket } from 'core/hooks/useSocket'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
@@ -19,8 +20,8 @@ import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
-import React, { ReactElement, useEffect, useReducer, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { Dispatch, ReactElement, useEffect, useReducer, useState } from 'react'
+import { TFunction, useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
@@ -41,13 +42,23 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
  * @param setBallotState state update method
  * @returns WebsocketEvent handler
  */
-const pushBallotAck = (setBallotState: React.Dispatch<ElectionBallotStateAction>) => {
+const pushBallotAck = (
+    setBallotState: React.Dispatch<ElectionBallotStateAction>,
+    dispatchAlert: Dispatch<AlertAction>,
+    t: TFunction<string[]>,
+) => {
     return WebsocketEvent<{ ballot: IBallotEntity }>({
         dataHandler: (data) => {
             setBallotState({ type: 'updateBallot', payload: data.ballot })
         },
         errorHandler: (error) => {
-            console.log(error)
+            const errorCodeResolver = new ErrorCodeResolver(t)
+            dispatchAlert({
+                type: 'add',
+                level: 'error',
+                message: t('error:Unable to push ballot'),
+                description: errorCodeResolver.resolve(error.code),
+            })
         },
     })
 }
@@ -105,8 +116,8 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         if (ballot && electionId) {
             socket.emit(
                 Events.client.ballot.push,
-                { ballotId: ballot.id, electionId: Number.parseInt(electionId) },
-                pushBallotAck(setBallotState),
+                { ballotId: ballot.id + 50, electionId: Number.parseInt(electionId) },
+                pushBallotAck(setBallotState, setAlerts, t),
             )
         }
     }
