@@ -4,14 +4,11 @@ import PushBallotIcon from 'components/icons/PushBallotIcon'
 import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
 import SquareIconButton from 'containers/button/SquareIconButton'
-import { useSocket } from 'core/hooks/useSocket'
+import { BallotStatus } from 'core/models/ballot/BallotStatus'
 import { BallotWithVotes } from 'core/models/ballot/BallotWithVotes'
 import { IVoteStats } from 'core/models/ballot/IVoteStats'
-import { ElectionEventService } from 'core/service/election/ElectionEventService'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router'
-import { ElectionParams } from './ElectionParams'
 import QueueDescription from './QueueDescription'
 
 const { Step } = Steps
@@ -19,17 +16,16 @@ const { Step } = Steps
 export default function BallotsQueue({
     dataSource,
     expandBallot,
+    doPushBallot,
 }: {
     dataSource: Array<BallotWithVotes>
     expandBallot?: (id: number) => void
+    doPushBallot?: (id: number) => void
 }): ReactElement {
-    const [socket] = useSocket()
     const [t] = useTranslation(['common'])
     const [current, setCurrent] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
-    const { electionId } = useParams<ElectionParams>()
     const [queue, setQueue] = useState<ReactElement<StepProps>[]>()
-    const electionEventService: ElectionEventService = new ElectionEventService(socket)
     const appendStats = (stats: IVoteStats | undefined): IStatValue[] | [] => {
         if (stats) {
             return [
@@ -42,14 +38,10 @@ export default function BallotsQueue({
         return []
     }
 
-    async function pushBallot(id: number) {
-        setIsLoading(true)
-        // todo #127 pushing a ballot should change some state on the ballot on the server to indicate that it has been published
-        const ballot = dataSource.find((ballot) => ballot.id === id)
-        if (ballot && electionId) {
-            const electionIdInt = Number.parseInt(electionId)
-            await electionEventService.broadcastBallot(ballot, electionIdInt)
-            // todo button should be loading until ack is received
+    async function onPushBallot(id: number) {
+        if (doPushBallot) {
+            setIsLoading(true)
+            doPushBallot(id)
         }
     }
 
@@ -75,18 +67,21 @@ export default function BallotsQueue({
                     subTitle={<QueueDescription winner={ballot.getBallotLeader()} />}
                     description={
                         <>
+                            {BallotStatus[ballot.status]}
+                            {ballot.status}
                             {ballot && (
                                 <StatCard stats={appendStats(ballot.votes)} onClick={() => handleClick(ballot.id)} />
                             )}
-
-                            <SquareIconButton
-                                text={t('common:Push ballot')}
-                                tabIndex={0}
-                                classId="push-ballot-button"
-                                onClick={() => pushBallot(ballot.id)}
-                            >
-                                <PushBallotIcon spin={isLoading} />
-                            </SquareIconButton>
+                            {doPushBallot && (
+                                <SquareIconButton
+                                    text={t('common:Push ballot')}
+                                    tabIndex={0}
+                                    classId="push-ballot-button"
+                                    onClick={() => onPushBallot(ballot.id)}
+                                >
+                                    <PushBallotIcon spin={isLoading} />
+                                </SquareIconButton>
+                            )}{' '}
                         </>
                     }
                 />,

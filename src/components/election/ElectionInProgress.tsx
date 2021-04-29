@@ -5,6 +5,7 @@ import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import ElectionStatusLabel from 'components/ElectionStatusLabel'
 import CloseElectionIcon from 'components/icons/CloseElectionIcon'
 import BallotsQueue from 'components/queue/BallotsQueue'
+import { ElectionParams } from 'components/queue/ElectionParams'
 import IconButton from 'containers/button/IconButton'
 import BallotModal from 'containers/modal/BallotModal'
 import { Events } from 'core/events'
@@ -14,12 +15,14 @@ import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
+import { ElectionEventService } from 'core/service/election/ElectionEventService'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
 import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
 const authEvent = (socket: AnoSocket, electionId: number) => {
@@ -43,6 +46,8 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     })
     const [forceEndVisible, setForceEndVisible] = useState(false)
     const [alerts, setAlerts] = useAlert([{ message: '', level: undefined }])
+    const { electionId } = useParams<ElectionParams>()
+    const electionEventService: ElectionEventService = new ElectionEventService(socket)
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -74,6 +79,14 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
             socket.disconnect()
         }
     }, [])
+
+    async function doPushBallot(id: number) {
+        const ballot = ballotState.ballotWithStats.find((ballot) => ballot.id === id)
+        if (ballot && electionId) {
+            const electionIdInt = Number.parseInt(electionId)
+            await electionEventService.broadcastBallot(ballot, electionIdInt)
+        }
+    }
 
     /**
      * Display modal for a given ballot with id.
@@ -185,7 +198,11 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballotState.ballotWithStats.length > 0 ? (
                         <>
-                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
+                            <BallotsQueue
+                                dataSource={ballotState.ballotWithStats}
+                                expandBallot={showModal}
+                                doPushBallot={doPushBallot}
+                            />
                             <BallotModal
                                 showModal={modal}
                                 ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
