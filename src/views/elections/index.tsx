@@ -84,7 +84,7 @@ export default function ElectionsView(): React.ReactElement {
         <>
             <AlertList alerts={alertStates} />
             <Title>{t('common:Elections')}</Title>
-            <Space align="start" wrap={true}>
+            <div className="elections-card-view">
                 <CardList
                     listHeader={
                         <ElectionHeader
@@ -121,7 +121,7 @@ export default function ElectionsView(): React.ReactElement {
                     renderItem={(item) => render(item)}
                     classNames="election-card"
                 ></CardList>
-            </Space>
+            </div>
         </>
     )
 }
