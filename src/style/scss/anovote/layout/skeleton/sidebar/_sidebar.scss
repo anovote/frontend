@@ -10,7 +10,7 @@
     min-width: $sidebar-width !important;
     max-width: $sidebar-width !important;
     flex: 0 0 $sidebar-width !important;
-    padding: 2 * $bu 2.5 * $bu;
+    padding: 1.5rem;
     z-index: 15;
 
     .ant-layout-sider-children {
