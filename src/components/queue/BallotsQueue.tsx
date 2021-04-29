@@ -81,8 +81,6 @@ export default function BallotsQueue({
                     subTitle={<QueueDescription winner={ballot.getBallotLeader()} />}
                     description={
                         <>
-                            {BallotStatus[ballot.status]}
-                            {ballot.status}
                             {ballot && (
                                 <StatCard stats={appendStats(ballot.votes)} onClick={() => handleClick(ballot.id)} />
                             )}
