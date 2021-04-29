@@ -43,6 +43,7 @@ button {
     max-width: 13.625rem;
     justify-content: space-between;
     align-items: center;
+    transition: all 0.2s;
 
     @include is-flex-row();
 
@@ -57,6 +58,11 @@ button {
         > *:first-child {
             padding: 0 0 0 0.75rem;
         }
+    }
+
+    &:hover {
+        @include has-shadow;
+        transform: scale(1.02);
     }
 }
 
