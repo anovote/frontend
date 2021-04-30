@@ -1,6 +1,5 @@
 import { Form, Radio } from 'antd'
 import Text from 'antd/lib/typography/Text'
-import ComponentWithTooltip from 'components/toolTip/ComponentWithTooltip'
 import { BallotResultDisplay } from 'core/models/ballot/BallotResultDisplay'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
@@ -16,12 +15,8 @@ export default function SelectResultType({
     const [t] = useTranslation(['common'])
     return (
         <Form.Item
-            label={
-                <ComponentWithTooltip
-                    component={<Text>{label}</Text>}
-                    toolTipTitle={t('ballot:Select how you want the result of the ballot displayed')}
-                />
-            }
+            label={label}
+            tooltip={t('ballot:Select how you want the result of the ballot displayed')}
             name="select-result-type"
             initialValue={initialValue}
             className="spread"
