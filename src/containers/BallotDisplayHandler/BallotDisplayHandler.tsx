@@ -188,7 +188,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 {t('common:Submit vote')}
             </Button>
             <div className="alert-field">
-                <AlertList alerts={alertStates} />
+                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             </div>
         </div>
     )

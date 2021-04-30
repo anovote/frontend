@@ -199,7 +199,7 @@ export default function CreateElectionView({
                 </Col>
             </Row>
             <div className="alert-field">
-                <AlertList alerts={alertStates} />
+                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             </div>
         </Content>
     )

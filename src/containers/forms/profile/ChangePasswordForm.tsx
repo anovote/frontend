@@ -49,7 +49,7 @@ export default function ChangePasswordForm({
     return (
         <>
             <Space direction="vertical">
-                <AlertList alerts={alertStates} />
+                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
                 <Form layout={'vertical'} onFinish={submitForm}>
                     <Space direction="vertical">
                         <Form.Item

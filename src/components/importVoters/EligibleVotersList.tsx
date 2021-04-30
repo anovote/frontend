@@ -241,7 +241,7 @@ export default function EligibleVotersList({
                 </Row>
             )}
             <div>
-                <AlertList alerts={alertStates} />
+                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             </div>
         </div>
     )

@@ -20,7 +20,7 @@ export default function ElectionsView(): React.ReactElement {
     const [inProgress, setInProgress] = useState([] as ElectionEntity[])
     const [finished, setFinished] = useState([] as ElectionEntity[])
 
-    const { alertStates } = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         new ElectionService(BackendAPI)
@@ -60,7 +60,7 @@ export default function ElectionsView(): React.ReactElement {
 
     return (
         <>
-            <AlertList alerts={alertStates} />
+            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <Title>{t('common:Elections')}</Title>
             <Space align="start" wrap={true}>
                 <CardList

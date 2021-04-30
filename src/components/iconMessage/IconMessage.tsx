@@ -13,7 +13,7 @@ export default function IconMessage({
     alertLevel = 'info',
     onClose,
 }: IIconMessage): ReactElement {
-    const { alertStates } = useAlert([{ message: alertMessage, level: alertLevel }])
+    const { alertStates, dispatchAlert } = useAlert([{ message: alertMessage, level: alertLevel }])
 
     if (!icon) {
         switch (alertLevel) {
@@ -43,7 +43,7 @@ export default function IconMessage({
             )}
             <SquareIconContainer icon={icon} label={label}></SquareIconContainer>
             <div className="mt-20 is-flex has-content-center-center">
-                <AlertList alerts={alertStates} />
+                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             </div>
         </div>
     )

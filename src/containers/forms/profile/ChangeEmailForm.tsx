@@ -1,4 +1,4 @@
-import { Form, Input, Space } from 'antd'
+import { Form, Input, message, Space } from 'antd'
 import Button from 'antd/lib/button/button'
 import { AlertList } from 'components/alert/AlertList'
 import { BackendAPI } from 'core/api'
@@ -27,6 +27,7 @@ export default function ChangeEmailForm({ initialValue }: { initialValue: IElect
                 message: t('profile:Email changed'),
                 description: t('profile:Your email was changed'),
             })
+            message.info('Hello sir')
         } catch (error) {
             if (error instanceof InvalidEmail) {
                 dispatchAlert({
@@ -48,7 +49,7 @@ export default function ChangeEmailForm({ initialValue }: { initialValue: IElect
 
     return (
         <Space direction="vertical">
-            <AlertList alerts={alertStates} />
+            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <Form onFinish={submitForm} layout={'horizontal'} name="change-email" initialValues={initialValue}>
                 <Space direction="horizontal" className="inline-form-item">
                     <Form.Item

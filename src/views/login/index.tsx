@@ -53,7 +53,10 @@ export default function LoginView(): React.ReactElement {
                 <h1>{t('common:Welcome to Anovote')}</h1>
                 <div className="login-form">
                     <div className="error-field">
-                        <AlertList alerts={alertStates} />
+                        <AlertList
+                            alerts={alertStates}
+                            onRemove={(index) => dispatchAlert({ type: 'remove', index: index })}
+                        />
                     </div>
                     <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
                         <Form.Item

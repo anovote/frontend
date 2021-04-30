@@ -42,7 +42,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         activeBallotIndex: 0,
     })
     const [forceEndVisible, setForceEndVisible] = useState(false)
-    const { alertStates: alerts, dispatchAlert: setAlerts } = useAlert([{ message: '', level: undefined }])
+    const { alertStates: alerts, dispatchAlert } = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -100,7 +100,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    setAlerts({
+                    dispatchAlert({
                         type: 'add',
                         level: 'error',
                         message: 'Something happened when trying to end election',
@@ -119,7 +119,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    setAlerts({
+                    dispatchAlert({
                         type: 'add',
                         level: 'error',
                         message: 'Something happened when trying to force end election',
@@ -147,7 +147,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:If you proceed to end this election')}</p>
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
-            <AlertList alerts={alerts} />
+            <AlertList alerts={alerts} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <Row justify="space-between" align="middle">
                 <Col>
                     <Title level={1}>{election.title}</Title>
