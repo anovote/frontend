@@ -1,4 +1,11 @@
-import { DeleteOutlined, EditOutlined, PlayCircleFilled } from '@ant-design/icons'
+import {
+    DeleteOutlined,
+    EditOutlined,
+    ForwardFilled,
+    PlayCircleFilled,
+    PlayCircleOutlined,
+    PlaySquareOutlined,
+} from '@ant-design/icons'
 import { Col, List, Popconfirm, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
@@ -56,19 +63,19 @@ export const ElectionNotStarted = ({
                 <div className="split-view-left">
                     <Space>
                         <IconButton
-                            icon={<PlayCircleFilled />}
+                            icon={<ForwardFilled />}
                             text="Begin"
                             onClick={changeElectionToStarted}
-                            color="green"
+                            color="success"
                         />
                         <Popconfirm
                             title={t('election:Are you sure you want to delete the election')}
                             onConfirm={deleteElectionHandler}
                         >
-                            <IconButton icon={<DeleteOutlined />} text="Delete" color="red" />
+                            <IconButton icon={<DeleteOutlined />} text="Delete" color="danger" />
                         </Popconfirm>
+                        <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
                     </Space>
-                    <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
                     <Space align="start" wrap={true}>
                         <ElectionStatusCard {...{ election }} />
                         <div>{election.description}</div>

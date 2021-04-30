@@ -60,7 +60,8 @@ button {
         }
     }
 
-    &:hover {
+    &:hover:not([disabled]),
+    &:focus {
         @include has-shadow;
         transform: scale(1.02);
     }

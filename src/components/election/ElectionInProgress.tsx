@@ -168,7 +168,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                         <IconButton
                             icon={<CloseElectionIcon />}
                             text={`${t('common:End')} ${t('election:Election')}`}
-                            color="red"
+                            color="danger"
                         />
                     </Popconfirm>
                 </Col>

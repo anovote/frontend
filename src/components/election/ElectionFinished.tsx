@@ -70,13 +70,13 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                                     icon={<DeleteOutlined />}
                                     text="Delete"
                                     onClick={deleteElectionHandler}
-                                    color="red"
+                                    color="danger"
                                 />
                                 <IconButton
                                     icon={<OrderedListOutlined />}
                                     text="Results"
                                     onClick={gotoResultsPage}
-                                    color="green"
+                                    color="success"
                                 />
                             </Space>
                         </Col>

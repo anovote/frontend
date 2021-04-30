@@ -136,7 +136,7 @@ export default function ElectionResultView(): React.ReactElement {
                             icon={<PlayCircleFilled />}
                             text={generatingPdf ? t('common:Generating pdf') : t('common:Download pdf')}
                             onClick={createPDF}
-                            color="green"
+                            color="success"
                         />
                     </Space>
                     <div id="results" style={{}}>
