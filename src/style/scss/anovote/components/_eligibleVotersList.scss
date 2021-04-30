@@ -1,21 +1,26 @@
-#voters-list {
-    margin-top: 0.5rem;
-    @include has-shadow;
-
-    .ant-list-items {
-        @include is-rounded;
-        background-color: $main-color;
+.eligible-voters-list {
+    .ant-form-item-label {
+        margin: 0 0 -2.5rem 0;
     }
 
-    li.ant-list-item {
-        padding: 0.4rem;
-        padding-left: 1rem;
-        &:nth-child(2n) {
-            background-color: $alternate-color;
+    .ant-list {
+        margin-top: 0.75rem;
+        .ant-list-items {
+            @include is-rounded;
+            background-color: $main-color;
         }
 
-        &:last-child {
-            border-radius: 0 0 $normal-border-radius $normal-border-radius;
+        li.ant-list-item {
+            padding: 0.2rem;
+            padding-left: 1rem;
+            &:nth-child(2n) {
+                background-color: $alternate-color;
+            }
+
+            &:last-child {
+                border-radius: 0 0 $normal-border-radius $normal-border-radius;
+                @include has-shadow;
+            }
         }
     }
 }
