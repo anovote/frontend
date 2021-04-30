@@ -62,7 +62,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     //    console.log('Tried to search')
     //}
 
-    const logoutHandler = async () => {
+    const logoutHandler = () => {
         loading({
             content: t('common:Attempting to log out'),
             duration: 0.5,
@@ -70,7 +70,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
         })
             .then(() => {
                 dispatcher.setLogoutState()
-                history.push(getPublicRoute().login), 500
+                history.push(getPublicRoute().login)
             })
             .then(() =>
                 info({
