@@ -16,6 +16,7 @@ import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { DuplicateError } from 'core/errors/DuplicateError'
 import { prepareElection } from 'core/helpers/prepareElection'
 import { AlertState, useAlert } from 'core/hooks/useAlert'
+import useMessage from 'core/hooks/useMessage'
 import { IBallot } from 'core/models/ballot/IBallot'
 import { IEligibleVoter } from 'core/models/ballot/IEligibleVoter'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
@@ -50,6 +51,8 @@ export default function CreateElectionView({
 
     const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()
+    const { error: danger, success } = useMessage()
+    const [loading, setLoading] = useState(false)
 
     /**
      * Validates a form and returns an error if the form is not filled out correctly
@@ -64,14 +67,18 @@ export default function CreateElectionView({
                 formData.ballots = election?.ballots
             }
 
-            await electionService.createElection(formData)
+            const response = await electionService.createElection(formData)
+            setLoading(true)
 
-            history.push(getAdminRoute().elections.view, {
-                level: 'success',
-                message: t('election:Created election'),
-                description: t('election:The election was created successfully'),
-            })
+            if (response) {
+                setLoading(false)
+                success({ content: t('election:Created election') })
+                history.push(getAdminRoute().elections.view)
+            }
         } catch (error) {
+            setLoading(false)
+            danger({ content: t('common:Solve the issues') })
+
             if (error instanceof AuthorizationError) {
                 dispatchAlert({
                     type: 'add',
@@ -113,6 +120,7 @@ export default function CreateElectionView({
     }
 
     const onFinishedHandler = async (form: IElection) => {
+        setLoading(true)
         if (initialElection && onUpdate) {
             const { id, electionOrganizer, createdAt, updatedAt } = initialElection
             const updateElection: IElectionEntity = {
@@ -186,7 +194,7 @@ export default function CreateElectionView({
                         <Row>
                             <Col>
                                 <Space align="baseline">
-                                    <SaveElectionButton hasInitial={initialElection ? true : false} />
+                                    <SaveElectionButton hasInitial={initialElection ? true : false} loading={loading} />
                                     <CancelButton onAbort={onAbort}></CancelButton>
                                 </Space>
                             </Col>
