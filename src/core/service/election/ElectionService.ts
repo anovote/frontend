@@ -1,4 +1,4 @@
-import { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
+import { AxiosError, AxiosInstance } from 'axios'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { DuplicateError } from 'core/errors/DuplicateError'
 import { NotFoundError } from 'core/errors/NotFoundError'
