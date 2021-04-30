@@ -2,7 +2,6 @@ import { LogoutOutlined, ProjectFilled } from '@ant-design/icons'
 import { Layout, Menu } from 'antd'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { BackendAPI } from 'core/api'
-import { AlertState } from 'core/hooks/useAlert'
 import useMessage from 'core/hooks/useMessage'
 import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
@@ -26,7 +25,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
     const [organizer, setOrganizer] = useState<IElectionOrganizerEntity>({} as IElectionOrganizerEntity)
-    const { success } = useMessage()
+    const { success, info, loading } = useMessage()
 
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
@@ -64,10 +63,22 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     //    console.log('Tried to search')
     //}
 
-    const logoutHandler = () => {
-        const alert: AlertState = { message: t('common:You were logged out'), level: 'info' }
-        dispatcher.setLogoutState()
-        history.push(getPublicRoute().login, alert)
+    const logoutHandler = async () => {
+        loading({
+            content: t('common:Attempting to log out'),
+            duration: 0.5,
+            key: 'logout',
+        })
+            .then(() => {
+                dispatcher.setLogoutState()
+                history.push(getPublicRoute().login), 500
+            })
+            .then(() =>
+                info({
+                    content: t('common:You are now logged out'),
+                    key: 'logout',
+                }),
+            )
     }
 
     return (

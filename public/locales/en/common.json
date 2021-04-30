@@ -1,5 +1,6 @@
 {
     "Add": "Add",
+    "Attempting to log out": "Attempting to log out",
     "Ballot": "Ballot",
     "Ballots": "Ballots",
     "Blank": "Blank",
@@ -83,6 +84,7 @@
     "Welcome back": "Welcome back, {{firstName}}!",
     "Welcome to Anovote": "Welcome to Anovote",
     "Yes": "Yes",
+    "You are now logged out": "You are now logged out",
     "You need to select a candidate": "You need to select a candidate",
     "You were logged out": "You were logged out",
     "Your": "Your",
