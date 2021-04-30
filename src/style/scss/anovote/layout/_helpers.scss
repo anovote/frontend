@@ -93,6 +93,15 @@
     flex: 1 1 50%;
     padding: 0 1rem;
 }
+
+/** OTHER **/
+.no-hover-style {
+    &:hover {
+        background: none;
+        color: inherit;
+    }
+}
+
 /** HELPER */
 @mixin symmetricPM($amount, $direction, $type) {
     @if $type == padding {
