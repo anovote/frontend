@@ -1,9 +1,11 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Form, Input, List } from 'antd'
+import { Button, Form, Input, List, Space } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
 import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotType'
 import SelectResultType from 'components/ballot/SelectResultType'
+import { CancelButton } from 'components/buttons/CancelButton'
+import SaveElectionButton from 'components/buttons/SaveElectionButton'
 import PreviewItem from 'components/previewList/PreviewItem'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { ICandidate } from 'core/models/ballot/ICandidate'
@@ -28,7 +30,7 @@ export default function CreateBallotModal({
     initialBallot?: IBallotInList
     onSubmitted: (ballot: IBallot, indexInList?: number) => void
 }): ReactElement {
-    const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
+    const [t] = useTranslation(['translation', 'common', 'form', 'profile', 'ballot'])
     const [editCandidate, setEditCandidate] = useState<{ id: number } | undefined>(undefined)
     const [addNew, setAddNew] = useState(false)
 
@@ -148,11 +150,11 @@ export default function CreateBallotModal({
                 afterClose={resetFormData}
                 destroyOnClose={true}
             >
-                <Form onFinish={submitForm} layout={'vertical'} className="is-flex-row split-view">
+                <Form onFinish={submitForm} layout={'vertical'} className="split-view">
                     <div className={'split-view-left'}>
-                        <Title level={3}>{modalTitle}</Title>
                         <Form.Item
                             name="title"
+                            label={t('common:Title')}
                             initialValue={initialBallot?.title}
                             rules={[
                                 {
@@ -164,7 +166,11 @@ export default function CreateBallotModal({
                             <Input placeholder={t('common:Title')} />
                         </Form.Item>
 
-                        <Form.Item name="description" initialValue={initialBallot?.description}>
+                        <Form.Item
+                            name="description"
+                            label={t('common:Description')}
+                            initialValue={initialBallot?.description}
+                        >
                             <Input.TextArea placeholder={t('common:Description')} />
                         </Form.Item>
                         <SelectBallotType label={t('common:Select type')} initialValue={initialBallot?.type} />
@@ -176,18 +182,15 @@ export default function CreateBallotModal({
                         <Form.Item label={t('ballot:Display vote count')}>
                             <Switch defaultChecked={initialBallot?.displayResultCount}></Switch>
                         </Form.Item>*/}
-                        <Button type="primary" htmlType="submit">
-                            {t('common:Save')}
-                        </Button>
                     </div>
                     <div className="split-view-right">
                         <Form.Item
                             name="candidates"
                             label={t('common:Candidate', { count: 2 })}
-                            className={candidatesList.length == 0 ? 'no-input' : ''}
                             rules={[
                                 {
                                     validator: () => {
+                                        if (addNew) return
                                         if (candidatesList.length > 0) {
                                             return Promise.resolve()
                                         }
@@ -201,7 +204,7 @@ export default function CreateBallotModal({
                             ]}
                         >
                             <List
-                                locale={{ emptyText: <></> }}
+                                locale={{ emptyText: t('ballot:No candidates') }}
                                 dataSource={candidatesList}
                                 renderItem={(item, index) => (
                                     <>
@@ -215,9 +218,10 @@ export default function CreateBallotModal({
                                         {editCandidate && editCandidate.id == index && candidateInputField(index)}
                                     </>
                                 )}
-                            ></List>
+                            >
+                                {addNew && candidateInputField()}
+                            </List>
                         </Form.Item>
-                        {addNew && candidateInputField()}
                         <div className="is-flex justify-content-center width-100 mt-10">
                             <Button
                                 className="add-preview-button"
@@ -229,6 +233,12 @@ export default function CreateBallotModal({
                             />
                         </div>
                     </div>
+                    <Space align="baseline">
+                        <Button type="primary" htmlType="submit" onClick={() => setAddNew(false)}>
+                            {t('common:Save')}
+                        </Button>
+                        <CancelButton onAbort={close}></CancelButton>
+                    </Space>
                 </Form>
             </Modal>
         </>
