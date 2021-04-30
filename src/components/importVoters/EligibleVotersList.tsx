@@ -30,7 +30,6 @@ export default function EligibleVotersList({
     useEffect(() => {
         onChange(voters)
     }, [voters])
-
     const [alertStates, dispatchAlert] = useAlert([
         {
             message: '',
@@ -173,17 +172,17 @@ export default function EligibleVotersList({
         return (
             <Menu className="import-voters-menu">
                 <Menu.Item>
-                    <span className="manual-button" role="button" onClick={addManualInputField}>
+                    <span role="button" onClick={addManualInputField}>
                         {t('form:Add manually')}
                     </span>
                 </Menu.Item>
                 <Menu.Item>
-                    <Upload className="upload-button" beforeUpload={parseFile} accept=".csv">
+                    <Upload beforeUpload={parseFile} accept=".csv">
                         CSV
                     </Upload>
                 </Menu.Item>
                 <Menu.Item>
-                    <Upload className="upload-button" beforeUpload={parseFile} accept=".json">
+                    <Upload beforeUpload={parseFile} accept=".json">
                         JSON
                     </Upload>
                 </Menu.Item>

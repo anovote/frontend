@@ -1,9 +1,18 @@
 .import-voters-menu {
+    text-align: center;
+    margin: 0;
     @include has-shadow;
+    min-width: 12rem;
     li.ant-menu-item.ant-menu-item-only-child {
-        margin-right: 0.5rem;
-        margin-left: 0.5rem;
-        @include is-rounded;
+        &:first-child {
+            border-radius: $normal-border-radius $normal-border-radius 0 0;
+        }
+        &:last-child {
+            border-radius: 0 0 $normal-border-radius $normal-border-radius;
+        }
+    }
+    .ant-menu-item {
+        margin: 0;
     }
 
     @include is-rounded;
@@ -14,18 +23,4 @@
             color: white;
         }
     }
-}
-
-.upload-button {
-    span {
-        display: block;
-        padding: 0 4.1875rem;
-    }
-}
-
-span.manual-button {
-    display: block;
-    text-align: center;
-    padding: 0 4.1875rem;
-    width: 100%;
 }
