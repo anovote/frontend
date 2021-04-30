@@ -211,6 +211,7 @@ export default function EligibleVotersList({
                 <List
                     id="voters-list"
                     dataSource={voters}
+                    locale={{ emptyText: t('election:No eligible voters') }}
                     renderItem={(item) => (
                         <List.Item>
                             <EligibleVoterListItem
