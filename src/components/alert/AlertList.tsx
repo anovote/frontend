@@ -1,32 +1,27 @@
 import { Alert } from 'antd'
-import { AlertState, useAlert } from 'core/hooks/useAlert'
-import React, { ReactElement, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router'
+import { AlertState } from 'core/hooks/useAlert'
+import React, { ReactElement } from 'react'
 
 export interface AlertListProps {
+    /** The alerts to generate the alert list from */
     alerts: AlertState[]
+    /**
+     * The onRemove action to fire after close on the alert.
+     * Usually combined with the useAlert hook 'remove'
+     */
+    onRemove?: (index: number) => void
 }
 
-export const AlertList = ({ alerts }: AlertListProps): ReactElement => {
-    const { alertStates, dispatchAlert } = useAlert(alerts)
-    const history = useHistory()
-    const location = useLocation<AlertState>()
-
-    useEffect(() => {
-        if (location.state) {
-            dispatchAlert({
-                type: 'add',
-                level: location.state.level,
-                message: location.state.message,
-                description: location.state.description,
-            })
-        }
-        history.replace({ ...history.location, state: {} as AlertState })
-    }, [])
-
+/**
+ * Returns a list of alerts generated from the alerts prop. The list can be populated to dispatch an remove action if wanted.
+ * If no onRemove function is supplied, the closeable prop for the alert will not be shown, and making it not possible for the user to choose
+ * @param {alerts, onRemove} the possible props for the component
+ * @returns
+ */
+export const AlertList = ({ alerts, onRemove }: AlertListProps): ReactElement => {
     return (
         <div>
-            {[...alerts, ...alertStates].map(function (props, index) {
+            {alerts.map(function (props, index) {
                 return (
                     props.message && (
                         <Alert
@@ -35,8 +30,10 @@ export const AlertList = ({ alerts }: AlertListProps): ReactElement => {
                             description={props.description}
                             type={props.level}
                             showIcon
-                            closable
-                            afterClose={() => dispatchAlert({ type: 'remove', index })}
+                            closable={!!onRemove}
+                            afterClose={() => {
+                                if (onRemove) onRemove(index)
+                            }}
                         />
                     )
                 )

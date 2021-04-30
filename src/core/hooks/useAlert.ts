@@ -26,6 +26,7 @@ type UseAlertReturn = {
 
 function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
     const LIST_MAX_LENGTH = 5
+
     switch (action.type) {
         case 'add': {
             const listCopy = [...state]
