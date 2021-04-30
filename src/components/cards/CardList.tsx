@@ -10,15 +10,23 @@ export default function CardList<T>({
     renderItem,
     list,
     classNames,
+    emptyText,
 }: {
     listHeader: ReactNode
     renderItem?: (item: T, index: number) => ReactNode
     list?: T[]
     classNames?: string
+    emptyText?: ReactNode
 }): ReactElement {
     return (
         <Card className={'card-list ' + classNames}>
-            <List className="card-list-ant-component" header={listHeader} dataSource={list} renderItem={renderItem} />
+            <List
+                locale={{ emptyText: emptyText }}
+                className="card-list-ant-component"
+                header={listHeader}
+                dataSource={list}
+                renderItem={renderItem}
+            />
         </Card>
     )
 }

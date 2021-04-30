@@ -36,5 +36,8 @@
     "Waiting for": "Waiting for {{what}}",
     "create-election": "Create Election",
     "update-election": "Update Election",
-    "No eligible voters": "No eligible voters"
+    "No eligible voters": "No eligible voters",
+    "No elections to be held": "No elections to be held",
+    "No elections in progress": "No elections in progress",
+    "No elections finished": "No finished elections"
 }

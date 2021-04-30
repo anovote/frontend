@@ -96,6 +96,7 @@ export default function ElectionsView(): React.ReactElement {
                     list={upcoming}
                     renderItem={(item) => render(item)}
                     classNames="election-card"
+                    emptyText={t('election:No elections to be held')}
                 ></CardList>
                 <CardList
                     listHeader={
@@ -108,6 +109,7 @@ export default function ElectionsView(): React.ReactElement {
                     renderItem={(item) => render(item)}
                     list={inProgress}
                     classNames="election-card"
+                    emptyText={t('election:No elections in progress')}
                 ></CardList>
                 <CardList
                     listHeader={
@@ -120,6 +122,7 @@ export default function ElectionsView(): React.ReactElement {
                     list={finished}
                     renderItem={(item) => render(item)}
                     classNames="election-card"
+                    emptyText={t('election:No elections finished')}
                 ></CardList>
             </div>
         </>
