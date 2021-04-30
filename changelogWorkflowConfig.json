@@ -54,5 +54,5 @@
     "tag_resolver": {
         "method": "semver"
     },
-    "base_branches": ["dev"]
+    "base_branches": ["develop"]
 }
