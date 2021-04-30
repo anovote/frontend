@@ -25,7 +25,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
     const [organizer, setOrganizer] = useState<IElectionOrganizerEntity>({} as IElectionOrganizerEntity)
-    const { success, info, loading } = useMessage()
+    const { info, loading } = useMessage()
 
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
@@ -45,7 +45,6 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
         try {
             const organizer = await electionOrganizerService.fetchOrganizer()
             if (organizer) {
-                success({ content: t('common:Welcome', { firstName: organizer.firstName }) })
                 setOrganizer(organizer)
             }
         } catch (error) {
