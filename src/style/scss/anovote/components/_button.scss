@@ -11,6 +11,17 @@ button {
     &:focus-visible {
         @include is-button-in-focus();
     }
+
+    &.btn-danger {
+        color: $font-color;
+        background-color: $danger-light;
+        border-color: $danger-light;
+        &:hover {
+            color: $font-color;
+            background-color: $danger-contrasting;
+            border-color: $danger-contrasting;
+        }
+    }
 }
 .anovote-button-style {
     width: 100%;

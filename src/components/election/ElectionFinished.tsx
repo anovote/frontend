@@ -1,5 +1,5 @@
-import { DeleteOutlined, OrderedListOutlined } from '@ant-design/icons'
-import { Col, List, Row, Space } from 'antd'
+import { DeleteOutlined, DeleteTwoTone, OrderedListOutlined } from '@ant-design/icons'
+import { Col, List, Popconfirm, PopconfirmProps, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import BallotsQueue from 'components/queue/BallotsQueue'
@@ -13,7 +13,13 @@ import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router'
 
-export const ElectionFinished = ({ election }: { election: IElectionEntity }): ReactElement => {
+export const ElectionFinished = ({
+    election,
+    onDeleteElection,
+}: {
+    election: IElectionEntity
+    onDeleteElection: (election: IElectionEntity) => void
+}): ReactElement => {
     const [t] = useTranslation(['common', 'election'])
     const history = useHistory()
     const location = useLocation()
@@ -36,10 +42,6 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
             : new Array<IBallotEntity>()
         setBallotState({ type: 'addBallots', payload: ballots })
     }, [])
-    const deleteElectionHandler = () => {
-        // todo show confirmation modal
-        console.log('handle click')
-    }
 
     /**
      * Display modal for a given ballot with id.
@@ -58,6 +60,15 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
         history.push(location.pathname + '/results')
     }
 
+    const popConfirmProps: PopconfirmProps = {
+        title: t('form:Are you sure'),
+        okText: t('form:Delete'),
+        cancelText: t('form:Cancel'),
+        okButtonProps: { className: 'btn-danger' },
+        icon: <DeleteTwoTone twoToneColor={'#FF5A90'} />,
+        onConfirm: () => onDeleteElection(election),
+    }
+
     return (
         <>
             <Row gutter={[32, 16]} align="top">
@@ -66,12 +77,9 @@ export const ElectionFinished = ({ election }: { election: IElectionEntity }): R
                     <Row justify="space-between">
                         <Col>
                             <Space>
-                                <IconButton
-                                    icon={<DeleteOutlined />}
-                                    text="Delete"
-                                    onClick={deleteElectionHandler}
-                                    color="red"
-                                />
+                                <Popconfirm {...popConfirmProps}>
+                                    <IconButton icon={<DeleteOutlined />} text="Delete" color="red" />
+                                </Popconfirm>
                                 <IconButton
                                     icon={<OrderedListOutlined />}
                                     text="Results"
