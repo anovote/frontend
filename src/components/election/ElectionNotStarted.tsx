@@ -51,30 +51,24 @@ export const ElectionNotStarted = ({
 
     return (
         <>
-            <Row gutter={[32, 16]} align="top">
-                <Col span={12}>
-                    <Title>{election.title}</Title>
-                    <Row justify="space-between">
-                        <Col>
-                            <Space>
-                                <IconButton
-                                    icon={<PlayCircleFilled />}
-                                    text="Begin"
-                                    onClick={changeElectionToStarted}
-                                    color="green"
-                                />
-                                <Popconfirm
-                                    title={t('election:Are you sure you want to delete the election')}
-                                    onConfirm={deleteElectionHandler}
-                                >
-                                    <IconButton icon={<DeleteOutlined />} text="Delete" color="red" />
-                                </Popconfirm>
-                            </Space>
-                        </Col>
-                        <Col>
-                            <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
-                        </Col>
-                    </Row>
+            <Title>{election.title}</Title>
+            <div className="split-view">
+                <div className="split-view-left">
+                    <Space>
+                        <IconButton
+                            icon={<PlayCircleFilled />}
+                            text="Begin"
+                            onClick={changeElectionToStarted}
+                            color="green"
+                        />
+                        <Popconfirm
+                            title={t('election:Are you sure you want to delete the election')}
+                            onConfirm={deleteElectionHandler}
+                        >
+                            <IconButton icon={<DeleteOutlined />} text="Delete" color="red" />
+                        </Popconfirm>
+                    </Space>
+                    <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
                     <Space align="start" wrap={true}>
                         <ElectionStatusCard {...{ election }} />
                         <div>{election.description}</div>
@@ -85,16 +79,16 @@ export const ElectionNotStarted = ({
                         dataSource={election.eligibleVoters}
                         renderItem={(item) => <List.Item>{item.identification}</List.Item>}
                     />
-                </Col>
-                <Col span={12}>
+                </div>
+                <div className="split-view-right">
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballots.length > 0 ? (
                         <BallotPreviewList initialElection={election} onChange={onChangeHandler} />
                     ) : (
-                        <div>{t('common:no-ballots')}</div>
+                        <span>{t('common:no-ballots')}</span>
                     )}
-                </Col>
-            </Row>
+                </div>
+            </div>
         </>
     )
 }
