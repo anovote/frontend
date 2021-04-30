@@ -80,6 +80,7 @@
     "Vote": "Vote",
     "Vote_plural": "Votes",
     "Votes": "Votes",
+    "Welcome back": "Welcome back, {{firstName}}!",
     "Welcome to Anovote": "Welcome to Anovote",
     "Yes": "Yes",
     "You need to select a candidate": "You need to select a candidate",

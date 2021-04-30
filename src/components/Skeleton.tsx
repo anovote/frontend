@@ -3,6 +3,7 @@ import { Layout, Menu } from 'antd'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { BackendAPI } from 'core/api'
 import { AlertState } from 'core/hooks/useAlert'
+import useMessage from 'core/hooks/useMessage'
 import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
@@ -25,6 +26,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
     const [organizer, setOrganizer] = useState<IElectionOrganizerEntity>({} as IElectionOrganizerEntity)
+    const { success } = useMessage()
 
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
@@ -43,7 +45,10 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
         const electionOrganizerService = new ElectionOrganizerService(BackendAPI)
         try {
             const organizer = await electionOrganizerService.fetchOrganizer()
-            if (organizer) setOrganizer(organizer)
+            if (organizer) {
+                success({ content: t('common:Welcome back', { firstName: organizer.firstName }) })
+                setOrganizer(organizer)
+            }
         } catch (error) {
             const organizer = {
                 firstName: t('common:Your'),
