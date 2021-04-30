@@ -6,11 +6,19 @@
         },
         {
             "title": "## 🐛 Fixes",
-            "labels": ["fix", "bug"]
+            "labels": ["fix", "bug", "bugfix"]
+        },
+        {
+            "title": "## 🏗 Refactor",
+            "labels": ["refactor"]
         },
         {
             "title": "## 🛡 Security",
             "labels": ["security"]
+        },
+        {
+            "title": "## 📝 Documentation",
+            "labels": ["documentation"]
         },
         {
             "title": "## 🧪 Tests",
