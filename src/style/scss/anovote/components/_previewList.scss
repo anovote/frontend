@@ -3,7 +3,6 @@
     background-position-x: right;
     height: 2rem;
     border: 1px solid $border-color;
-    min-width: 20rem;
     padding: 0 0.5rem 0 1rem;
     margin: 0 0 1rem 0;
     @include is-rounded;
@@ -12,6 +11,12 @@
     align-items: center;
     justify-content: space-between;
     background-color: $white;
+    .preview-item-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: calc(100% - 6.5rem);
+    }
 
     .ant-btn {
         color: $white;
