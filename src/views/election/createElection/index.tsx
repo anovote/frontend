@@ -138,14 +138,14 @@ export default function CreateElectionView({
             <Title level={1}>{initialElection ? t('election:Edit election') : t('common:Create new election')}</Title>
             <Form
                 form={form}
-                className="election-form"
+                className="split-view"
                 layout="vertical"
                 name="description-form"
                 onFinish={onFinishedHandler}
                 initialValues={initialElection}
                 data-testid="description-form"
             >
-                <div className="left">
+                <div className="split-view-left">
                     <ElectionTitleInput />
                     <ElectionDescriptionInput />
                     <div>
@@ -166,7 +166,7 @@ export default function CreateElectionView({
                         <IsAutomaticCheckbox />*/}
                     {/* todo #154 There should be a cancel button*/}
                 </div>
-                <div>
+                <div className="split-view-right">
                     <FormItem label={t('common:Ballots')}>
                         <BallotPreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
                     </FormItem>
