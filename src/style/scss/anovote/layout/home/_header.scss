@@ -4,6 +4,10 @@
     padding: 1 * $bu 2 * $bu;
     height: $home-header-height;
     z-index: 1;
+
+    @include for-phone-only {
+        padding: 0.2rem 0.4rem 1rem;
+    }
 }
 
 .ant-menu-light {
