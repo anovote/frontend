@@ -1,4 +1,5 @@
-import { Col, Form, Row, Space } from 'antd'
+import { Form, Space } from 'antd'
+import FormItem from 'antd/lib/form/FormItem'
 import { Content } from 'antd/lib/layout/layout'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
@@ -10,7 +11,6 @@ import ElectionTitleInput from 'components/election/ElectionTitleInput'
 import OpenDateInput from 'components/election/OpenDateInput'
 import EligibleVotersList from 'components/importVoters/EligibleVotersList'
 import BallotPreviewList from 'components/previewList/BallotPreviewList'
-import ComponentWithTooltip from 'components/toolTip/ComponentWithTooltip'
 import { BackendAPI } from 'core/api'
 import { AuthorizationError } from 'core/errors/AuthorizationError'
 import { DuplicateError } from 'core/errors/DuplicateError'
@@ -135,74 +135,50 @@ export default function CreateElectionView({
 
     return (
         <Content>
-            <Row gutter={[32, 0]}>
-                <Col span={12}>
-                    <Title level={1}>
-                        {initialElection ? t('election:Edit election') : t('common:Create new election')}
-                    </Title>
-                    <Form
-                        form={form}
-                        className="is-flex-column"
-                        layout="vertical"
-                        name="description-form"
-                        onFinish={onFinishedHandler}
-                        initialValues={initialElection}
-                        data-testid="description-form"
-                    >
-                        <ElectionTitleInput />
-                        <ElectionDescriptionInput />
-                        <Title level={2}>{t('common:Schedule')}</Title>
-                        <Row>
-                            <Col span={12}>
-                                <ComponentWithTooltip
-                                    component={<Title level={3}>{t('common:Open')}</Title>}
-                                    toolTipTitle={t('election:The date and time you want the election to open')}
-                                />
-                                <OpenDateInput />
-                            </Col>
-                            <Col span={12}>
-                                <ComponentWithTooltip
-                                    component={<Title level={3}>{t('common:Close')}</Title>}
-                                    toolTipTitle={t('election:The date and time you want the election to close')}
-                                />
-                                <CloseDateInput />
-                            </Col>
-                        </Row>
-                        <EligibleVotersList
-                            initialVoters={election?.eligibleVoters}
-                            onChange={uploadEligibleVotersCallback}
-                            formContext={form}
-                        />
-                        <ComponentWithTooltip
-                            component={<Title level={2}>{t('common:Verification')}</Title>}
-                            toolTipTitle={t('election:Add a password as a verification for your election')}
-                        />
-                        <Row>
-                            <Col>
-                                <ElectionPasswordInput />
-                            </Col>
-                        </Row>
-                        {/* todo #160 implement logic to toggle is automatic
+            <Title level={1}>{initialElection ? t('election:Edit election') : t('common:Create new election')}</Title>
+            <Form
+                form={form}
+                className="election-form"
+                layout="vertical"
+                name="description-form"
+                onFinish={onFinishedHandler}
+                initialValues={initialElection}
+                data-testid="description-form"
+            >
+                <div className="left">
+                    <ElectionTitleInput />
+                    <ElectionDescriptionInput />
+                    <div>
+                        <legend>{t('common:Schedule')}</legend>
+                        <div className="election-form-schedule">
+                            <OpenDateInput />
+                            <CloseDateInput />
+                        </div>
+                    </div>
+                    <EligibleVotersList
+                        initialVoters={election?.eligibleVoters}
+                        onChange={uploadEligibleVotersCallback}
+                        formContext={form}
+                    />
+
+                    <ElectionPasswordInput />
+                    {/* todo #160 implement logic to toggle is automatic
                         <IsAutomaticCheckbox />*/}
-                        <Row>
-                            <Col>
-                                <Space align="baseline">
-                                    <SaveElectionButton hasInitial={initialElection ? true : false} />
-                                    <CancelButton onAbort={onAbort}></CancelButton>
-                                </Space>
-                            </Col>
-                        </Row>
-                        {/* todo #154 There should be a cancel button*/}
-                    </Form>
-                </Col>
-                <Col span={12} className="ballot-section">
-                    <Title level={2}>{t('common:Ballots')}</Title>
-                    <BallotPreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
-                </Col>
-            </Row>
-            <div className="alert-field">
-                <AlertList alerts={alertStates} />
-            </div>
+                    {/* todo #154 There should be a cancel button*/}
+                </div>
+                <div>
+                    <FormItem label={t('common:Ballots')}>
+                        <BallotPreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
+                    </FormItem>
+                    <div className="alert-field">
+                        <AlertList alerts={alertStates} />
+                    </div>
+                </div>
+                <Space align="baseline">
+                    <SaveElectionButton hasInitial={initialElection ? true : false} />
+                    <CancelButton onAbort={onAbort}></CancelButton>
+                </Space>
+            </Form>
         </Content>
     )
 }

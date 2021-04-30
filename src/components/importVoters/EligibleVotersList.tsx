@@ -1,9 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons'
-import { Button, Col, Dropdown, Form, FormInstance, Input, List, Menu, Row, Space, Upload } from 'antd'
-import Title from 'antd/lib/typography/Title'
+import { Button, Dropdown, Form, FormInstance, Input, List, Menu, Space, Upload } from 'antd'
+import FormItem from 'antd/lib/form/FormItem'
 import { AlertList } from 'components/alert/AlertList'
 import { EligibleVoterListItem } from 'components/EligibleVoterListItem'
-import ComponentWithTooltip from 'components/toolTip/ComponentWithTooltip'
 import { convertTwoDimArrayToOneDimArray } from 'core/helpers/array'
 import { isValidEmail } from 'core/helpers/validation'
 import { useAlert } from 'core/hooks/useAlert'
@@ -194,55 +193,51 @@ export default function EligibleVotersList({
 
     return (
         <div>
-            <Row>
-                <Col span={12}>
-                    <ComponentWithTooltip
-                        component={<Title level={2}>{t('common:Eligible voters')}</Title>}
-                        toolTipTitle={t('election:Eligible voters tooltip description')}
-                    />
-                </Col>
-                <Col span={12}>
-                    <Space align="end" direction="vertical" className="width-100">
-                        <Dropdown
-                            className="import-voters-dropdown"
-                            overlay={<ImportFileMenu />}
-                            placement="bottomRight"
-                            arrow
-                        >
-                            <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
-                        </Dropdown>
-                    </Space>
-                </Col>
-            </Row>
-            <List
-                id="voters-list"
-                dataSource={voters}
-                renderItem={(item) => (
-                    <List.Item>
-                        <EligibleVoterListItem
-                            voterIdentity={item.identification}
-                            onDelete={handleEligibleVoterDelete}
-                        />
-                    </List.Item>
-                )}
-            />
-            {addByManual && (
-                <Row>
-                    <Form.Item
-                        name="new_voter"
-                        validateTrigger={['onBlur', 'onChange']}
-                        rules={[{ type: 'email', message: t('error:not valid email') }]}
-                        normalize={(val) => val.trim()}
+            <FormItem
+                className="eligible-voters-list"
+                label={t('common:Eligible voters')}
+                tooltip={t('election:Eligible voters tooltip description')}
+            >
+                <Space align="end" direction="vertical" className="width-100">
+                    <Dropdown
+                        className="import-voters-dropdown"
+                        overlay={<ImportFileMenu />}
+                        placement="bottomRight"
+                        arrow
                     >
-                        <Input placeholder="ola.nordmann@gmail.com" onPressEnter={handleAddNewVoterByEnter}></Input>
-                    </Form.Item>
-                    <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
-                    <Button onClick={handleDone}>Done</Button>
-                </Row>
-            )}
-            <div>
-                <AlertList alerts={alertStates} />
-            </div>
+                        <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
+                    </Dropdown>
+                </Space>
+                <List
+                    id="voters-list"
+                    dataSource={voters}
+                    renderItem={(item) => (
+                        <List.Item>
+                            <EligibleVoterListItem
+                                voterIdentity={item.identification}
+                                onDelete={handleEligibleVoterDelete}
+                            />
+                        </List.Item>
+                    )}
+                />
+                {addByManual && (
+                    <>
+                        <Form.Item
+                            name="new_voter"
+                            validateTrigger={['onBlur', 'onChange']}
+                            rules={[{ type: 'email', message: t('error:not valid email') }]}
+                            normalize={(val) => val.trim()}
+                        >
+                            <Input placeholder="ola.nordmann@gmail.com" onPressEnter={handleAddNewVoterByEnter}></Input>
+                        </Form.Item>
+                        <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
+                        <Button onClick={handleDone}>Done</Button>
+                    </>
+                )}
+                <div>
+                    <AlertList alerts={alertStates} />
+                </div>
+            </FormItem>
         </div>
     )
 }
