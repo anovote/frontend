@@ -85,7 +85,7 @@ export default function ElectionView(): React.ReactElement {
                 const message = t('election:Delete was successful')
                 history.push(getAdminRoute().elections.view, {
                     message,
-                    level: 'info',
+                    level: 'success',
                 })
             } catch ({ message }) {
                 dispatch({ type: 'error', message })
@@ -95,6 +95,8 @@ export default function ElectionView(): React.ReactElement {
             updateElection(election)
         }
     }
+
+    const handleDelete = (election: IElectionEntity) => onElectionChangeHandler(election, true)
 
     const onUpdateHandler = (election: IElectionEntity) => {
         election.status = ElectionStatus.NotStarted
@@ -122,7 +124,7 @@ export default function ElectionView(): React.ReactElement {
             case ElectionStatus.Started:
                 return <ElectionInProgress election={election} />
             case ElectionStatus.Finished:
-                return <ElectionFinished election={election} />
+                return <ElectionFinished election={election} onDeleteElection={handleDelete} />
             default:
                 console.error('status not set')
                 history.push(getAdminRoute().elections.view, {
