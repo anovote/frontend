@@ -36,17 +36,45 @@ export default function useMessage(): {
     const setDuration = (duration: number | undefined): number => (duration ? duration : DURATION)
 
     const info: Message = ({ content, duration, onClose, key }) => {
-        return message.open({ ...config, content, type: 'info', onClose, duration: setDuration(duration), key })
+        return message.open({
+            ...config,
+            content,
+            type: 'info',
+            onClose,
+            duration: setDuration(duration),
+            key,
+        })
     }
     const success: Message = ({ content, duration, onClose, key }) => {
-        return message.open({ ...config, content, type: 'success', onClose, duration: setDuration(duration), key })
+        return message.open({
+            ...config,
+            content,
+            type: 'success',
+            onClose,
+            duration: setDuration(duration),
+            key,
+        })
     }
     const error: Message = ({ content, duration, onClose, key }) => {
-        return message.open({ ...config, content, type: 'error', onClose, duration: setDuration(duration), key })
+        return message.open({
+            ...config,
+            content,
+            type: 'error',
+            onClose,
+            duration: setDuration(duration),
+            key,
+        })
     }
 
     const warning: Message = ({ content, duration, onClose, key }) => {
-        return message.open({ ...config, content, type: 'warning', onClose, duration: setDuration(duration), key })
+        return message.open({
+            ...config,
+            content,
+            type: 'warning',
+            onClose,
+            duration: setDuration(duration),
+            key,
+        })
     }
 
     const loading: Message = ({ content, duration, onClose, key }) => {
