@@ -1,12 +1,20 @@
 .election-form-schedule {
-    @include is-flex-row;
+    @include is-flex-column;
+
+    @include for-tablet-landscape-up {
+        @include is-flex-row;
+        > * {
+            width: 50%;
+            &:not(:last-child) {
+                margin-right: 1rem;
+            }
+        }
+    }
+
     > * {
-        width: 50%;
+        width: 100%;
         .ant-picker {
             width: 100%;
         }
-    }
-    > *:not(:last-child) {
-        margin-right: 1rem;
     }
 }
