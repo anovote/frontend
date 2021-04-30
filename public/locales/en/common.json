@@ -81,7 +81,7 @@
     "Vote": "Vote",
     "Vote_plural": "Votes",
     "Votes": "Votes",
-    "Welcome back": "Welcome back, {{firstName}}!",
+    "Welcome": "Welcome, {{firstName}}!",
     "Welcome to Anovote": "Welcome to Anovote",
     "Yes": "Yes",
     "You are now logged out": "You are now logged out",
