@@ -203,6 +203,7 @@ export default function EligibleVotersList({
                         className="import-voters-dropdown"
                         overlay={<ImportFileMenu />}
                         placement="bottomRight"
+                        trigger={['click']}
                         arrow
                     >
                         <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
