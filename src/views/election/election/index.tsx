@@ -1,4 +1,4 @@
-import { Spin } from 'antd'
+import { Skeleton } from 'antd'
 import { ElectionFinished } from 'components/election/ElectionFinished'
 import { ElectionInProgress } from 'components/election/ElectionInProgress'
 import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
@@ -29,21 +29,19 @@ export default function ElectionView(): React.ReactElement {
     const [{ isLoading, election, edit }, dispatch] = useReducer(reducer, initialState)
     const history = useHistory<AlertState>()
     const [t] = useTranslation(['error', 'election'])
-    const { success } = useMessage()
+    const { success, loading, warning, error } = useMessage()
 
     const { electionId } = useParams<ElectionParams>()
     const electionService = new ElectionService(BackendAPI)
 
     useEffect(() => {
         if (!electionId) {
-            history.push(getAdminRoute().elections.view, { message: t('error:Election not found'), level: 'error' })
+            history.push(getAdminRoute().elections.view)
             return
         }
         if (Number.isNaN(Number.parseInt(electionId))) {
-            history.push(getAdminRoute().elections.view, {
-                message: t('error:Election ID is not a number'),
-                level: 'error',
-            })
+            warning({ content: t('error:Election ID is not a number') })
+            history.push(getAdminRoute().elections.view)
             return
         }
         fetchElection(electionId)
@@ -71,8 +69,10 @@ export default function ElectionView(): React.ReactElement {
             dispatch({ type: 'gotElection', election: response })
         } catch (reason) {
             if (reason.response.status === StatusCodes.NOT_FOUND) {
-                const { message }: { message: string } = reason.response.data
-                history.push(getAdminRoute().elections.view, { message, level: 'error' })
+                loading({ content: t('election:Fetching election'), duration: 1, key: 'fetching' }).then(() => {
+                    history.push(getAdminRoute().elections.view)
+                    warning({ content: t('common:Value not found', { value: 'Election' }), key: 'fetching' })
+                })
                 return
             }
             dispatch({ type: 'error', message: reason })
@@ -85,13 +85,11 @@ export default function ElectionView(): React.ReactElement {
             try {
                 await electionService.delete(election)
                 dispatch({ type: 'deleteSuccess' })
-                const message = t('election:Delete was successful')
-                history.push(getAdminRoute().elections.view, {
-                    message,
-                    level: 'info',
-                })
+                success({ content: t('election:Delete was successful') })
+                history.push(getAdminRoute().elections.view)
             } catch ({ message }) {
                 dispatch({ type: 'error', message })
+                error({ content: t('common:Action failed', { action: 'Delete' }) })
             }
         } else {
             dispatch({ type: 'updateElectionStatus', election })
@@ -127,18 +125,23 @@ export default function ElectionView(): React.ReactElement {
             case ElectionStatus.Finished:
                 return <ElectionFinished election={election} />
             default:
-                console.error('status not set')
-                history.push(getAdminRoute().elections.view, {
-                    message: t('error:Something went wrong'),
-                    level: 'error',
-                })
+                error({ content: t('error:Something went wrong') })
+                history.push(getAdminRoute().elections.view)
+
                 return null
         }
     }
 
     return (
         <>
-            {isLoading && <Spin />}
+            {isLoading && (
+                <>
+                    <Skeleton active />
+                    <Skeleton active />
+                    <Skeleton active />
+                </>
+            )}
+
             {!isLoading && election && renderElectionView(election)}
         </>
     )

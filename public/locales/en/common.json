@@ -1,4 +1,5 @@
 {
+    "Action failed": "{{action}} failed",
     "Add": "Add",
     "Attempting to log out": "Attempting to log out",
     "Ballot": "Ballot",
@@ -77,6 +78,7 @@
     "Unable to connect to server": "Unable to connect to server",
     "Unexpected error": "An unexpected error ocurred",
     "Update": "Update {{value}}",
+    "Value not found": "{{value}} not found",
     "Value updated": "{{value}} updated",
     "Verification": "Verification",
     "Vote": "Vote",
