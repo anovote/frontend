@@ -5,6 +5,7 @@ import { ElectionNotStarted } from 'components/election/ElectionNotStarted'
 import { ElectionParams } from 'components/queue/ElectionParams'
 import { BackendAPI } from 'core/api'
 import { AlertState } from 'core/hooks/useAlert'
+import useMessage from 'core/hooks/useMessage'
 import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import { getAdminRoute } from 'core/routes/siteRoutes'
@@ -28,6 +29,7 @@ export default function ElectionView(): React.ReactElement {
     const [{ isLoading, election, edit }, dispatch] = useReducer(reducer, initialState)
     const history = useHistory<AlertState>()
     const [t] = useTranslation(['error', 'election'])
+    const { success } = useMessage()
 
     const { electionId } = useParams<ElectionParams>()
     const electionService = new ElectionService(BackendAPI)
@@ -54,6 +56,7 @@ export default function ElectionView(): React.ReactElement {
         election.id = Number.parseInt(electionId)
         try {
             const updatedElection = await electionService.updateElection(election)
+            success({ content: t('common:Value updated', { value: 'Election' }) })
             dispatch({ type: 'updateSuccess', election: updatedElection })
         } catch (err) {
             console.log(err)

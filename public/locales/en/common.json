@@ -77,6 +77,7 @@
     "Unable to connect to server": "Unable to connect to server",
     "Unexpected error": "An unexpected error ocurred",
     "Update": "Update {{value}}",
+    "Value updated": "{{value}} updated",
     "Verification": "Verification",
     "Vote": "Vote",
     "Vote_plural": "Votes",
