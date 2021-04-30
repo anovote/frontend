@@ -1,7 +1,7 @@
 import { BackendAPI } from 'core/api'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
-import React, { createContext, ReactElement, useContext, useState } from 'react'
+import React, { createContext, ReactElement, useContext, useEffect, useState } from 'react'
 import { AuthLevel } from '../../service/authentication/AuthLevel'
 import { appState, IAppState } from './appState'
 
@@ -20,42 +20,50 @@ export interface IAppStateDispatcher {
     setLogoutState: () => void
 }
 
+const authService = new AuthenticationService(BackendAPI, new LocalStorageService())
+
 /**
  * Setup initial state for the application when it is first run.
  * - Set logged in state when starting the application.
  */
 function setupInitialState() {
-    const authService = new AuthenticationService(BackendAPI, new LocalStorageService())
+    const state = { ...appState }
     if (authService.hasValidAuthorizationToken()) {
         if (authService.tryLoginWithToken()) {
-            const tokenData = authService.getDecodedToken()
-            appState.authLevel = tokenData?.organizer ? AuthLevel.organizer : AuthLevel.voter
-            appState.isLoggedIn = true
+            state.authLevel = authService.getAuthorizationLevel()
+            state.isLoggedIn = true
         }
     }
-    return appState
+    return state
 }
 
-const initialAppState = setupInitialState()
-
-const appContext = createContext(initialAppState)
+const appContext = createContext(appState)
 const appStateDispatch = createContext({} as IAppStateDispatcher)
 
 /**
  * Provides App state context to all child component(s) that this components wraps
  */
 function ProvideAppContext({ children }: { children: Array<ReactElement> | ReactElement }): ReactElement {
-    const [state, setState] = useState(initialAppState)
+    const [state, setState] = useState(setupInitialState())
     const dispatcher: IAppStateDispatcher = {
         setLoginState: (authLevel: AuthLevel) => {
             setState({ ...state, isLoggedIn: true, authLevel })
         },
         setLogoutState: () => {
-            new AuthenticationService(BackendAPI, new LocalStorageService()).logout()
-
+            authService.logout()
             setState({ ...state, isLoggedIn: false, authLevel: AuthLevel.none })
         },
     }
+
+    useEffect(() => {
+        async function verifyAuthentication() {
+            const authenticationVerified = await authService.isAuthenticationValid()
+            if (!authenticationVerified) dispatcher.setLogoutState()
+        }
+        // only perform check if we are considered logged in
+        if (state.isLoggedIn) verifyAuthentication()
+    }, [])
+
     return (
         <appContext.Provider value={state}>
             <appStateDispatch.Provider value={dispatcher}>{children}</appStateDispatch.Provider>
