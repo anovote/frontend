@@ -141,7 +141,7 @@ export default function CreateBallotModal({
     return (
         <>
             <Modal
-                width={'100vw'}
+                width={'100%'}
                 title={modalTitle}
                 footer={null}
                 visible={showModal}
