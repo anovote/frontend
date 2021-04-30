@@ -87,5 +87,12 @@ export function ElectionStatusCard({ election }: { election: IElectionEntity }):
     // todo #135 password is not returned by the server. Do we need it to?
     //    },
 
-    return <CardList listHeader={header} list={details} renderItem={(item) => StatusListItem(item)} />
+    return (
+        <CardList
+            classNames="election-status"
+            listHeader={header}
+            list={details}
+            renderItem={(item) => StatusListItem(item)}
+        />
+    )
 }

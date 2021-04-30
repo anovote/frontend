@@ -1,9 +1,9 @@
 .status-container {
-    border:2px solid black;
+    border: 2px solid black;
     padding: 0.6rem 1.5rem;
     border-radius: 2rem;
     text-align: center;
-    
+
     .ant-typography {
         margin-bottom: 0rem;
         font-weight: bold;
@@ -20,4 +20,43 @@
 
 .border-finished {
     border-color: $success-light;
+}
+
+.election-status {
+    width: 100%;
+
+    @include for-desktop-down {
+        min-width: auto;
+        .ant-list-items {
+            @include is-flex-row;
+            flex-wrap: wrap;
+            justify-content: space-evenly;
+            .ant-list-item {
+                padding: 1rem;
+                .status-icon-spacer {
+                    padding: 0;
+                }
+                @include is-flex-column;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+    @include for-tablet-landscape-down {
+        .ant-list-items {
+            flex-direction: column;
+            justify-content: flex-start;
+            .ant-list-item {
+                padding: 0 0 1rem 0;
+                .status-icon-spacer {
+                    padding: 0 1rem 0 0;
+                }
+                flex-direction: row;
+                text-align: left;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+        }
+    }
 }

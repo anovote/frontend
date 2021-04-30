@@ -61,28 +61,29 @@ export const ElectionNotStarted = ({
             <Title>{election.title}</Title>
             <div className="split-view">
                 <div className="split-view-left">
-                    <Space>
-                        <IconButton
-                            icon={<ForwardFilled />}
-                            text="Begin"
-                            onClick={changeElectionToStarted}
-                            color="success"
-                        />
-                        <Popconfirm
-                            title={t('election:Are you sure you want to delete the election')}
-                            onConfirm={deleteElectionHandler}
-                        >
-                            <IconButton icon={<DeleteOutlined />} text="Delete" color="danger" />
-                        </Popconfirm>
-                        <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
-                    </Space>
-                    <Space align="start" wrap={true}>
-                        <ElectionStatusCard {...{ election }} />
-                        <div>{election.description}</div>
-                    </Space>
+                    <div>{election.description}</div>
+                    <div className="mb-10">
+                        <Space wrap={true} direction={'horizontal'}>
+                            <IconButton
+                                icon={<ForwardFilled />}
+                                text="Begin"
+                                onClick={changeElectionToStarted}
+                                color="success"
+                            />
+                            <Popconfirm
+                                title={t('election:Are you sure you want to delete the election')}
+                                onConfirm={deleteElectionHandler}
+                            >
+                                <IconButton icon={<DeleteOutlined />} text="Delete" color="danger" />
+                            </Popconfirm>
+                            <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
+                        </Space>
+                    </div>
+                    <ElectionStatusCard {...{ election }} />
                     <Title level={2}>{t('common:Eligible voters')}</Title>
                     <List
                         id="voters-list"
+                        locale={{ emptyText: t('election:No eligible voters') }}
                         dataSource={election.eligibleVoters}
                         renderItem={(item) => <List.Item>{item.identification}</List.Item>}
                     />
