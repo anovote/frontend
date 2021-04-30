@@ -232,8 +232,10 @@ export default function EligibleVotersList({
                         >
                             <Input placeholder="ola.nordmann@gmail.com" onPressEnter={handleAddNewVoterByEnter}></Input>
                         </Form.Item>
-                        <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
-                        <Button onClick={handleDone}>Done</Button>
+                        <Space>
+                            <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
+                            <Button onClick={handleDone}>Done</Button>
+                        </Space>
                     </>
                 )}
                 <div>
