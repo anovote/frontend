@@ -65,6 +65,7 @@
 
 .hamburger-menu {
     display: none;
+    width: min-content;
 }
 
 @include for-tablet-landscape-down {

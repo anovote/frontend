@@ -4,14 +4,18 @@
     overflow: auto;
     height: 100vh;
     position: fixed;
-    left: 0;
     background-color: $white;
+    left: -$sidebar-width;
     width: $sidebar-width !important;
     min-width: $sidebar-width !important;
     max-width: $sidebar-width !important;
     flex: 0 0 $sidebar-width !important;
     padding: 1.5rem;
     z-index: 15;
+
+    &.sidebar-toggled {
+        left: 0;
+    }
 
     .ant-layout-sider-children {
         @include is-flex-column;
