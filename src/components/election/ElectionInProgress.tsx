@@ -148,16 +148,12 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
             <AlertList alerts={alerts} />
-            <Row justify="space-between" align="middle">
-                <Col>
-                    <Title level={1}>{election.title}</Title>
-                </Col>
-                <Col>
-                    <ElectionStatusLabel status={election.status} />
-                </Col>
-            </Row>
-            <Row>
-                <Col>
+            <header className="election-header">
+                <Title level={1}>{election.title}</Title>
+                <ElectionStatusLabel status={election.status} />
+            </header>
+            <div className="election-view">
+                <div className="split-view-left">
                     <Popconfirm
                         placement="bottom"
                         title={`${t('form:Are you sure')}?`}
@@ -171,17 +167,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                             color="danger"
                         />
                     </Popconfirm>
-                </Col>
-            </Row>
-            <Divider />
-            <Row wrap={true} justify="start" gutter={[64, 32]}>
-                <Col flex="none">
-                    <Space size={16} direction="vertical">
-                        <ElectionStatusCard election={election} />
-                        <ConnectedVoters />
-                    </Space>
-                </Col>
-                <Col flex="auto">
+                    <ElectionStatusCard election={election} />
+                    <ConnectedVoters />
+                </div>
+                <div className="split-view-right">
                     <Title level={2}>{t('common:Ballots')}</Title>
                     {ballotState.ballotWithStats.length > 0 ? (
                         <>
@@ -203,8 +192,8 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     ) : (
                         <div>No ballots! should this even be allowed</div>
                     )}
-                </Col>
-            </Row>
+                </div>
+            </div>
         </>
     )
 }
