@@ -58,7 +58,7 @@ export default function About(): ReactElement {
                     <div className="about-content">
                         <div className="site-layout-content">
                             <Title level={1}>{t('site:The team')}</Title>
-                            <Space wrap={true} className="team-carousel">
+                            <div className="team-carousel">
                                 {team.map((member, index) => {
                                     return (
                                         <span className="team-member" key={index}>
@@ -73,7 +73,7 @@ export default function About(): ReactElement {
                                         </span>
                                     )
                                 })}
-                            </Space>
+                            </div>
                             <section>
                                 <Title level={1} id="how-it-started">
                                     {t('site:How it all started')}
