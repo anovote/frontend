@@ -23,15 +23,16 @@
 }
 
 .election-status {
+    max-width: 24rem;
+    min-width: fit-content;
+    width: 100%;
     @include for-desktop-down {
-        width: 100%;
-        min-width: auto;
+        max-width: 100%;
         .ant-list-items {
             @include is-flex-row;
             flex-wrap: wrap;
-            justify-content: space-evenly;
+            justify-content: flex-start;
             .ant-list-item {
-                padding: 1rem;
                 .status-icon-spacer {
                     padding: 0;
                 }
@@ -39,6 +40,7 @@
                 text-align: center;
                 justify-content: center;
                 align-items: center;
+                padding: 1rem;
             }
         }
     }
