@@ -20,7 +20,7 @@
         .circle-center-content {
             transform: scale(1.05);
         }
-        .anticon {
+        .anticon:not(.anticon-spin) {
             transform: scale(1.1);
         }
     }
