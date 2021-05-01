@@ -23,9 +23,8 @@
 }
 
 .election-status {
-    width: 100%;
-
     @include for-desktop-down {
+        width: 100%;
         min-width: auto;
         .ant-list-items {
             @include is-flex-row;
