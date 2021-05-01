@@ -7,6 +7,10 @@
 .skeleton-layout {
     margin-left: $sidebar-width;
 
+    @include for-tablet-landscape-down {
+        margin-left: 0;
+    }
+
     .site-layout-background {
         overflow: initial;
     }
