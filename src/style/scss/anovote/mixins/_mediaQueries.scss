@@ -4,7 +4,7 @@
     }
 }
 @mixin for-tablet-portrait-down {
-    @media (max-width: 600px) {
+    @media (max-width: 599px) {
         @content;
     }
 }
@@ -14,7 +14,7 @@
     }
 }
 @mixin for-tablet-landscape-down {
-    @media (max-width: 900px) {
+    @media (max-width: 899px) {
         @content;
     }
 }
@@ -24,7 +24,7 @@
     }
 }
 @mixin for-desktop-down {
-    @media (max-width: 1200px) {
+    @media (max-width: 1199px) {
         @content;
     }
 }
