@@ -1,14 +1,8 @@
-import {
-    DeleteOutlined,
-    EditOutlined,
-    ForwardFilled,
-    PlayCircleFilled,
-    PlayCircleOutlined,
-    PlaySquareOutlined,
-} from '@ant-design/icons'
-import { Col, List, Popconfirm, Row, Space } from 'antd'
+import { DeleteOutlined, EditOutlined, ForwardFilled } from '@ant-design/icons'
+import { List, Popconfirm, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
+import ElectionStatusLabel from 'components/ElectionStatusLabel'
 import BallotPreviewList from 'components/previewList/BallotPreviewList'
 import IconButton from 'containers/button/IconButton'
 import { IBallot } from 'core/models/ballot/IBallot'
@@ -60,6 +54,7 @@ export const ElectionNotStarted = ({
         <>
             <header className="election-header">
                 <Title>{election.title}</Title>
+                <ElectionStatusLabel status={election.status} />
             </header>
             <div className="election-view">
                 <div className="split-view-left">
