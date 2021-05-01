@@ -87,7 +87,55 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
         dispatcher.setLogoutState()
         history.push(getPublicRoute().login, alert)
     }
-
+    const sider = (
+        <Sider className={`skeleton-sidebar ${showSidebar ? 'sidebar-toggled' : ''}`}>
+            <Link to={elections.view}>
+                <AnovoteLogo id="logo" />
+            </Link>
+            <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={[history.location.pathname]}>
+                <LargeIconButton
+                    text={t('Create election')}
+                    onClick={createElection}
+                    tabIndex={2}
+                    classId="create-election"
+                >
+                    <CirclePlusIcon />
+                </LargeIconButton>
+                {/* todo #151 implement missing links */}
+                {/*<Menu.Item key={dashboard} icon={<HomeFilled />}>
+                            <Link to={dashboard} tabIndex={3} id="dashboard">
+                                {t('Dashboard')}
+                            </Link>
+                        </Menu.Item>*/}
+                <Menu.Item key={elections.view} icon={<ProjectFilled />}>
+                    <Link to={elections.view} tabIndex={4} id="elections">
+                        {t('Elections')}
+                    </Link>
+                </Menu.Item>
+                {/*<Menu.Item key={customize} icon={<EyeFilled />}>
+                            <Link to={customize} tabIndex={5}>
+                                {t('Customize')}
+                            </Link>
+                        </Menu.Item>*/}
+                <LargeIconButton
+                    classId="view-profile"
+                    text={`${organizer.firstName} ${organizer.lastName}`}
+                    reverse={true}
+                    onClick={openProfileModal}
+                    tabIndex={6}
+                >
+                    <ProfileRoundIcon />
+                </LargeIconButton>
+                {/* todo #146 implement settings, the log out button may be a better permanent solution */}
+                <Menu.Item key={'logout'} icon={<LogoutOutlined />} onClick={logoutHandler} id="log-out">
+                    {t('common:Log out')}
+                    {/*<Link to={settings} tabIndex={7}>
+                                {t('Settings')}
+                            </Link>*/}
+                </Menu.Item>
+            </Menu>
+        </Sider>
+    )
     return (
         <Layout>
             {/*<Header className="skeleton-header">*/}
@@ -108,65 +156,18 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                     close={closeProfileModalHandler}
                     organizer={organizer}
                 />
-                <Drawer
-                    placement="left"
-                    mask={!isDesktop}
-                    onClose={() => setShowSidebar(false)}
-                    closable
-                    visible={showSidebar}
-                >
-                    <Sider className={`skeleton-sidebar ${showSidebar ? 'sidebar-toggled' : ''}`}>
-                        <Link to={elections.view}>
-                            <AnovoteLogo id="logo" />
-                        </Link>
-                        <Menu
-                            className="sidebar-menu"
-                            mode="vertical"
-                            defaultSelectedKeys={[history.location.pathname]}
-                        >
-                            <LargeIconButton
-                                text={t('Create election')}
-                                onClick={createElection}
-                                tabIndex={2}
-                                classId="create-election"
-                            >
-                                <CirclePlusIcon />
-                            </LargeIconButton>
-                            {/* todo #151 implement missing links */}
-                            {/*<Menu.Item key={dashboard} icon={<HomeFilled />}>
-                            <Link to={dashboard} tabIndex={3} id="dashboard">
-                                {t('Dashboard')}
-                            </Link>
-                        </Menu.Item>*/}
-                            <Menu.Item key={elections.view} icon={<ProjectFilled />}>
-                                <Link to={elections.view} tabIndex={4} id="elections">
-                                    {t('Elections')}
-                                </Link>
-                            </Menu.Item>
-                            {/*<Menu.Item key={customize} icon={<EyeFilled />}>
-                            <Link to={customize} tabIndex={5}>
-                                {t('Customize')}
-                            </Link>
-                        </Menu.Item>*/}
-                            <LargeIconButton
-                                classId="view-profile"
-                                text={`${organizer.firstName} ${organizer.lastName}`}
-                                reverse={true}
-                                onClick={openProfileModal}
-                                tabIndex={6}
-                            >
-                                <ProfileRoundIcon />
-                            </LargeIconButton>
-                            {/* todo #146 implement settings, the log out button may be a better permanent solution */}
-                            <Menu.Item key={'logout'} icon={<LogoutOutlined />} onClick={logoutHandler} id="log-out">
-                                {t('common:Log out')}
-                                {/*<Link to={settings} tabIndex={7}>
-                                {t('Settings')}
-                            </Link>*/}
-                            </Menu.Item>
-                        </Menu>
-                    </Sider>
-                </Drawer>
+                {isDesktop && sider}
+                {!isDesktop && (
+                    <Drawer
+                        placement="left"
+                        mask={!isDesktop}
+                        onClose={() => setShowSidebar(false)}
+                        closable
+                        visible={showSidebar}
+                    >
+                        {sider}
+                    </Drawer>
+                )}
                 <Layout id="content">
                     <Content className="site-layout-background">{props.content}</Content>
                 </Layout>
