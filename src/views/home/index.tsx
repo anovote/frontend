@@ -57,8 +57,8 @@ export default function Home(): React.ReactElement {
                         </span>
                         <span className="showcase">
                             <img src={showCase} alt={t('site:Showcase of the elections view panel')} />
+                            <Lines id="lines-background-effect" />
                         </span>
-                        <Lines id="lines-background-effect" />
                     </section>
 
                     <div className="content">
