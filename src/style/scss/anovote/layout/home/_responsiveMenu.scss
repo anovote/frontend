@@ -1,0 +1,44 @@
+.ant-drawer-content {
+    @include is-rounded-large;
+}
+
+.ant-drawer-content-wrapper {
+    max-height: 85%;
+    min-height: 70% !important;
+}
+
+.ant-drawer-header {
+    border-bottom: none;
+    padding: 1.5rem;
+    padding-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .ant-drawer-title {
+        @include subtitle;
+    }
+
+    .ant-drawer-close {
+        position: relative;
+    }
+}
+
+.ant-drawer-body {
+    padding: 0.5rem;
+    @include is-flex-column;
+    justify-content: space-between;
+
+    .ant-menu-item {
+        height: 4rem;
+        line-height: 4rem;
+        @include is-rounded;
+    }
+    .ant-menu-item-selected {
+        background-color: $alternate-color !important;
+    }
+}
+
+#line-responsive {
+    width: 100%;
+}

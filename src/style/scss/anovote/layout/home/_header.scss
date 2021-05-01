@@ -1,12 +1,14 @@
 .ant-layout-header {
     @include is-flex-row;
     justify-content: space-between;
-    padding: 1 * $bu 2 * $bu;
+    align-items: center;
+    padding: 1rem 2rem 1rem 1rem;
     height: $home-header-height;
     z-index: 1;
+    margin-bottom: 1rem;
 
-    @include for-phone-only {
-        padding: 0.2rem 0.4rem 1rem;
+    @include for-tablet-portrait-down {
+        padding: 0.4rem 1rem 0.2rem 1rem;
     }
 }
 
@@ -58,5 +60,19 @@
 
     &:hover {
         color: $info-contrasting;
+    }
+}
+
+.hamburger-menu {
+    display: none;
+}
+
+@include for-tablet-landscape-down {
+    .wide-menu {
+        display: none;
+    }
+
+    .hamburger-menu {
+        display: block;
     }
 }
