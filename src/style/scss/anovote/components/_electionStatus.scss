@@ -4,6 +4,7 @@
     border-radius: 2rem;
     text-align: center;
     width: fit-content;
+    height: min-content;
     .ant-typography {
         margin: 0;
         @include label;
