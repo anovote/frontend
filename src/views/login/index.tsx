@@ -14,6 +14,7 @@ import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Redirect, useHistory, useLocation } from 'react-router-dom'
+import { ReactComponent as Lines } from 'style/assets/lines.svg'
 
 /**
  * Logins view

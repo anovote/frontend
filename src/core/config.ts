@@ -15,7 +15,7 @@ const config = {
     WS_URL: '',
 }
 if (process.env.NODE_ENV === 'development') {
-    config.API_URL = `${httpProtocol}://${apiUri}:${apiPort}`
+    config.API_URL = `${httpProtocol}://${apiUri}:${apiPort}/api`
     config.WS_URL = `${httpProtocol}://${wsUri}:${wsPort}`
 } else if (process.env.NODE_ENV === 'production') {
     config.API_URL = `${httpProtocol}://${apiUri}`
