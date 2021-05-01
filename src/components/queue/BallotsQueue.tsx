@@ -3,7 +3,7 @@ import Title from 'antd/lib/typography/Title'
 import PushBallotIcon from 'components/icons/PushBallotIcon'
 import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
-import SquareIconButton from 'containers/button/SquareIconButton'
+import IconButton from 'containers/button/IconButton'
 import { useSocket } from 'core/hooks/useSocket'
 import { BallotWithVotes } from 'core/models/ballot/BallotWithVotes'
 import { IVoteStats } from 'core/models/ballot/IVoteStats'
@@ -69,27 +69,38 @@ export default function BallotsQueue({
         for (const ballot of dataSource) {
             statsQueue.push(
                 // todo make loading state follow the component
-                <Step
-                    key={ballot.id}
-                    title={<Title level={4}>{ballot.title}</Title>}
-                    subTitle={<QueueDescription winner={ballot.getBallotLeader()} />}
-                    description={
-                        <>
-                            {ballot && (
-                                <StatCard stats={appendStats(ballot.votes)} onClick={() => handleClick(ballot.id)} />
-                            )}
-
-                            <SquareIconButton
-                                text={t('common:Push ballot')}
-                                tabIndex={0}
-                                classId="push-ballot-button"
-                                onClick={() => pushBallot(ballot.id)}
-                            >
-                                <PushBallotIcon spin={isLoading} />
-                            </SquareIconButton>
-                        </>
-                    }
-                />,
+                <>
+                    <Step
+                        key={ballot.id}
+                        title={<Title level={4}>{ballot.title}</Title>}
+                        subTitle={<QueueDescription winner={ballot.getBallotLeader()} />}
+                        description={
+                            <>
+                                {ballot && (
+                                    <StatCard
+                                        stats={appendStats(ballot.votes)}
+                                        onClick={() => handleClick(ballot.id)}
+                                    />
+                                )}
+                            </>
+                        }
+                    />
+                    <IconButton
+                        text={t('common:Push ballot')}
+                        tabIndex={0}
+                        classId="push-ballot-button"
+                        onClick={() => pushBallot(ballot.id)}
+                        icon={<PushBallotIcon spin={isLoading} />}
+                    ></IconButton>
+                    {/*<SquareIconButton
+                        text={t('common:Push ballot')}
+                        tabIndex={0}
+                        classId="push-ballot-button"
+                        onClick={() => pushBallot(ballot.id)}
+                    >
+                        <PushBallotIcon spin={isLoading} />
+                    </SquareIconButton>*/}
+                </>,
             )
         }
         setQueue(statsQueue)
