@@ -1,8 +1,10 @@
-.info-card,
 .card-list {
     min-width: 26rem;
-    width: max-content;
+}
 
+.info-card,
+.card-list {
+    width: max-content;
     .ant-card-body {
         padding: $bu;
     }
