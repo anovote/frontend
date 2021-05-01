@@ -23,7 +23,7 @@
 }
 
 .election-status {
-    max-width: 24rem;
+    max-width: $info-card-max-width;
     min-width: fit-content;
     width: 100%;
     @include for-desktop-down {
