@@ -138,40 +138,41 @@ export default function CreateElectionView({
             <Title level={1}>{initialElection ? t('election:Edit election') : t('common:Create new election')}</Title>
             <Form
                 form={form}
-                className="split-view"
                 layout="vertical"
                 name="description-form"
                 onFinish={onFinishedHandler}
                 initialValues={initialElection}
                 data-testid="description-form"
             >
-                <div className="split-view-left">
-                    <ElectionTitleInput />
-                    <ElectionDescriptionInput />
-                    <div>
-                        <legend>{t('common:Schedule')}</legend>
-                        <div className="election-form-schedule">
-                            <OpenDateInput />
-                            <CloseDateInput />
+                <div className="split-view">
+                    <div className="split-view-left">
+                        <ElectionTitleInput />
+                        <ElectionDescriptionInput />
+                        <div>
+                            <legend>{t('common:Schedule')}</legend>
+                            <div className="election-form-schedule">
+                                <OpenDateInput />
+                                <CloseDateInput />
+                            </div>
                         </div>
-                    </div>
-                    <EligibleVotersList
-                        initialVoters={election?.eligibleVoters}
-                        onChange={uploadEligibleVotersCallback}
-                        formContext={form}
-                    />
+                        <EligibleVotersList
+                            initialVoters={election?.eligibleVoters}
+                            onChange={uploadEligibleVotersCallback}
+                            formContext={form}
+                        />
 
-                    <ElectionPasswordInput />
-                    {/* todo #160 implement logic to toggle is automatic
+                        <ElectionPasswordInput />
+                        {/* todo #160 implement logic to toggle is automatic
                         <IsAutomaticCheckbox />*/}
-                    {/* todo #154 There should be a cancel button*/}
-                </div>
-                <div className="split-view-right">
-                    <FormItem label={t('common:Ballots')}>
-                        <BallotPreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
-                    </FormItem>
-                    <div className="alert-field">
-                        <AlertList alerts={alertStates} />
+                        {/* todo #154 There should be a cancel button*/}
+                    </div>
+                    <div className="split-view-right">
+                        <FormItem label={t('common:Ballots')}>
+                            <BallotPreviewList initialElection={initialElection} onChange={onBallotsChangeHandler} />
+                        </FormItem>
+                        <div className="alert-field">
+                            <AlertList alerts={alertStates} />
+                        </div>
                     </div>
                 </div>
                 <Space align="baseline">

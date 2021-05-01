@@ -150,87 +150,89 @@ export default function CreateBallotModal({
                 afterClose={resetFormData}
                 destroyOnClose={true}
             >
-                <Form onFinish={submitForm} layout={'vertical'} className="split-view">
-                    <div className={'split-view-left'}>
-                        <Form.Item
-                            name="title"
-                            label={t('common:Title')}
-                            initialValue={initialBallot?.title}
-                            rules={[
-                                {
-                                    required: true,
-                                    message: t('form:Is required'),
-                                },
-                            ]}
-                        >
-                            <Input placeholder={t('common:Title')} />
-                        </Form.Item>
+                <Form onFinish={submitForm} layout={'vertical'}>
+                    <div className="split-view">
+                        <div className={'split-view-left'}>
+                            <Form.Item
+                                name="title"
+                                label={t('common:Title')}
+                                initialValue={initialBallot?.title}
+                                rules={[
+                                    {
+                                        required: true,
+                                        message: t('form:Is required'),
+                                    },
+                                ]}
+                            >
+                                <Input placeholder={t('common:Title')} />
+                            </Form.Item>
 
-                        <Form.Item
-                            name="description"
-                            label={t('common:Description')}
-                            initialValue={initialBallot?.description}
-                        >
-                            <Input.TextArea placeholder={t('common:Description')} />
-                        </Form.Item>
-                        <SelectBallotType label={t('common:Select type')} initialValue={initialBallot?.type} />
-                        <SelectResultType
-                            label={t('ballot:Result type')}
-                            initialValue={initialBallot?.resultDisplayType}
-                        />
-                        {/* todo #157 implement logic to make displaying vote count toggle-able
+                            <Form.Item
+                                name="description"
+                                label={t('common:Description')}
+                                initialValue={initialBallot?.description}
+                            >
+                                <Input.TextArea placeholder={t('common:Description')} />
+                            </Form.Item>
+                            <SelectBallotType label={t('common:Select type')} initialValue={initialBallot?.type} />
+                            <SelectResultType
+                                label={t('ballot:Result type')}
+                                initialValue={initialBallot?.resultDisplayType}
+                            />
+                            {/* todo #157 implement logic to make displaying vote count toggle-able
                         <Form.Item label={t('ballot:Display vote count')}>
                             <Switch defaultChecked={initialBallot?.displayResultCount}></Switch>
                         </Form.Item>*/}
-                    </div>
-                    <div className="split-view-right">
-                        <Form.Item
-                            name="candidates"
-                            label={t('common:Candidate', { count: 2 })}
-                            rules={[
-                                {
-                                    validator: () => {
-                                        if (addNew) return
-                                        if (candidatesList.length > 0) {
-                                            return Promise.resolve()
-                                        }
-                                        return Promise.reject(
-                                            t('form:Must have at least one', {
-                                                field: t('common:Candidate').toLowerCase(),
-                                            }),
-                                        )
+                        </div>
+                        <div className="split-view-right">
+                            <Form.Item
+                                name="candidates"
+                                label={t('common:Candidate', { count: 2 })}
+                                rules={[
+                                    {
+                                        validator: () => {
+                                            if (addNew) return
+                                            if (candidatesList.length > 0) {
+                                                return Promise.resolve()
+                                            }
+                                            return Promise.reject(
+                                                t('form:Must have at least one', {
+                                                    field: t('common:Candidate').toLowerCase(),
+                                                }),
+                                            )
+                                        },
                                     },
-                                },
-                            ]}
-                        >
-                            <List
-                                locale={{ emptyText: t('ballot:No candidates') }}
-                                dataSource={candidatesList}
-                                renderItem={(item, index) => (
-                                    <>
-                                        <PreviewItem
-                                            onEdit={() => onEdit(index)}
-                                            onDelete={() => onDelete(index)}
-                                            id={index}
-                                        >
-                                            {item.candidate}
-                                        </PreviewItem>
-                                        {editCandidate && editCandidate.id == index && candidateInputField(index)}
-                                    </>
-                                )}
+                                ]}
                             >
-                                {addNew && candidateInputField()}
-                            </List>
-                        </Form.Item>
-                        <div className="is-flex justify-content-center width-100 mt-10">
-                            <Button
-                                className="add-preview-button"
-                                type="text"
-                                shape="circle"
-                                icon={<PlusOutlined className="btn-icon" />}
-                                size="large"
-                                onClick={onAdd}
-                            />
+                                <List
+                                    locale={{ emptyText: t('ballot:No candidates') }}
+                                    dataSource={candidatesList}
+                                    renderItem={(item, index) => (
+                                        <>
+                                            <PreviewItem
+                                                onEdit={() => onEdit(index)}
+                                                onDelete={() => onDelete(index)}
+                                                id={index}
+                                            >
+                                                {item.candidate}
+                                            </PreviewItem>
+                                            {editCandidate && editCandidate.id == index && candidateInputField(index)}
+                                        </>
+                                    )}
+                                >
+                                    {addNew && candidateInputField()}
+                                </List>
+                            </Form.Item>
+                            <div className="is-flex justify-content-center width-100 mt-10">
+                                <Button
+                                    className="add-preview-button"
+                                    type="text"
+                                    shape="circle"
+                                    icon={<PlusOutlined className="btn-icon" />}
+                                    size="large"
+                                    onClick={onAdd}
+                                />
+                            </div>
                         </div>
                     </div>
                     <Space align="baseline">
