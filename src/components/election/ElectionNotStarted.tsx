@@ -58,8 +58,10 @@ export const ElectionNotStarted = ({
 
     return (
         <>
-            <Title>{election.title}</Title>
-            <div className="split-view">
+            <header className="election-header">
+                <Title>{election.title}</Title>
+            </header>
+            <div className="election-view">
                 <div className="split-view-left">
                     <div>{election.description}</div>
                     <div className="mb-10">
