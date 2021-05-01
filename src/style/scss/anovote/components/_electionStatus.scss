@@ -1,12 +1,12 @@
 .status-container {
     border: 2px solid black;
-    padding: 0.6rem 1.5rem;
+    padding: 0.3rem 1.3rem;
     border-radius: 2rem;
     text-align: center;
-
+    width: fit-content;
     .ant-typography {
-        margin-bottom: 0rem;
-        font-weight: bold;
+        margin: 0;
+        @include label;
     }
 }
 

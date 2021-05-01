@@ -9,9 +9,9 @@ import React, { ReactElement, ReactNode } from 'react'
  */
 export function StatusLabel({ style, title }: StatusLabelProps): ReactElement {
     return (
-        <span className={`status-container border-${style}`}>
+        <div className={`status-container border-${style}`}>
             <Text>{title}</Text>
-        </span>
+        </div>
     )
 }
 
