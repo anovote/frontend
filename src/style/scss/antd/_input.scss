@@ -6,6 +6,7 @@
 .ant-input-wrapper,
 .ant-select:not(.ant-select-customize-input) .ant-select-selector {
     @include is-rounded();
+    padding: 0.5rem 0.8rem;
 }
 
 .ant-input,
@@ -51,11 +52,15 @@ textarea.ant-input {
     @include is-rounded();
     @include has-shadow();
     padding: 0;
-    padding-right: 11px;
+    padding-right: 10px;
     .ant-input {
-        padding: 4px 11px !important;
+        padding: 0.5rem 0.8rem !important;
         border-radius: none !important;
         box-shadow: none !important;
+    }
+
+    .ant-input-suffix {
+        margin-left: 0.5rem;
     }
 }
 
