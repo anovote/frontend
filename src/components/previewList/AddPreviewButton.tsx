@@ -6,7 +6,7 @@ export default function AddPreviewButton({ addPreview }: { addPreview: () => voi
         <div className="add-preview-button-container">
             <Button
                 className="add-preview-button"
-                type="text"
+                type="primary"
                 shape="circle"
                 icon={<PlusOutlined className="btn-icon" />}
                 size="large"

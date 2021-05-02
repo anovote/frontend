@@ -1,8 +1,10 @@
 .import-voters-menu {
+    background-color: $white;
+    @include is-overlay($important: true);
     text-align: center;
     margin: 0;
-    @include has-shadow;
     min-width: 12rem;
+    min-height: 6rem;
     li.ant-menu-item.ant-menu-item-only-child {
         &:first-child {
             border-radius: $normal-border-radius $normal-border-radius 0 0;
@@ -11,13 +13,15 @@
             border-radius: 0 0 $normal-border-radius $normal-border-radius;
         }
     }
+
     .ant-menu-item {
         margin: 0;
     }
 
     @include is-rounded;
 
-    .ant-menu-item-active {
+    .ant-menu-item-active,
+    .ant-menu-item-hover {
         background-color: $main-light;
         span {
             color: white;

@@ -34,7 +34,6 @@
 
 .add-preview-button {
     @include has-shadow();
-    background-color: $main-light;
 
     .btn-icon {
         color: $white;

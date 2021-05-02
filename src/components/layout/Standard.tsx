@@ -19,7 +19,7 @@ export default function StandardLayout({
     return (
         <div className={wrapperClassName ? `home ${wrapperClassName}` : 'home'}>
             <Layout>
-                <Header>
+                <Header className="standard">
                     <Navigation />
                 </Header>
                 <Content className={contentClassName}>{children}</Content>
