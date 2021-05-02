@@ -1,5 +1,14 @@
 @import './menuItem';
+.skeleton-drawer {
+    .ant-drawer-content {
+        border-radius: 0;
+        background: none;
+    }
 
+    .ant-drawer-body {
+        padding: 0;
+    }
+}
 .skeleton-sidebar {
     overflow: auto;
     height: 100vh;

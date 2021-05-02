@@ -160,9 +160,11 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
                 {!isDesktop && (
                     <Drawer
                         placement="left"
+                        className="skeleton-drawer"
                         mask={!isDesktop}
                         onClose={() => setShowSidebar(false)}
                         closable
+                        //closeIcon={<LogoutOutlined></LogoutOutlined>}
                         visible={showSidebar}
                     >
                         {sider}
