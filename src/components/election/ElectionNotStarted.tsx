@@ -1,5 +1,5 @@
-import { DeleteOutlined, EditOutlined, PlayCircleFilled } from '@ant-design/icons'
-import { Col, List, Popconfirm, Row, Space } from 'antd'
+import { DeleteOutlined, DeleteTwoTone, EditOutlined, PlayCircleFilled } from '@ant-design/icons'
+import { Col, List, Popconfirm, PopconfirmProps, Row, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import BallotPreviewList from 'components/previewList/BallotPreviewList'
@@ -49,6 +49,15 @@ export const ElectionNotStarted = ({
         ? election.ballots.map((ballot, index) => ({ id: index, ...ballot } as IBallotEntity))
         : new Array<IBallotEntity>()
 
+    const popConfirmProps: PopconfirmProps = {
+        title: t('form:Are you sure'),
+        okText: t('form:Delete'),
+        cancelText: t('form:Cancel'),
+        okButtonProps: { className: 'btn-danger' },
+        icon: <DeleteTwoTone twoToneColor={'#FF5A90'} />,
+        onConfirm: () => deleteElectionHandler(),
+    }
+
     return (
         <>
             <Row gutter={[32, 16]} align="top">
@@ -63,10 +72,7 @@ export const ElectionNotStarted = ({
                                     onClick={changeElectionToStarted}
                                     color="green"
                                 />
-                                <Popconfirm
-                                    title={t('election:Are you sure you want to delete the election')}
-                                    onConfirm={deleteElectionHandler}
-                                >
+                                <Popconfirm {...popConfirmProps}>
                                     <IconButton icon={<DeleteOutlined />} text="Delete" color="red" />
                                 </Popconfirm>
                             </Space>
