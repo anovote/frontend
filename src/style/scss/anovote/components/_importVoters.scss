@@ -19,12 +19,13 @@
     }
 
     @include is-rounded;
-
-    .ant-menu-item-active,
-    .ant-menu-item-hover {
-        background-color: $main-light;
-        span {
+    .ant-menu-item {
+        &:hover {
+            background-color: $main-light;
             color: white;
+            * {
+                color: white;
+            }
         }
     }
 }
