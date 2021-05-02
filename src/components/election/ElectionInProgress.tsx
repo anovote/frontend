@@ -22,6 +22,7 @@ import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
+import ElectionSplitView from './ElectionSplitView'
 const authEvent = (socket: AnoSocket, electionId: number) => {
     return WebsocketEvent({
         dataHandler: () => {
@@ -148,13 +149,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
             <AlertList alerts={alerts} />
-            <header className="election-header">
-                <Title level={1}>{election.title}</Title>
-                <ElectionStatusLabel status={election.status} />
-            </header>
-            <div className="election-view">
-                <div className="split-view-left">
-                    <div className="election-fixed-side">
+            <ElectionSplitView
+                election={election}
+                left={
+                    <>
                         <Popconfirm
                             placement="bottom"
                             title={`${t('form:Are you sure')}?`}
@@ -170,32 +168,34 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                         </Popconfirm>
                         <ElectionStatusCard election={election} />
                         <ConnectedVoters />
-                    </div>
-                </div>
-                <div className="split-view-right">
-                    <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballotState.ballotWithStats.length > 0 ? (
-                        <>
-                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
-                            <BallotModal
-                                showModal={modal}
-                                ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
-                                close={closeModal}
-                                controls={{
-                                    next: () => {
-                                        setBallotState({ type: 'nextBallot' })
-                                    },
-                                    previous: () => {
-                                        setBallotState({ type: 'previousBallot' })
-                                    },
-                                }}
-                            />
-                        </>
-                    ) : (
-                        <div>No ballots! should this even be allowed</div>
-                    )}
-                </div>
-            </div>
+                    </>
+                }
+                right={
+                    <>
+                        <Title level={2}>{t('common:Ballots')}</Title>
+                        {ballotState.ballotWithStats.length > 0 ? (
+                            <>
+                                <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
+                                <BallotModal
+                                    showModal={modal}
+                                    ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
+                                    close={closeModal}
+                                    controls={{
+                                        next: () => {
+                                            setBallotState({ type: 'nextBallot' })
+                                        },
+                                        previous: () => {
+                                            setBallotState({ type: 'previousBallot' })
+                                        },
+                                    }}
+                                />
+                            </>
+                        ) : (
+                            <div>No ballots! should this even be allowed</div>
+                        )}
+                    </>
+                }
+            />
         </>
     )
 }
