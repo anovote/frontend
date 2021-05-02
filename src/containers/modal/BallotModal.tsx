@@ -1,11 +1,11 @@
 import { Bar } from '@ant-design/charts'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
-import { Col, Row } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
 import Title from 'antd/lib/typography/Title'
 import { BallotStatusLabel } from 'components/ElectionStatusLabel'
 import { IStatValue } from 'components/statCard/IStatValue'
 import StatCard from 'components/statCard/StatCard'
+import IconButton from 'containers/button/IconButton'
 import { IControl } from 'core/helpers/IControl'
 import { BallotWithVotes } from 'core/models/ballot/BallotWithVotes'
 import { IVoteStats } from 'core/models/ballot/IVoteStats'
@@ -36,10 +36,13 @@ export default function BallotModal({
     const config = {
         width: 600,
         height: 400,
-        autoFit: false,
+        autoFit: true,
         xField: 'votes',
         yField: 'candidate',
         seriesField: 'candidate',
+        yAxis: {
+            label: null,
+        },
     }
 
     const appendStats = (stats: IVoteStats): IStatValue[] => {
@@ -52,14 +55,14 @@ export default function BallotModal({
 
     const footer = (
         <div className="spread">
-            <button onClick={previous} className="inline-icon text-label button-no-style">
-                <LeftOutlined />
-                <div>{t('common:Previous')}</div>
-            </button>
-            <button onClick={next} className="inline-icon text-label button-no-style">
-                <div>{t('common:Next')}</div>
-                <RightOutlined />
-            </button>
+            <IconButton
+                text={t('common:Previous')}
+                tabIndex={0}
+                onClick={previous}
+                reverse={true}
+                icon={<LeftOutlined />}
+            ></IconButton>
+            <IconButton text={t('common:Next')} tabIndex={0} onClick={next} icon={<RightOutlined />}></IconButton>
         </div>
     )
 
@@ -68,19 +71,25 @@ export default function BallotModal({
             {ballot && (
                 <Modal
                     width={'100vw'}
-                    title={<BallotStatusLabel status={ballot.status} />}
+                    title={
+                        <>
+                            <Title level={2}>{ballot.title}</Title>
+                            <BallotStatusLabel status={ballot.status} />
+                        </>
+                    }
                     footer={footer}
                     visible={showModal}
                     onCancel={close}
-                    className="modal-display-small"
+                    className="modal-display-small ballot-modal"
                 >
-                    <Row>
-                        <Col span={24}>
-                            <Title level={2}>{ballot.title}</Title>
-                            <div>{ballot.votes && <StatCard stats={appendStats(ballot.votes)} />}</div>
-                        </Col>
-                        <Col span={24}>{diagramStats && <Bar data={diagramStats} {...config} />}</Col>
-                    </Row>
+                    <header>
+                        {!!ballot.description && <p className="ballot-description">{ballot.description}</p>}
+                        {ballot.votes && <StatCard stats={appendStats(ballot.votes)} />}
+                    </header>
+                    <section className="ballot-chart">
+                        <Title level={3}>{t('common:Votes')}</Title>
+                        {diagramStats && <Bar data={diagramStats} {...config} />}
+                    </section>
                 </Modal>
             )}
         </>
