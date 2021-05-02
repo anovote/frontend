@@ -49,6 +49,8 @@ export default function EligibleVotersList({
      * @param file The file we want to parse
      */
     const parseFile = async (file: File): Promise<void> => {
+        setVisible(false)
+
         let parsedEmails: string[] = []
         if (file.type === 'text/csv' || file.type === 'application/vnd.ms-excel') {
             try {
@@ -99,6 +101,7 @@ export default function EligibleVotersList({
 
     const addManualInputField = () => {
         setAddByManual(true)
+        setVisible(false)
     }
 
     const handleAddNewVoterByEnter = (e: React.SyntheticEvent<HTMLInputElement>) => {
@@ -176,7 +179,7 @@ export default function EligibleVotersList({
 
     const ImportFileMenu = (): React.ReactElement => {
         return (
-            <Menu className="import-voters-menu" onClick={() => setVisible(false)}>
+            <Menu className="import-voters-menu">
                 <Menu.Item key="1" onClick={addManualInputField}>
                     {t('form:Add manually')}
                 </Menu.Item>
