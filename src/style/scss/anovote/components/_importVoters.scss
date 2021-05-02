@@ -14,8 +14,9 @@
         }
     }
 
-    .upload {
-        display: block;
+    .upload .ant-upload {
+        @include is-flex;
+        @include has-content-center-center;
         width: 100%;
         height: 100%;
     }
