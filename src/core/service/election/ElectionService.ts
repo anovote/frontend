@@ -99,9 +99,11 @@ export class ElectionService {
 
     public async updateElection(election: IElectionEntity): Promise<IElectionEntity> {
         try {
-            return (
-                await this.httpClient.put<IElectionEntity>(this.electionRoute.byId(election.id).update, { election })
-            ).data
+            const response = await this.httpClient.put<IElectionEntity>(this.electionRoute.byId(election.id).update, {
+                election,
+            })
+            const updatedElection = response.data
+            return this.checkAndSetDates(updatedElection)
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
