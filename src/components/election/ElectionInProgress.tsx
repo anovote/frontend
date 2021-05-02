@@ -1,4 +1,4 @@
-import { Col, Divider, Modal, Popconfirm, Row, Space } from 'antd'
+import { Modal, Popconfirm } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
@@ -154,21 +154,23 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
             </header>
             <div className="election-view">
                 <div className="split-view-left">
-                    <Popconfirm
-                        placement="bottom"
-                        title={`${t('form:Are you sure')}?`}
-                        onConfirm={() => endElectionOnConfirm(election.id)}
-                        okText={t('common:Yes')}
-                        cancelText={t('common:No')}
-                    >
-                        <IconButton
-                            icon={<CloseElectionIcon />}
-                            text={`${t('common:End')} ${t('election:Election')}`}
-                            color="danger"
-                        />
-                    </Popconfirm>
-                    <ElectionStatusCard election={election} />
-                    <ConnectedVoters />
+                    <div className="election-fixed-side">
+                        <Popconfirm
+                            placement="bottom"
+                            title={`${t('form:Are you sure')}?`}
+                            onConfirm={() => endElectionOnConfirm(election.id)}
+                            okText={t('common:Yes')}
+                            cancelText={t('common:No')}
+                        >
+                            <IconButton
+                                icon={<CloseElectionIcon />}
+                                text={`${t('common:End')} ${t('election:Election')}`}
+                                color="danger"
+                            />
+                        </Popconfirm>
+                        <ElectionStatusCard election={election} />
+                        <ConnectedVoters />
+                    </div>
                 </div>
                 <div className="split-view-right">
                     <Title level={2}>{t('common:Ballots')}</Title>
