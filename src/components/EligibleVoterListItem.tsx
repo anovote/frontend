@@ -15,9 +15,11 @@ export function EligibleVoterListItem({
             <Button
                 type="text"
                 className="color-main-contrasting no-hover-style"
-                icon={<CloseCircleOutlined />}
+                style={{ padding: '0.5rem 0.6rem' }}
                 onClick={() => onDelete(voterIdentity)}
-            ></Button>
+            >
+                <CloseCircleOutlined />
+            </Button>
         </>
     )
 }

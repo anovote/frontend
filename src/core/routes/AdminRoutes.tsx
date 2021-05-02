@@ -1,4 +1,4 @@
-import Skeleton from 'components/Skeleton'
+import Skeleton from 'components/layout/Skeleton'
 import React, { ReactElement } from 'react'
 import { Redirect, Route, useHistory } from 'react-router-dom'
 import CreateElectionView from 'views/election/createElection'

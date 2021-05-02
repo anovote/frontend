@@ -27,6 +27,8 @@ export default function EligibleVotersList({
         initialVoters ? initialVoters : new Array<IEligibleVoter>(),
     )
     const [addByManual, setAddByManual] = useState(false)
+    const [visible, setVisible] = useState(false)
+
     useEffect(() => {
         onChange(voters)
     }, [voters])
@@ -105,6 +107,10 @@ export default function EligibleVotersList({
         handleAddNewVoter(voterIdentification)
     }
 
+    const handleVisibleChange = (flag: boolean) => {
+        setVisible(flag)
+    }
+
     /**
      * Adds a voter to the list if all checks pass.
      * Display error if something is wrong
@@ -170,19 +176,17 @@ export default function EligibleVotersList({
 
     const ImportFileMenu = (): React.ReactElement => {
         return (
-            <Menu className="import-voters-menu">
-                <Menu.Item>
-                    <span role="button" onClick={addManualInputField}>
-                        {t('form:Add manually')}
-                    </span>
+            <Menu className="import-voters-menu" onClick={() => setVisible(false)}>
+                <Menu.Item key="1" onClick={addManualInputField}>
+                    {t('form:Add manually')}
                 </Menu.Item>
-                <Menu.Item>
-                    <Upload beforeUpload={parseFile} accept=".csv">
+                <Menu.Item key="2">
+                    <Upload beforeUpload={parseFile} accept=".csv" className="upload">
                         CSV
                     </Upload>
                 </Menu.Item>
-                <Menu.Item>
-                    <Upload beforeUpload={parseFile} accept=".json">
+                <Menu.Item key="3">
+                    <Upload beforeUpload={parseFile} accept=".json" className="upload">
                         JSON
                     </Upload>
                 </Menu.Item>
@@ -203,6 +207,8 @@ export default function EligibleVotersList({
                         overlay={<ImportFileMenu />}
                         placement="bottomRight"
                         trigger={['click']}
+                        onVisibleChange={handleVisibleChange}
+                        visible={visible}
                         arrow
                     >
                         <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>

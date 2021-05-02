@@ -1,4 +1,4 @@
-import { ArrowDownOutlined, LogoutOutlined, MenuOutlined, ProjectFilled } from '@ant-design/icons'
+import { LogoutOutlined, MenuOutlined, ProjectFilled } from '@ant-design/icons'
 import { Button, Drawer, Layout, Menu } from 'antd'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { BackendAPI } from 'core/api'
@@ -10,10 +10,10 @@ import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import React, { ReactElement, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
-import LargeIconButton from '../containers/button/LargeIconbutton'
-import { ReactComponent as AnovoteLogo } from '../style/assets/anovote-logo.svg'
-import CirclePlusIcon from './icons/CirclePlusIcon'
-import ProfileRoundIcon from './icons/ProfileRoundIcon'
+import LargeIconButton from 'containers/button/LargeIconbutton'
+import CirclePlusIcon from 'components/icons/CirclePlusIcon'
+import ProfileRoundIcon from 'components/icons/ProfileRoundIcon'
+import { ReactComponent as AnovoteLogo } from 'style/assets/anovote-logo.svg'
 const { Content, Sider } = Layout
 
 /**
