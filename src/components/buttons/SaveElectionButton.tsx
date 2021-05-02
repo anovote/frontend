@@ -9,7 +9,7 @@ export default function SaveElectionButton({ hasInitial = false }: { hasInitial?
     return (
         <div>
             <Form.Item>
-                <Button type="primary" icon={<PlusOutlined />} size="large" htmlType="submit">
+                <Button type="primary" icon={<PlusOutlined />} htmlType="submit">
                     {!hasInitial ? t('election:create-election') : t('election:update-election')}
                 </Button>
             </Form.Item>
