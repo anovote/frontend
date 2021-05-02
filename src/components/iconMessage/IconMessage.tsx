@@ -2,21 +2,12 @@ import { BulbOutlined, CheckOutlined, CloseCircleOutlined, ExclamationOutlined, 
 import { Button } from 'antd'
 import { AlertList } from 'components/alert/AlertList'
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
-import { useAlert } from 'core/hooks/useAlert'
 import React, { ReactElement } from 'react'
 import { IIconMessage } from './IIconMessage'
 
-export default function IconMessage({
-    label,
-    icon,
-    alertMessage,
-    alertLevel = 'info',
-    onClose,
-}: IIconMessage): ReactElement {
-    const { alertStates, dispatchAlert } = useAlert([{ message: alertMessage, level: alertLevel }])
-
+export default function IconMessage({ label, icon, alert, onClose }: IIconMessage): ReactElement {
     if (!icon) {
-        switch (alertLevel) {
+        switch (alert?.level) {
             case 'warning':
                 icon = <ExclamationOutlined className="color-warning-contrasting scale-up-center" />
                 break
@@ -43,7 +34,7 @@ export default function IconMessage({
             )}
             <SquareIconContainer icon={icon} label={label}></SquareIconContainer>
             <div className="mt-20 is-flex has-content-center-center">
-                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
+                <AlertList alerts={alert ? [alert] : []} />
             </div>
         </div>
     )

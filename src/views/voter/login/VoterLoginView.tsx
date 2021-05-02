@@ -155,8 +155,7 @@ function VoterLoginView(): ReactElement {
                             <IconMessage
                                 onClose={() => dispatch({ type: 'hideMessage' })}
                                 label={state.message.label}
-                                alertLevel={state.message.alertLevel}
-                                alertMessage={state.message.alertMessage}
+                                alert={{ message: state.message.alert?.message, level: state.message.alert?.level }}
                             />
                         )) || (
                             <Form layout="vertical" name="vote-login-form" onFinish={onSubmitHandler}>
