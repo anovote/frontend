@@ -50,7 +50,10 @@ textarea.ant-input {
 .ant-input-affix-wrapper {
     @include is-rounded();
     @include has-shadow();
+    padding: 0;
+    padding-right: 11px;
     .ant-input {
+        padding: 4px 11px !important;
         border-radius: none !important;
         box-shadow: none !important;
     }
