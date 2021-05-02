@@ -25,14 +25,13 @@
 
 .election-status {
     max-width: $info-card-max-width;
-    min-width: fit-content;
+    min-width: 22rem;
     width: 100%;
     @include for-desktop-down {
         max-width: 100%;
         .ant-list-items {
             @include is-flex-row;
             flex-wrap: wrap;
-            justify-content: flex-start;
             .ant-list-item {
                 .status-icon-spacer {
                     padding: 0;
@@ -48,7 +47,6 @@
     @include for-tablet-landscape-down {
         .ant-list-items {
             flex-direction: column;
-            justify-content: flex-start;
             .ant-list-item {
                 padding: 0 0 1rem 0;
                 .status-icon-spacer {

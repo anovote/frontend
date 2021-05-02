@@ -14,20 +14,12 @@ $tail-z-index: -4;
 }
 .ballots-queue {
     width: 100%;
-    .queue {
-        padding: 0 0 0 1.5rem;
-    }
-
-    .ant-steps-label-vertical {
-        .ant-steps-item {
-            .ant-steps-item-container {
-                width: 10px;
-
-                span.ant-steps-icon {
-                    top: 0;
-                }
-            }
-        }
+    .ant-steps
+        .ant-steps-item:not(.ant-steps-item-active):not(.ant-steps-item-process)
+        > .ant-steps-item-container[role='button']:hover
+        .ant-steps-item-icon
+        .ant-steps-icon {
+        color: $main-contrasting;
     }
 
     .ant-steps-vertical {
@@ -55,15 +47,7 @@ $tail-z-index: -4;
         }
 
         .ant-steps-item-icon {
-            margin: 0.5rem 1rem 0 0.2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             transition: all ease-out 0.1s;
-
-            span {
-                top: 0;
-            }
         }
 
         .ant-steps-item + #push-ballot-button {
@@ -80,22 +64,30 @@ $tail-z-index: -4;
         .ant-steps-item-content {
             transition: all 0.3s;
             display: flex;
-            flex: 1 1 0px;
             justify-content: space-between;
             width: 100%;
 
+            @include for-tablet-portrait-down {
+                .stats-card {
+                    flex-direction: column;
+                    .stat {
+                        .stat-title,
+                        .stat-value {
+                            padding: 0;
+                        }
+                    }
+                }
+            }
+
             .ant-steps-item-title {
-                flex: 1 1 10rem;
-                width: 0px;
                 @include is-flex-column();
                 justify-content: space-between;
 
                 .ant-typography {
-                    flex-grow: 1;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-                    margin: 0.5rem 0.5rem 0 0;
+                    margin: 0 0.5rem 0 0;
                 }
 
                 .ant-steps-item-subtitle {
@@ -115,7 +107,7 @@ $tail-z-index: -4;
                         transition: background ease 0.2s;
                     }
                     .queue-additional {
-                        overflow: hidden;
+                        //overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
                     }
@@ -148,11 +140,7 @@ $tail-z-index: -4;
                 transform: scale(1.05);
 
                 .ant-steps-item-icon {
-                    background: $white;
-                    border: 0;
-                    span {
-                        color: $main-contrasting;
-                    }
+                    transform: scale(1.08);
                 }
 
                 .ant-steps-item-content {
@@ -181,7 +169,7 @@ $tail-z-index: -4;
             // colors
             .ant-steps-item-tail::after,
             .ant-steps-item-icon,
-            .ant-steps-item-icon .ant-steps-icon .anticon-check {
+            .ant-steps-item-icon .ant-steps-icon {
                 color: $success-contrasting;
                 border-color: $success-contrasting;
             }

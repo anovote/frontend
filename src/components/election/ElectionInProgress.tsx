@@ -1,4 +1,4 @@
-import { Col, Divider, Modal, Popconfirm, Row, Space } from 'antd'
+import { Modal, Popconfirm } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
@@ -22,6 +22,7 @@ import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
+import ElectionSplitView from './ElectionSplitView'
 const authEvent = (socket: AnoSocket, electionId: number) => {
     return WebsocketEvent({
         dataHandler: () => {
@@ -148,52 +149,53 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
             <AlertList alerts={alerts} />
-            <header className="election-header">
-                <Title level={1}>{election.title}</Title>
-                <ElectionStatusLabel status={election.status} />
-            </header>
-            <div className="election-view">
-                <div className="split-view-left">
-                    <Popconfirm
-                        placement="bottom"
-                        title={`${t('form:Are you sure')}?`}
-                        onConfirm={() => endElectionOnConfirm(election.id)}
-                        okText={t('common:Yes')}
-                        cancelText={t('common:No')}
-                    >
-                        <IconButton
-                            icon={<CloseElectionIcon />}
-                            text={`${t('common:End')} ${t('election:Election')}`}
-                            color="danger"
-                        />
-                    </Popconfirm>
-                    <ElectionStatusCard election={election} />
-                    <ConnectedVoters />
-                </div>
-                <div className="split-view-right">
-                    <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballotState.ballotWithStats.length > 0 ? (
-                        <>
-                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
-                            <BallotModal
-                                showModal={modal}
-                                ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
-                                close={closeModal}
-                                controls={{
-                                    next: () => {
-                                        setBallotState({ type: 'nextBallot' })
-                                    },
-                                    previous: () => {
-                                        setBallotState({ type: 'previousBallot' })
-                                    },
-                                }}
+            <ElectionSplitView
+                election={election}
+                left={
+                    <>
+                        <Popconfirm
+                            placement="bottom"
+                            title={`${t('form:Are you sure')}?`}
+                            onConfirm={() => endElectionOnConfirm(election.id)}
+                            okText={t('common:Yes')}
+                            cancelText={t('common:No')}
+                        >
+                            <IconButton
+                                icon={<CloseElectionIcon />}
+                                text={`${t('common:End')} ${t('election:Election')}`}
+                                color="danger"
                             />
-                        </>
-                    ) : (
-                        <div>No ballots! should this even be allowed</div>
-                    )}
-                </div>
-            </div>
+                        </Popconfirm>
+                        <ElectionStatusCard election={election} />
+                        <ConnectedVoters />
+                    </>
+                }
+                right={
+                    <>
+                        <Title level={2}>{t('common:Ballots')}</Title>
+                        {ballotState.ballotWithStats.length > 0 ? (
+                            <>
+                                <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
+                                <BallotModal
+                                    showModal={modal}
+                                    ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
+                                    close={closeModal}
+                                    controls={{
+                                        next: () => {
+                                            setBallotState({ type: 'nextBallot' })
+                                        },
+                                        previous: () => {
+                                            setBallotState({ type: 'previousBallot' })
+                                        },
+                                    }}
+                                />
+                            </>
+                        ) : (
+                            <div>No ballots! should this even be allowed</div>
+                        )}
+                    </>
+                }
+            />
         </>
     )
 }

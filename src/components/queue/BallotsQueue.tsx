@@ -1,3 +1,4 @@
+import { CheckCircleOutlined, FormOutlined } from '@ant-design/icons'
 import { StepProps, Steps } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import PushBallotIcon from 'components/icons/PushBallotIcon'
@@ -8,7 +9,7 @@ import { useSocket } from 'core/hooks/useSocket'
 import { BallotWithVotes } from 'core/models/ballot/BallotWithVotes'
 import { IVoteStats } from 'core/models/ballot/IVoteStats'
 import { ElectionEventService } from 'core/service/election/ElectionEventService'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { ReactElement, ReactNode, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { ElectionParams } from './ElectionParams'
@@ -86,20 +87,13 @@ export default function BallotsQueue({
                         }
                     />
                     <IconButton
+                        key={ballot.id * -1}
                         text={t('common:Push ballot')}
                         tabIndex={0}
                         classId="push-ballot-button"
                         onClick={() => pushBallot(ballot.id)}
                         icon={<PushBallotIcon spin={isLoading} />}
                     ></IconButton>
-                    {/*<SquareIconButton
-                        text={t('common:Push ballot')}
-                        tabIndex={0}
-                        classId="push-ballot-button"
-                        onClick={() => pushBallot(ballot.id)}
-                    >
-                        <PushBallotIcon spin={isLoading} />
-                    </SquareIconButton>*/}
                 </>,
             )
         }
@@ -109,9 +103,37 @@ export default function BallotsQueue({
 
     return (
         <div className="ballots-queue">
-            <Steps current={current} onChange={onActiveBallotChange} direction="vertical" className="queue">
+            <Steps
+                progressDot={(_: ReactNode, step: IProgressDot) => {
+                    switch (step.status) {
+                        case 'error':
+                            break
+                        case 'process':
+                            return <FormOutlined />
+                        case 'finish':
+                            return <CheckCircleOutlined className="ant-steps-finish-icon"></CheckCircleOutlined>
+                        case 'wait':
+                            return step.index == 0 ? 1 : Math.floor(step.index / 2) + 1
+                        default:
+                            return step.index
+                    }
+                }}
+                current={current}
+                onChange={onActiveBallotChange}
+                direction="vertical"
+                className="queue"
+            >
                 {queue}
             </Steps>
         </div>
     )
+}
+/**
+ * Antd progress dot interface
+ */
+interface IProgressDot {
+    index: number
+    status: 'wait' | 'process' | 'finish' | 'error'
+    title: string
+    description: string
 }

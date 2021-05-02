@@ -20,9 +20,7 @@ export function CancelButton({ onAbort }: { onAbort: () => void }): ReactElement
             cancelText={t('form:No')}
             onConfirm={onAbort}
         >
-            <Button htmlType="button" size="large">
-                {t('form:Cancel')}
-            </Button>
+            <Button htmlType="button">{t('form:Cancel')}</Button>
         </Popconfirm>
     )
 }

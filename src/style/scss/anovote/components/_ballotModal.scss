@@ -1,0 +1,36 @@
+.ballot-modal {
+    .ant-modal-title {
+        @include is-flex-row;
+        > * {
+            margin: 0 1rem 0 0;
+        }
+    }
+    .ant-modal-body {
+        @include is-flex-column;
+        header {
+            @include is-flex-row;
+            justify-content: space-between;
+            @include for-tablet-landscape-down {
+                flex-direction: column;
+            }
+        }
+        .stats-card {
+            @include has-shadow;
+            @include for-tablet-landscape-down {
+                justify-content: space-evenly;
+                max-width: 100%;
+                width: 100%;
+            }
+        }
+        .ballot-description {
+            max-width: 25rem;
+            @include for-tablet-landscape-down {
+                max-width: 100%;
+            }
+        }
+        .ballot-chart {
+            margin: 1rem 0 0 0;
+            width: 100%;
+        }
+    }
+}

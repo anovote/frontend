@@ -1,11 +1,9 @@
-import { PlusOutlined } from '@ant-design/icons'
 import { Button, Form, Input, List, Space } from 'antd'
 import Modal from 'antd/lib/modal/Modal'
-import Title from 'antd/lib/typography/Title'
 import SelectBallotType from 'components/ballot/selectBallotTypes/SelectBallotType'
 import SelectResultType from 'components/ballot/SelectResultType'
 import { CancelButton } from 'components/buttons/CancelButton'
-import SaveElectionButton from 'components/buttons/SaveElectionButton'
+import AddPreviewButton from 'components/previewList/AddPreviewButton'
 import PreviewItem from 'components/previewList/PreviewItem'
 import { IBallot, IBallotInList } from 'core/models/ballot/IBallot'
 import { ICandidate } from 'core/models/ballot/ICandidate'
@@ -224,14 +222,7 @@ export default function CreateBallotModal({
                                 </List>
                             </Form.Item>
                             <div className="is-flex justify-content-center width-100 mt-10">
-                                <Button
-                                    className="add-preview-button"
-                                    type="text"
-                                    shape="circle"
-                                    icon={<PlusOutlined className="btn-icon" />}
-                                    size="large"
-                                    onClick={onAdd}
-                                />
+                                <AddPreviewButton addPreview={onAdd} />
                             </div>
                         </div>
                     </div>
