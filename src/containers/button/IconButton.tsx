@@ -28,10 +28,10 @@ export default function IconButton({
             tabIndex={tabIndex}
             id={classId}
         >
-            <Space size={'middle'}>
+            <>
                 {text}
                 <div className={`circle-center-content ${color ? color : 'main'}-contrasting`}>{icon}</div>
-            </Space>
+            </>
         </button>
     )
 }
