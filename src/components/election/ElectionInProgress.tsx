@@ -42,7 +42,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         activeBallotIndex: 0,
     })
     const [forceEndVisible, setForceEndVisible] = useState(false)
-    const { alertStates: alerts, dispatchAlert } = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -103,7 +103,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     dispatchAlert({
                         type: 'add',
                         level: 'error',
-                        message: 'Something happened when trying to end election',
+                        message: t('error:Something happened when trying to end the election'),
                     })
                 },
             }),
@@ -122,7 +122,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     dispatchAlert({
                         type: 'add',
                         level: 'error',
-                        message: 'Something happened when trying to force end election',
+                        message: t('error:Something happened when trying to force end the election'),
                     })
                 },
             }),
@@ -147,7 +147,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:If you proceed to end this election')}</p>
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
-            <AlertList alerts={alerts} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
+            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <Row justify="space-between" align="middle">
                 <Col>
                     <Title level={1}>{election.title}</Title>
