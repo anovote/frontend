@@ -1,8 +1,5 @@
-import { Space } from 'antd'
-import Layout, { Content, Footer, Header } from 'antd/lib/layout/layout'
 import Text from 'antd/lib/typography/Text'
 import Title from 'antd/lib/typography/Title'
-import Navigation from 'components/home/Navigation'
 import StandardLayout from 'components/layout/Standard'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'

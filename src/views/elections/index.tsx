@@ -1,4 +1,3 @@
-import { Space } from 'antd'
 import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'

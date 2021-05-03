@@ -1,7 +1,7 @@
 import { ArrowDownOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button, Drawer, Menu } from 'antd'
 import { getPublicRoute } from 'core/routes/siteRoutes'
-import React, { KeyboardEvent, KeyboardEventHandler, MouseEventHandler, ReactElement, useState } from 'react'
+import React, { KeyboardEvent, ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
 import { ReactComponent as AnovoteLogo } from 'style/assets/anovote-logo.svg'
