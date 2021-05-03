@@ -8,4 +8,9 @@ export const ErrorCode = {
     electionFinished: 'ELECTION_FINISHED',
     electionNotExist: 'ELECTION_NOT_EXIST',
     electionCodeMissing: 'ELECTION_CODE_MISSING',
+    electionDuplicate: 'ELECTION_DUPLICATE',
+    electionRoomNotExist: 'ELECTION_ROOM_NOT_EXIST',
+    ballotNotExist: 'BALLOT_NOT_EXIST',
+    alreadyVotedOnBallot: 'ALREADY_VOTED_ON_BALLOT',
+    ballotArchived: 'BALLOT_ARCHIVED',
 }

@@ -7,15 +7,19 @@ export interface ElectionBallotState {
     activeBallotIndex: number
 }
 
-export type Action =
+export type ElectionBallotStateAction =
     | { type: 'addStats'; payload: IBallotStats[] }
     | { type: 'updateStats'; payload: IBallotStats }
     | { type: 'addBallots'; payload: IBallotEntity[] }
+    | { type: 'updateBallot'; payload: IBallotEntity }
     | { type: 'setActiveBallot'; payload: number }
     | { type: 'previousBallot' }
     | { type: 'nextBallot' }
 
-export const electionBallotReducer = (state: ElectionBallotState, action: Action): ElectionBallotState => {
+export const electionBallotReducer = (
+    state: ElectionBallotState,
+    action: ElectionBallotStateAction,
+): ElectionBallotState => {
     const newState = Object.assign({}, state)
     switch (action.type) {
         case 'addStats': {
@@ -39,6 +43,14 @@ export const electionBallotReducer = (state: ElectionBallotState, action: Action
                 newState.ballotWithStats.push(new BallotWithVotes(ballot))
             }
             break
+        case 'updateBallot': {
+            const ballot = newState.ballotWithStats.find((ballot) => ballot.id == action.payload.id)
+            if (ballot) {
+                ballot.update(action.payload)
+                newState.ballotWithStats = [...newState.ballotWithStats]
+            }
+            break
+        }
         case 'setActiveBallot':
             newState.activeBallotIndex = newState.ballotWithStats.findIndex((ballot) => {
                 return ballot.id == action.payload
