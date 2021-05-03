@@ -32,12 +32,7 @@ export default function EligibleVotersList({
         onChange(voters)
     }, [voters])
 
-    const [alertStates, dispatchAlert] = useAlert([
-        {
-            message: '',
-            level: undefined,
-        },
-    ])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const fileParser = new FileParser()
 
@@ -241,7 +236,7 @@ export default function EligibleVotersList({
                 </Row>
             )}
             <div>
-                <AlertList alerts={alertStates} />
+                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             </div>
         </div>
     )

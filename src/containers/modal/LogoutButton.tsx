@@ -1,6 +1,7 @@
 import { LogoutOutlined } from '@ant-design/icons'
 import { Button, Modal } from 'antd'
 import { AlertState } from 'core/hooks/useAlert'
+import useMessage from 'core/hooks/useMessage'
 import { getPublicRoute } from 'core/routes/siteRoutes'
 import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import React, { ReactElement, ReactNode } from 'react'
@@ -11,6 +12,7 @@ export function LogoutButton({ confirmation }: LogoutButtonProps): ReactElement 
     const history = useHistory<AlertState>()
     const dispatcher = useAppStateDispatcher()
     const { confirm } = Modal
+    const { loading, info } = useMessage()
 
     const [t] = useTranslation('common')
     const logoutHandler = async () => {
@@ -29,9 +31,21 @@ export function LogoutButton({ confirmation }: LogoutButtonProps): ReactElement 
     }
 
     const logout = () => {
-        const alert: AlertState = { message: t('common:You were logged out'), level: 'info' }
-        dispatcher.setLogoutState()
-        history.push(confirmation ? getPublicRoute().joinElection : getPublicRoute().login, alert)
+        loading({
+            content: t('common:Attempting to log out'),
+            duration: 0.5,
+            key: 'logout',
+        })
+            .then(() => {
+                dispatcher.setLogoutState()
+                history.push(confirmation ? getPublicRoute().joinElection : getPublicRoute().login)
+            })
+            .then(() =>
+                info({
+                    content: t('common:You are now logged out'),
+                    key: 'logout',
+                }),
+            )
     }
 
     return (

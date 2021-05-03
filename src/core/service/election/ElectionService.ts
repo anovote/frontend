@@ -27,21 +27,22 @@ export class ElectionService {
         isLocked,
         isAutomatic,
         ballots,
-    }: IElection): Promise<void> {
+    }: IElection): Promise<IElectionEntity> {
         try {
-            await this.httpClient.post(this.electionRoute.create, {
-                title,
-                description,
-                openDate,
-                closeDate,
-                eligibleVoters,
-                password,
-                status,
-                isLocked,
-                isAutomatic,
-                ballots,
-            })
-            // TODO handle what to do with the response
+            return (
+                await this.httpClient.post(this.electionRoute.create, {
+                    title,
+                    description,
+                    openDate,
+                    closeDate,
+                    eligibleVoters,
+                    password,
+                    status,
+                    isLocked,
+                    isAutomatic,
+                    ballots,
+                })
+            ).data
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error

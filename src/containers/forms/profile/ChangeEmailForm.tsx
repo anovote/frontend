@@ -7,27 +7,33 @@ import { isValidEmail } from 'core/helpers/validation'
 import { useAlert } from 'core/hooks/useAlert'
 import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ChangeEmailForm({ initialValue }: { initialValue: IElectionOrganizerEntity }): ReactElement {
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
+    const [isLoading, setIsLoading] = useState(false)
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const submitForm = async ({ email }: { email: string }) => {
+        setIsLoading(true)
         const organizer = initialValue
         organizer.email = email
         try {
             await service.changeEmail(organizer)
-            dispatchAlert({
-                type: 'add',
-                level: 'success',
-                message: t('profile:Email changed'),
-                description: t('profile:Your email was changed'),
-            })
+            setTimeout(() => {
+                setIsLoading(false)
+                dispatchAlert({
+                    type: 'add',
+                    level: 'success',
+                    message: t('profile:Email changed'),
+                    description: t('profile:Your email was changed'),
+                })
+            }, 1000)
         } catch (error) {
+            setIsLoading(false)
             if (error instanceof InvalidEmail) {
                 dispatchAlert({
                     type: 'add',
@@ -48,7 +54,7 @@ export default function ChangeEmailForm({ initialValue }: { initialValue: IElect
 
     return (
         <Space direction="vertical">
-            <AlertList alerts={alertStates} />
+            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <Form onFinish={submitForm} layout={'horizontal'} name="change-email" initialValues={initialValue}>
                 <Space direction="horizontal" className="inline-form-item">
                     <Form.Item
@@ -72,7 +78,7 @@ export default function ChangeEmailForm({ initialValue }: { initialValue: IElect
                         <Input style={{ width: 250 }} placeholder={t('common:Email')} />
                     </Form.Item>
 
-                    <Button type="primary" htmlType="submit" className="">
+                    <Button type="primary" htmlType="submit" loading={isLoading}>
                         {t('common:Save')}
                     </Button>
                 </Space>

@@ -19,13 +19,14 @@ export interface AlertState {
     description?: string
     level: AlertType
 }
-type UseAlertReturn = [AlertState[], Dispatch<AlertAction>] & {
+type UseAlertReturn = {
     alertStates: AlertState[]
     dispatchAlert: Dispatch<AlertAction>
 }
 
 function alertReducer(state: AlertState[], action: AlertAction): AlertState[] {
     const LIST_MAX_LENGTH = 5
+
     switch (action.type) {
         case 'add': {
             const listCopy = [...state]
@@ -88,12 +89,8 @@ function descriptionAreEqual(newDescription: string, prevDescription: string) {
     return newDescription === prevDescription
 }
 
-export function useAlert(initialState: AlertState[]): UseAlertReturn {
-    if (initialState.length > 0 && initialState[0].message === '') {
-        initialState.shift()
-    }
+export function useAlert(initialState?: AlertState[]): UseAlertReturn {
+    const [alertStates, dispatchAlert] = useReducer(alertReducer, initialState ? initialState : [])
 
-    const [alertStates, dispatchAlert] = useReducer(alertReducer, initialState)
-
-    return [alertStates, dispatchAlert] as UseAlertReturn
+    return { alertStates, dispatchAlert }
 }

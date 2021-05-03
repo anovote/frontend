@@ -72,7 +72,8 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         activeBallotIndex: 0,
     })
     const [forceEndVisible, setForceEndVisible] = useState(false)
-    const [alerts, setAlerts] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
+
     const { electionId } = useParams<ElectionParams>()
 
     useEffect(() => {
@@ -117,7 +118,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
             socket.emit(
                 Events.client.ballot.push,
                 { ballotId: ballot.id + 50, electionId: Number.parseInt(electionId) },
-                pushBallotAck(setBallotState, setAlerts, t),
+                pushBallotAck(setBallotState, dispatchAlert, t),
             )
         }
     }
@@ -147,10 +148,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    setAlerts({
+                    dispatchAlert({
                         type: 'add',
                         level: 'error',
-                        message: 'Something happened when trying to end election',
+                        message: t('error:Something happened when trying to end the election'),
                     })
                 },
             }),
@@ -166,10 +167,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    setAlerts({
+                    dispatchAlert({
                         type: 'add',
                         level: 'error',
-                        message: 'Something happened when trying to force end election',
+                        message: t('error:Something happened when trying to force end the election'),
                     })
                 },
             }),
@@ -194,7 +195,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:If you proceed to end this election')}</p>
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
-            <AlertList alerts={alerts} />
+            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <Row justify="space-between" align="middle">
                 <Col>
                     <Title level={1}>{election.title}</Title>
