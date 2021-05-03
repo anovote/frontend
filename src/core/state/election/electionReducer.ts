@@ -34,6 +34,7 @@ export type ElectionAction =
     | { type: 'close'; payload: boolean } // payload = isFinish
     // TODO Not implemented yet
     | { type: 'result'; payload: null }
+    | { type: 'waiting' }
 
 export const initialElectionState: ElectionState = {
     ballot: undefined,
@@ -92,6 +93,10 @@ export function electionReducer(state: ElectionState, action: ElectionAction): E
         }
         case 'close': {
             newState.displayAction = action.payload ? DisplayAction.Closed : DisplayAction.Waiting
+            break
+        }
+        case 'waiting': {
+            newState.displayAction = DisplayAction.Waiting
             break
         }
         default:
