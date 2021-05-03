@@ -12,12 +12,10 @@ const oneSpecial = new RegExp('(?=.*[!@#$%^&*])')
 
 /**
  * Defines a form rule set with appropriate messages
- * Due to the nature of i18next the translations are gotten asynchronous
- * @param i18n the translator instance
- * @returns A promise  with a form rule set
+ * @param t the translator function
+ * @returns A form rule set
  */
 export const formRules = (t: TFunction): IFormRules => {
-    //await loadNamespaces('form')
     return {
         password: [
             { max: PASSWORD_MAX_LENGTH, message: t('form:max-length', { maxLength: PASSWORD_MAX_LENGTH }) },
