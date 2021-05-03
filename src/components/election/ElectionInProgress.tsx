@@ -1,3 +1,4 @@
+import { ExclamationCircleTwoTone } from '@ant-design/icons'
 import { Modal, Popconfirm } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
@@ -189,8 +190,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     <>
                         <Popconfirm
                             placement="bottom"
-                            title={`${t('form:Are you sure')}?`}
+                            title={t('form:Are you sure')}
                             onConfirm={() => endElectionOnConfirm(election.id)}
+                            okButtonProps={{ className: 'btn-danger' }}
+                            icon={<ExclamationCircleTwoTone twoToneColor={'#FF5A90'} />}
                             okText={t('common:Yes')}
                             cancelText={t('common:No')}
                         >
