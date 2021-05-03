@@ -1,55 +1,42 @@
-// LoginView.test.js
-
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { mockMatchMedia } from 'mocks/mockMatchMedia'
 import React from 'react'
-import { render, unmountComponentAtNode } from 'react-dom'
-import { act } from 'react-dom/test-utils'
 import { MemoryRouter } from 'react-router-dom'
 import LoginView from './index'
-
-let container: Element | DocumentFragment
 
 beforeAll(() => {
     mockMatchMedia()
 })
-beforeEach(() => {
-    container = document.createElement('div')
-    document.body.appendChild(container)
-})
-
-afterEach(() => {
-    unmountComponentAtNode(container)
-})
 
 it('displays forms validation on empty fields after submit is clicked', async () => {
-    await act(async () => {
-        render(
-            <MemoryRouter>
-                <LoginView />
-            </MemoryRouter>,
-            container,
-        )
-        container.querySelector('button')?.click()
-        return await new Promise((resolve) => {
-            setTimeout(() => {
-                resolve()
-            }, 200)
-        })
-    })
-    const list = [...container.querySelectorAll('.ant-form-item-explain')]
-    expect(list[0]).toBeTruthy()
-    expect(list[1]).toBeTruthy()
+    render(
+        <MemoryRouter>
+            <LoginView />
+        </MemoryRouter>,
+    )
+
+    fireEvent.click(await screen.findByText('common:Log In'))
+
+    await waitFor(
+        () => {
+            screen.getByText('form:Please provide email')
+            screen.getByText('form:Please provide a password')
+        },
+        { timeout: 200 },
+    )
 })
 
 it('does not displays forms validation message before clicking the submit button', async () => {
-    await act(async () => {
-        render(
-            <MemoryRouter>
-                <LoginView />
-            </MemoryRouter>,
-            container,
-        )
-    })
-    const list = [...container.querySelectorAll('.ant-form-item-explain')]
-    expect(list.length).toBe(0)
+    render(
+        <MemoryRouter>
+            <LoginView />
+        </MemoryRouter>,
+    )
+
+    await waitFor(
+        () => {
+            expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+        },
+        { timeout: 200 },
+    )
 })
