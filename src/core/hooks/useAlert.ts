@@ -89,12 +89,8 @@ function descriptionAreEqual(newDescription: string, prevDescription: string) {
     return newDescription === prevDescription
 }
 
-export function useAlert(initialState: AlertState[]): UseAlertReturn {
-    if (initialState.length > 0 && initialState[0].message === '') {
-        initialState.shift()
-    }
-
-    const [alertStates, dispatchAlert] = useReducer(alertReducer, initialState)
+export function useAlert(initialState?: AlertState[]): UseAlertReturn {
+    const [alertStates, dispatchAlert] = useReducer(alertReducer, initialState ? initialState : [])
 
     return { alertStates, dispatchAlert }
 }
