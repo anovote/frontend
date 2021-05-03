@@ -76,7 +76,6 @@ export const ElectionFinished = ({
                 election={election}
                 left={
                     <>
-                        <ElectionStatusCard {...{ election }} />
                         <div>{election.description}</div>
                         <Space>
                             <Popconfirm {...popConfirmProps}>
