@@ -2,7 +2,7 @@ import { message } from 'antd'
 import { ArgsProps, MessageType } from 'antd/lib/message'
 import { ReactNode } from 'react'
 
-type Message = ({
+export type Message = ({
     content,
     duration,
     onClose,

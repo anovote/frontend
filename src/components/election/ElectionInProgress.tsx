@@ -10,6 +10,7 @@ import BallotModal from 'containers/modal/BallotModal'
 import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
 import { AlertAction, useAlert } from 'core/hooks/useAlert'
+import useMessage, { Message } from 'core/hooks/useMessage'
 import { useSocket } from 'core/hooks/useSocket'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
@@ -44,7 +45,7 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
  */
 const pushBallotAck = (
     setBallotState: React.Dispatch<ElectionBallotStateAction>,
-    dispatchAlert: Dispatch<AlertAction>,
+    dispatchErrorMessage: Message,
     t: TFunction<string[]>,
 ) => {
     return WebsocketEvent<{ ballot: IBallotEntity }>({
@@ -53,11 +54,8 @@ const pushBallotAck = (
         },
         errorHandler: (error) => {
             const errorCodeResolver = new ErrorCodeResolver(t)
-            dispatchAlert({
-                type: 'add',
-                level: 'error',
-                message: t('error:Unable to push ballot'),
-                description: errorCodeResolver.resolve(error.code),
+            dispatchErrorMessage({ content: t('error:Unable to push ballot'), key: 'pushBallotAck' }).then(() => {
+                dispatchErrorMessage({ content: errorCodeResolver.resolve(error.code), key: 'pushBallotAck' })
             })
         },
     })
@@ -72,9 +70,9 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         activeBallotIndex: 0,
     })
     const [forceEndVisible, setForceEndVisible] = useState(false)
-    const { alertStates, dispatchAlert } = useAlert()
 
     const { electionId } = useParams<ElectionParams>()
+    const { error } = useMessage()
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -118,7 +116,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
             socket.emit(
                 Events.client.ballot.push,
                 { ballotId: ballot.id + 50, electionId: Number.parseInt(electionId) },
-                pushBallotAck(setBallotState, dispatchAlert, t),
+                pushBallotAck(setBallotState, error, t),
             )
         }
     }
@@ -148,11 +146,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    dispatchAlert({
-                        type: 'add',
-                        level: 'error',
-                        message: t('error:Something happened when trying to end the election'),
-                    })
+                    error({ content: t('error:Something happened when trying to end the election') })
                 },
             }),
         )
@@ -167,11 +161,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    dispatchAlert({
-                        type: 'add',
-                        level: 'error',
-                        message: t('error:Something happened when trying to force end the election'),
-                    })
+                    error({ content: t('error:Something happened when trying to force end the election') })
                 },
             }),
         )
@@ -195,7 +185,6 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:If you proceed to end this election')}</p>
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
-            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <ElectionSplitView
                 election={election}
                 left={
