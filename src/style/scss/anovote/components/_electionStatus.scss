@@ -1,0 +1,62 @@
+.status-container {
+    border: 2px solid black;
+    padding: 0.3rem 1.3rem;
+    border-radius: 2rem;
+    text-align: center;
+    width: fit-content;
+    height: min-content;
+    .ant-typography {
+        margin: 0;
+        @include label;
+    }
+}
+
+.border-not-started {
+    border-color: $main-light;
+}
+
+.border-started {
+    border-color: $bee-yellow;
+}
+
+.border-finished {
+    border-color: $success-light;
+}
+
+.election-status {
+    max-width: $info-card-max-width;
+    min-width: 22rem;
+    width: 100%;
+    @include for-desktop-down {
+        max-width: 100%;
+        .ant-list-items {
+            @include is-flex-row;
+            flex-wrap: wrap;
+            .ant-list-item {
+                .status-icon-spacer {
+                    padding: 0;
+                }
+                @include is-flex-column;
+                text-align: center;
+                justify-content: center;
+                align-items: center;
+                padding: 1rem;
+            }
+        }
+    }
+    @include for-tablet-landscape-down {
+        .ant-list-items {
+            flex-direction: column;
+            .ant-list-item {
+                padding: 0 0 1rem 0;
+                .status-icon-spacer {
+                    padding: 0 1rem 0 0;
+                }
+                flex-direction: row;
+                text-align: left;
+                justify-content: flex-start;
+                align-items: flex-start;
+            }
+        }
+    }
+}

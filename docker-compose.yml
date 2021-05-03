@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+    app:
+        container_name: anovote_frontend
+        image: anovote:frontend
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .:/app
+            - node_modules:/app/node_modules
+volumes:
+    node_modules:

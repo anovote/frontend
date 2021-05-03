@@ -1,0 +1,42 @@
+.skeleton-header {
+    height: $header-height;
+    position: fixed;
+    left: $sidebar-width;
+    z-index: 10;
+    width: calc(100vw - #{$sidebar-width});
+    background-color: $white !important;
+    @include is-flex-column();
+    padding-left: 4rem;
+    justify-content: center;
+    box-shadow: 15px 0px 30px 5px rgba($background, 0.7);
+
+    .ant-input-group {
+        display: flex;
+        flex-direction: row-reverse;
+
+        .ant-input-group-addon {
+            background: none;
+        }
+        .ant-input-affix-wrapper {
+            border: 0;
+            box-shadow: none;
+        }
+
+        .ant-input-search-button {
+            box-shadow: none;
+            margin-left: 2px;
+            border: 0;
+            z-index: 10;
+            color: $darker-grey !important;
+        }
+
+        .ant-input {
+            box-shadow: none;
+            border: 0;
+            margin-left: 2 * $bu;
+            color: $darker-grey;
+            font-size: $text;
+            line-height: 0.9rem;
+        }
+    }
+}

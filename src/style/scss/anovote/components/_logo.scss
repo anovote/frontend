@@ -1,0 +1,14 @@
+#logo {
+    margin: 0.2rem;
+    margin-bottom: 0.5rem;
+}
+
+#logo-link {
+    line-height: 0;
+}
+@include for-phone-only {
+    #logo {
+        height: 2.5rem;
+        width: 8rem;
+    }
+}

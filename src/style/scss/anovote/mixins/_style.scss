@@ -1,0 +1,31 @@
+@function if-important($important) {
+    @return #{if($important, '!important', '')};
+}
+
+@mixin has-border {
+    border: 2px solid $alternate-color;
+}
+
+@mixin has-shadow($important: false) {
+    box-shadow: 0 0.4rem 0.2rem $shadow-color if-important($important);
+}
+@mixin is-overlay($important: false) {
+    box-shadow: 0 0 2rem $shadow-color if-important($important);
+    @include has-border;
+}
+
+@mixin is-rounded {
+    border-radius: $normal-border-radius;
+}
+
+@mixin is-rounded-large {
+    border-radius: $large-border-radius;
+}
+
+@mixin is-rounded-large {
+    border-radius: 1.25rem;
+}
+
+@mixin is-rounded-large {
+    border-radius: 1.25rem;
+}

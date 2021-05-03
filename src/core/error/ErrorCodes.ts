@@ -1,0 +1,16 @@
+export const ErrorCode = {
+    unexpected: 'UNEXPECTED',
+    voterIdentificationMissing: 'VOTER_IDENTIFICATION_MISSING',
+    verificationCodeMissing: 'VERIFICATION_CODE_MISSING',
+    verificationCodeInvalid: 'VERIFICATION_CODE_INVALID',
+    alreadyVerified: 'ALREADY_VERIFIED',
+    voterNotExist: 'VOTER_NOT_EXIST',
+    electionFinished: 'ELECTION_FINISHED',
+    electionNotExist: 'ELECTION_NOT_EXIST',
+    electionCodeMissing: 'ELECTION_CODE_MISSING',
+    electionDuplicate: 'ELECTION_DUPLICATE',
+    electionRoomNotExist: 'ELECTION_ROOM_NOT_EXIST',
+    ballotNotExist: 'BALLOT_NOT_EXIST',
+    alreadyVotedOnBallot: 'ALREADY_VOTED_ON_BALLOT',
+    ballotArchived: 'BALLOT_ARCHIVED',
+}

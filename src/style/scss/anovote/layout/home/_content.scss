@@ -1,0 +1,246 @@
+$hero-height: 70vh;
+
+.ant-layout-content {
+    position: relative;
+}
+.hero {
+    overflow: hidden;
+    background-color: $background;
+    height: fit-content;
+    position: relative;
+    @include is-flex-row;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+
+    @include for-tablet-portrait-down {
+        justify-content: center;
+    }
+
+    .title-with-action {
+        margin-bottom: 10rem;
+        padding: 0 2rem;
+        width: 25rem;
+        height: fit-content;
+        @include is-flex;
+        @include is-flex-column;
+        z-index: 1;
+
+        @include for-desktop-down {
+            max-height: fit-content;
+            margin-bottom: 0;
+            margin-right: auto;
+            margin-left: 2rem;
+        }
+
+        .title-box {
+            font-size: 4rem;
+
+            @include for-desktop-down {
+                font-size: 3.5rem;
+            }
+        }
+
+        #organize-election {
+            color: $font-color;
+            font-size: 1rem;
+            font-weight: $bold;
+            text-decoration: underline;
+            width: fit-content;
+            margin-left: 1rem;
+
+            &:hover {
+                color: $info-contrasting;
+
+                .right-arrow {
+                    transform: scale(1.2);
+                }
+            }
+        }
+    }
+
+    .showcase {
+        display: block;
+        width: 600px;
+        transform: rotate(-3deg);
+        align-self: flex-end;
+        position: relative;
+        z-index: 1;
+
+        @include for-desktop-up {
+            width: 800px;
+        }
+
+        @include for-desktop-down {
+            margin-left: auto;
+        }
+
+        @include for-tablet-portrait-down {
+            width: 500px;
+        }
+
+        @include for-phone-only {
+            width: 400px;
+        }
+
+        img {
+            position: relative;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        #lines-background-effect {
+            position: absolute;
+            width: 130%;
+            height: 100%;
+            top: 0;
+            right: 0;
+            z-index: -1;
+        }
+    }
+}
+
+.content {
+    background-color: $white;
+    padding-top: 10rem;
+    padding-bottom: 2rem;
+
+    @include for-tablet-landscape-down {
+        padding-top: 4rem;
+    }
+
+    section {
+        @include is-flex-column;
+        align-items: center;
+        margin: 6rem 0;
+        padding: 0 2rem;
+        margin-bottom: 10rem;
+
+        @include for-tablet-landscape-down {
+            margin: 3rem 0;
+        }
+
+        .ant-typography {
+            justify-self: center;
+            text-align: center;
+        }
+    }
+
+    #how-anovote-works {
+        height: fit-content;
+
+        .principles {
+            height: fit-content;
+            margin-top: 8rem;
+            padding-bottom: 2rem;
+            width: fit-content;
+            justify-content: center;
+
+            @include for-tablet-landscape-down {
+                margin-top: 3rem;
+            }
+
+            article {
+                position: relative;
+                margin: 0 3rem;
+                width: 18rem;
+                height: 20rem;
+                @include is-flex-column;
+                justify-items: flex-end;
+                align-items: center;
+            }
+
+            .principle-icon {
+                margin-bottom: auto;
+                width: 100%;
+                height: 8rem;
+                font-size: 94px;
+                @include is-flex-column;
+                @include has-content-center-center;
+            }
+
+            .principle-text {
+                height: 8rem;
+                text-align: center;
+            }
+        }
+    }
+
+    #anovote-backstory {
+        .backstory-content {
+            margin-top: 6rem;
+            max-width: 60rem;
+            justify-content: center;
+            flex-wrap: wrap;
+
+            @include for-tablet-landscape-down {
+                margin-top: 1rem;
+
+                .ant-space-item {
+                    margin: 1rem 1rem;
+                }
+            }
+
+            article {
+                max-width: 24rem;
+                margin-right: 8rem;
+
+                @include for-tablet-landscape-down {
+                    margin: 0;
+                }
+
+                span {
+                    text-align: left;
+                    display: block;
+
+                    @include for-tablet-landscape-down {
+                        text-align: center;
+                    }
+                }
+            }
+
+            .article-image {
+                display: block;
+                width: 14rem;
+                height: 16rem;
+            }
+        }
+    }
+
+    #about {
+        position: relative;
+
+        article {
+            z-index: 1;
+            margin-top: 2rem;
+            max-width: 40rem;
+            @include is-flex-column;
+
+            a {
+                align-self: flex-end;
+                display: block;
+                color: $font-color;
+                font-weight: $bold;
+                text-decoration: underline;
+                width: fit-content;
+                margin-top: 1rem;
+                margin-left: 2rem;
+
+                &:hover {
+                    color: $info-contrasting;
+
+                    .right-arrow {
+                        transform: scale(1.2);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.right-arrow {
+    color: $info-contrasting;
+    transition: 200ms;
+    padding-right: 0.6rem;
+}

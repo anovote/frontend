@@ -1,0 +1,72 @@
+@import './menuItem';
+.skeleton-drawer {
+    .ant-drawer-content {
+        border-radius: 0;
+        background: none;
+    }
+
+    .ant-drawer-body {
+        padding: 0;
+    }
+}
+.skeleton-sidebar {
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    background-color: $white;
+    left: -$sidebar-width;
+    width: $sidebar-width !important;
+    min-width: $sidebar-width !important;
+    max-width: $sidebar-width !important;
+    flex: 0 0 $sidebar-width !important;
+    padding: 1.5rem;
+    z-index: 15;
+
+    &.sidebar-toggled {
+        left: 0;
+    }
+
+    .ant-layout-sider-children {
+        @include is-flex-column;
+        justify-content: stretch;
+    }
+}
+
+#create-election {
+    margin-top: 3rem;
+    height: 6 * $bu !important;
+}
+
+.sidebar-menu {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    flex: 1;
+    border: 0;
+
+    li,
+    #view-profile {
+        width: 100%;
+    }
+}
+
+#view-profile {
+    margin-top: auto;
+}
+
+.user-icon {
+    font-size: 2rem;
+}
+
+#log-out {
+    @include is-flex-row();
+    @include has-content-center-center();
+    margin-top: 3 * $bu;
+    align-self: center;
+    width: 60%;
+    line-height: 0 !important;
+
+    a {
+        font-weight: $bold;
+    }
+}

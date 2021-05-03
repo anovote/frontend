@@ -1,0 +1,121 @@
+button {
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:active,
+    &:focus {
+        outline: none;
+    }
+
+    &:focus-visible {
+        @include is-button-in-focus();
+    }
+
+    &.btn-danger {
+        background-color: $danger-light;
+        border-color: $danger-light;
+        &:hover {
+            background-color: $danger-contrasting;
+            border-color: $danger-contrasting;
+        }
+    }
+}
+.anovote-button-style {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 1.25rem;
+    font-weight: bold;
+    border: none;
+    position: relative;
+    flex-shrink: 0;
+    line-height: 1.45em;
+
+    @include has-shadow();
+    @include is-rounded-large();
+    @include text();
+
+    // Targets all siblings of parent element,
+    > * {
+        white-space: normal;
+        flex: 0 0 auto;
+    }
+
+    > *:first-child {
+        font-weight: bold;
+        flex: 0 1 auto;
+    }
+    > *:last-child {
+        margin: 0 0 0 0.5rem !important;
+    }
+    &.is-flex-row-reverse {
+        > *:last-child {
+            margin: 0 0.5rem 0 0 !important;
+        }
+    }
+}
+
+.large-icon-button {
+    height: 7rem;
+    width: 100%;
+    max-width: 13.625rem;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s;
+
+    @include is-flex-row();
+
+    > *:first-child {
+        padding: 0 2.5em 0 0;
+        text-align: left;
+    }
+
+    &.is-flex-row-reverse {
+        justify-content: flex-end;
+
+        > *:first-child {
+            padding: 0 0 0 0.75rem;
+        }
+    }
+
+    &:hover:not([disabled]),
+    &:focus {
+        @include has-shadow;
+        transform: scale(1.02);
+    }
+}
+
+.square-icon-button {
+    height: 100%;
+    max-height: 8rem;
+    aspect-ratio: 1;
+    max-width: 8rem;
+    justify-content: space-between;
+    align-items: center;
+    line-height: 1.45em;
+    transition: all 0.3s;
+    transition: all ease-in 0.3s;
+
+    @include is-flex();
+    flex-direction: column-reverse;
+
+    > *:first-child {
+        font-weight: bold;
+        text-align: center;
+    }
+}
+
+.logout-btn {
+    margin-top: 1rem;
+    background-color: $danger-light;
+    color: $danger-contrasting;
+    width: auto;
+
+    &:hover {
+        background-color: $danger-contrasting;
+        color: $danger-light;
+        border-color: $danger-light;
+    }
+}

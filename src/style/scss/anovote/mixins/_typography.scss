@@ -1,0 +1,65 @@
+@mixin typography-base {
+    font-weight: $regular;
+    font-size: $text;
+    color: $font-color;
+    letter-spacing: $letter-spacing-text;
+}
+
+@mixin title {
+    @include typography-base();
+    font-weight: $black;
+    font-size: $title;
+    letter-spacing: $letter-spacing-title;
+}
+
+@mixin subtitle {
+    @include title();
+    font-size: $subtitle;
+}
+
+@mixin paragraph-title {
+    @include title();
+    font-size: $paragraph-title;
+}
+
+@mixin text {
+    @include typography-base();
+}
+
+@mixin text-inverse {
+    @include typography-base();
+    color: $inverse-font-color;
+}
+
+@mixin text-medium {
+    @include typography-base();
+    font-size: $paragraph-title;
+}
+
+@mixin text-medium-inverse {
+    @include typography-base();
+    color: $inverse-font-color;
+    font-size: $paragraph-title;
+}
+@mixin text-large {
+    @include typography-base();
+    font-size: $title;
+}
+
+@mixin text-large-inverse {
+    @include typography-base();
+    color: $inverse-font-color;
+    font-size: $title;
+}
+
+@mixin label {
+    @include text();
+    font-size: $label;
+    font-weight: $bold;
+    color: $soft-text-color;
+}
+@mixin additional-label {
+    @include label();
+    font-weight: $regular;
+    font-size: $additional-info;
+}

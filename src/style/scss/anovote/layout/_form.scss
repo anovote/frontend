@@ -1,0 +1,16 @@
+.inline-form-item {
+    @include is-flex();
+    align-items: flex-start;
+}
+
+form {
+    .ant-form-item-label label {
+        @include text;
+    }
+}
+
+.no-input {
+    .ant-form-item-control-input {
+        display: none;
+    }
+}

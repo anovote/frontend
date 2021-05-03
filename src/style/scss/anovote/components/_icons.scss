@@ -1,0 +1,82 @@
+.status-icon-spacer {
+    padding: 0 1rem 0 0;
+}
+/**
+ Creates + icon in the element using the class
+*/
+.plus {
+    position: relative;
+    font-size: 1rem;
+
+    &:before {
+        @include spanline(0deg, 1.1em, 0.25em);
+    }
+
+    &:after {
+        @include spanline(90deg, 1.1em, 0.25em);
+    }
+}
+
+.push-ballot {
+    font-size: 1.5rem;
+}
+
+/**
+ Creates cross icon in the element using the class
+*/
+.cross {
+    position: relative;
+    font-size: 1rem;
+
+    &:before {
+        @include spanline(45deg, 1.1em, 0.25em);
+    }
+
+    &:after {
+        @include spanline(135deg, 1.1em, 0.25em);
+    }
+}
+
+/**
+ Circle with content positioned in the center center of it.
+*/
+.circle-center-content,
+.circle-center-content-small {
+    border-radius: 99rem;
+    @include is-flex();
+    @include has-content-center-center();
+}
+
+.circle-center-content {
+    font-size: 1.25rem;
+    width: 3rem;
+    height: 3rem;
+}
+
+.circle-center-content-small {
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+/**
+Displays a rounded square with background-color fill
+and positions content in center/center of the element
+*/
+.large-icon-container {
+    font-size: 6rem;
+    background: $white;
+    width: 90vw;
+    height: 90vw;
+    max-width: 20rem;
+    max-height: 20rem;
+    padding: 1rem;
+    @include is-flex-column;
+    @include has-content-center-center;
+    @include has-shadow;
+    @include is-rounded-large;
+
+    .text {
+        font-size: 1rem;
+        text-align: center;
+    }
+}

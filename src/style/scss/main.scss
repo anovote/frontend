@@ -1,0 +1,84 @@
+// CORE
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap');
+
+@import './anovote/core/colors';
+@import './anovote/core/typography';
+@import './anovote/core/variables';
+
+// MIXINS
+@import './anovote/mixins/universalDesign';
+@import './anovote/mixins/mediaQueries';
+@import './anovote/mixins/typography';
+@import './anovote/mixins/flexbox';
+@import './anovote/mixins/style';
+@import './anovote/mixins/icon';
+
+// LAYOUTS
+@import './anovote/layout/helpers';
+@import './anovote/layout/skeleton/skeleton';
+@import './anovote/layout/form';
+@import './anovote/layout/typography';
+@import './anovote/layout/container';
+@import './anovote/layout/animations';
+@import './anovote/layout/voter';
+@import './anovote/layout/home/style';
+
+// COMPONENTS
+@import './anovote/components/logo';
+@import './anovote/components/button';
+@import './anovote/components/icons';
+@import './anovote/components/switch';
+@import './anovote/components/modal';
+@import './anovote/components/stats';
+@import './anovote/components/election/entry';
+@import './anovote/components/election/header';
+@import './anovote/components/previewList';
+@import './anovote/components/ballot';
+@import './anovote/components/ballotModal';
+@import './anovote/components/ranked';
+@import './anovote/components/radio';
+@import './anovote/components/electionStatus';
+@import './anovote/components/card';
+@import './anovote/components/election/statusLeft';
+@import './anovote/components/eligibleVotersList';
+@import './anovote/components/iconButton';
+@import './anovote/components/ballotCandidate/index';
+@import './anovote/components/ballotType';
+@import './anovote/components/connectionIndicator';
+@import './anovote/components/componentWithTooltip';
+@import './anovote/components/alert';
+
+// VIEWS
+@import './anovote/view/home';
+@import './anovote/view/login';
+@import './anovote/view/register';
+@import './anovote/view/ballotsQueue/base';
+@import './anovote/view/election/elections';
+@import './anovote/view/election/createElection';
+
+@import './anovote/components/switch';
+@import './anovote/components/previewList';
+@import './anovote/components/ballot';
+@import './anovote/components/ranked';
+@import './anovote/components/radio';
+@import './anovote/components/electionStatus';
+@import './anovote/components/importVoters';
+
+//--------- OVERWRITES ---------
+
+// ANTD
+@import './antd/typography';
+@import './antd/layout';
+@import './antd/card';
+@import './antd/modal';
+@import './antd/switch';
+@import './antd/input';
+@import './antd/button';
+@import './antd/pagination';
+@import './antd/message';
+
+body {
+    font-size: 16px;
+    font-family: $font-family;
+    background-color: $background;
+}

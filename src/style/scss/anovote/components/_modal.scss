@@ -1,0 +1,17 @@
+.modal-display,
+.modal-display-large,
+.modal-display-small {
+    padding: 1rem;
+}
+
+.modal-display {
+    max-width: $xxl-screen;
+}
+
+.modal-display-large {
+    max-width: $xl-screen;
+}
+
+.modal-display-small {
+    max-width: $large-screen;
+}

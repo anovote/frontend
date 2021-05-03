@@ -1,0 +1,29 @@
+.election-header {
+    width: 100%;
+    @include is-flex-row;
+    justify-content: space-between;
+}
+
+.elections-card-view {
+    @include is-flex-row;
+    flex-wrap: wrap;
+    .election-card {
+        margin: 1rem 1rem 1rem 0;
+    }
+}
+
+.election-view {
+    @include split-view();
+    @include for-desktop-up {
+        grid-template-columns: 25rem 1fr;
+    }
+
+    .election-fixed-side {
+        > * {
+            margin: 0 0 1rem 0;
+        }
+        @include for-desktop-up {
+            position: fixed;
+        }
+    }
+}

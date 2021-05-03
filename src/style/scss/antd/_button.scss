@@ -1,0 +1,25 @@
+.ant-btn {
+    @include is-rounded();
+    padding: 0.5rem 1rem;
+    height: fit-content;
+}
+
+.ant-btn-primary {
+    @include is-rounded();
+    background-color: $main-light;
+    border-color: $main-light;
+    transition: all ease 0.2s;
+
+    &:hover {
+        background-color: $main-contrasting;
+        border-color: $main-contrasting;
+    }
+    &:active {
+        background-color: $main-contrasting;
+        border-color: $main-contrasting;
+    }
+    &:focus {
+        background-color: $main-contrasting;
+        border-color: $main-contrasting;
+    }
+}

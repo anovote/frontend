@@ -1,0 +1,27 @@
+.info-card,
+.card-list {
+    min-width: auto;
+    width: 100%;
+    @include for-desktop-up {
+        min-width: 22rem;
+        width: min-content;
+    }
+    @include for-tablet-landscape-up {
+        max-width: $info-card-max-width;
+    }
+    .ant-card-body {
+        padding: $bu;
+    }
+}
+.info-card {
+    .ant-card-head {
+        border: none;
+    }
+}
+.card-list-ant-component {
+    border: none;
+    .ant-list-header,
+    .ant-list-item {
+        border-bottom: none !important;
+    }
+}

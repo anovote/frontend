@@ -1,0 +1,137 @@
+.about-hero {
+    background-color: $background;
+    @include is-flex;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+
+    .site-layout-content {
+        flex-basis: 100%;
+
+        @include for-desktop-up {
+            margin-top: 6rem;
+        }
+
+        @include for-tablet-landscape-up {
+            margin-top: 3rem;
+        }
+    }
+}
+
+#purple-line {
+    width: inherit;
+    height: 150px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    @include for-desktop-down {
+        height: 100px;
+    }
+
+    @include for-tablet-landscape-down {
+        height: 80px;
+    }
+    @include for-tablet-portrait-down {
+        height: 60px;
+    }
+
+    @include for-phone-only {
+        display: none;
+    }
+}
+
+.site-layout-content {
+    max-width: 1440px;
+    padding: 0 2rem;
+    @include is-flex-column;
+    justify-content: flex-start;
+}
+
+#about-title {
+    font-size: 4rem;
+
+    @include for-tablet-portrait-down {
+        font-size: 3rem;
+    }
+}
+
+.about-content {
+    margin-top: 2rem;
+    padding: 4rem 0;
+    background-color: $white;
+    @include is-flex;
+    justify-content: center;
+
+    section {
+        #how-it-started {
+            margin-bottom: 2rem;
+        }
+    }
+}
+
+.about-layout-content-header {
+    @include is-flex-column;
+    justify-content: center;
+}
+
+.content-size {
+    max-width: 60rem;
+}
+.team-carousel {
+    @include is-flex-row;
+    @include has-content-center-center;
+    align-self: center;
+    height: fit-content;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem 0;
+
+    .team-member {
+        display: block;
+        height: 20rem;
+        width: 14rem;
+        background-color: $background;
+        @include is-rounded-large;
+        @include is-flex-column;
+        justify-content: center;
+        align-items: center;
+        padding: 2rem 1rem;
+        margin: 0.5rem;
+
+        @include for-tablet-landscape-down {
+            max-width: 10rem;
+            max-height: 13rem;
+            padding: 1rem 0.4rem;
+        }
+
+        .member-image {
+            margin-bottom: auto;
+            display: block;
+            height: 8rem;
+            width: 8rem;
+            border-radius: 4rem;
+            border: 3px solid $main-light;
+            @include for-tablet-landscape-down {
+                max-width: 5rem;
+                max-height: 5rem;
+            }
+        }
+
+        .ant-typography {
+            text-align: center;
+
+            @include for-tablet-landscape-down {
+                font-size: 1rem;
+            }
+        }
+
+        a {
+            color: $main-light;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}

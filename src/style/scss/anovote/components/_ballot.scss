@@ -1,0 +1,48 @@
+$large-bar-width: 4.5rem;
+$large-bar-height: 0.75rem;
+
+$medium-bar-width: 4rem;
+$small-bar-width: 3.625rem;
+
+$middle-bar-padding: 0.5625rem;
+
+.select-type-text {
+    padding: 1rem;
+}
+
+.icon-bar {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.large-bar {
+    width: $large-bar-width;
+    height: $large-bar-height;
+    background-color: $main-light;
+}
+
+.medium-bar {
+    width: $medium-bar-width;
+    height: $large-bar-height;
+    background-color: $main-light;
+}
+
+.small-bar {
+    width: $small-bar-width;
+    height: $large-bar-height;
+    background-color: $alternate-color;
+}
+
+.middle-bar {
+    margin-top: $middle-bar-padding;
+    margin-bottom: $middle-bar-padding;
+}
+
+.main-contrasting-color {
+    background-color: $main-contrasting;
+}
+
+.small-ranked-color {
+    background-color: #e0e4ff;
+}

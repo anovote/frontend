@@ -1,0 +1,42 @@
+.stats-card {
+    padding: 0.75rem 1rem;
+    background-color: $white;
+    width: max-content;
+    height: 100%;
+    @include is-flex-row;
+    @include has-content-space-between-center;
+    @include is-rounded-large;
+    transition: all 0.3s ease-in;
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    .stat {
+        margin: 0 1.5rem;
+        text-align: center;
+        .stat-title {
+            @include text;
+            font-weight: bold !important;
+        }
+        .stat-value {
+            min-width: 4.5rem;
+            @include text-medium;
+        }
+        > * {
+            padding: 0.5rem 0;
+        }
+    }
+
+    &.inverse {
+        background-color: $main-contrasting;
+        .stat {
+            .stat-title {
+                @include text-inverse;
+            }
+            .stat-value {
+                @include text-medium-inverse;
+            }
+        }
+    }
+}

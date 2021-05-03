@@ -1,0 +1,36 @@
+.anovote-button-style.icon-button {
+    width: auto;
+    padding: 0.5rem $normal-border-radius;
+    border-radius: $normal-border-radius;
+    transition: all 0.1s ease-in;
+    * {
+        transition: all 0.2s ease;
+    }
+    .circle-center-content {
+        font-size: $text;
+        height: 2rem;
+        width: 2rem;
+    }
+
+    > *:first-child {
+        font-size: $label;
+    }
+    &:hover:not([disabled]),
+    &:focus {
+        .circle-center-content {
+            transform: scale(1.05);
+        }
+        .anticon:not(.anticon-spin) {
+            transform: scale(1.1);
+        }
+    }
+    &[disabled] {
+        opacity: 0.3;
+        :hover {
+            cursor: not-allowed;
+        }
+    }
+    .anticon {
+        color: $white;
+    }
+}

@@ -1,0 +1,4 @@
+.ant-card {
+    @include has-shadow;
+    @include is-rounded-large;
+}

@@ -1,0 +1,33 @@
+#header-info {
+    display: flex;
+    justify-content: flex-end;
+}
+
+#card-add-btn {
+    background: none;
+    color: $dark;
+    border: none;
+    box-shadow: none;
+    transition: all 0.3s;
+    .anticon {
+        font-size: 1.5rem;
+    }
+    &:hover {
+        transform: rotateZ(90deg);
+    }
+}
+.col-position {
+    .card-total-count {
+        display: block;
+        background: $main-light;
+        width: 3rem;
+        height: 2rem;
+        @include is-rounded-large();
+
+        @include text();
+        text-align: center !important;
+        line-height: 2rem !important;
+        color: $white;
+        font-weight: $bold;
+    }
+}

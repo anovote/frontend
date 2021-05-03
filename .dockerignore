@@ -1,0 +1,36 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# build/prod
+build
+
+
+# Optional npm cache directory
+.npm
+
+# dependency dir
+node_modules
+
+# Optional eslint cache
+.eslintcache
+# docker
+.dockerignore
+Dockerfile
+Dockerfile.prod
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+
+# Typescript v1 declaration files
+typings/
+
+# Git
+.git
