@@ -26,16 +26,16 @@ export default function useMessage(): {
     warning: Message
     // eslint-disable-next-line indent
 } {
-    const DURATION = 3
+    const DEFAULT_DURATION = 3 // seconds
 
     const config: ArgsProps = {
         content: '',
-        duration: DURATION,
+        duration: DEFAULT_DURATION,
         type: 'info',
         className: 'anovote-message',
     }
 
-    const setDuration = (duration: number | undefined): number => (duration ? duration : DURATION)
+    const setDuration = (duration: number | undefined): number => (duration ? duration : DEFAULT_DURATION)
 
     const info: Message = ({ content, duration, onClose, key }) => {
         return message.open({
