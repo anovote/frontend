@@ -17,7 +17,7 @@ export default function ChangePasswordForm({
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
     const [isLoading, setIsLoading] = useState(false)
-    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const submitForm = async (passwords: { password1: string; password2: string }) => {
         setIsLoading(true)

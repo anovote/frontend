@@ -32,12 +32,7 @@ export default function EligibleVotersList({
         onChange(voters)
     }, [voters])
 
-    const { alertStates, dispatchAlert } = useAlert([
-        {
-            message: '',
-            level: undefined,
-        },
-    ])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const fileParser = new FileParser()
 

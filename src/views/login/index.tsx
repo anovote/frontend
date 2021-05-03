@@ -27,7 +27,7 @@ export default function LoginView(): React.ReactElement {
     const { isLoggedIn } = useAppState()
     const [isLoading, setIsLoading] = useState(false)
 
-    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const formValidated = async (form: AuthenticationDetails) => {
         try {

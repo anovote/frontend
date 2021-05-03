@@ -20,7 +20,7 @@ export default function ElectionsView(): React.ReactElement {
     const [inProgress, setInProgress] = useState([] as ElectionEntity[])
     const [finished, setFinished] = useState([] as ElectionEntity[])
 
-    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
 
     useEffect(() => {
         new ElectionService(BackendAPI)

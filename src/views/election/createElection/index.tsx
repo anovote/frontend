@@ -47,7 +47,7 @@ export default function CreateElectionView({
         initialElection ? prepareElection(initialElection) : ({} as IElection),
     )
 
-    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const history = useHistory<AlertState>()
     const [form] = Form.useForm<IElection>()

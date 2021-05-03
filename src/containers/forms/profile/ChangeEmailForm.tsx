@@ -15,7 +15,7 @@ export default function ChangeEmailForm({ initialValue }: { initialValue: IElect
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const [isLoading, setIsLoading] = useState(false)
 
-    const { alertStates, dispatchAlert } = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const submitForm = async ({ email }: { email: string }) => {
         setIsLoading(true)
