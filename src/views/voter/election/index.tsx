@@ -10,6 +10,7 @@ import { LogoutButton } from 'containers/modal/LogoutButton'
 import { BackendAPI } from 'core/api'
 import { Events } from 'core/events'
 import { AlertState } from 'core/hooks/useAlert'
+import useMessage from 'core/hooks/useMessage'
 import { useSocket } from 'core/hooks/useSocket'
 import { getPublicRoute } from 'core/routes/siteRoutes'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
@@ -32,6 +33,7 @@ export default function VoterElectionView(): ReactElement {
     const history = useHistory<AlertState>()
     const appStateDispatch = useAppStateDispatcher()
     const [isLoggingOut, setIsLoggingOut] = useState(false)
+    const { loading, info } = useMessage()
     const [t] = useTranslation('common')
 
     useEffect(() => {
@@ -91,15 +93,16 @@ export default function VoterElectionView(): ReactElement {
 
     useEffect(() => {
         if (electionState.displayAction === DisplayAction.Closed) {
-            setIsLoggingOut(true)
-            appStateDispatch.setLogoutState()
-            setTimeout(() => {
-                history.push(getPublicRoute().joinElection, {
-                    message: t('You were logged out'),
-                    description: t('This happen because the election was closed'),
-                    level: 'info',
+            loading({ content: t('common:You are being logged out'), key: 'voterLogout', duration: 5 })
+                .then(() => {
+                    setIsLoggingOut(true)
+                    appStateDispatch.setLogoutState()
+                    info({ content: t('common:You are now logged out'), key: 'voterLogout' })
+                    history.push(getPublicRoute().joinElection)
                 })
-            }, 5000)
+                .then(() => {
+                    info({ content: t('This happen because the election was closed') })
+                })
         }
     }, [electionState])
 
