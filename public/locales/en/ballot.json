@@ -11,5 +11,6 @@
     "Select multiple": "Select multiple",
     "Select one": "Select one",
     "Select ranked": "Select ranked",
-    "Select the type of ballot that you want the voters to vote on": "Select the type of ballot that you want the voters to vote on"
+    "Select the type of ballot that you want the voters to vote on": "Select the type of ballot that you want the voters to vote on",
+    "Ballot with id is done": "Ballot with id {{id}} is done"
 }
