@@ -92,7 +92,12 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
             <Link to={elections.view}>
                 <AnovoteLogo id="logo" />
             </Link>
-            <Menu className="sidebar-menu" mode="vertical" defaultSelectedKeys={[history.location.pathname]}>
+            <Menu
+                className="sidebar-menu"
+                mode="vertical"
+                defaultSelectedKeys={[history.location.pathname]}
+                selectedKeys={[history.location.pathname]}
+            >
                 <LargeIconButton
                     text={t('Create election')}
                     onClick={createElection}
