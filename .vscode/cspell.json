@@ -33,8 +33,10 @@
         "map",
         "Marit",
         "middlewares",
+        "mikepenz",
         "mixins",
         "Nilsen",
+        "Nordmann",
         "onstatechange",
         "onupdatefound",
         "papaparse",
@@ -67,13 +69,13 @@
         "TTFB",
         "typechecking",
         "typeorm",
+        "Uncategorized",
         "unhashed",
         "unmount",
         "USEPOLLING",
         "varchar",
         "wojtekmaj",
-        "zwaldowski",
-        "Nordmann"
+        "zwaldowski"
     ],
     "flagWords": [
         "hte"

@@ -1,27 +1,41 @@
 import { Alert } from 'antd'
-import { AlertState, useAlert } from 'core/hooks/useAlert'
+import { AlertState } from 'core/hooks/useAlert'
 import React, { ReactElement } from 'react'
 
 export interface AlertListProps {
+    /** The alerts to generate the alert list from */
     alerts: AlertState[]
+    /**
+     * The onRemove action to fire after close on the alert.
+     * Usually combined with the useAlert hook 'remove'
+     */
+    onRemove?: (index: number) => void
 }
 
-//todo #229 when an alert is closed it should remove itself from the alerts array. This can be done with the `afterClose` prop on the alert component
-export const AlertList = ({ alerts }: AlertListProps): ReactElement => {
-    const { dispatchAlert } = useAlert(alerts)
+/**
+ * Returns a list of alerts generated from the alerts prop. The list can be populated to dispatch an remove action if wanted.
+ * If no onRemove function is supplied, the closeable prop for the alert will not be shown, and making it not possible for the user to choose
+ * @param {alerts, onRemove} the possible props for the component
+ * @returns
+ */
+export const AlertList = ({ alerts, onRemove }: AlertListProps): ReactElement => {
     return (
         <div>
             {alerts.map(function (props, index) {
                 return (
-                    <Alert
-                        key={index}
-                        message={props.message}
-                        description={props.description}
-                        type={props.level}
-                        showIcon
-                        closable
-                        afterClose={() => dispatchAlert({ type: 'remove', index })}
-                    />
+                    props.message && (
+                        <Alert
+                            key={index}
+                            message={props.message}
+                            description={props.description}
+                            type={props.level}
+                            showIcon
+                            closable={!!onRemove}
+                            afterClose={() => {
+                                if (onRemove) onRemove(index)
+                            }}
+                        />
+                    )
                 )
             })}
         </div>

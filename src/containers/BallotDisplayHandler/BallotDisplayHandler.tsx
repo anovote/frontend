@@ -6,6 +6,7 @@ import { AlertList } from 'components/alert/AlertList'
 import BallotTypeDisplay from 'components/BallotTypeDisplay/BallotTypeDisplay'
 import CandidateList from 'components/CandidateList/CandidateList'
 import { BackendAPI } from 'core/api'
+import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
 import { useAlert } from 'core/hooks/useAlert'
 import { useSocket } from 'core/hooks/useSocket'
@@ -13,11 +14,12 @@ import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { ICandidate, ICandidateEntity } from 'core/models/ballot/ICandidate'
 import { reducer } from 'core/reducers/ballotReducer'
-import React, { ReactElement, useEffect, useReducer, useState } from 'react'
-import { useTranslation } from 'react-i18next'
 import { AuthenticationService } from 'core/service/authentication/AuthenticationService'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
+import { WebsocketEvent } from 'core/socket/EventHandler'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 const initialState = {
     selected: 0,
@@ -30,10 +32,10 @@ const initialState = {
 export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity }): ReactElement {
     const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
-    const [t] = useTranslation(['common', 'ballot'])
+    const [t] = useTranslation(['common', 'ballot', 'error'])
     const [socket] = useSocket()
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const [ballotState, setBallotState] = useState<IBallotEntity>(ballot)
 
@@ -117,11 +119,25 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                             voter: voter?.id,
                             submitted: new Date(),
                         },
-                        () => {
-                            console.log('Callback handled here')
-                        },
+                        WebsocketEvent({
+                            dataHandler: () => {
+                                dispatchAlert({
+                                    type: 'add',
+                                    level: 'success',
+                                    message: t('common:Your vote was submitted'),
+                                })
+                            },
+                            errorHandler: (error) => {
+                                const errorCodeResolver = new ErrorCodeResolver(t)
+                                dispatchAlert({
+                                    type: 'add',
+                                    level: 'error',
+                                    message: t('error:Unable to submit vote'),
+                                    description: errorCodeResolver.resolve(error.code),
+                                })
+                            },
+                        }),
                     )
-                    dispatchAlert({ type: 'add', level: 'success', message: t('common:Your vote was submitted') })
                 }
                 break
             }
@@ -188,7 +204,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                 {t('common:Submit vote')}
             </Button>
             <div className="alert-field">
-                <AlertList alerts={alertStates} />
+                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             </div>
         </div>
     )

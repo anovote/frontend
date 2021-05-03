@@ -37,8 +37,10 @@ export const verifyConnectErrorEvent = (
 ): EventExecutor<undefined> => {
     const connectionFailedMessage: IIconMessage = {
         label: t('error:Voter verification failed'),
-        alertMessage: t('common:Unexpected error'),
-        alertLevel: 'error',
+        alert: {
+            level: 'error',
+            message: t('common:Unexpected error'),
+        },
     }
     return WebsocketEvent({
         dataHandler: () => {
@@ -56,8 +58,10 @@ export const joinVerificationEvent = (
 ): EventExecutor<undefined> => {
     const verificationSuccessMessage: IIconMessage = {
         label: t('voter:Voter verification succeeded'),
-        alertMessage: t('voter:This browser tab can ble closed'),
-        alertLevel: 'success',
+        alert: {
+            message: t('voter:This browser tab can ble closed'),
+            level: 'success',
+        },
     }
     return WebsocketEvent({
         dataHandler: () => {
@@ -90,7 +94,10 @@ export const verifyVoterIntegrityAck = (
             const label = errorCodeResolver.resolve(code)
             setStatusState({
                 label,
-                alertLevel: 'error',
+                alert: {
+                    level: 'error',
+                    message: t('common:Please try again later'),
+                },
             })
         },
     })
@@ -113,7 +120,10 @@ export const verifyUpgradeToJoinAck = (
             // Display upgrade notice
             setStatusState({
                 label: t('error:Upgrading verification'),
-                alertMessage: t('voter:Please do not close this window'),
+                alert: {
+                    message: t('voter:Please do not close this window'),
+                    level: 'warning',
+                },
             })
 
             socket.auth.authenticated = true
@@ -142,7 +152,10 @@ export const verifyUpgradeToJoinAck = (
 
             setStatusState({
                 label,
-                alertLevel: 'error',
+                alert: {
+                    message: t('common:Please try again later'),
+                    level: 'error',
+                },
             })
         },
     })

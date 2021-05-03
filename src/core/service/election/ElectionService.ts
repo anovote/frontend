@@ -27,21 +27,22 @@ export class ElectionService {
         isLocked,
         isAutomatic,
         ballots,
-    }: IElection): Promise<void> {
+    }: IElection): Promise<IElectionEntity> {
         try {
-            await this.httpClient.post(this.electionRoute.create, {
-                title,
-                description,
-                openDate,
-                closeDate,
-                eligibleVoters,
-                password,
-                status,
-                isLocked,
-                isAutomatic,
-                ballots,
-            })
-            // TODO handle what to do with the response
+            return (
+                await this.httpClient.post(this.electionRoute.create, {
+                    title,
+                    description,
+                    openDate,
+                    closeDate,
+                    eligibleVoters,
+                    password,
+                    status,
+                    isLocked,
+                    isAutomatic,
+                    ballots,
+                })
+            ).data
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
@@ -99,9 +100,11 @@ export class ElectionService {
 
     public async updateElection(election: IElectionEntity): Promise<IElectionEntity> {
         try {
-            return (
-                await this.httpClient.put<IElectionEntity>(this.electionRoute.byId(election.id).update, { election })
-            ).data
+            const response = await this.httpClient.put<IElectionEntity>(this.electionRoute.byId(election.id).update, {
+                election,
+            })
+            const updatedElection = response.data
+            return this.checkAndSetDates(updatedElection)
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error

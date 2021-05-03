@@ -34,8 +34,10 @@ export default function VerifyVoterView(): ReactElement {
     const codeToVerify = query.get('code')
     const verificationMessage: IIconMessage = {
         label: t('voter:Verifying code'),
-        alertMessage: t('voter:Please do not close this window'),
-        alertLevel: 'warning',
+        alert: {
+            level: 'warning',
+            message: t('voter:Please do not close this window'),
+        },
     }
     const verificationCodeMissingMessage: IIconMessage = {
         label: t('error:Verification code is missing'),
@@ -85,8 +87,7 @@ export default function VerifyVoterView(): ReactElement {
                     <VoterContent>
                         <IconMessage
                             label={statusState.label}
-                            alertLevel={statusState.alertLevel}
-                            alertMessage={statusState.alertMessage}
+                            alert={{ message: statusState.alert?.message, level: statusState.alert?.level }}
                             icon={statusState.icon}
                         />
                     </VoterContent>
