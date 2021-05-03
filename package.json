@@ -55,7 +55,7 @@
         "build": "react-scripts build",
         "test": "react-scripts test --transformIgnorePatterns",
         "eject": "react-scripts eject",
-        "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}' --quiet --fix",
+        "lint": "eslint 'src/**/*.{js,ts,tsx,jsx}'",
         "spellCheck": "cspell --config ./.vscode/cspell.json --relative -u '/**/*.{tsx,jsx,ts,json,md}'"
     },
     "eslintConfig": {
