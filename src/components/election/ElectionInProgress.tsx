@@ -117,7 +117,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         if (ballot && electionId) {
             socket.emit(
                 Events.client.ballot.push,
-                { ballotId: ballot.id + 50, electionId: Number.parseInt(electionId) },
+                { ballotId: ballot.id, electionId: Number.parseInt(electionId) },
                 pushBallotAck(setBallotState, dispatchAlert, t),
             )
         }
