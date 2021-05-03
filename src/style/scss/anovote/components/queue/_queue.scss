@@ -7,38 +7,32 @@ $queue-card-active-width: 56 * $bu;
 $card-z-index: 1;
 $tail-z-index: -4;
 
+#push-ballot-button {
+    transform-origin: 50% 0;
+    transition: all 0.2s;
+    font-size: 0.9rem;
+}
 .ballots-queue {
     width: 100%;
-    max-width: 90rem;
-    min-width: 50rem;
-    padding: 3rem;
-    .queue {
-        padding: 0 3rem;
-    }
-
-    .ant-steps-label-vertical {
-        .ant-steps-item {
-            //flex: 1 1 auto;
-            //width: 0px;
-            .ant-steps-item-container {
-                width: 10px;
-
-                span.ant-steps-icon {
-                    top: 0;
-                }
-            }
-        }
+    .ant-steps
+        .ant-steps-item:not(.ant-steps-item-active):not(.ant-steps-item-process)
+        > .ant-steps-item-container[role='button']:hover
+        .ant-steps-item-icon
+        .ant-steps-icon {
+        color: $main-contrasting;
     }
 
     .ant-steps-vertical {
+        display: grid;
+        grid-template-columns: 100%;
+        row-gap: 1rem;
+        column-gap: 1.5rem;
         .ant-steps-item-container {
             @include is-rounded-large();
             @include has-shadow();
             @include is-flex-row();
             background: $white;
             min-height: $queue-card-height;
-            width: 80%;
-            margin: 1rem 0;
             z-index: $card-z-index;
             padding: 0.5rem 1rem;
             position: relative;
@@ -53,36 +47,47 @@ $tail-z-index: -4;
         }
 
         .ant-steps-item-icon {
-            margin: 0.5rem 1rem 0 0.2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             transition: all ease-out 0.1s;
+        }
 
-            span {
-                top: 0;
-            }
+        .ant-steps-item + #push-ballot-button {
+            transform: scale(0);
+            height: 1px;
+            opacity: 0;
+        }
+        .ant-steps-item-active + #push-ballot-button {
+            transform: scale(1);
+            height: min-content;
+            opacity: 1;
         }
 
         .ant-steps-item-content {
             transition: all 0.3s;
             display: flex;
-            flex: 1 1 0px;
             justify-content: space-between;
             width: 100%;
 
+            @include for-tablet-portrait-down {
+                .stats-card {
+                    flex-direction: column;
+                    .stat {
+                        .stat-title,
+                        .stat-value {
+                            padding: 0;
+                        }
+                    }
+                }
+            }
+
             .ant-steps-item-title {
-                flex: 1 1 10rem;
-                width: 0px;
                 @include is-flex-column();
                 justify-content: space-between;
 
                 .ant-typography {
-                    flex-grow: 1;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     white-space: nowrap;
-                    margin: 0.5rem 0.5rem 0 0;
+                    margin: 0 0.5rem 0 0;
                 }
 
                 .ant-steps-item-subtitle {
@@ -102,7 +107,7 @@ $tail-z-index: -4;
                         transition: background ease 0.2s;
                     }
                     .queue-additional {
-                        overflow: hidden;
+                        //overflow: hidden;
                         text-overflow: ellipsis;
                         white-space: nowrap;
                     }
@@ -125,9 +130,6 @@ $tail-z-index: -4;
                         margin: 0 0.2rem;
                     }
                 }
-                #push-ballot-button {
-                    display: none;
-                }
             }
         }
 
@@ -135,14 +137,10 @@ $tail-z-index: -4;
         .ant-steps-item-active {
             .ant-steps-item-container {
                 background: $main-contrasting;
-                transform: scale(1.08);
+                transform: scale(1.05);
 
                 .ant-steps-item-icon {
-                    background: $white;
-                    border: 0;
-                    span {
-                        color: $main-contrasting;
-                    }
+                    transform: scale(1.08);
                 }
 
                 .ant-steps-item-content {
@@ -161,15 +159,6 @@ $tail-z-index: -4;
                         .stats-card {
                             background-color: $white;
                         }
-                        #push-ballot-button {
-                            display: flex;
-                            position: absolute;
-                            top: 0.5rem;
-                            right: -9rem;
-                            width: 7.5rem;
-                            height: 7.5rem;
-                            font-size: 0.9rem;
-                        }
                     }
                 }
             }
@@ -180,9 +169,9 @@ $tail-z-index: -4;
             // colors
             .ant-steps-item-tail::after,
             .ant-steps-item-icon,
-            .ant-steps-item-icon .ant-steps-icon .anticon-check {
-                border-color: $main-contrasting;
-                color: $main-contrasting;
+            .ant-steps-item-icon .ant-steps-icon {
+                color: $success-contrasting;
+                border-color: $success-contrasting;
             }
         }
     }

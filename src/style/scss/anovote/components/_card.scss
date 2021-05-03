@@ -1,8 +1,14 @@
 .info-card,
 .card-list {
-    min-width: 26rem;
-    width: max-content;
-
+    min-width: auto;
+    width: 100%;
+    @include for-desktop-up {
+        min-width: 22rem;
+        width: min-content;
+    }
+    @include for-tablet-landscape-up {
+        max-width: $info-card-max-width;
+    }
     .ant-card-body {
         padding: $bu;
     }
@@ -14,8 +20,6 @@
 }
 .card-list-ant-component {
     border: none;
-    // add padding to bottom as we don't use a footer
-
     .ant-list-header,
     .ant-list-item {
         border-bottom: none !important;

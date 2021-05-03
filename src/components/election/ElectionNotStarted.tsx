@@ -1,5 +1,5 @@
-import { DeleteOutlined, DeleteTwoTone, EditOutlined, PlayCircleFilled } from '@ant-design/icons'
-import { Col, List, Popconfirm, PopconfirmProps, Row, Space } from 'antd'
+import { DeleteOutlined, DeleteTwoTone, EditOutlined, ForwardFilled } from '@ant-design/icons'
+import { List, Popconfirm, PopconfirmProps, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import BallotPreviewList from 'components/previewList/BallotPreviewList'
@@ -10,6 +10,7 @@ import { ElectionStatus } from 'core/models/election/ElectionStatus'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
 import React, { ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
+import ElectionSplitView from './ElectionSplitView'
 
 export const ElectionNotStarted = ({
     election,
@@ -60,51 +61,46 @@ export const ElectionNotStarted = ({
 
     return (
         <>
-            <Row gutter={[32, 16]} align="top">
-                <Col span={12}>
-                    <Title>{election.title}</Title>
-                    <Row justify="space-between">
-                        <Col>
-                            <Space>
+            <ElectionSplitView
+                election={election}
+                left={
+                    <>
+                        <div>{election.description}</div>
+                        <div className="mb-10">
+                            <Space wrap={true} direction={'horizontal'}>
                                 <IconButton
-                                    icon={<PlayCircleFilled />}
+                                    icon={<ForwardFilled />}
                                     text="Begin"
                                     onClick={changeElectionToStarted}
-                                    color="green"
+                                    color="success"
                                 />
                                 <Popconfirm {...popConfirmProps}>
-                                    <IconButton icon={<DeleteOutlined />} text={t('form:Delete')} color="red" />
+                                    <IconButton icon={<DeleteOutlined />} text={t('form:Delete')} color="danger" />
                                 </Popconfirm>
+                                <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
                             </Space>
-                        </Col>
-                        <Col>
-                            <IconButton
-                                icon={<EditOutlined />}
-                                text={t('election:Edit election')}
-                                onClick={editElection}
-                            />
-                        </Col>
-                    </Row>
-                    <Space align="start" wrap={true}>
+                        </div>
                         <ElectionStatusCard {...{ election }} />
-                        <div>{election.description}</div>
-                    </Space>
-                    <Title level={2}>{t('common:Eligible voters')}</Title>
-                    <List
-                        id="voters-list"
-                        dataSource={election.eligibleVoters}
-                        renderItem={(item) => <List.Item>{item.identification}</List.Item>}
-                    />
-                </Col>
-                <Col span={12}>
-                    <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballots.length > 0 ? (
-                        <BallotPreviewList initialElection={election} onChange={onChangeHandler} />
-                    ) : (
-                        <div>{t('common:no-ballots')}</div>
-                    )}
-                </Col>
-            </Row>
+                        <Title level={2}>{t('common:Eligible voters')}</Title>
+                        <List
+                            id="voters-list"
+                            locale={{ emptyText: t('election:No eligible voters') }}
+                            dataSource={election.eligibleVoters}
+                            renderItem={(item) => <List.Item>{item.identification}</List.Item>}
+                        />
+                    </>
+                }
+                right={
+                    <>
+                        <Title level={2}>{t('common:Ballots')}</Title>
+                        {ballots.length > 0 ? (
+                            <BallotPreviewList initialElection={election} onChange={onChangeHandler} />
+                        ) : (
+                            <span>{t('common:no-ballots')}</span>
+                        )}
+                    </>
+                }
+            />
         </>
     )
 }

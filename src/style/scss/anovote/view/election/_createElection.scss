@@ -1,38 +1,20 @@
-.description-form {
-    min-width: 350px;
-    padding: 2rem 2rem 2rem;
-    @include is-rounded;
-    @include has-shadow;
-}
+.election-form-schedule {
+    @include is-flex-column;
 
-.alert-field {
-    min-height: 3rem;
-    margin: 0 0 1rem 0;
-}
-
-.schedule-form {
-    min-width: 350px;
-    padding: 2rem 2rem 2rem;
-    @include is-rounded;
-    @include has-shadow;
-
-    .error-field {
-        min-height: 3rem;
-        margin: 0 0 1rem 0;
+    @include for-tablet-landscape-up {
+        @include is-flex-row;
+        > * {
+            width: 50%;
+            &:not(:last-child) {
+                margin-right: 1rem;
+            }
+        }
     }
-}
 
-.create-ballot-button {
-    margin: 0 auto;
-    display: block;
-}
-
-.ballot-section {
-    h2 {
-        margin-top: 0.7rem;
+    > * {
+        width: 100%;
+        .ant-picker {
+            width: 100%;
+        }
     }
-}
-
-.password-input {
-    width: 100%;
 }

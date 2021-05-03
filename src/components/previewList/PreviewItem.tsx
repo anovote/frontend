@@ -21,10 +21,10 @@ export default function PreviewItem({
     }
     return (
         <div className="preview-item">
-            {children}
+            <span className="preview-item-text">{children}</span>
             <Space direction={'horizontal'}>
-                <Button type="text" icon={<EditFilled />} onClick={onEditHandler}></Button>
-                <Button type="text" icon={<CloseOutlined />} onClick={onDeleteHandler}></Button>
+                <Button type="text" icon={<EditFilled />} onClick={onEditHandler} className="edit"></Button>
+                <Button type="text" icon={<CloseOutlined />} onClick={onDeleteHandler} className="delete"></Button>
             </Space>
         </div>
     )

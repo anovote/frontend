@@ -34,8 +34,12 @@
     "This election have a closing date": "This election have a closing date",
     "Time elapsed": "Time elapsed",
     "To be held": "To be held",
-    "Trying to display election": "Fetching election",
     "Waiting for": "Waiting for {{what}}",
     "create-election": "Create Election",
-    "update-election": "Update Election"
+    "update-election": "Update Election",
+    "No eligible voters": "No eligible voters",
+    "No elections to be held": "No elections to be held",
+    "No elections in progress": "No elections in progress",
+    "No elections finished": "No finished elections",
+    "Trying to display election": "Fetching election"
 }

@@ -1,6 +1,7 @@
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import React from 'react'
+import { MemoryRouter } from 'react-router-dom'
 import { mockMatchMedia } from '../../mocks/mockMatchMedia'
 import RegisterView from './index'
 
@@ -10,7 +11,11 @@ beforeAll(() => {
 
 it('Displays forms validation on empty fields after register is clicked', async () => {
     await act(async () => {
-        render(<RegisterView />)
+        render(
+            <MemoryRouter>
+                <RegisterView />
+            </MemoryRouter>,
+        )
         const button = await screen.findByText('form:Register')
         userEvent.click(button)
     })
@@ -31,12 +36,20 @@ it('Displays forms validation on empty fields after register is clicked', async 
 })
 
 it('Does not display form validation alert message before clicking the register button', async () => {
-    render(<RegisterView />)
+    render(
+        <MemoryRouter>
+            <RegisterView />
+        </MemoryRouter>,
+    )
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
 })
 
 it('Should display error if password does not match criteria', async () => {
-    render(<RegisterView />)
+    render(
+        <MemoryRouter>
+            <RegisterView />
+        </MemoryRouter>,
+    )
     const passwordInput = screen.getByLabelText('common:Password')
     fireEvent.change(passwordInput, { target: { value: 'a' } })
 
@@ -51,7 +64,11 @@ it('Should display error if password does not match criteria', async () => {
 })
 
 it('Should not display error if password does match criteria', async () => {
-    render(<RegisterView />)
+    render(
+        <MemoryRouter>
+            <RegisterView />
+        </MemoryRouter>,
+    )
     const passwordInput = screen.getByLabelText('common:Password')
     fireEvent.change(passwordInput, { target: { value: 'aBc1!24f' } })
 
@@ -64,7 +81,11 @@ it('Should not display error if password does match criteria', async () => {
 })
 
 it('should show error if retype password does not match password', async () => {
-    render(<RegisterView />)
+    render(
+        <MemoryRouter>
+            <RegisterView />
+        </MemoryRouter>,
+    )
     const passwordInput = screen.getByLabelText('common:Password')
     const rePasswordInput = screen.getByLabelText('form:Please rewrite password')
     fireEvent.change(passwordInput, { target: { value: 'aBc1!24f' } })

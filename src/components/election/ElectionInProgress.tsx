@@ -1,8 +1,6 @@
-import { Col, Divider, Modal, Popconfirm, Row, Space } from 'antd'
+import { Modal, Popconfirm } from 'antd'
 import Title from 'antd/lib/typography/Title'
-import { AlertList } from 'components/alert/AlertList'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
-import ElectionStatusLabel from 'components/ElectionStatusLabel'
 import CloseElectionIcon from 'components/icons/CloseElectionIcon'
 import BallotsQueue from 'components/queue/BallotsQueue'
 import { ElectionParams } from 'components/queue/ElectionParams'
@@ -10,7 +8,7 @@ import IconButton from 'containers/button/IconButton'
 import BallotModal from 'containers/modal/BallotModal'
 import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
-import { AlertAction, useAlert } from 'core/hooks/useAlert'
+import useMessage, { Message } from 'core/hooks/useMessage'
 import { useSocket } from 'core/hooks/useSocket'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
@@ -20,11 +18,12 @@ import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
-import React, { Dispatch, ReactElement, useEffect, useReducer, useState } from 'react'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { TFunction, useTranslation } from 'react-i18next'
 import { useParams } from 'react-router-dom'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
+import ElectionSplitView from './ElectionSplitView'
 const authEvent = (socket: AnoSocket, electionId: number) => {
     return WebsocketEvent({
         dataHandler: () => {
@@ -44,7 +43,7 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
  */
 const pushBallotAck = (
     setBallotState: React.Dispatch<ElectionBallotStateAction>,
-    dispatchAlert: Dispatch<AlertAction>,
+    dispatchErrorMessage: Message,
     t: TFunction<string[]>,
 ) => {
     return WebsocketEvent<{ ballot: IBallotEntity }>({
@@ -53,11 +52,8 @@ const pushBallotAck = (
         },
         errorHandler: (error) => {
             const errorCodeResolver = new ErrorCodeResolver(t)
-            dispatchAlert({
-                type: 'add',
-                level: 'error',
-                message: t('error:Unable to push ballot'),
-                description: errorCodeResolver.resolve(error.code),
+            dispatchErrorMessage({ content: t('error:Unable to push ballot'), key: 'pushBallotAck' }).then(() => {
+                dispatchErrorMessage({ content: errorCodeResolver.resolve(error.code), key: 'pushBallotAck' })
             })
         },
     })
@@ -72,9 +68,9 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         activeBallotIndex: 0,
     })
     const [forceEndVisible, setForceEndVisible] = useState(false)
-    const { alertStates, dispatchAlert } = useAlert()
 
     const { electionId } = useParams<ElectionParams>()
+    const { error } = useMessage()
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -118,7 +114,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
             socket.emit(
                 Events.client.ballot.push,
                 { ballotId: ballot.id, electionId: Number.parseInt(electionId) },
-                pushBallotAck(setBallotState, dispatchAlert, t),
+                pushBallotAck(setBallotState, error, t),
             )
         }
     }
@@ -148,11 +144,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    dispatchAlert({
-                        type: 'add',
-                        level: 'error',
-                        message: t('error:Something happened when trying to end the election'),
-                    })
+                    error({ content: t('error:Something happened when trying to end the election') })
                 },
             }),
         )
@@ -167,11 +159,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    dispatchAlert({
-                        type: 'add',
-                        level: 'error',
-                        message: t('error:Something happened when trying to force end the election'),
-                    })
+                    error({ content: t('error:Something happened when trying to force end the election') })
                 },
             }),
         )
@@ -195,68 +183,57 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:If you proceed to end this election')}</p>
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
-            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
-            <Row justify="space-between" align="middle">
-                <Col>
-                    <Title level={1}>{election.title}</Title>
-                </Col>
-                <Col>
-                    <ElectionStatusLabel status={election.status} />
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Popconfirm
-                        placement="bottom"
-                        title={`${t('form:Are you sure')}?`}
-                        onConfirm={() => endElectionOnConfirm(election.id)}
-                        okText={t('common:Yes')}
-                        cancelText={t('common:No')}
-                    >
-                        <IconButton
-                            icon={<CloseElectionIcon />}
-                            text={`${t('common:End')} ${t('election:Election')}`}
-                            color="red"
-                        />
-                    </Popconfirm>
-                </Col>
-            </Row>
-            <Divider />
-            <Row wrap={true} justify="start" gutter={[64, 32]}>
-                <Col flex="none">
-                    <Space size={16} direction="vertical">
+            <ElectionSplitView
+                election={election}
+                left={
+                    <>
+                        <Popconfirm
+                            placement="bottom"
+                            title={`${t('form:Are you sure')}?`}
+                            onConfirm={() => endElectionOnConfirm(election.id)}
+                            okText={t('common:Yes')}
+                            cancelText={t('common:No')}
+                        >
+                            <IconButton
+                                icon={<CloseElectionIcon />}
+                                text={`${t('common:End')} ${t('election:Election')}`}
+                                color="danger"
+                            />
+                        </Popconfirm>
                         <ElectionStatusCard election={election} />
                         <ConnectedVoters />
-                    </Space>
-                </Col>
-                <Col flex="auto">
-                    <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballotState.ballotWithStats.length > 0 ? (
-                        <>
-                            <BallotsQueue
-                                dataSource={ballotState.ballotWithStats}
-                                expandBallot={showModal}
-                                doPushBallot={doPushBallot}
-                            />
-                            <BallotModal
-                                showModal={modal}
-                                ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
-                                close={closeModal}
-                                controls={{
-                                    next: () => {
-                                        setBallotState({ type: 'nextBallot' })
-                                    },
-                                    previous: () => {
-                                        setBallotState({ type: 'previousBallot' })
-                                    },
-                                }}
-                            />
-                        </>
-                    ) : (
-                        <div>No ballots! should this even be allowed</div>
-                    )}
-                </Col>
-            </Row>
+                    </>
+                }
+                right={
+                    <>
+                        <Title level={2}>{t('common:Ballots')}</Title>
+                        {ballotState.ballotWithStats.length > 0 ? (
+                            <>
+                                <BallotsQueue
+                                    dataSource={ballotState.ballotWithStats}
+                                    expandBallot={showModal}
+                                    doPushBallot={doPushBallot}
+                                />
+                                <BallotModal
+                                    showModal={modal}
+                                    ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
+                                    close={closeModal}
+                                    controls={{
+                                        next: () => {
+                                            setBallotState({ type: 'nextBallot' })
+                                        },
+                                        previous: () => {
+                                            setBallotState({ type: 'previousBallot' })
+                                        },
+                                    }}
+                                />
+                            </>
+                        ) : (
+                            <div>No ballots! should this even be allowed</div>
+                        )}
+                    </>
+                }
+            />
         </>
     )
 }

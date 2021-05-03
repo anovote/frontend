@@ -1,6 +1,7 @@
 .home {
-    @import './header';
     @import './content';
     @import './footer';
     @import './about';
 }
+@import './header';
+@import './responsiveMenu';

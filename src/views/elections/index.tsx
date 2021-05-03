@@ -1,4 +1,3 @@
-import { Space } from 'antd'
 import Item from 'antd/lib/list/Item'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
@@ -62,7 +61,7 @@ export default function ElectionsView(): React.ReactElement {
         <>
             <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <Title>{t('common:Elections')}</Title>
-            <Space align="start" wrap={true}>
+            <div className="elections-card-view">
                 <CardList
                     listHeader={
                         <ElectionHeader
@@ -74,6 +73,7 @@ export default function ElectionsView(): React.ReactElement {
                     list={upcoming}
                     renderItem={(item) => render(item)}
                     classNames="election-card"
+                    emptyText={t('election:No elections to be held')}
                 ></CardList>
                 <CardList
                     listHeader={
@@ -86,6 +86,7 @@ export default function ElectionsView(): React.ReactElement {
                     renderItem={(item) => render(item)}
                     list={inProgress}
                     classNames="election-card"
+                    emptyText={t('election:No elections in progress')}
                 ></CardList>
                 <CardList
                     listHeader={
@@ -98,8 +99,9 @@ export default function ElectionsView(): React.ReactElement {
                     list={finished}
                     renderItem={(item) => render(item)}
                     classNames="election-card"
+                    emptyText={t('election:No elections finished')}
                 ></CardList>
-            </Space>
+            </div>
         </>
     )
 }

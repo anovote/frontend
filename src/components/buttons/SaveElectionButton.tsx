@@ -15,14 +15,7 @@ export default function SaveElectionButton({
     return (
         <div>
             <Form.Item>
-                <Button
-                    type="primary"
-                    shape="round"
-                    icon={<PlusOutlined />}
-                    size="large"
-                    htmlType="submit"
-                    loading={loading}
-                >
+                <Button type="primary" icon={<PlusOutlined />} htmlType="submit" loading={loading}>
                     {!hasInitial ? t('election:create-election') : t('election:update-election')}
                 </Button>
             </Form.Item>

@@ -1,5 +1,4 @@
 import { Card } from 'antd'
-import Title from 'antd/lib/typography/Title'
 import { Events } from 'core/events'
 import { useSocket } from 'core/hooks/useSocket'
 import React, { ReactElement, useEffect, useState } from 'react'
@@ -26,7 +25,10 @@ export function ConnectedVoters(): ReactElement {
     }, [])
 
     return (
-        <Card className={'info-card'} title={<Title level={2}>{t('election:Connected voters')}</Title>}>
+        <Card
+            className={'info-card'}
+            title={<span className="text-paragraph-title">{t('election:Connected voters')}</span>}
+        >
             <div className="is-flex-column has-content-center-center">
                 <span className={'text-large'}>{connectedVoters}</span>
             </div>

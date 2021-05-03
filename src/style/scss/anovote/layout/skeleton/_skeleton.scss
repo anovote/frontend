@@ -7,11 +7,15 @@
 .skeleton-layout {
     margin-left: $sidebar-width;
 
+    @include for-tablet-landscape-down {
+        margin-left: 0;
+    }
+
     .site-layout-background {
         overflow: initial;
     }
 
     .skeleton-admin {
-        padding: 5rem 3rem 2rem 3rem;
+        padding: 1.5rem;
     }
 }

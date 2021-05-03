@@ -1,6 +1,6 @@
 import { Button, Form, Input, Space } from 'antd'
-import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
+import StandardLayout from 'components/layout/Standard'
 import { BackendAPI } from 'core/api'
 import { CredentialError } from 'core/errors/CredentialsError'
 import { AlertState, useAlert } from 'core/hooks/useAlert'
@@ -48,48 +48,46 @@ export default function LoginView(): React.ReactElement {
     return isLoggedIn ? (
         <Redirect to="/admin" />
     ) : (
-        <Layout className="layout">
-            <Content className="is-fullscreen is-flex-column has-content-center-center">
-                <h1>{t('common:Welcome to Anovote')}</h1>
-                <div className="login-form">
-                    <div className="error-field">
-                        <AlertList
-                            alerts={alertStates}
-                            onRemove={(index) => dispatchAlert({ type: 'remove', index: index })}
-                        />
-                    </div>
-                    <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
-                        <Form.Item
-                            label={t('common:Email')}
-                            name="email"
-                            rules={[{ required: true, message: t('form:Please provide email') }]}
-                        >
-                            <Input placeholder={t('form:Example-email')} />
-                        </Form.Item>
-                        <Form.Item
-                            label={t('common:Password')}
-                            name="password"
-                            rules={[{ required: true, message: t('form:Please provide a password') }]}
-                        >
-                            <Input.Password placeholder={t('form:Your password')} />
-                        </Form.Item>
-                        <Form.Item>
-                            <Space>
-                                <Button type="primary" htmlType="submit" loading={isLoading}>
-                                    {t('common:Log In')}
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        history.push(getPublicRoute().register)
-                                    }}
-                                >
-                                    {t('form:Register')}
-                                </Button>
-                            </Space>
-                        </Form.Item>
-                    </Form>
+        <StandardLayout contentClassName="is-flex-column has-content-center-center">
+            <h1>{t('common:Welcome to Anovote')}</h1>
+            <div className="login-form">
+                <div className="error-field">
+                    <AlertList
+                        alerts={alertStates}
+                        onRemove={(index) => dispatchAlert({ type: 'remove', index: index })}
+                    />
                 </div>
-            </Content>
-        </Layout>
+                <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
+                    <Form.Item
+                        label={t('common:Email')}
+                        name="email"
+                        rules={[{ required: true, message: t('form:Please provide email') }]}
+                    >
+                        <Input placeholder={t('form:Example-email')} />
+                    </Form.Item>
+                    <Form.Item
+                        label={t('common:Password')}
+                        name="password"
+                        rules={[{ required: true, message: t('form:Please provide a password') }]}
+                    >
+                        <Input.Password placeholder={t('form:Your password')} />
+                    </Form.Item>
+                    <Form.Item>
+                        <Space>
+                            <Button type="primary" htmlType="submit" loading={isLoading}>
+                                {t('common:Log In')}
+                            </Button>
+                            <Button
+                                onClick={() => {
+                                    history.push(getPublicRoute().register)
+                                }}
+                            >
+                                {t('form:Register')}
+                            </Button>
+                        </Space>
+                    </Form.Item>
+                </Form>
+            </div>
+        </StandardLayout>
     )
 }

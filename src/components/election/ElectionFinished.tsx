@@ -1,5 +1,5 @@
 import { DeleteOutlined, DeleteTwoTone, OrderedListOutlined } from '@ant-design/icons'
-import { Col, List, Popconfirm, PopconfirmProps, Row, Space } from 'antd'
+import { List, Popconfirm, PopconfirmProps, Space } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
 import BallotsQueue from 'components/queue/BallotsQueue'
@@ -12,6 +12,7 @@ import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
 import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useLocation } from 'react-router'
+import ElectionSplitView from './ElectionSplitView'
 
 export const ElectionFinished = ({
     election,
@@ -71,60 +72,60 @@ export const ElectionFinished = ({
 
     return (
         <>
-            <Row gutter={[32, 16]} align="top">
-                <Col span={12}>
-                    <Title>{election.title}</Title>
-                    <Row justify="space-between">
-                        <Col>
-                            <Space>
-                                <Popconfirm {...popConfirmProps}>
-                                    <IconButton icon={<DeleteOutlined />} text="Delete" color="red" />
-                                </Popconfirm>
-                                <IconButton
-                                    icon={<OrderedListOutlined />}
-                                    text="Results"
-                                    onClick={gotoResultsPage}
-                                    color="green"
-                                />
-                            </Space>
-                        </Col>
-                        <Col></Col>
-                    </Row>
-                    <Space align="start" wrap={true}>
-                        <ElectionStatusCard {...{ election }} />
+            <ElectionSplitView
+                election={election}
+                left={
+                    <>
                         <div>{election.description}</div>
-                    </Space>
-                    <Title level={2}>{t('common:Eligible voters')}</Title>
-                    <List
-                        id="voters-list"
-                        dataSource={election.eligibleVoters}
-                        renderItem={(item) => <List.Item>{item.identification}</List.Item>}
-                    />
-                </Col>
-                <Col span={12}>
-                    <Title level={2}>{t('common:Ballots')}</Title>
-                    {ballotState.ballotWithStats.length > 0 ? (
-                        <>
-                            <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={doShowBallotModal} />
-                            <BallotModal
-                                showModal={showBallotModal}
-                                ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
-                                close={closeModal}
-                                controls={{
-                                    next: () => {
-                                        setBallotState({ type: 'nextBallot' })
-                                    },
-                                    previous: () => {
-                                        setBallotState({ type: 'previousBallot' })
-                                    },
-                                }}
+                        <Space>
+                            <Popconfirm {...popConfirmProps}>
+                                <IconButton icon={<DeleteOutlined />} text="Delete" color="danger" />
+                            </Popconfirm>
+                            <IconButton
+                                icon={<OrderedListOutlined />}
+                                text="Results"
+                                onClick={gotoResultsPage}
+                                color="success"
                             />
-                        </>
-                    ) : (
-                        <div>No ballots! should this even be allowed</div>
-                    )}
-                </Col>
-            </Row>
+                        </Space>
+                        <ElectionStatusCard {...{ election }} />
+                        <Title level={2}>{t('common:Eligible voters')}</Title>
+                        <List
+                            id="voters-list"
+                            dataSource={election.eligibleVoters}
+                            renderItem={(item) => <List.Item>{item.identification}</List.Item>}
+                        />
+                    </>
+                }
+                right={
+                    <>
+                        <Title level={2}>{t('common:Ballots')}</Title>
+                        {ballotState.ballotWithStats.length > 0 ? (
+                            <>
+                                <BallotsQueue
+                                    dataSource={ballotState.ballotWithStats}
+                                    expandBallot={doShowBallotModal}
+                                />
+                                <BallotModal
+                                    showModal={showBallotModal}
+                                    ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}
+                                    close={closeModal}
+                                    controls={{
+                                        next: () => {
+                                            setBallotState({ type: 'nextBallot' })
+                                        },
+                                        previous: () => {
+                                            setBallotState({ type: 'previousBallot' })
+                                        },
+                                    }}
+                                />
+                            </>
+                        ) : (
+                            <div>No ballots! should this even be allowed</div>
+                        )}
+                    </>
+                }
+            />
         </>
     )
 }

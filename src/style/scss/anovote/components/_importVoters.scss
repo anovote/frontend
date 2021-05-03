@@ -1,31 +1,38 @@
 .import-voters-menu {
-    @include has-shadow;
+    background-color: $white;
+    @include is-overlay($important: true);
+    text-align: center;
+    margin: 0;
+    min-width: 12rem;
+    min-height: 6rem;
     li.ant-menu-item.ant-menu-item-only-child {
-        margin-right: 0.5rem;
-        margin-left: 0.5rem;
-        @include is-rounded;
+        &:first-child {
+            border-radius: $normal-border-radius $normal-border-radius 0 0;
+        }
+        &:last-child {
+            border-radius: 0 0 $normal-border-radius $normal-border-radius;
+        }
+    }
+
+    .upload .ant-upload {
+        @include is-flex;
+        @include has-content-center-center;
+        width: 100%;
+        height: 100%;
+    }
+
+    .ant-menu-item {
+        margin: 0;
     }
 
     @include is-rounded;
-
-    .ant-menu-item-active {
-        background-color: $main-light;
-        span {
+    .ant-menu-item {
+        &:hover {
+            background-color: $main-light;
             color: white;
+            * {
+                color: white;
+            }
         }
     }
-}
-
-.upload-button {
-    span {
-        display: block;
-        padding: 0 4.1875rem;
-    }
-}
-
-span.manual-button {
-    display: block;
-    text-align: center;
-    padding: 0 4.1875rem;
-    width: 100%;
 }
