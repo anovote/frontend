@@ -32,12 +32,8 @@ export default function EligibleVotersList({
     useEffect(() => {
         onChange(voters)
     }, [voters])
-    const [alertStates, dispatchAlert] = useAlert([
-        {
-            message: '',
-            level: undefined,
-        },
-    ])
+
+    const { alertStates, dispatchAlert } = useAlert()
 
     const fileParser = new FileParser()
 
@@ -241,13 +237,16 @@ export default function EligibleVotersList({
                             <Input placeholder="ola.nordmann@gmail.com" onPressEnter={handleAddNewVoterByEnter}></Input>
                         </Form.Item>
                         <Space>
-                            <Button onClick={handleAddNewVoterByButtonClick}>Add</Button>
-                            <Button onClick={handleDone}>Done</Button>
+                            <Button onClick={handleAddNewVoterByButtonClick}>{t('common:Add')}</Button>
+                            <Button onClick={handleDone}>{t('common:Done')}</Button>
                         </Space>
                     </>
                 )}
                 <div>
-                    <AlertList alerts={alertStates} />
+                    <AlertList
+                        alerts={alertStates}
+                        onRemove={(index) => dispatchAlert({ type: 'remove', index: index })}
+                    />
                 </div>
             </FormItem>
         </div>

@@ -1,5 +1,4 @@
 import { Button, Form, Input, Space } from 'antd'
-import Layout, { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
 import StandardLayout from 'components/layout/Standard'
 import { BackendAPI } from 'core/api'
@@ -14,7 +13,7 @@ import { useAppState, useAppStateDispatcher } from 'core/state/app/AppStateConte
 import * as React from 'react'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Redirect, useHistory, useLocation } from 'react-router-dom'
+import { Redirect, useHistory } from 'react-router-dom'
 
 /**
  * Logins view
@@ -25,15 +24,10 @@ export default function LoginView(): React.ReactElement {
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
     const appDispatcher = useAppStateDispatcher()
     const history = useHistory<AlertState>()
-    const location = useLocation<AlertState>()
     const { isLoggedIn } = useAppState()
     const [isLoading, setIsLoading] = useState(false)
 
-    const [alertStates, dispatchAlert] = useAlert([
-        location.state
-            ? { message: location.state.message, level: location.state.level }
-            : { message: '', level: undefined },
-    ])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const formValidated = async (form: AuthenticationDetails) => {
         try {
@@ -58,7 +52,10 @@ export default function LoginView(): React.ReactElement {
             <h1>{t('common:Welcome to Anovote')}</h1>
             <div className="login-form">
                 <div className="error-field">
-                    <AlertList alerts={alertStates} />
+                    <AlertList
+                        alerts={alertStates}
+                        onRemove={(index) => dispatchAlert({ type: 'remove', index: index })}
+                    />
                 </div>
                 <Form className="is-flex-column" layout="vertical" name="login-form" onFinish={formValidated}>
                     <Form.Item

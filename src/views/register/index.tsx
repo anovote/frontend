@@ -23,7 +23,7 @@ export default function RegisterView(): React.ReactElement {
     const { isLoggedIn } = useAppState()
     const rules = formRules(t)
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
 
     const formValidated = async (form: RegistrationDetails) => {
         if (form.password.trim() === form.reTypePassword.trim()) {
@@ -55,7 +55,10 @@ export default function RegisterView(): React.ReactElement {
             <h1>{t('common:Welcome to Anovote')}</h1>
             <div className="register-form">
                 <div className="alert-field">
-                    <AlertList alerts={alertStates} />
+                    <AlertList
+                        alerts={alertStates}
+                        onRemove={(index) => dispatchAlert({ type: 'remove', index: index })}
+                    />
                 </div>
                 <Form className="is-flex-column" layout="vertical" name="register-form" onFinish={formValidated}>
                     <Form.Item

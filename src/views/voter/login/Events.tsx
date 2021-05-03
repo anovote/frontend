@@ -25,7 +25,10 @@ export const joinConnectErrorEvent = (
     return function connectErrorEvent() {
         dispatch({
             type: 'showMessage',
-            payload: { label: t('common:Unable to connect to server'), alertLevel: 'error' },
+            payload: {
+                label: t('common:Unable to connect to server'),
+                alert: { message: t('common:Please try again later'), level: 'error' },
+            },
         })
     }
 }
@@ -62,8 +65,10 @@ export const joinAckEvent = (
                 type: 'showMessage',
                 payload: {
                     label: t('voter:Verification link sent to your', { type: t('common:Email').toLowerCase() }),
-                    alertMessage: t('voter:Please do not close this window'),
-                    alertLevel: 'success',
+                    alert: {
+                        message: t('voter:Please do not close this window'),
+                        level: 'success',
+                    },
                 },
             })
         },
@@ -73,7 +78,13 @@ export const joinAckEvent = (
             const label = errorCodeResolver.resolve(code)
             dispatch({
                 type: 'showMessage',
-                payload: { label: label, alertLevel: 'error' },
+                payload: {
+                    label: label,
+                    alert: {
+                        message: t('common:Please try again later'),
+                        level: 'error',
+                    },
+                },
             })
         },
     })

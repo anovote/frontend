@@ -19,6 +19,7 @@
     "Election starts": "Election starts {{date}}",
     "Eligible voters tooltip description": "Add the emails of the voters that is eligible for your election. This can be done either manually, or by uploading a CSV or JSON file with the emails of the eligible voters.",
     "Ended on": "Ended on",
+    "Fetching election": "Fetching election",
     "Finished": "Finished",
     "If you proceed to end this election": "If you proceed to end this election, the election will be ended before the existing close date",
     "In progress": "In progress",
@@ -39,5 +40,6 @@
     "No eligible voters": "No eligible voters",
     "No elections to be held": "No elections to be held",
     "No elections in progress": "No elections in progress",
-    "No elections finished": "No finished elections"
+    "No elections finished": "No finished elections",
+    "Trying to display election": "Fetching election"
 }

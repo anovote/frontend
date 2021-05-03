@@ -66,6 +66,7 @@ export const Events = {
         },
         ballot: {
             push: 'push_ballot',
+            update: 'update_ballot',
         },
         result: {
             push: 'push_result',

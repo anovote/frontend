@@ -5,7 +5,7 @@ import { PasswordDoesNotMatchError } from 'core/errors/customErrors'
 import { useAlert } from 'core/hooks/useAlert'
 import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
-import React from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export default function ChangePasswordForm({
@@ -16,18 +16,24 @@ export default function ChangePasswordForm({
     const service = new ElectionOrganizerService(BackendAPI)
     const [t] = useTranslation(['translation', 'common', 'form', 'profile'])
 
-    const [alertStates, dispatchAlert] = useAlert([{ message: '', level: undefined }])
+    const [isLoading, setIsLoading] = useState(false)
+    const { alertStates, dispatchAlert } = useAlert()
 
     const submitForm = async (passwords: { password1: string; password2: string }) => {
+        setIsLoading(true)
         try {
             await service.changePassword(initialValue, passwords)
-            dispatchAlert({
-                type: 'add',
-                level: 'success',
-                message: 'Password changed',
-                description: 'Your password was changed',
-            })
+            setTimeout(() => {
+                setIsLoading(false)
+                dispatchAlert({
+                    type: 'add',
+                    level: 'success',
+                    message: 'Password changed',
+                    description: 'Your password was changed',
+                })
+            }, 1000)
         } catch (error) {
+            setIsLoading(false)
             if (error instanceof PasswordDoesNotMatchError) {
                 dispatchAlert({
                     type: 'add',
@@ -49,7 +55,7 @@ export default function ChangePasswordForm({
     return (
         <>
             <Space direction="vertical">
-                <AlertList alerts={alertStates} />
+                <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
                 <Form layout={'vertical'} onFinish={submitForm}>
                     <Space direction="vertical">
                         <Form.Item
@@ -88,7 +94,7 @@ export default function ChangePasswordForm({
                                 <Input.Password style={{ width: 250 }} placeholder={t('common:Retype new password')} />
                             </Form.Item>
 
-                            <Button type="primary" htmlType="submit">
+                            <Button type="primary" htmlType="submit" loading={isLoading}>
                                 {t('common:Save')}
                             </Button>
                         </Space>

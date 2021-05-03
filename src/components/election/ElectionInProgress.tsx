@@ -2,24 +2,26 @@ import { Modal, Popconfirm } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
-import ElectionStatusLabel from 'components/ElectionStatusLabel'
 import CloseElectionIcon from 'components/icons/CloseElectionIcon'
 import BallotsQueue from 'components/queue/BallotsQueue'
+import { ElectionParams } from 'components/queue/ElectionParams'
 import IconButton from 'containers/button/IconButton'
 import BallotModal from 'containers/modal/BallotModal'
+import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
-import { useAlert } from 'core/hooks/useAlert'
+import { AlertAction, useAlert } from 'core/hooks/useAlert'
 import { useSocket } from 'core/hooks/useSocket'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
-import { electionBallotReducer } from 'core/reducers/electionBallotsReducer'
+import { electionBallotReducer, ElectionBallotStateAction } from 'core/reducers/electionBallotsReducer'
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
 import { AnoSocket } from 'core/state/websocket/IAnoSocket'
-import React, { ReactElement, useEffect, useReducer, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import React, { Dispatch, ReactElement, useEffect, useReducer, useState } from 'react'
+import { TFunction, useTranslation } from 'react-i18next'
+import { useParams } from 'react-router-dom'
 import { fetchElectionStats } from '../../core/helpers/fetchElectionStats'
 import { ConnectedVoters } from './ConnectedVoters'
 import ElectionSplitView from './ElectionSplitView'
@@ -34,6 +36,33 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
     })
 }
 
+/**
+ *  Acknowledgement handler for pushed ballots.
+ *
+ * @param setBallotState state update method
+ * @returns WebsocketEvent handler
+ */
+const pushBallotAck = (
+    setBallotState: React.Dispatch<ElectionBallotStateAction>,
+    dispatchAlert: Dispatch<AlertAction>,
+    t: TFunction<string[]>,
+) => {
+    return WebsocketEvent<{ ballot: IBallotEntity }>({
+        dataHandler: (data) => {
+            setBallotState({ type: 'updateBallot', payload: data.ballot })
+        },
+        errorHandler: (error) => {
+            const errorCodeResolver = new ErrorCodeResolver(t)
+            dispatchAlert({
+                type: 'add',
+                level: 'error',
+                message: t('error:Unable to push ballot'),
+                description: errorCodeResolver.resolve(error.code),
+            })
+        },
+    })
+}
+
 export function ElectionInProgress({ election }: { election: IElectionEntity }): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['common', 'election'])
@@ -43,7 +72,9 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
         activeBallotIndex: 0,
     })
     const [forceEndVisible, setForceEndVisible] = useState(false)
-    const [alerts, setAlerts] = useAlert([{ message: '', level: undefined }])
+    const { alertStates, dispatchAlert } = useAlert()
+
+    const { electionId } = useParams<ElectionParams>()
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -69,12 +100,28 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
             setBallotState({ type: 'updateStats', payload: data })
         })
 
+        socket.on(Events.server.ballot.update, (data: { ballot: IBallotEntity }) => {
+            if (!data?.ballot) return
+            setBallotState({ type: 'updateBallot', payload: data.ballot })
+        })
+
         setBallotState({ type: 'addBallots', payload: election.ballots as Array<IBallotEntity> })
 
         return () => {
             socket.disconnect()
         }
     }, [])
+
+    async function doPushBallot(id: number) {
+        const ballot = ballotState.ballotWithStats.find((ballot) => ballot.id === id)
+        if (ballot && electionId) {
+            socket.emit(
+                Events.client.ballot.push,
+                { ballotId: ballot.id + 50, electionId: Number.parseInt(electionId) },
+                pushBallotAck(setBallotState, dispatchAlert, t),
+            )
+        }
+    }
 
     /**
      * Display modal for a given ballot with id.
@@ -101,10 +148,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    setAlerts({
+                    dispatchAlert({
                         type: 'add',
                         level: 'error',
-                        message: 'Something happened when trying to end election',
+                        message: t('error:Something happened when trying to end the election'),
                     })
                 },
             }),
@@ -120,10 +167,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     if (data.finished) onFinishedElection()
                 },
                 errorHandler: () => {
-                    setAlerts({
+                    dispatchAlert({
                         type: 'add',
                         level: 'error',
-                        message: 'Something happened when trying to force end election',
+                        message: t('error:Something happened when trying to force end the election'),
                     })
                 },
             }),
@@ -148,7 +195,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                 <p>{t('election:If you proceed to end this election')}</p>
                 <p>{t('election:Are you sure you want to')}?</p>
             </Modal>
-            <AlertList alerts={alerts} />
+            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             <ElectionSplitView
                 election={election}
                 left={
@@ -175,7 +222,11 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                         <Title level={2}>{t('common:Ballots')}</Title>
                         {ballotState.ballotWithStats.length > 0 ? (
                             <>
-                                <BallotsQueue dataSource={ballotState.ballotWithStats} expandBallot={showModal} />
+                                <BallotsQueue
+                                    dataSource={ballotState.ballotWithStats}
+                                    expandBallot={showModal}
+                                    doPushBallot={doPushBallot}
+                                />
                                 <BallotModal
                                     showModal={modal}
                                     ballot={ballotState.ballotWithStats[ballotState.activeBallotIndex]}

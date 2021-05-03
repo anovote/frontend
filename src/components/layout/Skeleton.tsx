@@ -1,8 +1,11 @@
 import { LogoutOutlined, MenuOutlined, ProjectFilled } from '@ant-design/icons'
 import { Button, Drawer, Layout, Menu } from 'antd'
+import CirclePlusIcon from 'components/icons/CirclePlusIcon'
+import ProfileRoundIcon from 'components/icons/ProfileRoundIcon'
+import LargeIconButton from 'containers/button/LargeIconbutton'
 import ProfileSettingsModal from 'containers/modal/ProfileSettingsModal'
 import { BackendAPI } from 'core/api'
-import { AlertState } from 'core/hooks/useAlert'
+import useMessage from 'core/hooks/useMessage'
 import { IElectionOrganizerEntity } from 'core/models/electionOrganizer/IElectionOrganizerEntity'
 import { getAdminRoute, getPublicRoute } from 'core/routes/siteRoutes'
 import { ElectionOrganizerService } from 'core/service/electionOrganizer/ElectionOrganizerService'
@@ -10,9 +13,6 @@ import { useAppStateDispatcher } from 'core/state/app/AppStateContext'
 import React, { ReactElement, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useHistory } from 'react-router-dom'
-import LargeIconButton from 'containers/button/LargeIconbutton'
-import CirclePlusIcon from 'components/icons/CirclePlusIcon'
-import ProfileRoundIcon from 'components/icons/ProfileRoundIcon'
 import { ReactComponent as AnovoteLogo } from 'style/assets/anovote-logo.svg'
 const { Content, Sider } = Layout
 
@@ -25,6 +25,7 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     const dispatcher = useAppStateDispatcher()
     const [showProfileModal, setProfileModalState] = useState(false)
     const [organizer, setOrganizer] = useState<IElectionOrganizerEntity>({} as IElectionOrganizerEntity)
+    const { info, loading } = useMessage()
     const closeProfileModalHandler = () => setProfileModalState(false)
     const openProfileModal = () => setProfileModalState(true)
     const [showSidebar, setShowSidebar] = useState(true)
@@ -83,10 +84,23 @@ function Skeleton(props: { content: ReactElement }): ReactElement {
     //}
 
     const logoutHandler = () => {
-        const alert: AlertState = { message: 'You where logged out', level: 'info' } // todo temporary until new alert hooks comes
-        dispatcher.setLogoutState()
-        history.push(getPublicRoute().login, alert)
+        loading({
+            content: t('common:Attempting to log out'),
+            duration: 0.5,
+            key: 'logout',
+        })
+            .then(() => {
+                dispatcher.setLogoutState()
+                history.push(getPublicRoute().login)
+            })
+            .then(() =>
+                info({
+                    content: t('common:You are now logged out'),
+                    key: 'logout',
+                }),
+            )
     }
+
     const sider = (
         <Sider className={`skeleton-sidebar ${showSidebar ? 'sidebar-toggled' : ''}`}>
             <Link to={elections.view}>
