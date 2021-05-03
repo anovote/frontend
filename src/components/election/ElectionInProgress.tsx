@@ -10,6 +10,7 @@ import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
 import useMessage, { Message } from 'core/hooks/useMessage'
 import { useSocket } from 'core/hooks/useSocket'
+import { BallotStatus } from 'core/models/ballot/BallotStatus'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
@@ -70,7 +71,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     const [forceEndVisible, setForceEndVisible] = useState(false)
 
     const { electionId } = useParams<ElectionParams>()
-    const { error } = useMessage()
+    const { error, info } = useMessage()
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -98,7 +99,21 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
 
         socket.on(Events.server.ballot.update, (data: { ballot: IBallotEntity }) => {
             if (!data?.ballot) return
+
+            if (data.ballot.status == BallotStatus.IN_ARCHIVE) {
+                info({ content: t('ballot:All voters have voted on ballot', { title: data.ballot.title }) })
+            }
+
             setBallotState({ type: 'updateBallot', payload: data.ballot })
+        })
+
+        socket.on(Events.server.election.finish, (data: { election: IElectionEntity }) => {
+            info({
+                content: t('election:All ballots have been voted on', { name: data.election.title }),
+                duration: 6,
+            }).then(() => {
+                info({ content: t('common:You can now close the election') })
+            })
         })
 
         setBallotState({ type: 'addBallots', payload: election.ballots as Array<IBallotEntity> })
