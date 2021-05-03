@@ -16,7 +16,7 @@ export const ElectionNotStarted = ({
     onElectionChange,
     onElectionEdit,
 }: ElectionNotStartedProps): ReactElement => {
-    const [t] = useTranslation(['common', 'election'])
+    const [t] = useTranslation(['common', 'election', 'form'])
     const deleteElectionHandler = () => {
         onElectionChange(election, true)
     }
@@ -73,12 +73,16 @@ export const ElectionNotStarted = ({
                                     color="green"
                                 />
                                 <Popconfirm {...popConfirmProps}>
-                                    <IconButton icon={<DeleteOutlined />} text="Delete" color="red" />
+                                    <IconButton icon={<DeleteOutlined />} text={t('form:Delete')} color="red" />
                                 </Popconfirm>
                             </Space>
                         </Col>
                         <Col>
-                            <IconButton icon={<EditOutlined />} text="Edit election" onClick={editElection} />
+                            <IconButton
+                                icon={<EditOutlined />}
+                                text={t('election:Edit election')}
+                                onClick={editElection}
+                            />
                         </Col>
                     </Row>
                     <Space align="start" wrap={true}>
