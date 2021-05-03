@@ -1,11 +1,15 @@
 {
     "All elections must be unique": "All elections must be unique",
     "Already verified": "You are already verified on a device",
+    "Ballot not exist": "The ballot do not exist",
+    "Ballot is archived": "The ballot is archived",
     "Election ID is not a number": "Election ID is not a number",
     "Election Organizer not logged in": "Election Organizer not logged in",
     "Election do not exist": "The election do not exist",
     "Election is finished": "The election is finished or closed",
     "Election not found": "Election not found",
+    "Duplicate election": "The election with same data already exists",
+    "Election room not exist": "The election room do not exist",
     "Email is duplicate": "Email is duplicate",
     "Identification not exist for election": "The identification do not exist for the election",
     "Missing election code": "Could not join, missing election code",
@@ -23,5 +27,8 @@
     "Voter verification failed": "The verification failed, please try again",
     "duplicate email": "Duplicate email",
     "not valid email": "Not valid email",
-    "You are not authorized": "You are not authorized"
+    "You are not authorized": "You are not authorized",
+    "Unable to submit vote": "Unable to submit vote",
+    "Unable to push ballot": "Unable to push ballot",
+    "Already voted on ballot": "You have already voted on this ballot"
 }
