@@ -24,15 +24,16 @@ export default function BallotsQueue({
     expandBallot?: (id: number) => void
     doPushBallot?: (id: number) => void
 }): ReactElement {
-    const [t] = useTranslation(['common'])
+    const [t] = useTranslation(['common, ballot'])
     const [current, setCurrent] = useState(0)
     const [isLoading, setIsLoading] = useState(false)
     const [queue, setQueue] = useState<ReactElement<StepProps>[]>()
+
     const appendStats = (stats: IVoteStats | undefined): IStatValue[] | [] => {
         if (stats) {
             return [
                 { title: t('common:Total'), value: stats.total },
-                { title: t('Votes'), value: stats.votes },
+                { title: t('common:Votes'), value: stats.votes },
                 { title: t('common:Blank'), value: stats.blank },
             ]
         }

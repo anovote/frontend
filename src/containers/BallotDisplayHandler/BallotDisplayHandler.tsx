@@ -9,6 +9,7 @@ import { BackendAPI } from 'core/api'
 import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
 import { useAlert } from 'core/hooks/useAlert'
+import useMessage from 'core/hooks/useMessage'
 import { useSocket } from 'core/hooks/useSocket'
 import { BallotType } from 'core/models/ballot/BallotType'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
@@ -44,6 +45,8 @@ export default function BallotDisplayHandler({
     const { alertStates, dispatchAlert } = useAlert()
 
     const [ballotState, setBallotState] = useState<IBallotEntity>(ballot)
+
+    const { warning, success, error, loading } = useMessage()
 
     useEffect(() => {
         const candidates = addBlankCandidate(ballot.candidates)
@@ -105,18 +108,11 @@ export default function BallotDisplayHandler({
         switch (ballot.type) {
             case BallotType.SINGLE: {
                 if (!socket.connected) {
-                    dispatchAlert({
-                        type: 'add',
-                        level: 'error',
-                        message: t('common:Could not connect to the server'),
-                    })
+                    error({ content: t('common:Could not connect to the server') })
                 } else if (selected === 0) {
-                    dispatchAlert({
-                        type: 'add',
-                        level: 'error',
-                        message: t('common:You need to select a candidate'),
-                    })
+                    warning({ content: t('common:You need to select a candidate') })
                 } else {
+                    loading({ content: t('common:Trying to submit your vote'), key: 'submitVote' })
                     socket.emit(
                         Events.client.vote.submit,
                         {
@@ -127,20 +123,13 @@ export default function BallotDisplayHandler({
                         },
                         WebsocketEvent({
                             dataHandler: () => {
-                                dispatchAlert({
-                                    type: 'add',
-                                    level: 'success',
-                                    message: t('common:Your vote was submitted'),
-                                })
+                                success({ content: t('common:Your vote was submitted'), key: 'submitVote' })
                                 onSubmitVote()
                             },
-                            errorHandler: (error) => {
+                            errorHandler: (err) => {
                                 const errorCodeResolver = new ErrorCodeResolver(t)
-                                dispatchAlert({
-                                    type: 'add',
-                                    level: 'error',
-                                    message: t('error:Unable to submit vote'),
-                                    description: errorCodeResolver.resolve(error.code),
+                                error({ content: t('error:Unable to submit vote'), key: 'submitVote' }).then(() => {
+                                    error({ content: errorCodeResolver.resolve(err.code), key: 'submitVote' })
                                 })
                             },
                         }),
