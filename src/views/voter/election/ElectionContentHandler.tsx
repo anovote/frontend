@@ -18,6 +18,11 @@ export default function ElectionContentHandler({
     electionDispatch: Dispatch<ElectionAction>
 }): ReactElement {
     const [t] = useTranslation(['election', 'common'])
+
+    function onSubmitVote() {
+        electionDispatch({ type: 'ballot', payload: undefined })
+    }
+
     let renderComponent: ReactElement
     switch (state.displayAction) {
         case DisplayAction.Locked:
@@ -66,7 +71,7 @@ export default function ElectionContentHandler({
         case DisplayAction.Ballot:
             {
                 renderComponent = (
-                    <BallotDisplayHandler ballot={state.ballot as IBallotEntity} electionDispatch={electionDispatch} />
+                    <BallotDisplayHandler ballot={state.ballot as IBallotEntity} onSubmitVote={onSubmitVote} />
                 )
             }
             break

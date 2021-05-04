@@ -18,8 +18,7 @@ import { AuthenticationService } from 'core/service/authentication/Authenticatio
 import { LocalStorageService } from 'core/service/storage/LocalStorageService'
 import { StorageKeys } from 'core/service/storage/StorageKeys'
 import { WebsocketEvent } from 'core/socket/EventHandler'
-import { ElectionAction } from 'core/state/election/electionReducer'
-import React, { Dispatch, ReactElement, useEffect, useReducer, useState } from 'react'
+import React, { ReactElement, useEffect, useReducer, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 const initialState = {
@@ -32,10 +31,10 @@ const initialState = {
 
 export default function BallotDisplayHandler({
     ballot,
-    electionDispatch,
+    onSubmitVote,
 }: {
     ballot: IBallotEntity
-    electionDispatch: Dispatch<ElectionAction>
+    onSubmitVote: () => void
 }): ReactElement {
     const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
@@ -133,7 +132,7 @@ export default function BallotDisplayHandler({
                                     level: 'success',
                                     message: t('common:Your vote was submitted'),
                                 })
-                                electionDispatch({ type: 'waiting' })
+                                onSubmitVote()
                             },
                             errorHandler: (error) => {
                                 const errorCodeResolver = new ErrorCodeResolver(t)
