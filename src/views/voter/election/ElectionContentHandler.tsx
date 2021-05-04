@@ -20,7 +20,7 @@ export default function ElectionContentHandler({
     const [t] = useTranslation(['election', 'common'])
 
     function onSubmitVote() {
-        electionDispatch({ type: 'ballot', payload: undefined })
+        electionDispatch({ type: 'voted' })
     }
 
     let renderComponent: ReactElement
