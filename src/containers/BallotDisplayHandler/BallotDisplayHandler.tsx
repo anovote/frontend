@@ -30,7 +30,13 @@ const initialState = {
     },
 }
 
-export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity }): ReactElement {
+export default function BallotDisplayHandler({
+    ballot,
+    onSubmitVote,
+}: {
+    ballot: IBallotEntity
+    onSubmitVote: () => void
+}): ReactElement {
     const [{ selected, selection }, dispatch] = useReducer(reducer, initialState)
 
     const [t] = useTranslation(['common', 'ballot', 'error'])
@@ -118,6 +124,7 @@ export default function BallotDisplayHandler({ ballot }: { ballot: IBallotEntity
                         WebsocketEvent({
                             dataHandler: () => {
                                 success({ content: t('common:Your vote was submitted'), key: 'submitVote' })
+                                onSubmitVote()
                             },
                             errorHandler: (err) => {
                                 const errorCodeResolver = new ErrorCodeResolver(t)
