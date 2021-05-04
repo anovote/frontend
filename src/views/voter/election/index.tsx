@@ -122,7 +122,7 @@ export default function VoterElectionView(): ReactElement {
                             />
                         ) : (
                             <>
-                                <ElectionContentHandler state={electionState} />
+                                <ElectionContentHandler state={electionState} electionDispatch={electionDispatch} />
                                 <LogoutButton
                                     confirmation={{
                                         title: t('voter:Are you sure you want to logout'),

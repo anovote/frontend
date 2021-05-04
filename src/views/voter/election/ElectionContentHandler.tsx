@@ -2,16 +2,27 @@ import { CoffeeOutlined, HourglassOutlined, LockOutlined } from '@ant-design/ico
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
 import BallotDisplayHandler from 'containers/BallotDisplayHandler/BallotDisplayHandler'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
-import { DisplayAction, ElectionState } from 'core/state/election/electionReducer'
-import React, { ReactElement } from 'react'
+import { DisplayAction, ElectionAction, ElectionState } from 'core/state/election/electionReducer'
+import React, { Dispatch, ReactElement } from 'react'
 import { useTranslation } from 'react-i18next'
 
 /**
  * This modules is responsible for providing the correct components for an election based on the state
  * of the election.
  */
-export default function ElectionContentHandler({ state }: { state: ElectionState }): ReactElement {
+export default function ElectionContentHandler({
+    state,
+    electionDispatch,
+}: {
+    state: ElectionState
+    electionDispatch: Dispatch<ElectionAction>
+}): ReactElement {
     const [t] = useTranslation(['election', 'common'])
+
+    function onSubmitVote() {
+        electionDispatch({ type: 'voted' })
+    }
+
     let renderComponent: ReactElement
     switch (state.displayAction) {
         case DisplayAction.Locked:
@@ -59,7 +70,9 @@ export default function ElectionContentHandler({ state }: { state: ElectionState
             break
         case DisplayAction.Ballot:
             {
-                renderComponent = <BallotDisplayHandler ballot={state.ballot as IBallotEntity} />
+                renderComponent = (
+                    <BallotDisplayHandler ballot={state.ballot as IBallotEntity} onSubmitVote={onSubmitVote} />
+                )
             }
             break
         default:
