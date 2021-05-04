@@ -1,4 +1,5 @@
 {
+    "All voters have voted on ballot": "All voters have voted on ballot {{title}}",
     "Ballot Type": "Ballot type",
     "Ballot pushed to voters": "Ballot pushed to voters",
     "Ballot with id is done": "Ballot with id {{id}} is done",

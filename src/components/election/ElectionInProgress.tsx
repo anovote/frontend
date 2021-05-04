@@ -1,3 +1,4 @@
+import { ExclamationCircleTwoTone } from '@ant-design/icons'
 import { Modal, Popconfirm } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
@@ -10,6 +11,7 @@ import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
 import useMessage, { Message } from 'core/hooks/useMessage'
 import { useSocket } from 'core/hooks/useSocket'
+import { BallotStatus } from 'core/models/ballot/BallotStatus'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
@@ -72,7 +74,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     const [forceEndVisible, setForceEndVisible] = useState(false)
 
     const { electionId } = useParams<ElectionParams>()
-    const { error, success, loading } = useMessage()
+    const { error, success, info, loading } = useMessage()
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -100,7 +102,21 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
 
         socket.on(Events.server.ballot.update, (data: { ballot: IBallotEntity }) => {
             if (!data?.ballot) return
+
+            if (data.ballot.status == BallotStatus.IN_ARCHIVE) {
+                info({ content: t('ballot:All voters have voted on ballot', { title: data.ballot.title }) })
+            }
+
             setBallotState({ type: 'updateBallot', payload: data.ballot })
+        })
+
+        socket.on(Events.server.election.finish, (data: { election: IElectionEntity }) => {
+            info({
+                content: t('election:All ballots have been voted on', { name: data.election.title }),
+                duration: 6,
+            }).then(() => {
+                info({ content: t('common:You can now close the election') })
+            })
         })
 
         setBallotState({ type: 'addBallots', payload: election.ballots as Array<IBallotEntity> })
@@ -192,8 +208,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     <>
                         <Popconfirm
                             placement="bottom"
-                            title={`${t('form:Are you sure')}?`}
+                            title={t('form:Are you sure')}
                             onConfirm={() => endElectionOnConfirm(election.id)}
+                            okButtonProps={{ className: 'btn-danger' }}
+                            icon={<ExclamationCircleTwoTone twoToneColor={'#FF5A90'} />}
                             okText={t('common:Yes')}
                             cancelText={t('common:No')}
                         >

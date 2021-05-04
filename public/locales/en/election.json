@@ -1,5 +1,6 @@
 {
     "Add a password as a verification for your election": "Add a password as a verification for your election",
+    "All ballots have been voted on": "All ballots have been voted on for {{name}}",
     "Are you sure you want to": "Are you sure you want to",
     "Are you sure you want to delete the election": "Are you sure you want to delete the election",
     "Authentication method": "Authentication method",
@@ -23,6 +24,10 @@
     "Finished": "Finished",
     "If you proceed to end this election": "If you proceed to end this election, the election will be ended before the existing close date",
     "In progress": "In progress",
+    "No elections finished": "No finished elections",
+    "No elections in progress": "No elections in progress",
+    "No elections to be held": "No elections to be held",
+    "No eligible voters": "No eligible voters",
     "Opened on": "Opened on",
     "Opens on": "Opens on",
     "Please fill in a description": "Please fill in a description",
@@ -34,12 +39,8 @@
     "This election have a closing date": "This election have a closing date",
     "Time elapsed": "Time elapsed",
     "To be held": "To be held",
+    "Trying to display election": "Fetching election",
     "Waiting for": "Waiting for {{what}}",
     "create-election": "Create Election",
-    "update-election": "Update Election",
-    "No eligible voters": "No eligible voters",
-    "No elections to be held": "No elections to be held",
-    "No elections in progress": "No elections in progress",
-    "No elections finished": "No finished elections",
-    "Trying to display election": "Fetching election"
+    "update-election": "Update Election"
 }
