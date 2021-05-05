@@ -52,7 +52,7 @@ export default function RegisterView(): React.ReactElement {
         <Redirect to={getAdminRoute().elections.view} />
     ) : (
         <StandardLayout contentClassName="is-flex-column has-content-center-center">
-            <h1>{t('common:Welcome to Anovote')}</h1>
+            <h1>{t('common:Register as an organizer')}</h1>
             <div className="register-form">
                 <div className="alert-field">
                     <AlertList

@@ -98,5 +98,7 @@
     "Your request to change email was not fulfilled": "Your request to change email was not fulfilled",
     "Your vote was submitted": "Your vote was submitted!",
     "no-ballots": "No ballots",
-    "or": "or"
+    "or": "or",
+    "Register as an organizer": "Register as an election organizer",
+    "Login as an organizer": "Login as en election organizer"
 }

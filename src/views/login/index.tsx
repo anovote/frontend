@@ -49,7 +49,7 @@ export default function LoginView(): React.ReactElement {
         <Redirect to="/admin" />
     ) : (
         <StandardLayout contentClassName="is-flex-column has-content-center-center">
-            <h1>{t('common:Welcome to Anovote')}</h1>
+            <h1>{t('common:Login as an organizer')}</h1>
             <div className="login-form">
                 <div className="error-field">
                     <AlertList

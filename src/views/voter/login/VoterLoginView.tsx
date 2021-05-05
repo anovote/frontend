@@ -159,6 +159,7 @@ function VoterLoginView(): ReactElement {
                                 <Form.Item
                                     label={t('common:Email')}
                                     name="email"
+                                    tooltip={t('voter:Voter email')}
                                     normalize={(val) => val.trim()}
                                     rules={[
                                         {
@@ -171,14 +172,8 @@ function VoterLoginView(): ReactElement {
                                     <Input disabled={state.isLoading} placeholder={t('form:Example-email')} />
                                 </Form.Item>
                                 <Form.Item
-                                    label={
-                                        <ComponentWithTooltip
-                                            component={<Text>Election code</Text>}
-                                            toolTipTitle={t(
-                                                'voter:The election code is provided by the election organizer',
-                                            )}
-                                        />
-                                    }
+                                    label={t('voter:Election code')}
+                                    tooltip={t('voter:The election code is provided by the election organizer')}
                                     name={'electionCode'}
                                     rules={[
                                         { type: 'string', required: true, message: t('form:Is required') },
@@ -192,7 +187,7 @@ function VoterLoginView(): ReactElement {
                                 </Form.Item>
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit" loading={state.isLoading}>
-                                        {t('common:Submit')}
+                                        {t('voter:Join election')}
                                     </Button>
                                 </Form.Item>
                             </Form>
