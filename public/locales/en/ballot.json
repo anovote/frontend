@@ -1,13 +1,17 @@
 {
+    "All voters have voted on ballot": "All voters have voted on ballot {{title}}",
     "Ballot Type": "Ballot type",
+    "Ballot pushed to voters": "Ballot pushed to voters",
+    "Ballot with id is done": "Ballot with id {{id}} is done",
     "Blank": "Blank",
     "Display vote count": "Display vote count",
+    "No candidates": "No candidates",
+    "Pushing ballot to voters": "Pushing ballot to voters",
     "Rank your candidates": "Rank your candidates",
     "Result type": "Result type",
     "Select how you want the result of the ballot displayed": "Select how you want the result of the ballot displayed",
     "Select multiple": "Select multiple",
     "Select one": "Select one",
     "Select ranked": "Select ranked",
-    "Select the type of ballot that you want the voters to vote on": "Select the type of ballot that you want the voters to vote on",
-    "No candidates": "No candidates"
+    "Select the type of ballot that you want the voters to vote on": "Select the type of ballot that you want the voters to vote on"
 }

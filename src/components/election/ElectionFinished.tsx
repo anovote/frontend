@@ -62,6 +62,7 @@ export const ElectionFinished = ({
     }
 
     const popConfirmProps: PopconfirmProps = {
+        placement: 'bottom',
         title: t('form:Are you sure'),
         okText: t('form:Delete'),
         cancelText: t('form:Cancel'),

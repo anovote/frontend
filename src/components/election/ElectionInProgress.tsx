@@ -1,3 +1,4 @@
+import { ExclamationCircleTwoTone } from '@ant-design/icons'
 import { Modal, Popconfirm } from 'antd'
 import Title from 'antd/lib/typography/Title'
 import { ElectionStatusCard } from 'components/election/ElectionStatusCard'
@@ -10,6 +11,7 @@ import { ErrorCodeResolver } from 'core/error/ErrorCodeResolver'
 import { Events } from 'core/events'
 import useMessage, { Message } from 'core/hooks/useMessage'
 import { useSocket } from 'core/hooks/useSocket'
+import { BallotStatus } from 'core/models/ballot/BallotStatus'
 import { IBallotEntity } from 'core/models/ballot/IBallotEntity'
 import { IBallotStats } from 'core/models/ballot/IBallotStats'
 import { IElectionEntity } from 'core/models/election/IElectionEntity'
@@ -44,16 +46,18 @@ const authEvent = (socket: AnoSocket, electionId: number) => {
 const pushBallotAck = (
     setBallotState: React.Dispatch<ElectionBallotStateAction>,
     dispatchErrorMessage: Message,
+    dispatchSuccessMessage: Message,
     t: TFunction<string[]>,
 ) => {
     return WebsocketEvent<{ ballot: IBallotEntity }>({
         dataHandler: (data) => {
             setBallotState({ type: 'updateBallot', payload: data.ballot })
+            dispatchSuccessMessage({ content: t('ballot:Ballot pushed to voters'), key: 'pushBallot' })
         },
         errorHandler: (error) => {
             const errorCodeResolver = new ErrorCodeResolver(t)
-            dispatchErrorMessage({ content: t('error:Unable to push ballot'), key: 'pushBallotAck' }).then(() => {
-                dispatchErrorMessage({ content: errorCodeResolver.resolve(error.code), key: 'pushBallotAck' })
+            dispatchErrorMessage({ content: t('error:Unable to push ballot'), key: 'pushBallot' }).then(() => {
+                dispatchErrorMessage({ content: errorCodeResolver.resolve(error.code), key: 'pushBallot' })
             })
         },
     })
@@ -61,7 +65,7 @@ const pushBallotAck = (
 
 export function ElectionInProgress({ election }: { election: IElectionEntity }): ReactElement {
     const [socket] = useSocket()
-    const [t] = useTranslation(['common', 'election'])
+    const [t] = useTranslation(['common', 'election', 'ballot'])
     const [modal, setModal] = useState(false)
     const [ballotState, setBallotState] = useReducer(electionBallotReducer, {
         ballotWithStats: [],
@@ -70,7 +74,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     const [forceEndVisible, setForceEndVisible] = useState(false)
 
     const { electionId } = useParams<ElectionParams>()
-    const { error } = useMessage()
+    const { error, success, info, loading } = useMessage()
 
     useEffect(() => {
         const storageService = new LocalStorageService<StorageKeys>()
@@ -98,7 +102,21 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
 
         socket.on(Events.server.ballot.update, (data: { ballot: IBallotEntity }) => {
             if (!data?.ballot) return
+
+            if (data.ballot.status == BallotStatus.IN_ARCHIVE) {
+                info({ content: t('ballot:All voters have voted on ballot', { title: data.ballot.title }) })
+            }
+
             setBallotState({ type: 'updateBallot', payload: data.ballot })
+        })
+
+        socket.on(Events.server.election.finish, (data: { election: IElectionEntity }) => {
+            info({
+                content: t('election:All ballots have been voted on', { name: data.election.title }),
+                duration: 6,
+            }).then(() => {
+                info({ content: t('common:You can now close the election') })
+            })
         })
 
         setBallotState({ type: 'addBallots', payload: election.ballots as Array<IBallotEntity> })
@@ -111,10 +129,11 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     async function doPushBallot(id: number) {
         const ballot = ballotState.ballotWithStats.find((ballot) => ballot.id === id)
         if (ballot && electionId) {
+            loading({ content: t('ballot:Pushing ballot to voters'), key: 'pushBallot' })
             socket.emit(
                 Events.client.ballot.push,
                 { ballotId: ballot.id, electionId: Number.parseInt(electionId) },
-                pushBallotAck(setBallotState, error, t),
+                pushBallotAck(setBallotState, error, success, t),
             )
         }
     }
@@ -189,8 +208,10 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                     <>
                         <Popconfirm
                             placement="bottom"
-                            title={`${t('form:Are you sure')}?`}
+                            title={t('form:Are you sure')}
                             onConfirm={() => endElectionOnConfirm(election.id)}
+                            okButtonProps={{ className: 'btn-danger' }}
+                            icon={<ExclamationCircleTwoTone twoToneColor={'#FF5A90'} />}
                             okText={t('common:Yes')}
                             cancelText={t('common:No')}
                         >

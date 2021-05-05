@@ -13,6 +13,7 @@ button {
     }
 
     &.btn-danger {
+        color: $font-color;
         background-color: $danger-light;
         border-color: $danger-light;
         &:hover {
