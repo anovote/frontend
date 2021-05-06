@@ -7,6 +7,7 @@ import { getPublicRoute } from 'core/routes/siteRoutes'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router-dom'
+import Typist from 'react-typist'
 import { ReactComponent as Lines } from 'style/assets/lines.svg'
 import { ReactComponent as LockIcon } from 'style/assets/lock-with-effect.svg'
 import showCase from 'style/assets/showcase@2x.png'
@@ -43,6 +44,17 @@ export default function Home(): React.ReactElement {
                 <span className="title-with-action">
                     <Title level={1} className="title-box">
                         {t('site:Time to elect new board')}
+                        <Typist cursor={{ blink: true, hideWhenDone: true, hideWhenDoneDelay: 1000 }}>
+                            {t('site:a new board')}
+                            <Typist.Delay ms={2000} />
+                            <Typist.Backspace count={12} delay={1000} />
+                            <Typist.Delay ms={2000} />
+                            {t('site:a new leader')}
+                            <Typist.Delay ms={2000} />
+                            <Typist.Backspace count={13} delay={2000} />
+                            <Typist.Delay ms={1000} />
+                            {t('site:an new ambassador')}
+                        </Typist>
                     </Title>
                     <Link to={register} id="organize-election">
                         <ArrowRightOutlined className="right-arrow" />
