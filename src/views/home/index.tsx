@@ -69,7 +69,7 @@ export default function Home(): React.ReactElement {
 
             <div className="content">
                 <section id="how-anovote-works">
-                    <Title level={1}>How Anovote works</Title>
+                    <Title level={1}>{t('site:How Anovote works')}</Title>
                     <Space wrap={true} className="principles">
                         {howAnovoteWorksData.map((data, index) => {
                             return (
@@ -88,15 +88,9 @@ export default function Home(): React.ReactElement {
                     <Title level={1}>{t('site:Anovote anonymous voting')}</Title>
                     <Space wrap={true} align="center" className="backstory-content">
                         <article className="backstory">
-                            <Text>
-                                Anovote was develop with the intention of performing as secure and anonymous voting for
-                                everyone.
-                            </Text>
+                            <Text>{t('site:Anovote was developed')}.</Text>
                             <br />
-                            <Text>
-                                All packed in to an simple and elegant solution for everyone to use. Now you can replace
-                                pen and paper, with your mobile phone and computer!
-                            </Text>
+                            <Text>{t('site:All packed in to an simple')}!</Text>
                         </article>
                         <span className="article-image">
                             <LockIcon />
@@ -106,11 +100,7 @@ export default function Home(): React.ReactElement {
                 <section id="about">
                     <Title level={1}>{t('site:About Anovote')}</Title>
                     <article>
-                        <Text>
-                            Anovote was developed as a bachelor thesis project in 2021. The idea was established in
-                            2019, and a prototype was developed. In the pursue for a greater project, the group decided
-                            to start over and take on the project as a bachelor thesis project.
-                        </Text>
+                        <Text>{t('site:the idea of anovote')}.</Text>
                         <Link to={about} id="organize-election">
                             <ArrowRightOutlined className="right-arrow" />
                             {t('navigation:Read more')}
