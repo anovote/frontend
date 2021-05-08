@@ -1,5 +1,6 @@
 import { AxiosError, AxiosInstance } from 'axios'
 import { CredentialError } from 'core/errors/CredentialsError'
+import { DuplicateError } from 'core/errors/DuplicateError'
 import { apiRoutes } from 'core/routes/apiRoutes'
 import { RegistrationDetails } from './RegistrationDetails'
 import { RegistrationResponse } from './RegistrationResponse'
@@ -27,9 +28,18 @@ export class RegistrationService {
         } catch (error) {
             if (error.isAxiosError) {
                 const axiosError: AxiosError = error
-                if (axiosError.response?.status == 400) throw new CredentialError('Credentials incorrect')
+                if (axiosError.response?.status == 400) this.handleBadRequestError(axiosError)
             }
             throw error
         }
+    }
+
+    private handleBadRequestError(axiosError: AxiosError) {
+        const { validationMessages }: { validationMessages: string[] } = axiosError.response?.data
+        if (validationMessages && validationMessages.includes('Email already exists')) {
+            const message = validationMessages.find((val) => val === 'Email already exists') as string
+            throw new DuplicateError(message)
+        }
+        throw new CredentialError('Credentials incorrect')
     }
 }
