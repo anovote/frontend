@@ -8,11 +8,11 @@ import { ProtectedRoute } from '../containers/router/ProtectedRoute'
 import { AuthLevel } from '../core/service/authentication/AuthLevel'
 import { useAppState } from '../core/state/app/AppStateContext'
 import Home from './home'
-import LoginView from './login'
-import RegisterView from './register'
-import VerifyVoterView from './voter/verify'
-import VoterLoginView from './voter/login/VoterLoginView'
 import About from './home/About'
+import LoginView from './login'
+import RegisterView from './register/RegisterView'
+import VoterLoginView from './voter/login/VoterLoginView'
+import VerifyVoterView from './voter/verify'
 
 /**
  * Router view
