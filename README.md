@@ -1,7 +1,7 @@
 # ANOVOTE FRONTEND
 
-![CI](https://github.com/anovote/frontend/workflows/node.js.yml/badge.svg)
-![Spellchecker](https://github.com/anovote/frontend/workflows/Spellchecker.yml/badge.svg)
+![CI](https://github.com/anovote/frontend/actions/workflows/node.js.yml/badge.svg)
+![Spellchecker](https://github.com/anovote/frontend/actions/workflows/Spellchecker.yml/badge.svg)
 
 ## Table of contents
 - [General info](#general-info)
