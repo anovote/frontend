@@ -7,10 +7,17 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration'
 
 // for localization
 import './i18n'
+import { ReactComponent as AnovoteLogo } from 'style/assets/logo-icon.svg'
 
 ReactDOM.render(
     <React.StrictMode>
-        <React.Suspense fallback="loading...">
+        <React.Suspense
+            fallback={
+                <div className="is-fullscreen center-view align-items-center">
+                    <AnovoteLogo className="blinking" />
+                </div>
+            }
+        >
             <BrowserRouter>
                 <Route path="/" component={App} />
             </BrowserRouter>
