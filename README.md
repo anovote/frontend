@@ -1,6 +1,6 @@
 # ANOVOTE FRONTEND
 
-[![CI](https://github.com/anovote/frontend/workflows/CI/badge.svg)](https://github.com/anovote/frontend/actions)
+[![CI](https://github.com/anovote/frontend/workflows/node.js/badge.svg)](https://github.com/anovote/frontend/actions)
 [![Spellchecker](https://github.com/anovote/frontend/workflows/Spellchecker/badge.svg)](https://github.com/anovote/frontend/actions)
 
 ## Table of contents
