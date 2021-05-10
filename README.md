@@ -1,6 +1,6 @@
 # ANOVOTE FRONTEND
 
-[![Test](https://github.com/anovote/frontend/workflows/Test/badge.svg)](https://github.com/anovote/frontend/actions)
+[![Test](https://github.com/anovote/frontend/workflows/node.js-ci/badge.svg)](https://github.com/anovote/frontend/actions)
 
 ## Table of contents
 - [General info](#general-info)
