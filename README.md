@@ -17,7 +17,9 @@
     - [Yarn](#yarn)
     - [Docker](#docker)
 ## General info
-This is the frontend repository fro anovote, a digital anonymous voting system.
+This project aims to solve the client-side of the Anovote application, a digital anonymous voting system. Anovote aims to implement \
+a voting solution that can perform secure, digital and anonymous elections. It is required that the solution secures the anonymity \
+of eligible voters, that a vote cannot be modified and that the voter is validated and approved prior to the election.
 ## Technologies
 
 ### Frontend Technologies
