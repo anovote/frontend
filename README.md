@@ -1,5 +1,5 @@
 # ANOVOTE FRONTEND
-<img src="anolog.jpg">
+<img src="anolog.jpg" style="width:100%;" alt="anovote logo" />
 
 [![CI](https://github.com/anovote/frontend/actions/workflows/node.js.yml/badge.svg)](https://github.com/anovote/frontend/actions/workflows/node.js.yml)
 [![Spellchecker](https://github.com/anovote/frontend/actions/workflows/spellchecker.yml/badge.svg)](https://github.com/anovote/frontend/actions/workflows/spellchecker.yml)
