@@ -4,7 +4,7 @@ import React from 'react'
 import { unmountComponentAtNode } from 'react-dom'
 import { act } from 'react-dom/test-utils'
 import { mockMatchMedia } from '../../../mocks/mockMatchMedia'
-import CreateElectionView from './index'
+import ElectionForm from './ElectionForm'
 
 let container: Element | DocumentFragment
 
@@ -23,7 +23,7 @@ afterEach(() => {
 it('Display error on empty fields after create election is clicked', async () => {
     await act(async () => {
         render(
-            <CreateElectionView
+            <ElectionForm
                 initialElection={undefined}
                 onAbort={() => {
                     return
@@ -58,7 +58,7 @@ describe('update election', () => {
 
     it('should have update button', () => {
         render(
-            <CreateElectionView
+            <ElectionForm
                 initialElection={election}
                 onUpdate={() => {
                     return
@@ -74,7 +74,7 @@ describe('update election', () => {
 
     it('should have fields initialized', () => {
         render(
-            <CreateElectionView
+            <ElectionForm
                 initialElection={election}
                 onUpdate={() => {
                     return

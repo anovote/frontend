@@ -1,5 +1,9 @@
 {
+    "Are you sure you want to logout": "Are you sure you want to logout?",
+    "Do you want to re-join": "Do you want to re-join the election?",
+    "Election code": "Election code",
     "Join election": "Join election",
+    "logout description": "<p> You will <strong>not</strong> be able to log back in. Logging out will prevent you from continue to participate in the rest of the election. </p> <p> If you need to go to the organizer page while still in an election, try opening it from another browser or in incognito mode. </p>",
     "Please do not close this window": "Please do not close this window",
     "The election code is provided by the election organizer": "The election code is provided by the election organizer",
     "This browser tab can ble closed": "This browser tab can be closed",
@@ -8,11 +12,8 @@
     "Verification failed suggestion": "Try to refresh the page, or close the tab and open the link again",
     "Verification link sent to your": "Verification link sent to your {{type}}",
     "Verifying code": "Verifying code",
+    "Voter email": "The email address registered to you for the election you want to join.",
     "Voter verification failed": "The verification failed, please try again",
     "Voter verification succeeded": "Verification successful",
-    "You are already part of an election": "You are already part of the election: {{election}}",
-    "Are you sure you want to logout": "Are you sure you want to logout?",
-    "Do you want to re-join": "Do you want to re-join the election?",
-    "logout description": "<p> You will <strong>not</strong> be able to log back in. Logging out will prevent you from continue to participate in the rest of the election. </p> <p> If you need to go to the organizer page while still in an election, try opening it from another browser or in incognito mode. </p>"
-
+    "You are already part of an election": "You are already part of the election: {{election}}"
 }

@@ -33,7 +33,7 @@ import { CancelButton } from '../../../components/buttons/CancelButton'
 /**
  * The main view used for creating and updating an election
  */
-export default function CreateElectionView({
+export default function ElectionForm({
     initialElection = undefined,
     onUpdate,
     onAbort,

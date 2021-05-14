@@ -1,10 +1,8 @@
 import { Button, Form, Input, Result } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
-import Text from 'antd/lib/typography'
 import { AlertList } from 'components/alert/AlertList'
 import CenterView from 'components/centerView/CenterView'
 import IconMessage from 'components/iconMessage/IconMessage'
-import ComponentWithTooltip from 'components/toolTip/ComponentWithTooltip'
 import VoterContent from 'components/voterContent/VoterContent'
 import VoterContentInfo from 'components/voterContentInfo/VoterContentInfo'
 import VoterFooter from 'components/voterFooter/VoterFooter'
@@ -159,6 +157,7 @@ function VoterLoginView(): ReactElement {
                                 <Form.Item
                                     label={t('common:Email')}
                                     name="email"
+                                    tooltip={t('voter:Voter email')}
                                     normalize={(val) => val.trim()}
                                     rules={[
                                         {
@@ -171,14 +170,8 @@ function VoterLoginView(): ReactElement {
                                     <Input disabled={state.isLoading} placeholder={t('form:Example-email')} />
                                 </Form.Item>
                                 <Form.Item
-                                    label={
-                                        <ComponentWithTooltip
-                                            component={<Text>Election code</Text>}
-                                            toolTipTitle={t(
-                                                'voter:The election code is provided by the election organizer',
-                                            )}
-                                        />
-                                    }
+                                    label={t('voter:Election code')}
+                                    tooltip={t('voter:The election code is provided by the election organizer')}
                                     name={'electionCode'}
                                     rules={[
                                         { type: 'string', required: true, message: t('form:Is required') },
@@ -192,7 +185,7 @@ function VoterLoginView(): ReactElement {
                                 </Form.Item>
                                 <Form.Item>
                                     <Button type="primary" htmlType="submit" loading={state.isLoading}>
-                                        {t('common:Submit')}
+                                        {t('voter:Join election')}
                                     </Button>
                                 </Form.Item>
                             </Form>
