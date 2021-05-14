@@ -197,22 +197,20 @@ export default function EligibleVotersList({
         <div>
             <FormItem
                 className="eligible-voters-list"
+                tooltip={t('parsing:Add all the eligible voters')}
                 label={t('common:Eligible voters')}
-                tooltip={t('election:Eligible voters tooltip description')}
             >
-                <Space align="end" direction="vertical" className="width-100">
-                    <Dropdown
-                        className="import-voters-dropdown"
-                        overlay={<ImportFileMenu />}
-                        placement="bottomRight"
-                        trigger={['click']}
-                        onVisibleChange={handleVisibleChange}
-                        visible={visible}
-                        arrow
-                    >
-                        <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
-                    </Dropdown>
-                </Space>
+                <Dropdown
+                    className="import-voters-dropdown"
+                    overlay={<ImportFileMenu />}
+                    placement="bottomRight"
+                    trigger={['click']}
+                    onVisibleChange={handleVisibleChange}
+                    visible={visible}
+                    arrow
+                >
+                    <Button type="primary" icon={<PlusOutlined />} size="large" shape="circle"></Button>
+                </Dropdown>
                 <List
                     id="voters-list"
                     dataSource={voters}

@@ -1,10 +1,10 @@
 {
-
-  "File is empty": "File is empty",
-  "Removed duplicate entries": "Removed duplicate entries",
-  "Removed the following invalid emails": "Removed the following invalid emails",
-  "Something went wrong in the parsing": "Something went wrong in the parsing",
-  "The file is not CSV or JSON!": "The file is not CSV or JSON!",
-  "The-file-is-not-CSV-or-JSON": "The-file-is-not-CSV-or-JSON",
-  "something went wrong in the parsing": "Something went wrong in the parsing"
+    "Add all the eligible voters": "Add all the eligible voters",
+    "File is empty": "File is empty",
+    "Removed duplicate entries": "Removed duplicate entries",
+    "Removed the following invalid emails": "Removed the following invalid emails",
+    "Something went wrong in the parsing": "Something went wrong in the parsing",
+    "The file is not CSV or JSON!": "The file is not CSV or JSON!",
+    "The-file-is-not-CSV-or-JSON": "The-file-is-not-CSV-or-JSON",
+    "something went wrong in the parsing": "Something went wrong in the parsing"
 }
