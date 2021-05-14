@@ -1,8 +1,8 @@
 import Skeleton from 'components/layout/Skeleton'
 import React, { ReactElement } from 'react'
 import { Redirect, Route, useHistory } from 'react-router-dom'
-import CreateElectionView from 'views/election/createElection'
 import ElectionView from 'views/election/election'
+import ElectionForm from 'views/election/electionForm/ElectionForm'
 import ElectionResultView from 'views/election/results'
 import ElectionsView from 'views/elections'
 import { getAdminRoute, getBaseRoute } from './siteRoutes'
@@ -28,7 +28,7 @@ export default function AdminRoutes(): ReactElement {
                         <ElectionResultView />
                     </Route>
                     <Route exact path={adminRoute.elections.create}>
-                        <CreateElectionView
+                        <ElectionForm
                             initialElection={undefined}
                             onAbort={() => {
                                 history.goBack()

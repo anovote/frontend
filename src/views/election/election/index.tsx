@@ -15,7 +15,7 @@ import * as React from 'react'
 import { useEffect, useReducer } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useHistory, useParams } from 'react-router-dom'
-import CreateElectionView from '../createElection'
+import ElectionForm from '../electionForm/ElectionForm'
 
 /**
  * The main view used for creating an election
@@ -111,7 +111,7 @@ export default function ElectionView(): React.ReactElement {
 
     const renderElectionView = (election: IElectionEntity) => {
         if (edit) {
-            return <CreateElectionView initialElection={election} onUpdate={onUpdateHandler} onAbort={handleAbort} />
+            return <ElectionForm initialElection={election} onUpdate={onUpdateHandler} onAbort={handleAbort} />
         }
         switch (election.status) {
             case ElectionStatus.NotStarted:
