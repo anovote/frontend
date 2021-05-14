@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import React from 'react'
 import { MemoryRouter } from 'react-router-dom'
 import { mockMatchMedia } from '../../mocks/mockMatchMedia'
-import RegisterView from './index'
+import RegisterView from './RegisterView'
 
 beforeAll(() => {
     mockMatchMedia()

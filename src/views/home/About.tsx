@@ -70,16 +70,21 @@ export default function About(): ReactElement {
                         <Title level={1} id="how-it-started">
                             {t('site:How it all started')}
                         </Title>
+                        <Text>{t('site:In 2018 the four students')}</Text>
+                        <br />
+                        <Text>{t('site:In 2021 the group')}</Text>
+                        <Title level={3}>{t('site:Applied technology and methodologies')}</Title>
                         <Text>
-                            One day the Hare laughed at the short feet and slow speed of the Tortoise. The Tortoise
-                            replied: You may be as fast as the wind, but I will beat you in a race! The Hare thought
-                            this idea was impossible and he agreed to the proposal. It was agreed that the Fox should
-                            choose the course and decide the end. The day for the race came, and the Tortoise and Hare
-                            started together. <br />
-                            The Tortoise never stopped for a moment, walking slowly but steadily, right to the end of
-                            the course. The Hare ran fast and stopped to lie down for a rest. But he fell fast asleep.
-                            Eventually, he woke up and ran as fast as he could. But when he reached the end, he saw the
-                            Tortoise there already, sleeping comfortably after her effort.
+                            {t('site:applied technology text')}
+                            <ul>
+                                <li>{t('site:Agile software development following SCRUM')}</li>
+                                <li>{t('site:git and github')}</li>
+                                <li>{t('site:tech on frontend')}</li>
+                                <li>{t('site:tech on backend')}</li>
+                                <li>{t('site:dockerize everything')}</li>
+                                <li>{t('site:actions')}</li>
+                                <li>{t('writing tests')}</li>
+                            </ul>
                         </Text>
                     </section>
                 </div>

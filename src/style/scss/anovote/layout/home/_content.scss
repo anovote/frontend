@@ -1,5 +1,27 @@
 $hero-height: 70vh;
 
+// from react-typist package
+// https://github.com/jstejada/react-typist/blob/1a3de27b580e765d310b8f82d46ebef6bec66def/dist/Typist.css
+.Typist .Cursor {
+    display: inline-block;
+}
+.Typist .Cursor--blinking {
+    opacity: 1;
+    animation: blink 1s linear infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
 .ant-layout-content {
     position: relative;
 }
@@ -19,8 +41,8 @@ $hero-height: 70vh;
 
     .title-with-action {
         margin-bottom: 10rem;
-        padding: 0 2rem;
-        width: 25rem;
+        padding: 0 1rem;
+        width: 27rem;
         height: fit-content;
         @include is-flex;
         @include is-flex-column;
@@ -39,6 +61,10 @@ $hero-height: 70vh;
             @include for-desktop-down {
                 font-size: 3.5rem;
             }
+
+            @include for-tablet-portrait-down {
+                font-size: 2.5rem;
+            }
         }
 
         #organize-election {
@@ -56,6 +82,10 @@ $hero-height: 70vh;
                     transform: scale(1.2);
                 }
             }
+
+            @include for-phone-only {
+                font-size: 0.8rem;
+            }
         }
     }
 
@@ -68,7 +98,7 @@ $hero-height: 70vh;
         z-index: 1;
 
         @include for-desktop-up {
-            width: 800px;
+            width: 750px;
         }
 
         @include for-desktop-down {
@@ -143,7 +173,7 @@ $hero-height: 70vh;
 
             article {
                 position: relative;
-                margin: 0 3rem;
+                padding: 0 1rem;
                 width: 18rem;
                 height: 20rem;
                 @include is-flex-column;
@@ -153,7 +183,6 @@ $hero-height: 70vh;
 
             .principle-icon {
                 margin-bottom: auto;
-                width: 100%;
                 height: 8rem;
                 font-size: 94px;
                 @include is-flex-column;
