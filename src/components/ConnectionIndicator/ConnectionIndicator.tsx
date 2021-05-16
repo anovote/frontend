@@ -15,7 +15,7 @@ export default function ConnectionIndicator({ style }: { style?: CSSProperties }
     )
     const connectedContent = (
         <div>
-            <p>{t('socket:Stable connection to socket')}</p>
+            <p>{t('socket:Stable connection')}</p>
         </div>
     )
 
