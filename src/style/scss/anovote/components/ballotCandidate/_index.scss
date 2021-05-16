@@ -50,5 +50,27 @@
         @include for-tablet-landscape-down {
             width: 90%;
         }
+
+        .anticon {
+            position: relative;
+            top: 10px;
+            opacity: 0;
+            transition: 200ms;
+        }
+
+        &:hover {
+            .anticon {
+                top: 0;
+                opacity: 1;
+            }
+        }
+    }
+    .submitted {
+        &:hover .anticon,
+        .anticon {
+            top: -10px;
+            transform: scale(1.5);
+            opacity: 0;
+        }
     }
 }

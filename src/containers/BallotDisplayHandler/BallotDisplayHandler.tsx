@@ -1,3 +1,4 @@
+import { SendOutlined } from '@ant-design/icons'
 import { Button, Space } from 'antd'
 import { CheckboxValueType } from 'antd/lib/checkbox/Group'
 import { RadioChangeEvent } from 'antd/lib/radio'
@@ -45,6 +46,7 @@ export default function BallotDisplayHandler({
     const { alertStates, dispatchAlert } = useAlert()
 
     const [ballotState, setBallotState] = useState<IBallotEntity>(ballot)
+    const [sendAnimation, setSendAnimation] = useState(false)
 
     const { warning, success, error, loading } = useMessage()
 
@@ -103,6 +105,7 @@ export default function BallotDisplayHandler({
 
     const submitVote = () => {
         socket.connect()
+
         const storageService = new AuthenticationService(BackendAPI, new LocalStorageService<StorageKeys>())
         const voter = storageService.getDecodedToken()
         switch (ballot.type) {
@@ -199,8 +202,23 @@ export default function BallotDisplayHandler({
             <div className="alert-field">
                 <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             </div>
-            <Button type="primary" shape="round" onClick={submitVote} className="voter-submit-button">
-                {t('common:Submit vote')}
+            <Button
+                type="primary"
+                shape="round"
+                onClick={() => {
+                    setSendAnimation(true)
+                }}
+                onTransitionEnd={() => {
+                    if (sendAnimation === true) {
+                        setTimeout(() => {
+                            submitVote()
+                            setSendAnimation(false)
+                        }, 200)
+                    }
+                }}
+                className={`voter-submit-button ${sendAnimation ? 'submitted' : ''}`}
+            >
+                <SendOutlined rotate={-90} /> {t('common:Submit vote')}
             </Button>
         </div>
     )
