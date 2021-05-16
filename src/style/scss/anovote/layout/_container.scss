@@ -1,11 +1,15 @@
 .small-container {
     @include is-flex-column;
-    max-width: $medium-screen;
+    max-width: $small-screen;
     header {
-        padding: 0.5rem 1rem;
+        padding: 2rem 1rem;
         line-height: normal;
         height: 3 * $bu;
         align-items: center;
+
+        @include for-tablet-portrait-down {
+            padding: 0.5rem 1rem;
+        }
     }
     main {
         padding: 0 1rem;
