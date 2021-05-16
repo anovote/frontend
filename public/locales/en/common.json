@@ -44,6 +44,7 @@
     "Log In": "Log In",
     "Log out": "Log out",
     "Logging off": "Logging off",
+    "Login as an organizer": "Login as an election organizer",
     "Name": "Name",
     "New password": "New password",
     "Next": "Next",
@@ -56,6 +57,7 @@
     "Previous": "Previous",
     "Push ballot": "Push ballot",
     "Ranked": "Ranked",
+    "Register as an organizer": "Register as an election organizer",
     "Result": "Result",
     "Retype new password": "Retype new password",
     "Retype password": "Retype password",
@@ -98,7 +100,5 @@
     "Your request to change email was not fulfilled": "Your request to change email was not fulfilled",
     "Your vote was submitted": "Your vote was submitted!",
     "no-ballots": "No ballots",
-    "or": "or",
-    "Register as an organizer": "Register as an election organizer",
-    "Login as an organizer": "Login as en election organizer"
+    "or": "or"
 }

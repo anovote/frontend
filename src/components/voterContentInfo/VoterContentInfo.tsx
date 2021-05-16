@@ -5,7 +5,7 @@ export default function VoterContentInfo({ context, title }: { title: string; co
     return (
         <div className="voter-election-top">
             {!!context && <span className="text-label">{context}</span>}
-            <Title level={1}>{title}</Title>
+            <Title level={2}>{title}</Title>
         </div>
     )
 }

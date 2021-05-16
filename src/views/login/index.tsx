@@ -1,4 +1,5 @@
 import { Button, Form, Input, Space } from 'antd'
+import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
 import StandardLayout from 'components/layout/Standard'
 import { BackendAPI } from 'core/api'
@@ -49,7 +50,7 @@ export default function LoginView(): React.ReactElement {
         <Redirect to="/admin" />
     ) : (
         <StandardLayout contentClassName="is-flex-column has-content-center-center">
-            <h1>{t('common:Login as an organizer')}</h1>
+            <Title level={2}>{t('common:Login as an organizer')}</Title>
             <div className="login-form">
                 <div className="error-field">
                     <AlertList

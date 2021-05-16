@@ -210,10 +210,8 @@ export default function BallotDisplayHandler({
                 }}
                 onTransitionEnd={() => {
                     if (sendAnimation === true) {
-                        setTimeout(() => {
-                            submitVote()
-                            setSendAnimation(false)
-                        }, 200)
+                        submitVote()
+                        setSendAnimation(false)
                     }
                 }}
                 className={`voter-submit-button ${sendAnimation ? 'submitted' : ''}`}
