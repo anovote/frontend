@@ -1,12 +1,10 @@
 import { Button, Form, Input, Result } from 'antd'
-import Layout, { Content } from 'antd/lib/layout/layout'
+import { Content } from 'antd/lib/layout/layout'
 import { AlertList } from 'components/alert/AlertList'
-import CenterView from 'components/centerView/CenterView'
+import ConnectionIndicator from 'components/ConnectionIndicator/ConnectionIndicator'
 import IconMessage from 'components/iconMessage/IconMessage'
-import VoterContent from 'components/voterContent/VoterContent'
+import StandardLayout from 'components/layout/Standard'
 import VoterContentInfo from 'components/voterContentInfo/VoterContentInfo'
-import VoterFooter from 'components/voterFooter/VoterFooter'
-import VoterHeader from 'components/voterHeader/VoterHeader'
 import { BackendAPI } from 'core/api'
 import { Events } from 'core/events'
 import { useAlert } from 'core/hooks/useAlert'
@@ -124,9 +122,9 @@ function VoterLoginView(): ReactElement {
 
     const MAX_ELECTION_CODE_LENGTH = 5
     return (
-        <CenterView>
-            <Layout className="small-container">
-                <VoterHeader slogan="Anovote" />
+        <StandardLayout contentClassName="is-flex-column has-content-center-center">
+            <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
+            <Content className="voter-election-layout-content">
                 {election && (
                     <Result
                         status="info"
@@ -142,59 +140,65 @@ function VoterLoginView(): ReactElement {
                         ]}
                     />
                 )}
+                <VoterContentInfo title={t('voter:Join election')}></VoterContentInfo>
+            </Content>
+
+            <div className="alert-field">
                 <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
-                <Content className="voter-election-layout-content">
-                    <VoterContentInfo title={t('voter:Join election')}></VoterContentInfo>
-                    <VoterContent>
-                        {(state.showMessage && state.message && (
-                            <IconMessage
-                                onClose={() => dispatch({ type: 'hideMessage' })}
-                                label={state.message.label}
-                                alert={{ message: state.message.alert?.message, level: state.message.alert?.level }}
-                            />
-                        )) || (
-                            <Form layout="vertical" name="vote-login-form" onFinish={onSubmitHandler}>
-                                <Form.Item
-                                    label={t('common:Email')}
-                                    name="email"
-                                    tooltip={t('voter:Voter email')}
-                                    normalize={(val) => val.trim()}
-                                    rules={[
-                                        {
-                                            type: 'email',
-                                            required: true,
-                                            message: t('form:Email is not valid'),
-                                        },
-                                    ]}
-                                >
-                                    <Input disabled={state.isLoading} placeholder={t('form:Example-email')} />
-                                </Form.Item>
-                                <Form.Item
-                                    label={t('voter:Election code')}
-                                    tooltip={t('voter:The election code is provided by the election organizer')}
-                                    name={'electionCode'}
-                                    rules={[
-                                        { type: 'string', required: true, message: t('form:Is required') },
-                                        {
-                                            max: MAX_ELECTION_CODE_LENGTH,
-                                            message: t('form:max-length', { maxLength: MAX_ELECTION_CODE_LENGTH }),
-                                        },
-                                    ]}
-                                >
-                                    <Input disabled={state.isLoading} />
-                                </Form.Item>
-                                <Form.Item>
-                                    <Button type="primary" htmlType="submit" loading={state.isLoading}>
-                                        {t('voter:Join election')}
-                                    </Button>
-                                </Form.Item>
-                            </Form>
-                        )}
-                    </VoterContent>
-                </Content>
-                <VoterFooter />
-            </Layout>
-        </CenterView>
+            </div>
+            {(state.showMessage && state.message && (
+                <IconMessage
+                    onClose={() => dispatch({ type: 'hideMessage' })}
+                    label={state.message.label}
+                    alert={{ message: state.message.alert?.message, level: state.message.alert?.level }}
+                />
+            )) || (
+                <div className="register-form">
+                    <Form
+                        className="is-flex-column"
+                        layout="vertical"
+                        name="vote-login-form"
+                        onFinish={onSubmitHandler}
+                    >
+                        <Form.Item
+                            label={t('common:Email')}
+                            name="email"
+                            tooltip={t('voter:Voter email')}
+                            normalize={(val) => val.trim()}
+                            rules={[
+                                {
+                                    type: 'email',
+                                    required: true,
+                                    message: t('form:Email is not valid'),
+                                },
+                            ]}
+                        >
+                            <Input disabled={state.isLoading} placeholder={t('form:Example-email')} />
+                        </Form.Item>
+                        <Form.Item
+                            label={t('voter:Election code')}
+                            tooltip={t('voter:The election code is provided by the election organizer')}
+                            name={'electionCode'}
+                            rules={[
+                                { type: 'string', required: true, message: t('form:Is required') },
+                                {
+                                    max: MAX_ELECTION_CODE_LENGTH,
+                                    message: t('form:max-length', { maxLength: MAX_ELECTION_CODE_LENGTH }),
+                                },
+                            ]}
+                        >
+                            <Input disabled={state.isLoading} />
+                        </Form.Item>
+                        <Form.Item>
+                            <Button type="primary" htmlType="submit" loading={state.isLoading}>
+                                {t('voter:Join election')}
+                            </Button>
+                        </Form.Item>
+                    </Form>
+                </div>
+            )}
+            <ConnectionIndicator style={{ marginTop: '1rem' }} />
+        </StandardLayout>
     )
 }
 
