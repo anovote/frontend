@@ -2,10 +2,10 @@ import { DisconnectOutlined, RocketOutlined } from '@ant-design/icons'
 import { Popover } from 'antd'
 import { Events } from 'core/events'
 import { useSocket } from 'core/hooks/useSocket'
-import React, { ReactElement, useEffect, useState } from 'react'
+import React, { CSSProperties, ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export default function ConnectionIndicator(): ReactElement {
+export default function ConnectionIndicator({ style }: { style?: CSSProperties }): ReactElement {
     const [socket] = useSocket()
     const [t] = useTranslation(['socket', 'common'])
     const disconnectedContent = (
@@ -47,5 +47,9 @@ export default function ConnectionIndicator(): ReactElement {
         })
     }, [socket])
 
-    return <div className="connection-indicator">{renderIndicator}</div>
+    return (
+        <div className="connection-indicator" style={style}>
+            {renderIndicator}
+        </div>
+    )
 }
