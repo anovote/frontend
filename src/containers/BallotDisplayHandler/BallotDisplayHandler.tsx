@@ -196,12 +196,12 @@ export default function BallotDisplayHandler({
                 onChange={onChange}
                 selection={ballotState.type == BallotType.SINGLE ? selection.single : selection.multiple}
             />
-            <Button type="primary" shape="round" onClick={submitVote}>
-                {t('common:Submit vote')}
-            </Button>
             <div className="alert-field">
                 <AlertList alerts={alertStates} onRemove={(index) => dispatchAlert({ type: 'remove', index: index })} />
             </div>
+            <Button type="primary" shape="round" onClick={submitVote} className="voter-submit-button">
+                {t('common:Submit vote')}
+            </Button>
         </div>
     )
 }
