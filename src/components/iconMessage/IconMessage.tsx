@@ -24,14 +24,8 @@ export default function IconMessage({ label, icon, alert, onClose }: IIconMessag
         }
     }
     return (
-        <div style={{ width: 'auto', position: 'relative' }}>
-            {onClose && (
-                <Button
-                    icon={<CloseCircleOutlined />}
-                    style={{ position: 'absolute', border: 'none', right: 0 }}
-                    onClick={onClose}
-                ></Button>
-            )}
+        <div style={{ width: 'auto', position: 'relative' }} className="icon-message-wrapper">
+            {onClose && <Button icon={<CloseCircleOutlined />} onClick={onClose}></Button>}
             <SquareIconContainer icon={icon} label={label}></SquareIconContainer>
             <div className="mt-20 is-flex has-content-center-center">
                 <AlertList alerts={alert ? [alert] : []} />
