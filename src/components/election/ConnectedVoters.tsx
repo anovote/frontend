@@ -4,7 +4,7 @@ import { useSocket } from 'core/hooks/useSocket'
 import React, { ReactElement, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
-export function ConnectedVoters(): ReactElement {
+export function ConnectedVoters({ totalVoters }: { totalVoters: number | undefined }): ReactElement {
     const [connectedVoters, setConnectedVoters] = useState<number>(0)
     const [socket] = useSocket()
     const [t] = useTranslation('election')
@@ -30,7 +30,9 @@ export function ConnectedVoters(): ReactElement {
             title={<span className="text-paragraph-title">{t('election:Connected voters')}</span>}
         >
             <div className="is-flex-column has-content-center-center">
-                <span className={'text-large'}>{connectedVoters}</span>
+                <span className={'text-large'}>
+                    {connectedVoters} / {totalVoters}
+                </span>
             </div>
         </Card>
     )

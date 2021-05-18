@@ -222,7 +222,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
                             />
                         </Popconfirm>
                         <ElectionStatusCard election={election} />
-                        <ConnectedVoters />
+                        <ConnectedVoters totalVoters={election.eligibleVoters?.length} />
                     </>
                 }
                 right={
