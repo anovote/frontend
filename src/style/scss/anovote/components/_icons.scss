@@ -62,6 +62,24 @@
 Displays a rounded square with background-color fill
 and positions content in center/center of the element
 */
+
+.icon-message-wrapper {
+    position: relative;
+
+    .ant-btn {
+        position: absolute;
+        right: 0.5rem;
+        top: 0.5rem;
+        border: none;
+        padding: 0.4rem 0.7rem;
+        width: fit-content;
+
+        &:hover {
+            background-color: $alternate-color;
+        }
+    }
+}
+
 .large-icon-container {
     font-size: 6rem;
     background: $white;

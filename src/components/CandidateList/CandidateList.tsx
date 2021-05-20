@@ -35,7 +35,7 @@ export default function CandidateList({
                     {candidates.map(({ id, candidate }, index) => {
                         return (
                             <Radio className="ballot-candidate" value={id} key={index}>
-                                <CandidateEntry id={index} name={candidate} />
+                                <CandidateEntry id={index + 1} name={candidate} />
                             </Radio>
                         )
                     })}
@@ -49,7 +49,7 @@ export default function CandidateList({
                     {candidates.map(({ id, candidate }, index) => {
                         return (
                             <Checkbox className="ballot-candidate" value={id} key={index}>
-                                <CandidateEntry id={index} name={candidate} />
+                                <CandidateEntry id={index + 1} name={candidate} />
                             </Checkbox>
                         )
                     })}

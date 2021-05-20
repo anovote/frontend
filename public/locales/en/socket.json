@@ -1,6 +1,6 @@
 {
-  "Attempting to reconnect": "Attempting to reconnect",
-  "Connected with id": "Connected with id",
-  "Currently disconnected from socket": "Currently disconnected from socket",
-  "Stable connection to socket": "Stable connection to socket"
+    "Attempting to reconnect": "Attempting to reconnect",
+    "Connected with id": "Connected with id",
+    "Currently disconnected from socket": "Currently disconnected from socket",
+    "Stable connection": "Stable connection. You can safely continue"
 }

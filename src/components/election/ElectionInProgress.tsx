@@ -172,7 +172,7 @@ export function ElectionInProgress({ election }: { election: IElectionEntity }):
     const forceEndElection = async (id: number) => {
         socket.emit(
             Events.client.election.close,
-            { id, forceEnd: true },
+            { electionId: id, forceEnd: true },
             WebsocketEvent({
                 dataHandler: (data: { finished: boolean; needForceEnd: boolean; election: IElectionEntity }) => {
                     if (data.finished) onFinishedElection()

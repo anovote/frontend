@@ -53,7 +53,10 @@ export function electionReducer(state: ElectionState, action: ElectionAction): E
         case 'election':
             {
                 const election = action.payload
+                election.openDate = election.openDate ? new Date(election.openDate) : new Date()
+                election.openDate = election.closeDate ? new Date(election.closeDate) : new Date()
                 newState.election = election
+
                 if (election.isLocked) {
                     newState.displayAction = DisplayAction.Locked
                     return newState

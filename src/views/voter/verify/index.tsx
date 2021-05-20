@@ -82,7 +82,7 @@ export default function VerifyVoterView(): ReactElement {
     return (
         <CenterView>
             <Layout className="small-container">
-                <VoterHeader slogan="Anovote" />
+                <VoterHeader />
                 <Content className="voter-election-layout-content">
                     <VoterContent>
                         <IconMessage

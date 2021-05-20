@@ -1,15 +1,24 @@
 .voter-header-logo {
-    width: 2.5 * $bu;
-    height: auto;
+    justify-self: flex-start;
+    width: 10rem;
+    @include for-tablet-portrait-down {
+        width: 6.5rem;
+    }
 }
 
 .voter-election-header {
     @include is-flex-row;
+
     * {
         margin: 0 0.5rem 0 0;
+
+        @include for-tablet-portrait-down {
+            margin: 0;
+        }
     }
 
     .connection-indicator {
+        font-size: 12px;
         margin-left: auto;
     }
 }
@@ -32,5 +41,29 @@
     align-items: center;
     > * {
         width: 100%;
+    }
+}
+
+.voter-information-section {
+    padding: 2rem 0;
+    @include is-flex-column;
+    @include has-content-space-between-center;
+
+    .ant-typography {
+        @include label;
+    }
+
+    .logout-btn {
+        background: none;
+        color: $font-color;
+        font-weight: $bold;
+    }
+
+    footer {
+        margin: 2rem 0 3rem 0;
+
+        @include for-tablet-portrait-down {
+            margin-top: 1rem;
+        }
     }
 }

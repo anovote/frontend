@@ -1,4 +1,20 @@
 .connection-indicator {
+    height: fit-content;
+    width: fit-content;
+    padding: 0.4rem 1rem;
+
+    @include for-phone-only {
+        padding: 0rem 0.4rem;
+    }
+
+    .anticon {
+        font-size: 24px;
+
+        @include for-phone-only {
+            font-size: 18px;
+        }
+    }
+
     .anticon-disconnect svg {
         color: $danger-contrasting;
         filter: drop-shadow(0px 0px 5px $danger-light);

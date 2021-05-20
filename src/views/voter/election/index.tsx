@@ -1,6 +1,7 @@
 import { LogoutOutlined } from '@ant-design/icons'
 import { Divider } from 'antd'
 import Layout, { Content } from 'antd/lib/layout/layout'
+import Text from 'antd/lib/typography/Text'
 import CenterView from 'components/centerView/CenterView'
 import SquareIconContainer from 'components/iconContainer/SquareIconContainer'
 import VoterContent from 'components/voterContent/VoterContent'
@@ -109,7 +110,7 @@ export default function VoterElectionView(): ReactElement {
     return (
         <CenterView>
             <Layout className="small-container">
-                <VoterHeader slogan="Anovote" />
+                <VoterHeader />
                 <Content className="voter-election-layout-content">
                     <ElectionInfoHandler state={electionState} />
                     <Divider />
@@ -123,17 +124,20 @@ export default function VoterElectionView(): ReactElement {
                         ) : (
                             <>
                                 <ElectionContentHandler state={electionState} electionDispatch={electionDispatch} />
-                                <LogoutButton
-                                    confirmation={{
-                                        title: t('voter:Are you sure you want to logout'),
-                                        content: <Trans i18nKey="voter:logout description" />,
-                                    }}
-                                />
+                                <div className="voter-information-section">
+                                    <Text>Do you want to abstain from voting?</Text>
+                                    <LogoutButton
+                                        confirmation={{
+                                            title: t('voter:Are you sure you want to logout'),
+                                            content: <Trans i18nKey="voter:logout description" />,
+                                        }}
+                                    />
+                                    <VoterFooter />
+                                </div>
                             </>
                         )}
                     </VoterContent>
                 </Content>
-                <VoterFooter />
             </Layout>
         </CenterView>
     )

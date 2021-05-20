@@ -1,4 +1,5 @@
 import { Button, Form, Input, Space, Spin } from 'antd'
+import Title from 'antd/lib/typography/Title'
 import { AlertList } from 'components/alert/AlertList'
 import StandardLayout from 'components/layout/Standard'
 import { BackendAPI } from 'core/api'
@@ -69,7 +70,7 @@ export default function RegisterView(): React.ReactElement {
         <Redirect to={getAdminRoute().elections.view} />
     ) : (
         <StandardLayout contentClassName="is-flex-column has-content-center-center">
-            <h1>{t('common:Register as an organizer')}</h1>
+            <Title level={2}>{t('common:Register as an organizer')}</Title>
             <div className="register-form">
                 <div className="alert-field">
                     <AlertList
